@@ -14,6 +14,7 @@ Dependencies:
      or..
        Boost Library ( http://www.boost.org ) (see "-with-boost" below)
    - Zlib ( included with OS X and most Linuxes, http://www.zlib.net ) *
+   - C++ compiler with C++11 support
 
 
 Steps:
@@ -21,31 +22,13 @@ Steps:
    ./bootstrap.sh
    ./configure [--prefix=...] [--with-capnp=...] [--with-gsl=...] \
                [--with-boost=...]
-   make
-   [sudo] make install
+   make mashcgi
 
 
 Products:
 ---------
-   - command line tool ( <prefix>/bin/mash )
-   - static library ( <prefix>/lib/libmash.a )
-   - includes ( <prefix>/include/mash/ )
+   - Executable mashcgi
 
-
-Deployment:
------------
-OSX
-  Mash can be built on any OSX version starting with 10.7 (XCode command line
-  tools >= 4.6), and the binary should work across the same range of versions,
-  regardless of the particular version it was built with.
-Linux
-  Mash must be built with at least GCC 4.8 due to its c++11 dependency. However,
-  the resulting binary can run on Linux with older GCC libraries if libstdc++ is
-  linked statically. To do this, ensure that you have a statically built library
-  (libstdc++.a) and add "-static-libstdc++" to $CPPFLAGS before running "make".
-  You may also need to use "-L <dir>"in $CPPFLAGS to tell GCC where to find
-  libstdc++.a. GSL can be statically linked to avoid a runtime dependency (see
-  configure options below).
 
 
 Configure options:
