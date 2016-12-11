@@ -90,12 +90,16 @@ namespace skch
      */
     template <typename T, typename KSEQ>
       inline void addMinimizers(std::vector<T> &minimizerIndex, KSEQ *seq, int kmerSize, 
-          int baseWindowSize, wsize_t windowSizeLevel, 
+          int windowSize,
           int alphabetSize,
           seqno_t seqCounter)
       {
-        //Double-ended queue (saves minimum at front end)
-        std::deque< MinimizerInfo > Q;
+        /**
+         * Double-ended queue (saves minimum at front end)
+         * Saves pair of the minimizer and the position of hashed kmer in the sequence
+         * Position of kmer is required to discard kmers that fall out of current window
+         */
+        std::deque< std::pair<MinimizerInfo, offset_t> > Q;
 
         makeUpperCase(seq);
 
@@ -108,11 +112,12 @@ namespace skch
         if(alphabetSize == 4) //not protein
           CommonFunc::reverseComplement(seq->seq.s, seqRev, len);
 
-        int windowSize = pow(2, windowSizeLevel) * baseWindowSize;
-
-
         for(offset_t i = 0; i < len - kmerSize + 1; i++)
         {
+          //The serial number of current sliding window
+          //First valid window appears when i = windowSize - 1
+          offset_t currentWindowId = i - windowSize + 1;
+
           //Hash kmers
           hash_t hashFwd = CommonFunc::getHash(seq->seq.s + i, kmerSize); 
           hash_t hashBwd;
@@ -132,34 +137,39 @@ namespace skch
             auto currentStrand = hashFwd < hashBwd ? strnd::FWD : strnd::REV;
 
             //If front minimum is not in the current window, remove it
-            while(!Q.empty() && Q.front().pos <=  i - windowSize)
+            while(!Q.empty() && Q.front().second <=  i - windowSize)
               Q.pop_front();
 
             //Hashes less than equal to currentKmer are not required
             //Remove them from Q (back)
-            while(!Q.empty() && Q.back().hash >= currentKmer) 
+            while(!Q.empty() && Q.back().first.hash >= currentKmer) 
               Q.pop_back();
 
-            //Push currentKmer into back of the queue
-            Q.push_back( MinimizerInfo{currentKmer, seqCounter, i, windowSizeLevel, currentStrand} ); 
+            //Push currentKmer and position to back of the queue
+            //0 indicates the dummy window # (will be updated later)
+            Q.push_back( std::make_pair(
+                  MinimizerInfo{currentKmer, seqCounter, 0, currentStrand},
+                  i)); 
 
             //Select the minimizer from Q and put into index
-            //Ignore the minimizers from first few incomplete sliding windows
-            if(i >= windowSize - 1)
+            if(currentWindowId >= 0)
             {
               //We save the minimizer if we are seeing it for first time
-              if(minimizerIndex.empty() || minimizerIndex.back() != Q.front())
+              if(minimizerIndex.empty() || minimizerIndex.back() != Q.front().first)
               {
-                minimizerIndex.push_back(Q.front());
+                //Update the window position in this minimizer
+                //This step also ensures we don't re-insert the same minimizer again
+                Q.front().first.wpos = currentWindowId;     
+                minimizerIndex.push_back(Q.front().first);
               }
             }
           }
         }
 
 #ifdef DEBUG
-        //std::cout << "INFO, skch::CommonFunc::addMinimizers, inserted following minimizers: ";
-        //for(auto &e: minimizerIndex) std::cout << "\n" << e;
-        //std::cout << std::endl;
+        std::cout << "INFO, skch::CommonFunc::addMinimizers, inserted following minimizers: ";
+        for(auto &e: minimizerIndex) std::cout << "\n" << e;
+        std::cout << std::endl;
 #endif
 
         delete [] seqRev;
@@ -170,10 +180,10 @@ namespace skch
      */
     template <typename T, typename KSEQ>
       inline void addMinimizers(std::vector<T> &minimizerIndex, KSEQ *seq, int kmerSize,
-          int baseWindowSize, wsize_t windowSizeLevel, 
+          int windowSize, 
           int alphabetSize)
       {
-        addMinimizers(minimizerIndex, seq, kmerSize, baseWindowSize, windowSizeLevel, alphabetSize, 0);
+        addMinimizers(minimizerIndex, seq, kmerSize, windowSize, alphabetSize, 0);
       }
 
    /**

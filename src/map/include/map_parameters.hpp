@@ -21,11 +21,7 @@ namespace skch
   struct Parameters
   {
     int kmerSize;                                     //kmer size for sketching
-    int baseWindowSize;                               //base window size used for sketching 
-    bool staticWin;                                   //switch for static winnowing
-    int dynamicWinLevels;                             //no. of hierarchical levels for dynamic windowing
-                                                      // including base level
-
+    int windowSize;                                   //window size used for sketching 
     int minReadLength;                                //minimum read length which code maps
     int alphabetSize;                                 //alphabet size
     uint64_t referenceSize;                           //Approximate reference size

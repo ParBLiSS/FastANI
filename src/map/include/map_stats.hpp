@@ -254,54 +254,6 @@ namespace skch
       // 1 <= w <= lengthQuery
       return std::min( std::max(w,1), lengthQuery);
     }
-
-    /**
-     * @brief                       calculate maximum window size choice for input
-     *                              read among dynamically windowed sizes
-     *                              that satisfies p-value cutoff
-     * @param[in] pValue_cutoff     cut off p-value threshold
-     * @param[in] k                 kmer size
-     * @param[in] alphabetSize      alphabet size
-     * @param[in] identity          mapping identity cut-off
-     * @param[in] readLength        length of the input read
-     * @param[in] baseWindowSize    base window size 
-     * @param[in] dynamicWinLevels  number of hierarchical dynamic window levels
-     *                              including base level
-     * @return                      window size 'level' for sketching given read
-     */
-    inline wsize_t recommendedWindowLevelForRead(double pValue_cutoff, 
-        int k, int alphabetSize,
-        float identity, 
-        int readLength, uint64_t lengthReference,
-        int baseWindowSize, int dynamicWinLevels)
-    {
-      wsize_t optimalWindowSizeLevel = 0; //Base level
-
-      for(wsize_t i = 1; i < dynamicWinLevels; i++)
-      {
-        //window size for this level 
-        int w = baseWindowSize * pow(2, i);
-
-        //approximate sketch size
-        int s = 2 * readLength / w;
-        
-        //Compute pvalue
-        double pVal = estimate_pvalue(s, k, alphabetSize, identity, readLength, lengthReference);
-
-        //Check if pvalue is <= cutoff
-        if(pVal <= pValue_cutoff)
-        {
-          optimalWindowSizeLevel = i;
-        }
-        else
-        {
-          break;
-        }
-
-      }
-
-      return optimalWindowSizeLevel;
-    }
   }
 }
 

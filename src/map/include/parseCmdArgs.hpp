@@ -136,12 +136,7 @@ P-value is not considered if a window value is provided. Lower window size impli
     std::cout << "Reference = " << parameters.refSequences << std::endl;
     std::cout << "Query = " << parameters.querySequences << std::endl;
     std::cout << "Kmer size = " << parameters.kmerSize << std::endl;
-
-    if(parameters.staticWin)
-      std::cout << "Window size = " << parameters.baseWindowSize << " (single)" << std::endl;
-    else
-      std::cout << "Window size = " << parameters.baseWindowSize << " (multilevel)" << std::endl;
-
+    std::cout << "Window size = " << parameters.windowSize << std::endl;
     std::cout << "Read length >= " << parameters.minReadLength << std::endl;
     std::cout << "Alphabet = " << (parameters.alphabetSize == 4 ? "DNA" : "AA") << std::endl;
     std::cout << "P-value = " << parameters.p_value << std::endl;
@@ -202,7 +197,6 @@ P-value is not considered if a window value is provided. Lower window size impli
 
     //Size of reference
     parameters.referenceSize = skch::CommonFunc::getReferenceSize(parameters.refSequences); 
-
     str.clear();
 
     //Parse query files
@@ -241,12 +235,6 @@ P-value is not considered if a window value is provided. Lower window size impli
     else
       parameters.reportAll = false;
 
-
-    //Unexposed parameters
-    {
-      parameters.staticWin = false;
-      parameters.dynamicWinLevels = 5;
-    }
 
     //Parse algorithm parameters
     if(cmd.foundOption("kmer"))
@@ -297,11 +285,11 @@ P-value is not considered if a window value is provided. Lower window size impli
     if(cmd.foundOption("window"))
     {
       str << cmd.optionValue("window");
-      str >> parameters.baseWindowSize;
+      str >> parameters.windowSize;
       str.clear();
 
       //Re-estimate p value
-      int s = parameters.minReadLength * 2 / parameters.baseWindowSize; 
+      int s = parameters.minReadLength * 2 / parameters.windowSize; 
       parameters.p_value = skch::Stat::estimate_pvalue (s, parameters.kmerSize, parameters.alphabetSize, 
           parameters.percentageIdentity, 
           parameters.minReadLength, parameters.referenceSize);
@@ -309,7 +297,7 @@ P-value is not considered if a window value is provided. Lower window size impli
     else
     {
       //Compute optimal window size
-      parameters.baseWindowSize = skch::Stat::recommendedWindowSize(parameters.p_value,
+      parameters.windowSize = skch::Stat::recommendedWindowSize(parameters.p_value,
           parameters.kmerSize, parameters.alphabetSize,
           parameters.percentageIdentity,
           parameters.minReadLength, parameters.referenceSize);
@@ -324,7 +312,6 @@ P-value is not considered if a window value is provided. Lower window size impli
     //Check if files are valid
     validateInputFiles(parameters.querySequences, parameters.refSequences);
   }
-
 }
 
 

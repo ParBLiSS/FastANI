@@ -14,8 +14,7 @@ namespace skch
   typedef uint32_t hash_t;    //hash type
   typedef int offset_t;       //position within sequence
   typedef int seqno_t;        //sequence counter in file
-  typedef uint16_t wsize_t;   //window size level type 
-  typedef int16_t strand_t;   //sequence strand 
+  typedef int32_t strand_t;   //sequence strand 
 
   //C++ timer
   typedef std::chrono::high_resolution_clock Time;
@@ -25,25 +24,24 @@ namespace skch
   {
     hash_t hash;                              //hash value
     seqno_t seqId;                            //sequence or contig id
-    offset_t pos;                             //position within sequence
-    wsize_t w_lev;                            //associated window size level (0 to param.dynamicWinLevels - 1)
+    offset_t wpos;                            //First (left-most) window position when the minimizer is saved
     strand_t strand;                          //strand information
 
     //Lexographical less than comparison
     bool operator <(const MinimizerInfo& x) {
-      return std::tie(hash, seqId, pos, w_lev, strand) 
-        < std::tie(x.hash, x.seqId, x.pos, x.w_lev, x.strand);
+      return std::tie(hash, seqId, wpos, strand) 
+        < std::tie(x.hash, x.seqId, x.wpos, x.strand);
     }
 
     //Lexographical equality comparison
     bool operator ==(const MinimizerInfo& x) {
-      return std::tie(hash, seqId, pos, w_lev, strand) 
-        == std::tie(x.hash, x.seqId, x.pos, x.w_lev, x.strand);
+      return std::tie(hash, seqId, wpos, strand) 
+        == std::tie(x.hash, x.seqId, x.wpos, x.strand);
     }
 
     bool operator !=(const MinimizerInfo& x) {
-      return std::tie(hash, seqId, pos, w_lev, strand) 
-        != std::tie(x.hash, x.seqId, x.pos, x.w_lev, x.strand);
+      return std::tie(hash, seqId, wpos, strand) 
+        != std::tie(x.hash, x.seqId, x.wpos, x.strand);
     }
 
     static bool equalityByHash(const MinimizerInfo& x, const MinimizerInfo& y) {
@@ -61,13 +59,12 @@ namespace skch
   struct MinimizerMetaData
   {
     seqno_t seqId;          //sequence or contig id
-    offset_t pos;           //position within sequence
-    wsize_t w_lev;          //associated window size
+    offset_t wpos;          //window position (left-most window)
     strand_t strand;        //strand information
 
     bool operator <(const MinimizerMetaData& x) const {
-      return std::tie(seqId, pos, w_lev, strand) 
-        < std::tie(x.seqId, x.pos, x.w_lev, x.strand);
+      return std::tie(seqId, wpos, strand) 
+        < std::tie(x.seqId, x.wpos, x.strand);
     }
   };
 
@@ -95,7 +92,6 @@ namespace skch
       KSEQ seq;                           //query sequence object pointer (kseq library) 
       seqno_t seqCounter;                 //query sequence counter
       offset_t len;                       //length of this query sequence
-      wsize_t optimalWindowSizeLevel;     //optimal window size to winnow this read
       int sketchSize;                     //sketch size
       MinimizerVec minimizerTableQuery;   //Vector of minimizers in the query 
     };
