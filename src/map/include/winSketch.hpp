@@ -282,14 +282,12 @@ namespace skch
 
         bool operator() (const MinimizerInfo &m, const P &val)
         {
-          P minimizerPosition(m.seqId, m.wpos);
-          return (minimizerPosition < val);
+          return ( P(m.seqId, m.wpos) < val);
         }
 
         bool operator() (const P &val, const MinimizerInfo &m)
         {
-          P minimizerPosition(m.seqId, m.wpos);
-          return (val < minimizerPosition);
+          return (val < P(m.seqId, m.wpos) );
         }
       } cmp;
 

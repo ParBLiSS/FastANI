@@ -19,6 +19,7 @@
 #include "commonFunc.hpp"
 #include "winSketch.hpp"
 #include "map_stats.hpp"
+#include "slidingMap.hpp"
 
 //External includes
 
@@ -51,15 +52,6 @@ namespace skch
         offset_t optimalStartPos;         //optimal start mapping position 
         int sharedSketchSize;             //count of shared sketch elements
         strand_t strand;                  //mapping strand
-      };
-
-      //Metadata for the minimizers saved in sliding ordered map during L2 stage
-      struct slidingMapContainerValueType
-      {
-        offset_t wposQ;                   //wpos and strand of minimizers in the query
-        strand_t strandQ;
-        offset_t wposR;                   //wpos and strand of minimizers in the reference
-        strand_t strandR;
       };
 
     private:
@@ -307,7 +299,9 @@ namespace skch
               //[it .. it2] are 'minimumHits' consecutive hits 
 
               //Check if consecutive hits are close enough
-              if(it2->seqId == it->seqId && it2->wpos - it->wpos < Q.len)
+              //NOTE: hits may span more than a read length for a valid match, as we keep window positions 
+              //      for each minimizer
+              if(it2->seqId == it->seqId && it2->wpos - it->wpos < Q.len + param.windowSize)
               {
                 //Save <1st pos --- 2nd pos>
                 L1_candidateLocus_t candidate{it->seqId, 
@@ -401,56 +395,29 @@ namespace skch
           offset_t START = candidateLocus.rangeStartPos; 
           offset_t END = candidateLocus.rangeEndPos + Q.len;
 
-          // This is the list of minimizers we need for computing Jaccard estimates
-          std::vector<MinimizerInfo> allMinimizersInRange(END - START);
-
-          //Mark to denote hash is not a minimizer
-          auto NAHash = std::numeric_limits<hash_t>::max();
+          // This is the vector of minimizers we need for computing Jaccard estimates
+          MinVec_Type allMinimizersInRange;
 
           {
-            for(auto &e : allMinimizersInRange) 
-              e.hash = NAHash;
-
             //Look up within the reference minimizerIndex
             MIIter_t minimizerIndexRangeStart = this->refSketch.searchIndex(candidateLocus.seqId, candidateLocus.rangeStartPos);
 
-            for(auto it = minimizerIndexRangeStart; it != this->refSketch.getMinimizerIndexEnd() && it->wpos < END; it++)
+            for(auto it = minimizerIndexRangeStart; it != this->refSketch.getMinimizerIndexEnd() && it->seqId == candidateLocus.seqId && it->wpos < END; it++)
             {
-              allMinimizersInRange[it->wpos - START] = *it;
-            }
+              if(allMinimizersInRange.size() > 0)
+              {
+                auto last_min = allMinimizersInRange.back();
 
-            //Preserve the minimizer across all windows where it was minimum
-            for(int i = 0; i < allMinimizersInRange.size(); i++)
-            {
-              if(i > 0 && allMinimizersInRange[i].hash == NAHash)
-                allMinimizersInRange[i] = allMinimizersInRange[i-1];
+                //last_min minimizer stays minimum for [it->wpos - last_min.wpos - 1] additional positions
+                allMinimizersInRange.insert(allMinimizersInRange.end(), it->wpos - last_min.wpos - 1, last_min);
+              }
+
+              //Now insert the new minimizer
+              allMinimizersInRange.emplace_back(*it);
             }
           }
 
-          ///2. Define ordered map, and insert the query sketch into it
-          
-          //Define a Not available position marker
-          auto NAPos = std::numeric_limits<offset_t>::max();
-
-          //Ordered map to save unique sketch elements, and associated value as 
-          //a pair of its occurrence in the query and the reference
-          typedef std::map< hash_t, slidingMapContainerValueType > slidingMapType;
-
-          slidingMapType slidingWindowMinhashesOrig;
-
-          {
-            //Range of sketch in query
-            //Assuming unique query minimizers were placed at the start during L1 mapping
-            auto uniqEndIter = std::next(Q.minimizerTableQuery.begin(), Q.sketchSize);
-
-            for(auto it = Q.minimizerTableQuery.begin(); it != uniqEndIter; it++)
-              slidingWindowMinhashesOrig.emplace(it->hash, slidingMapContainerValueType{it->wpos, it->strand, NAPos, 0});
-
-          }
-
-          slidingMapType slidingWindowMinhashes = slidingWindowMinhashesOrig;
-
-          ///3. Walk the read over windows in 'allMinimizersInRange'
+          ///2. Walk the read over windows in 'allMinimizersInRange'
           {
             l2_out.sharedSketchSize = 0;
             l2_out.seqId = candidateLocus.seqId;
@@ -461,6 +428,9 @@ namespace skch
              */
             auto countMinimizerWindows = Q.len - (param.windowSize-1) - (param.kmerSize-1);
 
+            //Define map such that it contains only the query minimizers
+            SlideMapper<Q_Info> slidemap(Q);
+
             for(int i = 0; i + countMinimizerWindows < allMinimizersInRange.size(); i++)
             {
               //Consider minimizers in 'allMinimizersInRange' in the range [i, j)
@@ -469,52 +439,27 @@ namespace skch
               //First super-window or we see new first hash value or new last hash value, we should compute then
               if(i == 0 || allMinimizersInRange[i] != allMinimizersInRange[i-1] || allMinimizersInRange[j-1]  != allMinimizersInRange[j-2])
               {
-                //Reset map to contain only the query minimizers
-                slidingWindowMinhashes = slidingWindowMinhashesOrig;
 
-                for(int k = i; k < j; k++)
+                //Push reference minimizers into map
+                if(i == 0) 
                 {
-                  hash_t hashVal = allMinimizersInRange[k].hash;
+                  slidemap.insert_ref(allMinimizersInRange.begin() + i, allMinimizersInRange.begin() + j);
+                }
+                else 
+                {
+                  //Minimizer to delete?
+                  if(allMinimizersInRange[i] != allMinimizersInRange[i-1])
+                    slidemap.delete_ref( allMinimizersInRange[i-1] );
 
-                  if(hashVal != NAHash)
-                  {
-                    //if hash doesn't exist in the map, add to it
-                    if(slidingWindowMinhashes.find(hashVal) == slidingWindowMinhashes.end())
-                      slidingWindowMinhashes[hashVal] = slidingMapContainerValueType{NAPos, 0, allMinimizersInRange[k].wpos, allMinimizersInRange[k].strand};   //add the hash to window
-                    else
-                    {
-                      //if hash already exists in the map, just revise it
-                      slidingWindowMinhashes[hashVal].wposR = allMinimizersInRange[k].wpos;
-                      slidingWindowMinhashes[hashVal].strandR = allMinimizersInRange[k].strand;
-                    }
-                  }
-
+                  //New minimizer to insert?
+                  if(allMinimizersInRange[j-1]  != allMinimizersInRange[j-2])
+                    slidemap.insert_ref( allMinimizersInRange[j-1] );
                 }
 
-                //Local counters for computing Jaccard similarity
-                int uniqueHashes = 0, currentSharedMinimizers = 0, strandVotes = 0;
+                int currentSharedMinimizers, strandVotes;
 
-                for (auto it = slidingWindowMinhashes.cbegin(); it != slidingWindowMinhashes.cend(); ++it)
-                {
-                  //Fetch the value in map
-                  auto minimizerMatchInfo = it->second;
-
-                  //Check if minimizer is shared
-                  if(minimizerMatchInfo.wposQ != NAPos && minimizerMatchInfo.wposR != NAPos)
-                  {
-                    currentSharedMinimizers += 1;
-
-                    if(minimizerMatchInfo.strandQ ^ minimizerMatchInfo.strandR >= 0)
-                      strandVotes += 1;   //Both strand types match
-                    else
-                      strandVotes -= 1;   //Both strand types mis-match
-                  }
-
-                  //Limit checking only to the smallest s sketch elements in the set union
-                  uniqueHashes++;
-                  if(uniqueHashes == Q.sketchSize)
-                    break;
-                }
+                //Compute the count of shared sketch elements as well as the strand
+                slidemap.computeSharedMinimizers(currentSharedMinimizers, strandVotes);
 
                 //Is this sliding window the best we have so far?
                 if(currentSharedMinimizers > l2_out.sharedSketchSize)
@@ -531,7 +476,7 @@ namespace skch
 
               }//End of if condition
             }//End of loop for sliding the read
-          }//End of the phase 3 (computing optimal position)
+          }//End of the phase 2 (computing optimal position)
         }
 
       /**
