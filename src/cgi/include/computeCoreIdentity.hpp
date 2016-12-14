@@ -61,15 +61,17 @@ namespace cgi
     // reference id (R), query id (Q), estimated identity (I)
     for(auto &e : results)
     {
-      shortResults.push_back(MappingResult_CGI{
+      shortResults.emplace_back(MappingResult_CGI{
           e.refSeqId,
           e.querySeqId,
+          e.refStartPos/parameters.minReadLength,
           e.nucIdentity
           });
     }
 
     //Sort the vector shortResults
-    std::sort(shortResults.begin(), shortResults.end());
+    //Note that a custom comparison operator is defined for type 'MappingResult_CGI'
+    std::sort(shortResults.begin(), shortResults.end(), cmp_query_bucket);
 
     /*
      * NOTE: We assume single file contains the sequences for single genome
@@ -77,22 +79,52 @@ namespace cgi
      */
     reviseRefIdToGenomeId(shortResults, refSketch);
 
-    //We need best identity match for each genome, query pair
-    std::vector<MappingResult_CGI> singleQueryRefResults;
+    //We need best reciprocal identity match for each genome, query pair
+    std::vector<MappingResult_CGI> mappings_1way;
+    std::vector<MappingResult_CGI> mappings_2way;
 
-    //Code below fetches best identity match for each genome, query pair
-    for(auto &e : shortResults)
+    ///1. Code below fetches best identity match for each genome, query pair
+    //For each query sequence, best match in the reference is preserved
     {
-      if(singleQueryRefResults.empty())
-        singleQueryRefResults.push_back(e);
+      for(auto &e : shortResults)
+      {
+        if(mappings_1way.empty())
+          mappings_1way.push_back(e);
 
-      else if ( !(
-            e.genomeId == singleQueryRefResults.back().genomeId && 
-            e.querySeqId == singleQueryRefResults.back().querySeqId))
-        singleQueryRefResults.push_back(e);
+        else if ( !(
+              e.genomeId == mappings_1way.back().genomeId && 
+              e.querySeqId == mappings_1way.back().querySeqId))
+        {
+          mappings_1way.emplace_back(e);
+        }
+        else
+        {
+          mappings_1way.back() = e;
+        }
+      }
+    }
 
-      else
-        singleQueryRefResults.back().nucIdentity = e.nucIdentity;
+    ///2. Now, we compute 2-way ANI
+    //For each mapped region, and within a reference bin bucket, single best query mapping is preserved
+    {
+      std::sort(mappings_1way.begin(), mappings_1way.end(), cmp_refbin_bucket);
+
+      for(auto &e : mappings_1way)
+      {
+        if(mappings_2way.empty())
+          mappings_2way.push_back(e);
+
+        else if ( !(
+              e.genomeId == mappings_2way.back().genomeId && 
+              e.mapRefPosBin == mappings_2way.back().mapRefPosBin))
+        {
+          mappings_2way.emplace_back(e);
+        }
+        else
+        {
+          mappings_2way.back() = e;
+        }
+      }
     }
 
     //Final output vector of ANI/AAI computation
@@ -100,12 +132,13 @@ namespace cgi
 
 
     //Do average for ANI/AAI computation 
-    for(auto it = singleQueryRefResults.begin(); it != singleQueryRefResults.end();)
+    //We assume mappings_2way is already sorted by genomeId 
+    for(auto it = mappings_2way.begin(); it != mappings_2way.end();)
     {
       skch::seqno_t currentRefId = it->genomeId;
 
       //Bucket by genome id
-      auto rangeEndIter = std::find_if(it, singleQueryRefResults.end(), [&](const MappingResult_CGI& e) 
+      auto rangeEndIter = std::find_if(it, mappings_2way.end(), [&](const MappingResult_CGI& e) 
           { 
             return e.genomeId != currentRefId; 
           } );
@@ -146,10 +179,11 @@ namespace cgi
     std::ofstream outstrm2(fileName + ".map.best");
 
     //Report all mappings that contribute to core-genome identity estimate
-    for(auto &e : singleQueryRefResults)
+    for(auto &e : mappings_2way)
     {
       outstrm2 << parameters.refSequences[e.genomeId]
         << " " << e.querySeqId 
+        << " " << e.mapRefPosBin
         << " " << e.nucIdentity
         << "\n";
     }

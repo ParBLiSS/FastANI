@@ -465,7 +465,7 @@ namespace skch
                 if(currentSharedMinimizers > l2_out.sharedSketchSize)
                 {
                   l2_out.sharedSketchSize = currentSharedMinimizers;
-                  l2_out.optimalStartPos = i;
+                  l2_out.optimalStartPos = allMinimizersInRange[i].wpos;
 
                   //Evaluate strand using the consensus among the shared sketch elements
                   if(strandVotes > 0)
