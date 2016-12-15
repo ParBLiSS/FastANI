@@ -80,7 +80,7 @@ namespace skch
 
           for(auto it = Q.minimizerTableQuery.begin(); it != uniqEndIter; it++)
           {
-            this->slidingWindowMinhashes.emplace(it->hash, slidingMapContainerValueType{it->wpos, it->strand, NAPos, 0});
+            this->slidingWindowMinhashes.emplace_hint(slidingWindowMinhashes.end(), it->hash, slidingMapContainerValueType{it->wpos, it->strand, NAPos, 0});
           }
         }
 
@@ -118,7 +118,6 @@ namespace skch
           for(auto it = begin; it != end; it++)
             this->insert_ref(*it);
         }
-
 
         /**
          * @brief               delete a minimizer from the reference sequence from the map

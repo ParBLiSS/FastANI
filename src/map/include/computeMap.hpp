@@ -389,7 +389,9 @@ namespace skch
        * @param[out]  l2_out                    L2 mapping inside L1 candidate 
        */
       template <typename Q_Info>
-        void computeL2MappedRegions(Q_Info &Q, L1_candidateLocus_t &candidateLocus, L2_mapLocus_t &l2_out)
+        void computeL2MappedRegions(Q_Info &Q, 
+            L1_candidateLocus_t &candidateLocus, 
+            L2_mapLocus_t &l2_out)
         {
           /// 1. Create an array of minimizers with wpos [START, END), continuous in the position space
           offset_t START = candidateLocus.rangeStartPos; 
@@ -431,6 +433,7 @@ namespace skch
             //Define map such that it contains only the query minimizers
             SlideMapper<Q_Info> slidemap(Q);
 
+
             for(int i = 0; i + countMinimizerWindows < allMinimizersInRange.size(); i++)
             {
               //Consider minimizers in 'allMinimizersInRange' in the range [i, j)
@@ -459,7 +462,7 @@ namespace skch
                 int currentSharedMinimizers, strandVotes;
 
                 //Compute the count of shared sketch elements as well as the strand
-                slidemap.computeSharedMinimizers(currentSharedMinimizers, strandVotes);
+                if(i % param.L2slideJump == 0) slidemap.computeSharedMinimizers(currentSharedMinimizers, strandVotes);
 
                 //Is this sliding window the best we have so far?
                 if(currentSharedMinimizers > l2_out.sharedSketchSize)
@@ -468,10 +471,7 @@ namespace skch
                   l2_out.optimalStartPos = allMinimizersInRange[i].wpos;
 
                   //Evaluate strand using the consensus among the shared sketch elements
-                  if(strandVotes > 0)
-                    l2_out.strand = strnd::FWD;
-                  else
-                    l2_out.strand = strnd::REV;
+                  l2_out.strand = strandVotes > 0 ? strnd::FWD : strnd::REV;
                 }
 
               }//End of if condition
