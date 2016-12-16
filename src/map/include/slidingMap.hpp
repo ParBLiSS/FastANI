@@ -143,39 +143,37 @@ namespace skch
         /**
          * @brief                                     compute shared sketch elements between 
          *                                            query and the reference window
-         * @param[out]    currentSharedMinimizers      
-         * @param[out]    strandVotes
+         * @param[out]    currentSharedMinimizers     #shared minimizers among the smallest s  
+         * @param[out]    strandVotes                 #consensus strand vote among the shared minimizers
+         * @param[out]    uniqueRefHashes             #unique minimizers from reference in the complete slidingMap 
          */
-        inline void computeSharedMinimizers(int &currentSharedMinimizers, int &strandVotes)
+        inline void computeSharedMinimizers(int &currentSharedMinimizers, int &strandVotes, int &uniqueRefHashes)
         {
           int uniqueHashes = 0;
-          currentSharedMinimizers = strandVotes = 0;
+          currentSharedMinimizers = strandVotes = uniqueRefHashes = 0;
 
           //Iterate over map
           for (auto it = this->slidingWindowMinhashes.cbegin(); it != this->slidingWindowMinhashes.cend(); ++it)
           {
+            uniqueHashes++;
+
             //Fetch the value in map
             auto m = it->second;
 
-            //Check if minimizer is shared
-            if(m.wposQ != this->NAPos && m.wposR != this->NAPos)
+            //Check if minimizer is shared (among s unique sketches)
+            if(uniqueHashes <= Q.sketchSize && m.wposQ != this->NAPos && m.wposR != this->NAPos)
             {
               currentSharedMinimizers += 1;
-
-              if(m.strandQ ^ m.strandR >= 0)
-                strandVotes += 1;   //Both strand types match
-              else
-                strandVotes -= 1;   //Both strand types mis-match
+              strandVotes += m.strandQ * m.strandR; //Assuming FWD=1, BWD=-1
             }
 
-            //Limit checking only to the smallest s sketch elements in the set union
-            uniqueHashes++;
-            if(uniqueHashes == Q.sketchSize)
-              break;
+            //Check if minimizer occurs comes from the reference
+            if(m.wposR != this->NAPos)
+              uniqueRefHashes++;
           }
         }
-    };
 
+    };
 }
 
 #endif

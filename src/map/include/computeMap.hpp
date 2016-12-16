@@ -51,6 +51,7 @@ namespace skch
         seqno_t seqId;                    //sequence id where read is mapped
         offset_t optimalStartPos;         //optimal start mapping position 
         int sharedSketchSize;             //count of shared sketch elements
+        int uniqueRefHashes;              //count of unique reference hashes in the mapping region
         strand_t strand;                  //mapping strand
       };
 
@@ -109,7 +110,6 @@ namespace skch
           FILE *file = fopen(fileName.c_str(), "r");
           gzFile fp = gzdopen(fileno(file), "r");
           kseq_t *seq = kseq_init(fp);
-
 
 #ifdef DEBUG
           std::cout << "INFO, skch::Map::mapQuery, mapping reads in " << fileName << std::endl;
@@ -352,8 +352,13 @@ namespace skch
             float nucIdentity = 100 * (1 - mash_dist);
             float nucIdentityUpperBound = 100 * (1 - mash_dist_lower_bound);
 
+            //Compute reference region complexity
+            float actualDensity = l2.uniqueRefHashes * 1.0 / Q.len;
+            float expectedDensity = 2.0 / param.windowSize;
+            float referenceDNAComplexity = actualDensity/expectedDensity;
+
             //Report the alignment
-            if(nucIdentityUpperBound  >= param.percentageIdentity)
+            if(nucIdentityUpperBound >= param.percentageIdentity && referenceDNAComplexity >= 0.75)
             {
               MappingResult res;
 
@@ -369,7 +374,7 @@ namespace skch
                 res.sketchSize = Q.sketchSize;
                 res.conservedSketches = l2.sharedSketchSize;
                 res.strand = l2.strand;
-                //res.mappedRegionComplexity = mappingStatistics[0];
+                res.mappedRegionComplexity = referenceDNAComplexity;
                 res.queryName = Q.seq->name.s; 
 
                 l2Mappings.push_back(res);
@@ -459,19 +464,18 @@ namespace skch
                     slidemap.insert_ref( allMinimizersInRange[j-1] );
                 }
 
-                int currentSharedMinimizers, strandVotes;
+                int currentSharedMinimizers, strandVotes, uniqueRefHashes;
 
                 //Compute the count of shared sketch elements as well as the strand
-                if(i % param.L2slideJump == 0) slidemap.computeSharedMinimizers(currentSharedMinimizers, strandVotes);
+                slidemap.computeSharedMinimizers(currentSharedMinimizers, strandVotes, uniqueRefHashes);
 
                 //Is this sliding window the best we have so far?
                 if(currentSharedMinimizers > l2_out.sharedSketchSize)
                 {
                   l2_out.sharedSketchSize = currentSharedMinimizers;
-                  l2_out.optimalStartPos = allMinimizersInRange[i].wpos;
-
-                  //Evaluate strand using the consensus among the shared sketch elements
                   l2_out.strand = strandVotes > 0 ? strnd::FWD : strnd::REV;
+                  l2_out.uniqueRefHashes = uniqueRefHashes;
+                  l2_out.optimalStartPos = allMinimizersInRange[i].wpos;
                 }
 
               }//End of if condition

@@ -31,7 +31,7 @@ namespace skch
     std::vector<std::string> querySequences;          //query sequence(s)
     std::string outFileName;                          //output file name
     bool reportAll;                                   //Report all alignments if this is true
-    const static int L2slideJump = 4;                 //parameter to jump read during L2 evaluation, 
+    //const static int L2slideJump = 5;                 //parameter to jump read during L2 evaluation, 
                                                       //  1 is the most accurate
 
   };
