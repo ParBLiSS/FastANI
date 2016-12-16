@@ -171,11 +171,13 @@ namespace cgi
     for(auto &e : CGI_ResultsVector)
     {
       outstrm << parameters.refSequences[e.genomeId]
-        << " " << e.identity 
+        << " " << fixed << std::setprecision(2) << e.identity 
         << " " << e.countSeq
         << "\n";
     }
 
+
+#ifdef DEBUG
     std::ofstream outstrm2(fileName + ".map.best");
 
     //Report all mappings that contribute to core-genome identity estimate
@@ -187,6 +189,8 @@ namespace cgi
         << " " << e.nucIdentity
         << "\n";
     }
+#endif
+
   }
 
 }

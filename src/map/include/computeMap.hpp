@@ -429,10 +429,9 @@ namespace skch
             l2_out.sharedSketchSize = 0;
             l2_out.seqId = candidateLocus.seqId;
 
-            /**
-             * The count of winnowing windows in a sequence of a length L is
-             *    L - windowSize - kmerSize
-             */
+            /// The count of winnowing windows in a sequence of a length L is
+            //    L - windowSize - kmerSize
+            //
             auto countMinimizerWindows = Q.len - (param.windowSize-1) - (param.kmerSize-1);
 
             //Define map such that it contains only the query minimizers
