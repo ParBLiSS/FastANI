@@ -64,7 +64,7 @@ namespace cgi
           e.refSeqId,
           0,                  //this value will be revised to genome id
           e.querySeqId,
-          e.refStartPos/(parameters.minReadLength/2),
+          e.refStartPos/(parameters.minReadLength),
           e.nucIdentity
           });
     }
@@ -135,12 +135,12 @@ namespace cgi
 
     for(auto it = mappings_2way.begin(); it != mappings_2way.end();)
     {
-      skch::seqno_t currentRefId = it->genomeId;
+      skch::seqno_t currentGenomeId = it->genomeId;
 
       //Bucket by genome id
       auto rangeEndIter = std::find_if(it, mappings_2way.end(), [&](const MappingResult_CGI& e) 
           { 
-            return e.genomeId != currentRefId; 
+            return e.genomeId != currentGenomeId; 
           } );
 
       float sumIdentity = 0.0;
@@ -152,7 +152,7 @@ namespace cgi
 
       //Save the result 
       CGI_Results currentResult;
-      currentResult.genomeId = currentRefId;
+      currentResult.genomeId = currentGenomeId;
       currentResult.countSeq = std::distance(it, rangeEndIter);
       currentResult.identity = sumIdentity/currentResult.countSeq;
 
