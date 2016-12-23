@@ -29,13 +29,12 @@ namespace cgi
   {
     for(auto &e : shortResults)
     {
-      auto referenceSequenceId = e.genomeId;
+      auto referenceSequenceId = e.refSequenceId;
       auto upperRangeIter = std::upper_bound(refSketch.sequencesByFileInfo.begin(), 
           refSketch.sequencesByFileInfo.end(),
           referenceSequenceId);
 
-      auto genomeId = std::distance(refSketch.sequencesByFileInfo.begin(), upperRangeIter);
-      e.genomeId = genomeId;
+      e.genomeId = std::distance(refSketch.sequencesByFileInfo.begin(), upperRangeIter);
     }
   }
 
@@ -63,15 +62,12 @@ namespace cgi
     {
       shortResults.emplace_back(MappingResult_CGI{
           e.refSeqId,
+          0,                  //this value will be revised to genome id
           e.querySeqId,
-          e.refStartPos/parameters.minReadLength,
+          e.refStartPos/(parameters.minReadLength/2),
           e.nucIdentity
           });
     }
-
-    //Sort the vector shortResults
-    //Note that a custom comparison operator is defined for type 'MappingResult_CGI'
-    std::sort(shortResults.begin(), shortResults.end(), cmp_query_bucket);
 
     /*
      * NOTE: We assume single file contains the sequences for single genome
@@ -86,6 +82,9 @@ namespace cgi
     ///1. Code below fetches best identity match for each genome, query pair
     //For each query sequence, best match in the reference is preserved
     {
+      //Sort the vector shortResults
+      std::sort(shortResults.begin(), shortResults.end(), cmp_query_bucket);
+
       for(auto &e : shortResults)
       {
         if(mappings_1way.empty())
@@ -115,7 +114,7 @@ namespace cgi
           mappings_2way.push_back(e);
 
         else if ( !(
-              e.genomeId == mappings_2way.back().genomeId && 
+              e.refSequenceId == mappings_2way.back().refSequenceId && 
               e.mapRefPosBin == mappings_2way.back().mapRefPosBin))
         {
           mappings_2way.emplace_back(e);
@@ -132,7 +131,8 @@ namespace cgi
 
 
     //Do average for ANI/AAI computation 
-    //We assume mappings_2way is already sorted by genomeId 
+    //mappings_2way should be sorted by genomeId 
+
     for(auto it = mappings_2way.begin(); it != mappings_2way.end();)
     {
       skch::seqno_t currentRefId = it->genomeId;
@@ -171,7 +171,7 @@ namespace cgi
     for(auto &e : CGI_ResultsVector)
     {
       outstrm << parameters.refSequences[e.genomeId]
-        << " " << fixed << std::setprecision(2) << e.identity 
+        << " " << e.identity 
         << " " << e.countSeq
         << "\n";
     }

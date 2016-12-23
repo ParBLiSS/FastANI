@@ -20,6 +20,7 @@
 #include "winSketch.hpp"
 #include "map_stats.hpp"
 #include "slidingMap.hpp"
+#include "MIIteratorL2.hpp"
 
 //External includes
 
@@ -49,10 +50,10 @@ namespace skch
       struct L2_mapLocus_t 
       {
         seqno_t seqId;                    //sequence id where read is mapped
-        offset_t optimalStartPos;         //optimal start mapping position 
+        offset_t meanOptimalPos;          //Among multiple consecutive optimal positions, save the avg.
+        Sketch::MIIter_t optimalStart;    //optimal start mapping position (begin iterator)
+        Sketch::MIIter_t optimalEnd;      //optimal end mapping position (end iterator) 
         int sharedSketchSize;             //count of shared sketch elements
-        int uniqueRefHashes;              //count of unique reference hashes in the mapping region
-        strand_t strand;                  //mapping strand
       };
 
     private:
@@ -301,7 +302,7 @@ namespace skch
               //Check if consecutive hits are close enough
               //NOTE: hits may span more than a read length for a valid match, as we keep window positions 
               //      for each minimizer
-              if(it2->seqId == it->seqId && it2->wpos - it->wpos < Q.len + param.windowSize)
+              if(it2->seqId == it->seqId && it2->wpos - it->wpos < Q.len)
               {
                 //Save <1st pos --- 2nd pos>
                 L1_candidateLocus_t candidate{it->seqId, 
@@ -340,7 +341,7 @@ namespace skch
           ///2. Walk the read over the candidate regions and compute the jaccard similarity with minimum s sketches
           for(auto &candidateLocus: l1Mappings)
           {
-            L2_mapLocus_t l2;
+            L2_mapLocus_t l2 = {};
             computeL2MappedRegions(Q, candidateLocus, l2);
 
             //Compute mash distance using calculated jaccard
@@ -352,10 +353,9 @@ namespace skch
             float nucIdentity = 100 * (1 - mash_dist);
             float nucIdentityUpperBound = 100 * (1 - mash_dist_lower_bound);
 
-            //Compute reference region complexity
-            float actualDensity = l2.uniqueRefHashes * 1.0 / Q.len;
-            float expectedDensity = 2.0 / param.windowSize;
-            float referenceDNAComplexity = actualDensity/expectedDensity;
+
+            //TODO : Correct it after debugging
+            float referenceDNAComplexity = 1; //actualDensity/expectedDensity;
 
             //Report the alignment
             if(nucIdentityUpperBound >= param.percentageIdentity && referenceDNAComplexity >= 0.75)
@@ -365,19 +365,34 @@ namespace skch
               //Save the output
               {
                 res.queryLen = Q.len;
-                res.refStartPos = l2.optimalStartPos ;
-                res.refEndPos = l2.optimalStartPos + Q.len - 1;
+                res.refStartPos = l2.meanOptimalPos ;
+                res.refEndPos = l2.meanOptimalPos + Q.len - 1;
                 res.refSeqId = l2.seqId;
                 res.querySeqId = Q.seqCounter;
                 res.nucIdentity = nucIdentity;
                 res.nucIdentityUpperBound = nucIdentityUpperBound;
                 res.sketchSize = Q.sketchSize;
                 res.conservedSketches = l2.sharedSketchSize;
-                res.strand = l2.strand;
-                res.mappedRegionComplexity = referenceDNAComplexity;
                 res.queryName = Q.seq->name.s; 
 
-                l2Mappings.push_back(res);
+                //Compute additional statistics -> strand, reference compexity
+                {
+                  SlideMapper<Q_Info> slidemap(Q);
+                  slidemap.insert_ref(l2.optimalStart, l2.optimalEnd);
+                  int strandVotes, uniqueRefHashes;
+                  slidemap.computeStatistics(strandVotes, uniqueRefHashes);
+
+                  res.strand = strandVotes > 0 ? strnd::FWD : strnd::REV;
+
+                  //Compute reference region complexity
+                  float actualDensity = uniqueRefHashes * 1.0 / Q.len;
+                  float expectedDensity = 2.0 / param.windowSize;
+                  res.mappedRegionComplexity = actualDensity/expectedDensity;
+
+                }
+
+                if(res.mappedRegionComplexity >= 0.75)
+                  l2Mappings.push_back(res);
               }
 
               mappingReported = true;
@@ -398,88 +413,80 @@ namespace skch
             L1_candidateLocus_t &candidateLocus, 
             L2_mapLocus_t &l2_out)
         {
-          /// 1. Create an array of minimizers with wpos [START, END), continuous in the position space
-          offset_t START = candidateLocus.rangeStartPos; 
-          offset_t END = candidateLocus.rangeEndPos + Q.len;
+          //Look up L1 candidate's begin in the index
+          MIIter_t firstSuperWindowRangeStart = this->refSketch.searchIndex(candidateLocus.seqId, 
+              candidateLocus.rangeStartPos);
 
-          // This is the vector of minimizers we need for computing Jaccard estimates
-          MinVec_Type allMinimizersInRange;
+          //Count of minimizer windows in a super-window
+          offset_t countMinimizerWindows = Q.len - (param.windowSize-1) - (param.kmerSize-1); 
 
+          //Look up the end of the first L2 super-window in the index
+          MIIter_t firstSuperWindowRangeEnd = this->refSketch.searchIndex(candidateLocus.seqId, 
+              firstSuperWindowRangeStart->wpos + countMinimizerWindows);
+
+          //Look up L1 candidate's end in the index
+          MIIter_t lastSuperWindowRangeEnd = this->refSketch.searchIndex(candidateLocus.seqId, 
+              candidateLocus.rangeEndPos + Q.len);
+
+          //Define map such that it contains only the query minimizers
+          //Used to efficiently compute the jaccard similarity between qry and ref
+          SlideMapper<Q_Info> slidemap(Q);
+
+          //Initialize iterator over minimizerIndex
+          MIIteratorL2 mi_L2iter( firstSuperWindowRangeStart, firstSuperWindowRangeEnd,
+              countMinimizerWindows);
+
+          //Insert all the minimizers in the first 'super-window'
+          //  [ mi_L2iter.sw_beg, mi_L2iter.sw_end )
+          slidemap.insert_ref(mi_L2iter.sw_beg, mi_L2iter.sw_end);
+
+          auto prev_beg_iter = mi_L2iter.sw_beg;
+          auto prev_end_iter = mi_L2iter.sw_end;
+
+          int beginOptimalPos, lastOptimalPos;
+
+          while ( std::distance(mi_L2iter.sw_end, lastSuperWindowRangeEnd) > 0)
           {
-            //Look up within the reference minimizerIndex
-            MIIter_t minimizerIndexRangeStart = this->refSketch.searchIndex(candidateLocus.seqId, candidateLocus.rangeStartPos);
+            assert( std::distance(mi_L2iter.sw_beg, firstSuperWindowRangeStart) <= 0);
+            assert( std::distance(mi_L2iter.sw_end, lastSuperWindowRangeEnd  ) >= 0);
 
-            for(auto it = minimizerIndexRangeStart; it != this->refSketch.getMinimizerIndexEnd() && it->seqId == candidateLocus.seqId && it->wpos < END; it++)
+            //Check if the previous first minimizer is out of current range
+            if (prev_beg_iter != mi_L2iter.sw_beg)
+              slidemap.delete_ref(prev_beg_iter);
+
+            //Check if we have new minimizer in the current range
+            if (prev_end_iter != mi_L2iter.sw_end)
+              slidemap.insert_ref(prev_end_iter);
+          
+            //Is this sliding window the best we have so far?
+            if (slidemap.sharedSketchElements > l2_out.sharedSketchSize)
             {
-              if(allMinimizersInRange.size() > 0)
-              {
-                auto last_min = allMinimizersInRange.back();
+              l2_out.sharedSketchSize = slidemap.sharedSketchElements;
+              l2_out.optimalStart = mi_L2iter.sw_beg;
+              l2_out.optimalEnd = mi_L2iter.sw_end;
 
-                //last_min minimizer stays minimum for [it->wpos - last_min.wpos - 1] additional positions
-                allMinimizersInRange.insert(allMinimizersInRange.end(), it->wpos - last_min.wpos - 1, last_min);
-              }
-
-              //Now insert the new minimizer
-              allMinimizersInRange.emplace_back(*it);
+              //Save the position
+              beginOptimalPos = mi_L2iter.sw_beg->wpos;
+              lastOptimalPos = mi_L2iter.sw_beg->wpos;
             }
-          }
-
-          ///2. Walk the read over windows in 'allMinimizersInRange'
-          {
-            l2_out.sharedSketchSize = 0;
-            l2_out.seqId = candidateLocus.seqId;
-
-            /// The count of winnowing windows in a sequence of a length L is
-            //    L - windowSize - kmerSize
-            //
-            auto countMinimizerWindows = Q.len - (param.windowSize-1) - (param.kmerSize-1);
-
-            //Define map such that it contains only the query minimizers
-            SlideMapper<Q_Info> slidemap(Q);
-
-
-            for(int i = 0; i + countMinimizerWindows < allMinimizersInRange.size(); i++)
+            else if(slidemap.sharedSketchElements == l2_out.sharedSketchSize)
             {
-              //Consider minimizers in 'allMinimizersInRange' in the range [i, j)
-              int j = i + countMinimizerWindows;
+              //Still save the position
+              lastOptimalPos = mi_L2iter.sw_beg->wpos; 
+            }
 
-              //First super-window or we see new first hash value or new last hash value, we should compute then
-              if(i == 0 || allMinimizersInRange[i] != allMinimizersInRange[i-1] || allMinimizersInRange[j-1]  != allMinimizersInRange[j-2])
-              {
+            //Back up the current iterator values
+            prev_beg_iter = mi_L2iter.sw_beg;
+            prev_end_iter = mi_L2iter.sw_end;
 
-                //Push reference minimizers into map
-                if(i == 0) 
-                {
-                  slidemap.insert_ref(allMinimizersInRange.begin() + i, allMinimizersInRange.begin() + j);
-                }
-                else 
-                {
-                  //Minimizer to delete?
-                  if(allMinimizersInRange[i] != allMinimizersInRange[i-1])
-                    slidemap.delete_ref( allMinimizersInRange[i-1] );
+            //Advance the current super-window
+            mi_L2iter.next();
 
-                  //New minimizer to insert?
-                  if(allMinimizersInRange[j-1]  != allMinimizersInRange[j-2])
-                    slidemap.insert_ref( allMinimizersInRange[j-1] );
-                }
+          }//End of while loop
 
-                int currentSharedMinimizers, strandVotes, uniqueRefHashes;
-
-                //Compute the count of shared sketch elements as well as the strand
-                slidemap.computeSharedMinimizers(currentSharedMinimizers, strandVotes, uniqueRefHashes);
-
-                //Is this sliding window the best we have so far?
-                if(currentSharedMinimizers > l2_out.sharedSketchSize)
-                {
-                  l2_out.sharedSketchSize = currentSharedMinimizers;
-                  l2_out.strand = strandVotes > 0 ? strnd::FWD : strnd::REV;
-                  l2_out.uniqueRefHashes = uniqueRefHashes;
-                  l2_out.optimalStartPos = allMinimizersInRange[i].wpos;
-                }
-
-              }//End of if condition
-            }//End of loop for sliding the read
-          }//End of the phase 2 (computing optimal position)
+          //Save reference sequence id in the mapping output 
+          l2_out.seqId = candidateLocus.seqId;
+          l2_out.meanOptimalPos = (beginOptimalPos + lastOptimalPos)/2;
         }
 
       /**

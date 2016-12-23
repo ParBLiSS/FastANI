@@ -48,11 +48,48 @@ namespace skch
         //Define a Not available position marker
         static const offset_t NAPos = std::numeric_limits<offset_t>::max();
 
-      public:
-
         //Ordered map to save unique sketch elements, and associated value as 
         //a pair of its occurrence in the query and the reference
-        std::map< hash_t, slidingMapContainerValueType > slidingWindowMinhashes;
+        typedef std::map< hash_t, slidingMapContainerValueType > MapType;
+        MapType slidingWindowMinhashes;
+
+        //Iterator pointing to the smallest 's'th element in the map
+        typename MapType::iterator pivot;
+
+        //Label status while inserting reference minimizer
+        enum IN : int
+        {
+          //reference minimizer is inserted into map as a new map entry
+          UNIQ = 1,
+
+          //reference minimizer is coupled with a query minimizer, 
+          //previously, there was no ref. minimizer at this entry
+          CPLD = 2, 
+
+          //ref. minimizer just revises the hash position of already 
+          //existing reference minimizer
+          REV = 3
+        };  
+
+        //Label status while deleting reference minimizer
+        enum OUT : int
+        {
+          //entry in the map is deleted
+          DEL = 1,
+
+          //just the reference minimizer is updated to null
+          UPD = 2,
+
+          //Nothing changed in the map
+          NOOP = 3
+        };
+
+      public:
+
+        //Count of shared sketch elements between query and the reference
+        //Updated after insert or delete operation on map 
+        int sharedSketchElements;
+
 
         //Delete default constructor
         SlideMapper() = delete;
@@ -62,7 +99,9 @@ namespace skch
          * @param[in]   Q         query meta data
          */
         SlideMapper(Q_Info &Q_) :
-          Q(Q_)
+          Q(Q_),
+          pivot(this->slidingWindowMinhashes.end()),
+          sharedSketchElements(0)
         {
           this->init();
         }
@@ -78,10 +117,17 @@ namespace skch
           //Assuming unique query minimizers were placed at the start during L1 mapping
           auto uniqEndIter = std::next(Q.minimizerTableQuery.begin(), Q.sketchSize);
 
+          //Insert query sketch elements to map
           for(auto it = Q.minimizerTableQuery.begin(); it != uniqEndIter; it++)
           {
             this->slidingWindowMinhashes.emplace_hint(slidingWindowMinhashes.end(), it->hash, slidingMapContainerValueType{it->wpos, it->strand, NAPos, 0});
           }
+
+          //Point pivot to last element in the map
+          this->pivot = std::next(this->slidingWindowMinhashes.begin(), Q.sketchSize - 1);
+
+          //Current count of shared sketch elements is zero
+          this->sharedSketchElements = 0;
         }
 
       public:
@@ -90,22 +136,81 @@ namespace skch
          * @brief               insert a minimizer from the reference sequence into the map
          * @param[in]   m       reference minimizer to insert
          */
-        inline void insert_ref(const MinimizerInfo &m)
+        inline void insert_ref(MIIter_t m)
         {
-          hash_t hashVal = m.hash;
+          hash_t hashVal = m->hash;
+          int status;
 
           //if hash doesn't exist in the map, add to it
           if(slidingWindowMinhashes.find(hashVal) == slidingWindowMinhashes.end())
-            slidingWindowMinhashes[hashVal] = slidingMapContainerValueType{this->NAPos, 0, m.wpos, m.strand};   //add the hash to window
+          {
+            slidingWindowMinhashes[hashVal] = slidingMapContainerValueType{this->NAPos, 0, m->wpos, m->strand};   //add the hash to window
+            status = IN::UNIQ;
+          }
           else
           {
+            status = (slidingWindowMinhashes[hashVal].wposR == NAPos) ? IN::CPLD 
+              : IN::REV;
+
             //if hash already exists in the map, just revise it
-            //Note that, if hash exists in the map from reference as well, 
-            //           we still need to revise the wposR to keep the right-most entry
-            //           When we delete a duplicate entry from the map, we should not remove this one.
-            slidingWindowMinhashes[hashVal].wposR = m.wpos;
-            slidingWindowMinhashes[hashVal].strandR = m.strand;
+            slidingWindowMinhashes[hashVal].wposR = m->wpos;
+            slidingWindowMinhashes[hashVal].strandR = m->strand;
           }
+
+          updateCountersAfterInsert(status, m);
+
+          assert(this->sharedSketchElements >= 0);
+          assert(this->sharedSketchElements <= Q.sketchSize);
+        }
+
+        /**
+         * @brief               delete a minimizer from the reference sequence from the map
+         * @param[in]   m       reference minimizer to remove
+         */
+        inline void delete_ref(MIIter_t m)
+        {
+          hash_t hashVal = m->hash;
+          int status;
+          bool pivotDeleteCase = false;
+          
+          assert(this->slidingWindowMinhashes.find(hashVal) != this->slidingWindowMinhashes.end());
+
+          //This hashVal may exist with different wpos from 
+          //reference, do nothing in that case
+          
+          if(this->slidingWindowMinhashes[hashVal].wposR == m->wpos)
+          {
+            if(this->slidingWindowMinhashes[hashVal].wposQ == NAPos)
+            {
+              //Handle pivot deletion as a separate case
+              if(this->slidingWindowMinhashes.find(hashVal) == pivot)
+              {
+                pivot++;
+
+                if( (this->pivot->second).wposQ != NAPos && (this->pivot->second).wposR != NAPos)
+                  this->sharedSketchElements += 1;
+
+                pivotDeleteCase = true;
+              }
+
+              this->slidingWindowMinhashes.erase(hashVal);              //Remove the entry from the map
+              status = OUT::DEL; 
+            }
+            else
+            {
+              this->slidingWindowMinhashes[hashVal].wposR = NAPos;      //Just mark the reference hash absent
+              status = OUT::UPD; 
+            }
+          }
+          else
+          {
+            status = OUT::NOOP;
+          }
+
+          if(!pivotDeleteCase) updateCountersAfterDelete(status, m);
+
+          assert(this->sharedSketchElements >= 0);
+          assert(this->sharedSketchElements <= Q.sketchSize);
         }
 
         /**
@@ -116,41 +221,18 @@ namespace skch
         inline void insert_ref(MIIter_t begin, MIIter_t end)
         {
           for(auto it = begin; it != end; it++)
-            this->insert_ref(*it);
+            this->insert_ref(it);
         }
 
         /**
-         * @brief               delete a minimizer from the reference sequence from the map
-         * @param[in]   m       reference minimizer to remove
+         * @brief       compute strand consensus and unique reference hashes
+         * @param[out]  strandVotes
+         * @param[out]  uniqueRefHashes
          */
-        inline void delete_ref(const MinimizerInfo &m)
-        {
-          hash_t hashVal = m.hash;
-          
-          assert(this->slidingWindowMinhashes.find(hashVal) != this->slidingWindowMinhashes.end());
-
-          //This hashVal may exist with different wpos from reference, do nothing in that case
-          
-          if(this->slidingWindowMinhashes[hashVal].wposR == m.wpos)
-          {
-            if(this->slidingWindowMinhashes[hashVal].wposQ == NAPos)
-              this->slidingWindowMinhashes.erase(hashVal);              //Remove the entry from the map
-            else
-              this->slidingWindowMinhashes[hashVal].wposR = NAPos;      //Just mark the reference hash absent
-          }
-        }
-
-        /**
-         * @brief                                     compute shared sketch elements between 
-         *                                            query and the reference window
-         * @param[out]    currentSharedMinimizers     #shared minimizers among the smallest s  
-         * @param[out]    strandVotes                 #consensus strand vote among the shared minimizers
-         * @param[out]    uniqueRefHashes             #unique minimizers from reference in the complete slidingMap 
-         */
-        inline void computeSharedMinimizers(int &currentSharedMinimizers, int &strandVotes, int &uniqueRefHashes)
+        inline void computeStatistics(int &strandVotes, int &uniqueRefHashes)
         {
           int uniqueHashes = 0;
-          currentSharedMinimizers = strandVotes = uniqueRefHashes = 0;
+          strandVotes = uniqueRefHashes = 0;
 
           //Iterate over map
           for (auto it = this->slidingWindowMinhashes.cbegin(); it != this->slidingWindowMinhashes.cend(); ++it)
@@ -160,16 +242,76 @@ namespace skch
             //Fetch the value in map
             auto m = it->second;
 
-            //Check if minimizer is shared (among s unique sketches)
             if(uniqueHashes <= Q.sketchSize && m.wposQ != this->NAPos && m.wposR != this->NAPos)
             {
-              currentSharedMinimizers += 1;
               strandVotes += m.strandQ * m.strandR; //Assuming FWD=1, BWD=-1
             }
 
             //Check if minimizer occurs comes from the reference
             if(m.wposR != this->NAPos)
               uniqueRefHashes++;
+          }
+        }
+
+      private:
+
+        /**
+         * @brief             logic to update internal counters after insert to map
+         * @param[in] status  insert status
+         * @param[in] m       reference minimizer that was inserted
+         */
+        inline void updateCountersAfterInsert(int status, MIIter_t m)
+        {
+          //Revise internal counters
+          if(m->hash <= this->pivot->first)
+          {
+            if(status == IN::CPLD)
+            {
+              //Increase count of shared sketch elements by 1
+              this->sharedSketchElements += 1;
+            }
+            else if(status == IN::UNIQ)
+            {
+              //Pivot needs to be decremented
+              if( (this->pivot->second).wposQ != NAPos && (this->pivot->second).wposR != NAPos)
+                this->sharedSketchElements -= 1;
+
+              std::advance(this->pivot, -1);
+            }
+            else if(status == IN::REV)
+            {
+              //Do nothing
+            }
+          }
+        }
+
+        /**
+         * @brief             logic to update internal counters after delete to map
+         * @param[in] status  insert status
+         * @param[in] m       reference minimizer that was inserted
+         */
+        inline void updateCountersAfterDelete(int status, MIIter_t m)
+        {
+          //Revise internal counters
+          if(m->hash <= this->pivot->first)
+          {
+            if(status == OUT::UPD)
+            {
+              //Decrease count of shared sketch elements by 1
+              this->sharedSketchElements -= 1;
+            }
+            else if(status == OUT::DEL)
+            {
+              //Pivot needs to be advanced
+              std::advance(this->pivot, 1);
+
+              if( (this->pivot->second).wposQ != NAPos && (this->pivot->second).wposR != NAPos)
+                this->sharedSketchElements += 1;
+            }
+            else if(status == OUT::NOOP)
+            {
+              //Do nothing
+            }
           }
         }
 
