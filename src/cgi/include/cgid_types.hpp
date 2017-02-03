@@ -49,6 +49,18 @@ namespace cgi
     }
   } cmp_refbin_bucket;
 
+  /**
+   * @brief     functor for comparing cgi mapping results by nucleotide identity, 
+   */
+  struct compareMappingResult_withIdentity
+  {
+    bool operator() (const MappingResult_CGI &x, const MappingResult_CGI &y)
+    {
+      //Note that when bucketing based on mapping position, reference sequence id should be used
+      return x.nucIdentity < y.nucIdentity;
+    }
+  } cmp_identity;
+
   //Final format to save CGI results
   struct CGI_Results
   {
