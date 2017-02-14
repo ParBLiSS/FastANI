@@ -12,6 +12,8 @@
 #include <unordered_map>
 #include <fstream>
 #include <zlib.h>  
+#include <cmath>
+
 
 //Own includes
 #include "base_types.hpp"
@@ -97,10 +99,8 @@ namespace skch
        */
       void mapQuery()
       {
-        //Count of reads mapped by us
+        //Count of fragments mapped by us
         //Some reads are dropped because of short length
-        seqno_t totalReadsPickedForMapping = 0;
-        seqno_t totalReadsMapped = 0;
         seqno_t seqCounter = 0;
 
         std::ofstream outstrm(param.outFileName);
@@ -121,10 +121,13 @@ namespace skch
 
           while ((len = kseq_read(seq)) >= 0) 
           {
+            //How many query fragments did we consider mapping?
+            int fragmentCount = 0;
+
             //Is the read too short?
             if(len < param.windowSize || len < param.kmerSize || len < param.minReadLength)
             {
-              seqCounter++;
+              fragmentCount = 1;
 
 #ifdef DEBUG
               std::cout << "WARNING, skch::Map::mapQuery, read is not long enough for mapping" << std::endl;
@@ -134,28 +137,33 @@ namespace skch
             }
             else 
             {
-              QueryMetaData <decltype(seq), MinVec_Type> Q;
+              fragmentCount = std::ceil(len * 1.0/ param.minReadLength);
 
-              Q.seq = seq;
-              Q.seqCounter = seqCounter;
-              Q.len = len; 
+              int fragmentCountAboveMinLen = len / param.minReadLength;
 
-              //Map this sequence
-              bool mappingReported = mapSingleQuerySeq(Q, outstrm);
-              if(mappingReported)
-                totalReadsMapped++;
+              for (int i = 0; i < fragmentCountAboveMinLen; i++)
+              {
 
-              seqCounter++;
-              totalReadsPickedForMapping++;
+                QueryMetaData <decltype(seq), MinVec_Type> Q;
+                auto seqCopy = *seq;
+
+                Q.kseq = &seqCopy;
+                Q.kseq->seq.s = seq->seq.s + i * param.minReadLength;
+                Q.kseq->seq.l = param.minReadLength;
+                Q.seqCounter = seqCounter + i;
+
+                //Map this sequence
+                bool mappingReported = mapSingleQuerySeq(Q, outstrm);
+              }
             }
+
+            seqCounter += fragmentCount;
           }
 
           //Close the input file
           kseq_destroy(seq);  
           gzclose(fp);  
         }
-
-        std::cout << "INFO, skch::Map::mapQuery, [count of mapped reads, reads qualified for mapping, total input reads] = [" << totalReadsMapped << ", " << totalReadsPickedForMapping << ", " << seqCounter << "]" << std::endl;
 
       }
 
@@ -197,7 +205,7 @@ namespace skch
             std::chrono::duration<double> timeSpentMappingRead = skch::Time::now() - t0;
             int countL1Candidates = l1Mappings.size();
 
-            std::cerr << Q.seq->name.s << " " << Q.len
+            std::cerr << Q.seq->name.s << " " << Q.kseq->seq.l
               << " " << countL1Candidates 
               << " " << timeSpentL1.count() 
               << " " << timeSpentL2.count()
@@ -227,7 +235,7 @@ namespace skch
 
           ///1. Compute the minimizers
 
-          CommonFunc::addMinimizers(Q.minimizerTableQuery, Q.seq, param.kmerSize, param.windowSize, param.alphabetSize);
+          CommonFunc::addMinimizers(Q.minimizerTableQuery, Q.kseq, param.kmerSize, param.windowSize, param.alphabetSize);
 
 #ifdef DEBUG
           std::cout << "INFO, skch::Map:doL1Mapping, read id " << Q.seqCounter << ", minimizer count = " << Q.minimizerTableQuery.size() << "\n";
@@ -302,11 +310,11 @@ namespace skch
               //Check if consecutive hits are close enough
               //NOTE: hits may span more than a read length for a valid match, as we keep window positions 
               //      for each minimizer
-              if(it2->seqId == it->seqId && it2->wpos - it->wpos < Q.len)
+              if(it2->seqId == it->seqId && it2->wpos - it->wpos < Q.kseq->seq.l)
               {
                 //Save <1st pos --- 2nd pos>
                 L1_candidateLocus_t candidate{it->seqId, 
-                    std::max(0, it2->wpos - Q.len + 1), it->wpos};
+                    std::max(0, it2->wpos - offset_t(Q.kseq->seq.l) + 1), it->wpos};
 
                 //Check if this candidate overlaps with last inserted one
                 auto lst = l1Mappings.end(); lst--;
@@ -364,16 +372,16 @@ namespace skch
 
               //Save the output
               {
-                res.queryLen = Q.len;
+                res.queryLen = Q.kseq->seq.l;
                 res.refStartPos = l2.meanOptimalPos ;
-                res.refEndPos = l2.meanOptimalPos + Q.len - 1;
+                res.refEndPos = l2.meanOptimalPos + Q.kseq->seq.l - 1;
                 res.refSeqId = l2.seqId;
                 res.querySeqId = Q.seqCounter;
                 res.nucIdentity = nucIdentity;
                 res.nucIdentityUpperBound = nucIdentityUpperBound;
                 res.sketchSize = Q.sketchSize;
                 res.conservedSketches = l2.sharedSketchSize;
-                res.queryName = Q.seq->name.s; 
+                res.queryName = Q.kseq->name.s; 
 
                 //Compute additional statistics -> strand, reference compexity
                 {
@@ -385,7 +393,7 @@ namespace skch
                   res.strand = strandVotes > 0 ? strnd::FWD : strnd::REV;
 
                   //Compute reference region complexity
-                  float actualDensity = uniqueRefHashes * 1.0 / Q.len;
+                  float actualDensity = uniqueRefHashes * 1.0 / Q.kseq->seq.l;
                   float expectedDensity = 2.0 / param.windowSize;
                   res.mappedRegionComplexity = actualDensity/expectedDensity;
 
@@ -418,7 +426,7 @@ namespace skch
               candidateLocus.rangeStartPos);
 
           //Count of minimizer windows in a super-window
-          offset_t countMinimizerWindows = Q.len - (param.windowSize-1) - (param.kmerSize-1); 
+          offset_t countMinimizerWindows = Q.kseq->seq.l - (param.windowSize-1) - (param.kmerSize-1); 
 
           //Look up the end of the first L2 super-window in the index
           MIIter_t firstSuperWindowRangeEnd = this->refSketch.searchIndex(candidateLocus.seqId, 
@@ -426,7 +434,7 @@ namespace skch
 
           //Look up L1 candidate's end in the index
           MIIter_t lastSuperWindowRangeEnd = this->refSketch.searchIndex(candidateLocus.seqId, 
-              candidateLocus.rangeEndPos + Q.len);
+              candidateLocus.rangeEndPos + Q.kseq->seq.l);
 
           //Define map such that it contains only the query minimizers
           //Used to efficiently compute the jaccard similarity between qry and ref

@@ -89,9 +89,8 @@ namespace skch
   template <typename KSEQ, typename MinimizerVec>
     struct QueryMetaData
     {
-      KSEQ seq;                           //query sequence object pointer (kseq library) 
+      KSEQ kseq;                          //query sequence object pointer (kseq library) 
       seqno_t seqCounter;                 //query sequence counter
-      offset_t len;                       //length of this query sequence
       int sketchSize;                     //sketch size
       MinimizerVec minimizerTableQuery;   //Vector of minimizers in the query 
     };

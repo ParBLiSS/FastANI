@@ -54,13 +54,13 @@ namespace skch
     }
 
     template <typename KSEQ>
-      inline void makeUpperCase(KSEQ *seq)
+      inline void makeUpperCase(KSEQ kseq)
       {
-        for ( int i = 0; i < seq->seq.l; i++ )
+        for ( int i = 0; i < kseq->seq.l; i++ )
         {
-          if (seq->seq.s[i] > 96 && seq->seq.s[i] < 123)
+          if (kseq->seq.s[i] > 96 && kseq->seq.s[i] < 123)
           {
-            seq->seq.s[i] -= 32;
+            kseq->seq.s[i] -= 32;
           }
         }
       }
@@ -89,7 +89,7 @@ namespace skch
      * @param[in]   seqCounter      current sequence number, used while saving the position of minimizer
      */
     template <typename T, typename KSEQ>
-      inline void addMinimizers(std::vector<T> &minimizerIndex, KSEQ *seq, int kmerSize, 
+      inline void addMinimizers(std::vector<T> &minimizerIndex, KSEQ kseq, int kmerSize, 
           int windowSize,
           int alphabetSize,
           seqno_t seqCounter)
@@ -101,16 +101,16 @@ namespace skch
          */
         std::deque< std::pair<MinimizerInfo, offset_t> > Q;
 
-        makeUpperCase(seq);
+        makeUpperCase(kseq);
 
         //length of the sequencd
-        offset_t len = seq->seq.l;
+        offset_t len = kseq->seq.l;
 
         //Compute reverse complement of seq
         char *seqRev = new char[len];
 
         if(alphabetSize == 4) //not protein
-          CommonFunc::reverseComplement(seq->seq.s, seqRev, len);
+          CommonFunc::reverseComplement(kseq->seq.s, seqRev, len);
 
         for(offset_t i = 0; i < len - kmerSize + 1; i++)
         {
@@ -119,7 +119,7 @@ namespace skch
           offset_t currentWindowId = i - windowSize + 1;
 
           //Hash kmers
-          hash_t hashFwd = CommonFunc::getHash(seq->seq.s + i, kmerSize); 
+          hash_t hashFwd = CommonFunc::getHash(kseq->seq.s + i, kmerSize); 
           hash_t hashBwd;
 
           if(alphabetSize == 4)
@@ -179,11 +179,11 @@ namespace skch
      * @brief       overloaded function for case where seq. counter does not matter
      */
     template <typename T, typename KSEQ>
-      inline void addMinimizers(std::vector<T> &minimizerIndex, KSEQ *seq, int kmerSize,
+      inline void addMinimizers(std::vector<T> &minimizerIndex, KSEQ kseq, int kmerSize,
           int windowSize, 
           int alphabetSize)
       {
-        addMinimizers(minimizerIndex, seq, kmerSize, windowSize, alphabetSize, 0);
+        addMinimizers(minimizerIndex, kseq, kmerSize, windowSize, alphabetSize, 0);
       }
 
    /**
