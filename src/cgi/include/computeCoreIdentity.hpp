@@ -78,6 +78,55 @@ namespace cgi
       }
     }
 
+  /**
+   * @brief                       Compute N50 statistics and total bp length of all reference genomes
+   * @param[out]  refLenStats
+   * @param[in]   refSketch
+   */
+  template <typename VEC>
+    void computeRefLenStatistics(VEC &refLenStats, 
+        skch::Sketch &refSketch) 
+    {
+      skch::seqno_t seqBeginOffset = 0;
+      for(auto &e : refSketch.sequencesByFileInfo)
+      {
+        skch::seqno_t seqEndOffset = e;
+
+        //Compute length statistics of sequences saved in metadata [seqBeginOffset, seqEndOffset)
+        {
+          uint64_t length, N50;
+
+          std::vector<uint64_t> lens;
+          for(skch::seqno_t i = seqBeginOffset; i < seqEndOffset; i++)
+          {
+            lens.push_back(refSketch.metadata[i].len);
+          }
+
+          //Sum of length of all the contigs in this genome
+          length = std::accumulate(lens.begin(), lens.end(), 0, plus<uint64_t>());
+
+          //Sort length values in descending order
+          std::sort(lens.rbegin(), lens.rend());
+
+          uint64_t partialSum = 0;
+          for(auto &f : lens)
+          {
+            partialSum += f;
+
+            if(partialSum >= length/2)
+            {
+              N50 = f;
+              break;
+            }
+          }
+
+          refLenStats.emplace_back(N50, length);
+        }//Next reference genome
+
+        seqBeginOffset = e;
+      }
+    }
+
 
   /**
    * @brief                 compute and report AAI/ANI 
@@ -115,6 +164,10 @@ namespace cgi
      * We revise reference sequence id to genome (or file) id
      */
     reviseRefIdToGenomeId(shortResults, refSketch);
+
+    //Compute assembly statistics of all the reference genomes
+    std::vector<std::pair< uint64_t, uint64_t >> refLenStats;
+    computeRefLenStatistics(refLenStats, refSketch); 
 
     //We need best reciprocal identity match for each genome, query pair
     std::vector<MappingResult_CGI> mappings_1way;
@@ -212,10 +265,12 @@ namespace cgi
       outstrm << parameters.refSequences[e.genomeId]
         << " " << e.identity 
         << " " << e.countSeq
+        << " " << refLenStats[e.genomeId].first
+        << " " << refLenStats[e.genomeId].second
         << "\n";
     }
 
-//#ifdef DEBUG
+#ifdef DEBUG
     std::ofstream outstrm2(fileName + ".map.best");
 
     //Report all mappings that contribute to core-genome identity estimate
@@ -228,7 +283,7 @@ namespace cgi
           << " " << e.nucIdentity
           << "\n";
     }
-//#endif
+#endif
 
   }
 

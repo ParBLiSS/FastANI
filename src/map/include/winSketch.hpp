@@ -71,7 +71,7 @@ namespace skch
        *  file 1 contains a .. b-1 
        *  file 2 contains b .. c-1
        */
-      std::vector< int > sequencesByFileInfo;
+      std::vector< seqno_t > sequencesByFileInfo;
 
       //Index for fast seed lookup
       /*
