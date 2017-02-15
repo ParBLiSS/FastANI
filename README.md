@@ -13,6 +13,6 @@ Inside the build directory,
 mashcgi --sl [REFERENCE_LIST] -q [QUERY_GENOME] -o [OUTPUT_FILE] -m [FRAGMENT_LENGTH] --pi 80
 ```
 
-Here, REFERENCE_LIST is a file containing paths to reference genomes, 1 per line. QUERY_GENOME is the query genome for which ANI is computed against the reference. FRAGMENT_LENGTH is the size of each fragment cut from query genome, current default is 5,000 bp. Each of these fragments is mapped onto the reference.
+Here, REFERENCE_LIST is a file containing paths to reference genomes, 1 per line. QUERY_GENOME is the query genome for which ANI is computed against the reference. FRAGMENT_LENGTH is the size of each fragment cut from query genome, current default is 3,000 bp. Each of these fragments is mapped onto the reference.
 
 OUTPUT_FILE will be a space delimited file with reference genome, ANI value, count of bidirectional fragment mappings, reference genome N50 and reference genome total length.

@@ -55,7 +55,7 @@ P-value is not considered if a window value is provided. Lower window size impli
         ArgvParser::OptionRequiresValue);
     cmd.defineOptionAlternative("window","w");
 
-    cmd.defineOption("minReadLen", "minimum read length to map [default : 5000]", ArgvParser::OptionRequiresValue);
+    cmd.defineOption("minReadLen", "minimum read length to map [default : 3,000]", ArgvParser::OptionRequiresValue);
     cmd.defineOptionAlternative("minReadLen","m");
 
     cmd.defineOption("perc_identity", "threshold for identity [default : 85]", ArgvParser::OptionRequiresValue);
@@ -267,7 +267,7 @@ P-value is not considered if a window value is provided. Lower window size impli
       str.clear();
     }
     else
-      parameters.minReadLength = 5000;
+      parameters.minReadLength = 3000;
 
     if(cmd.foundOption("perc_identity"))
     {
