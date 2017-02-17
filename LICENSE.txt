@@ -1,9 +1,6 @@
-PURPOSE
-
-Mash is a fast sequence distance estimator that uses the MinHash
-algorithm and is designed to work with genomes and metagenomes in the
-form of assemblies or reads. It is implemented in C++ and is
-distributed with:
+MashMap
+  github.com/marbl/MashMap 
+  Public domain
 
 KSeq
   lh3lh3.users.sourceforge.net/kseq.shtml
@@ -17,32 +14,16 @@ Open Bloom Filter
   https://code.google.com/p/bloom/source/browse/trunk/bloom_filter.hpp
   Common Public License
 
+cxx-prettyprint
+  louisdx.github.io/cxx-prettyprint
+  Boost Software License
+
+argvparser
+  Popular C++ command line arguments parser
+  GNU General Public License
+ 
+
 COPYRIGHT LICENSE
-
-Copyright © 2015, Battelle National Biodefense Institute (BNBI);
-all rights reserved. Authored by: Brian Ondov, Todd Treangen,
-Sergey Koren, and Adam Phillippy
-
-This Software was prepared for the Department of Homeland Security
-(DHS) by the Battelle National Biodefense Institute, LLC (BNBI) as
-part of contract HSHQDC-07-C-00020 to manage and operate the National
-Biodefense Analysis and Countermeasures Center (NBACC), a Federally
-Funded Research and Development Center.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are
-met:
-
-1. Redistributions of source code must retain the above copyright
-notice, this list of conditions and the following disclaimer.
-
-2. Redistributions in binary form must reproduce the above copyright
-notice, this list of conditions and the following disclaimer in the
-documentation and/or other materials provided with the distribution.
-
-3. Neither the name of the copyright holder nor the names of its
-contributors may be used to endorse or promote products derived from
-this software without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT

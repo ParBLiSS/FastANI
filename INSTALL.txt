@@ -4,7 +4,6 @@ which is available in and GCC >= 4.8 and OSX >= 10.7.
 Dependencies:
 -------------
    - Autoconf ( http://www.gnu.org/software/autoconf/ )
-   - Cap'n Proto ( https://capnproto.org/ )
    - either...
        GNU Scientific Library ( http://www.gnu.org/software/gsl/ )
      or..
@@ -16,9 +15,9 @@ Dependencies:
 Steps:
 ------
    ./bootstrap.sh
-   ./configure [--prefix=...] [--with-capnp=...] [--with-gsl=...] \
+   ./configure [--prefix=...] [--with-gsl=...] \
                [--with-boost=...]
-   make mashcgi
+   make
 
 
 Products:
@@ -33,10 +32,6 @@ Configure options:
   Installs binaries to bin/ and libraries to lib/ within this path. The default
   is /usr/local/, which will typically require sudo for make install. Must be
   absolute path.
---with-capnp=</path/to/capnp/> or  the
-  Where to find the Cap'n Proto install if not in the default location
-  (/usr/local). Must be absolute path and should not include bin/ or lib/
-  paths and should not include "bin" or "lib".
 --with-gsl=</path/to/gsl/>
   Where to find the GNU Scientific library install if not in the default
   location (/usr/local). Must be absolute path and should not include bin/ or

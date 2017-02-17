@@ -1,4 +1,4 @@
-CXXFLAGS += -O3 -DNDEBUG -std=c++11 -Isrc -Isrc/common -Isrc/map/include -Isrc/cgi/include -I@capnp@/include -I @mathinc@
+CXXFLAGS += -O3 -DNDEBUG -std=c++11 -Isrc/common -Isrc/cgi/include -Isrc/map/include -I @mathinc@
 CPPFLAGS += @amcppflags@
 
 UNAME_S=$(shell uname -s)
@@ -6,98 +6,31 @@ UNAME_S=$(shell uname -s)
 ifeq ($(UNAME_S),Darwin)
 	CXXFLAGS += -mmacosx-version-min=10.7 -stdlib=libc++
 else
-	CXXFLAGS += -include src/mash/memcpyLink.h -Wl,--wrap=memcpy
-	CFLAGS += -include src/mash/memcpyLink.h
+	CXXFLAGS += -include src/common/memcpyLink.h -Wl,--wrap=memcpy
+	CFLAGS += -include src/common/memcpyLink.h
 endif
 
-SOURCES=\
-	src/mash/Command.cpp \
-	src/mash/CommandBounds.cpp \
-	src/mash/CommandContain.cpp \
-	src/mash/CommandDistance.cpp \
-	src/mash/CommandFind.cpp \
-	src/mash/CommandInfo.cpp \
-	src/mash/CommandPaste.cpp \
-	src/mash/CommandSketch.cpp \
-	src/mash/CommandList.cpp \
-	src/mash/hash.cpp \
-	src/mash/HashList.cpp \
-	src/mash/HashPriorityQueue.cpp \
-	src/mash/HashSet.cpp \
-	src/mash/MinHashHeap.cpp \
-	src/mash/mash.cpp \
-	src/mash/Sketch.cpp \
-	src/mash/sketchParameterSetup.cpp \
+SOURCES=src/cgi/core_genome_identity.cpp
 
-SOURCES_MAP=\
-	src/map/mash_map.cpp
-SOURCES_CGI=\
-	src/cgi/core_genome_identity.cpp
+OBJECTS=$(SOURCES:.cpp=.o)  
 
-OBJECTS=$(SOURCES:.cpp=.o) src/mash/capnp/MinHash.capnp.o
-OBJECTS_MAP=$(SOURCES_MAP:.cpp=.o)  
-OBJECTS_CGI=$(SOURCES_CGI:.cpp=.o)  
+all : mashcgi
 
-all : mash  mashmap libmash.a libmashmap.a
-
-mash : libmash.a src/mash/memcpyWrap.o
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o mash src/mash/memcpyWrap.o libmash.a @capnp@/lib/libcapnp.a @capnp@/lib/libkj.a @mathlib@ -lstdc++ -lz -lm -lpthread
-
-mashmap : libmashmap.a
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o mashmap libmashmap.a @mathlib@ -lstdc++ -lz -lm -lpthread 
-
-mashcgi : $(OBJECTS_CGI) 
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o mashcgi @mathlib@ -lstdc++ -lz -lm -lpthread $(OBJECTS_CGI) 
-
-
-libmash.a : $(OBJECTS)
-	ar -cr libmash.a $(OBJECTS)
-	ranlib libmash.a
-
-libmashmap.a : $(OBJECTS_MAP)
-	ar -cr libmashmap.a $(OBJECTS_MAP)
-	ranlib libmashmap.a
+mashcgi : $(OBJECTS) 
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OBJECTS) -o mashcgi @mathlib@ -lstdc++ -lz -lm -lpthread  
 
 .SUFFIXES :
 
-%.o : %.cpp src/mash/capnp/MinHash.capnp.h
+%.o : %.cpp 
 	$(CXX) -c $(CXXFLAGS) $(CPPFLAGS) -o $@ $<
 
 %.o : %.c++
 	$(CXX) -c $(CXXFLAGS) $(CPPFLAGS) -o $@ $<
 
-src/mash/memcpyWrap.o : src/mash/memcpyWrap.c
-	$(CC) $(CFLAGS) -c -o $@ $<
-
-src/mash/capnp/MinHash.capnp.c++ src/mash/capnp/MinHash.capnp.h : src/mash/capnp/MinHash.capnp
-	cd src/mash/capnp;export PATH=@capnp@/bin/:${PATH};capnp compile -I @capnp@/include -oc++ MinHash.capnp
-
-install : mash mashmap
+install : mashcgi
 	mkdir -p @prefix@/bin/
-	mkdir -p @prefix@/lib/
-	mkdir -p @prefix@/include/
-	mkdir -p @prefix@/include/mash
-	mkdir -p @prefix@/include/mash/capnp
-	cp `pwd`/mash @prefix@/bin/
 	cp `pwd`/mashmap @prefix@/bin/
-	cp `pwd`/mashcgi @prefix@/bin/
-	cp `pwd`/libmash.a @prefix@/lib/
-	cp `pwd`/libmashmap.a @prefix@/lib/
-	cp `pwd`/src/mash/*.h* @prefix@/include/mash/
-	cp `pwd`/src/common/*.h* @prefix@/include/mash/
-	cp `pwd`/src/map/include/*.h* @prefix@/include/mash/
-	cp `pwd`/src/cgi/include/*.h* @prefix@/include/mash/
-	cp `pwd`/src/mash/capnp/MinHash.capnp.h @prefix@/include/mash/capnp/
 
 clean :
-	-rm -f mash
-	-rm -f mashmap
 	-rm -f mashcgi
-	-rm -f libmash.a
-	-rm -f libmashmap.a
-	-rm -f src/mash/*.o
-	-rm -f src/map/*.o
 	-rm -f src/cgi/*.o
-	-rm -f src/mash/capnp/*.o
-	-rm -f src/mash/capnp/*.c++
-	-rm -f src/mash/capnp/*.h
