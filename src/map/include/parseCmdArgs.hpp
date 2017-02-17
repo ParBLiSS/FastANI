@@ -41,9 +41,6 @@ namespace skch
     cmd.defineOption("query", "an input query file (fasta/fastq)[.gz]", ArgvParser::OptionRequiresValue);
     cmd.defineOptionAlternative("query","q");
 
-    cmd.defineOption("queryList", "a file containing list of query files, one per line", ArgvParser::OptionRequiresValue);
-    cmd.defineOptionAlternative("queryList","ql");
-
     cmd.defineOption("kmer", "kmer size <= 16 [default 16 (DNA), 5 (AA)]", ArgvParser::OptionRequiresValue);
     cmd.defineOptionAlternative("kmer","k");
 
@@ -55,16 +52,14 @@ P-value is not considered if a window value is provided. Lower window size impli
         ArgvParser::OptionRequiresValue);
     cmd.defineOptionAlternative("window","w");
 
-    cmd.defineOption("minReadLen", "minimum read length to map [default : 3,000]", ArgvParser::OptionRequiresValue);
-    cmd.defineOptionAlternative("minReadLen","m");
+    cmd.defineOption("fragLen", "fragment length [default : 3,000]", ArgvParser::OptionRequiresValue);
+    cmd.defineOptionAlternative("fragLen","m");
 
-    cmd.defineOption("perc_identity", "threshold for identity [default : 85]", ArgvParser::OptionRequiresValue);
+    cmd.defineOption("perc_identity", "threshold for identity during mapping [default : 80]", ArgvParser::OptionRequiresValue);
     cmd.defineOptionAlternative("perc_identity","pi");
 
     cmd.defineOption("protein", "set alphabet type to proteins, default is nucleotides");
     cmd.defineOptionAlternative("protein","a");
-
-    cmd.defineOption("all", "report all the mapping locations for a read, default is to consider few best ones");
 
     cmd.defineOption("output", "output file name", ArgvParser::OptionRequired | ArgvParser::OptionRequiresValue);
     cmd.defineOptionAlternative("output","o");
@@ -132,17 +127,17 @@ P-value is not considered if a window value is provided. Lower window size impli
    */
   void printCmdOptions(skch::Parameters &parameters)
   {
-    std::cout << ">>>>>>>>>>>>>>>>>>" << std::endl;
-    std::cout << "Reference = " << parameters.refSequences << std::endl;
-    std::cout << "Query = " << parameters.querySequences << std::endl;
-    std::cout << "Kmer size = " << parameters.kmerSize << std::endl;
-    std::cout << "Window size = " << parameters.windowSize << std::endl;
-    std::cout << "Read length >= " << parameters.minReadLength << std::endl;
-    std::cout << "Alphabet = " << (parameters.alphabetSize == 4 ? "DNA" : "AA") << std::endl;
-    std::cout << "P-value = " << parameters.p_value << std::endl;
-    std::cout << "Percentage identity threshold = " << parameters.percentageIdentity << std::endl;
-    std::cout << "Mapping output file = " << parameters.outFileName << std::endl;
-    std::cout << ">>>>>>>>>>>>>>>>>>" << std::endl;
+    std::cerr << ">>>>>>>>>>>>>>>>>>" << std::endl;
+    std::cerr << "Reference = " << parameters.refSequences << std::endl;
+    std::cerr << "Query = " << parameters.querySequences << std::endl;
+    std::cerr << "Kmer size = " << parameters.kmerSize << std::endl;
+    std::cerr << "Window size = " << parameters.windowSize << std::endl;
+    std::cerr << "Fragment length = " << parameters.minReadLength << std::endl;
+    std::cerr << "Alphabet = " << (parameters.alphabetSize == 4 ? "DNA" : "AA") << std::endl;
+    std::cerr << "P-value = " << parameters.p_value << std::endl;
+    std::cerr << "Percentage identity threshold = " << parameters.percentageIdentity << std::endl;
+    std::cerr << "Mapping output file = " << parameters.outFileName << std::endl;
+    std::cerr << ">>>>>>>>>>>>>>>>>>" << std::endl;
   }
 
   /**
@@ -159,17 +154,17 @@ P-value is not considered if a window value is provided. Lower window size impli
     //Make sure we get the right command line args
     if (result != ArgvParser::NoParserError)
     {
-      std::cout << cmd.parseErrorDescription(result) << "\n";
+      std::cerr << cmd.parseErrorDescription(result) << "\n";
       exit(1);
     }
     else if (!cmd.foundOption("subject") && !cmd.foundOption("subjectList"))
     {
-      std::cout << "Provide reference file (s)\n";
+      std::cerr << "Provide reference file (s)\n";
       exit(1);
     }
-    else if (!cmd.foundOption("query") && !cmd.foundOption("queryList"))
+    else if (!cmd.foundOption("query"))
     {
-      std::cout << "Provide reference file (s)\n";
+      std::cerr << "Provide reference file (s)\n";
       exit(1);
     }
 
@@ -200,7 +195,6 @@ P-value is not considered if a window value is provided. Lower window size impli
     str.clear();
 
     //Parse query files
-    if(cmd.foundOption("query"))
     {
       std::string query;
 
@@ -209,16 +203,7 @@ P-value is not considered if a window value is provided. Lower window size impli
 
       parameters.querySequences.push_back(query);
     }
-    else //list of files
-    {
-      std::string listFile;
-
-      str << cmd.optionValue("queryList");
-      str >> listFile;
-
-      parseFileList(listFile, parameters.querySequences);
-    }
-
+    
     str.clear();
 
     if(cmd.foundOption("protein"))
@@ -228,13 +213,7 @@ P-value is not considered if a window value is provided. Lower window size impli
     else
       parameters.alphabetSize = 4;
 
-    if(cmd.foundOption("all"))
-    {
-      parameters.reportAll = true;
-    }
-    else
-      parameters.reportAll = false;
-
+    parameters.reportAll = true;
 
     //Parse algorithm parameters
     if(cmd.foundOption("kmer"))
@@ -260,9 +239,9 @@ P-value is not considered if a window value is provided. Lower window size impli
     else
       parameters.p_value = 1e-03;
 
-    if(cmd.foundOption("minReadLen"))
+    if(cmd.foundOption("fragLen"))
     {
-      str << cmd.optionValue("minReadLen");
+      str << cmd.optionValue("fragLen");
       str >> parameters.minReadLength;
       str.clear();
     }
@@ -276,7 +255,7 @@ P-value is not considered if a window value is provided. Lower window size impli
       str.clear();
     }
     else
-      parameters.percentageIdentity = 85;
+      parameters.percentageIdentity = 80;
 
     /*
      * Compute window size for sketching

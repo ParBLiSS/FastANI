@@ -78,26 +78,31 @@ namespace skch
     public:
 
       /**
-       * @brief                 constructor
-       * @param[in] p           algorithm parameters
-       * @param[in] refSketch   reference sketch
-       * @param[in] f           optional user defined custom function to post process the reported mapping results
+       * @brief                             constructor
+       * @param[in]   p                     algorithm parameters
+       * @param[in]   refSketch             reference sketch
+       * @param[out]  totalQueryFragments   count of total sequence fragments in query genome
+       * @param[in]   f                     optional user defined custom function to post 
+       *                                    process the reported mapping results
        */
       Map(const skch::Parameters &p, const skch::Sketch &refsketch,
+          uint64_t &totalQueryFragments,
           PostProcessResultsFn_t f = nullptr) :
         param(p),
         refSketch(refsketch),
         processMappingResults(f)
     {
-      this->mapQuery();
+      this->mapQuery(totalQueryFragments);
     }
 
     private:
 
       /**
-       * @brief   parse over sequences in query file and map each on the reference
+       * @brief                                 parse over sequences in query file 
+       *                                        and map each on the reference
+       * @param[out]  totalQueryFragments       Count of total sequence fragments in query genome
        */
-      void mapQuery()
+      void mapQuery(uint64_t &totalQueryFragments)
       {
         //Count of fragments mapped by us
         //Some reads are dropped because of short length
@@ -113,7 +118,7 @@ namespace skch
           kseq_t *seq = kseq_init(fp);
 
 #ifdef DEBUG
-          std::cout << "INFO, skch::Map::mapQuery, mapping reads in " << fileName << std::endl;
+          std::cerr << "INFO, skch::Map::mapQuery, mapping reads in " << fileName << std::endl;
 #endif
 
           //size of sequence
@@ -127,21 +132,19 @@ namespace skch
             //Is the read too short?
             if(len < param.windowSize || len < param.kmerSize || len < param.minReadLength)
             {
-              fragmentCount = 1;
+              fragmentCount = 0;
 
 #ifdef DEBUG
-              std::cout << "WARNING, skch::Map::mapQuery, read is not long enough for mapping" << std::endl;
+              std::cerr << "WARNING, skch::Map::mapQuery, read is not long enough for mapping" << std::endl;
 #endif
 
               continue;
             }
             else 
             {
-              fragmentCount = std::ceil(len * 1.0/ param.minReadLength);
+              fragmentCount = len / param.minReadLength;
 
-              int fragmentCountAboveMinLen = len / param.minReadLength;
-
-              for (int i = 0; i < fragmentCountAboveMinLen; i++)
+              for (int i = 0; i < fragmentCount; i++)
               {
 
                 QueryMetaData <decltype(seq), MinVec_Type> Q;
@@ -159,6 +162,8 @@ namespace skch
 
             seqCounter += fragmentCount;
           }
+
+          totalQueryFragments = seqCounter;
 
           //Close the input file
           kseq_destroy(seq);  
@@ -238,7 +243,7 @@ namespace skch
           CommonFunc::addMinimizers(Q.minimizerTableQuery, Q.kseq, param.kmerSize, param.windowSize, param.alphabetSize);
 
 #ifdef DEBUG
-          std::cout << "INFO, skch::Map:doL1Mapping, read id " << Q.seqCounter << ", minimizer count = " << Q.minimizerTableQuery.size() << "\n";
+          std::cerr << "INFO, skch::Map:doL1Mapping, read id " << Q.seqCounter << ", minimizer count = " << Q.minimizerTableQuery.size() << "\n";
 #endif
 
           ///2. Find the hits in the reference, pick 's' unique minimizers as seeds, 
@@ -276,10 +281,10 @@ namespace skch
           this->computeL1CandidateRegions(Q, seedHitsL1, minimumHits, l1Mappings);
 
 #ifdef DEBUG
-          std::cout << "INFO, skch::Map:doL1Mapping, read id " << Q.seqCounter << ", Count of L1 hits in the reference = " << seedHitsL1.size() << ", minimum hits required for a candidate = " << minimumHits << ", Count of L1 candidate regions = " << l1Mappings.size() << "\n";
+          std::cerr << "INFO, skch::Map:doL1Mapping, read id " << Q.seqCounter << ", Count of L1 hits in the reference = " << seedHitsL1.size() << ", minimum hits required for a candidate = " << minimumHits << ", Count of L1 candidate regions = " << l1Mappings.size() << "\n";
 
           for(auto &e : l1Mappings)
-            std::cout << "INFO, skch::Map:doL1Mapping, read id " << Q.seqCounter << ", L1 candidate : [" << this->refSketch.metadata[std::get<0>(e)].name << " " << this->refSketch.metadata[std::get<0>(e)].len << " " << std::get<1>(e) << " " << std::get<2>(e) << "]\n";
+            std::cerr << "INFO, skch::Map:doL1Mapping, read id " << Q.seqCounter << ", L1 candidate : [" << this->refSketch.metadata[std::get<0>(e)].name << " " << this->refSketch.metadata[std::get<0>(e)].len << " " << std::get<1>(e) << " " << std::get<2>(e) << "]\n";
 #endif
 
         }
@@ -522,6 +527,7 @@ namespace skch
           {
             outstrm << e.queryName 
               << " " << e.queryLen 
+              << " " << e.querySeqId 
               << " " << "0"
               << " " << e.queryLen - 1 
               << " " << (e.strand == strnd::FWD ? "+" : "-") 

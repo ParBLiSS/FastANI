@@ -129,15 +129,17 @@ namespace cgi
 
 
   /**
-   * @brief                 compute and report AAI/ANI 
-   * @param[in] parameters  algorithm parameters
-   * @param[in] results     mapping results
-   * @param[in] refSketch   reference sketch
-   * @param[in] fileName    file name where results will be reported
+   * @brief                             compute and report AAI/ANI 
+   * @param[in]   parameters            algorithm parameters
+   * @param[in]   results               mapping results
+   * @param[in]   refSketch             reference sketch
+   * @param[in]   totalQueryFragments   count of total sequence fragments in query genome
+   * @param[in]   fileName              file name where results will be reported
    */
   void computeCGI(skch::Parameters &parameters,
       skch::MappingResultsVector_t &results,
       skch::Sketch &refSketch,
+      uint64_t &totalQueryFragments, 
       std::string &fileName)
   {
 
@@ -154,7 +156,7 @@ namespace cgi
           e.refSeqId,
           0,                  //this value will be revised to genome id
           e.querySeqId,
-          e.refStartPos/(parameters.minReadLength),
+          e.refStartPos/(parameters.minReadLength - 20),
           e.nucIdentity
           });
     }
@@ -265,6 +267,7 @@ namespace cgi
       outstrm << parameters.refSequences[e.genomeId]
         << " " << e.identity 
         << " " << e.countSeq
+        << " " << totalQueryFragments
         << " " << refLenStats[e.genomeId].first
         << " " << refLenStats[e.genomeId].second
         << "\n";
