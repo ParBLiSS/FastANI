@@ -15,8 +15,6 @@
 *.status
 
 #Executables
-mash
-mashmap
 mashcgi
 
 #Others

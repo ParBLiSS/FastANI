@@ -39,46 +39,6 @@ namespace cgi
   }
 
   /**
-   * @brief       compute mean of the nucleotide identites while discarding outliers
-   * @details     Discard values if they are outside [1st quartile - 1.5*IQR, 3rd 
-   *              quartile + 1.5*IQR] range
-   * @param[in]   mappings_2way_beg
-   * @param[in]   mappings_2way_end
-   * @param[out]  sumIdentity
-   * @param[out]  fragment_count
-   */
-  template <typename Iter>
-    void tuckeyCorrection(Iter &mappings_2way_beg, Iter &mappings_2way_end, 
-        float &sumIdentity, int &fragment_count)
-    {
-      std::sort(mappings_2way_beg, mappings_2way_end, cmp_identity);
-
-      auto totalElementCount = std::distance(mappings_2way_beg, mappings_2way_end);
-      auto Q1 = (mappings_2way_beg + totalElementCount / 4)->nucIdentity;
-      auto Q3 = (mappings_2way_beg + totalElementCount * 3/4)->nucIdentity;
-      auto IPR = Q3 - Q1; 
-
-      auto allowedRange = std::make_pair(Q1 - 1.5 * IPR, Q3 + 1.5 * IPR); 
-
-      fragment_count= 0;
-      sumIdentity = 0;
-
-      for(auto it = mappings_2way_beg; it != mappings_2way_end; it++)
-      {
-        if(it->nucIdentity >= allowedRange.first && it->nucIdentity <= allowedRange.second)
-        {
-          sumIdentity += it->nucIdentity;
-          fragment_count += 1;
-        }
-        else
-        {
-          //INVALIDATE 
-          it->nucIdentity = 0;
-        }
-      }
-    }
-
-  /**
    * @brief                       Compute N50 statistics and total bp length of all reference genomes
    * @param[out]  refLenStats
    * @param[in]   refSketch
@@ -126,7 +86,6 @@ namespace cgi
         seqBeginOffset = e;
       }
     }
-
 
   /**
    * @brief                             compute and report AAI/ANI 
@@ -199,6 +158,24 @@ namespace cgi
       }
     }
 
+#ifdef DEBUG
+    {
+      std::ofstream outstrm2(fileName + ".map.1way");
+
+      //Report all mappings that contribute to core-genome identity estimate
+      for(auto &e : mappings_1way)
+      {
+        if(e.nucIdentity != 0) 
+          outstrm2 << parameters.refSequences[e.genomeId]
+            << " " << e.querySeqId 
+            << " " << e.refSequenceId 
+            << " " << e.mapRefPosBin
+            << " " << e.nucIdentity
+            << "\n";
+      }
+    }
+#endif
+
     ///2. Now, we compute 2-way ANI
     //For each mapped region, and within a reference bin bucket, single best query mapping is preserved
     {
@@ -222,9 +199,25 @@ namespace cgi
       }
     }
 
+#ifdef DEBUG
+    {
+      std::ofstream outstrm(fileName + ".map.2way");
+
+      //Report all mappings that contribute to core-genome identity estimate
+      for(auto &e : mappings_2way)
+      {
+        outstrm << parameters.refSequences[e.genomeId]
+          << " " << e.querySeqId 
+          << " " << e.refSequenceId 
+          << " " << e.mapRefPosBin
+          << " " << e.nucIdentity
+          << "\n";
+      }
+    }
+#endif
+
     //Final output vector of ANI/AAI computation
     std::vector<cgi::CGI_Results> CGI_ResultsVector;
-
 
     //Do average for ANI/AAI computation 
     //mappings_2way should be sorted by genomeId 
@@ -239,16 +232,18 @@ namespace cgi
             return e.genomeId != currentGenomeId; 
           } );
 
-      float sumIdentity;
-      int countFrag;
+      float sumIdentity = 0.0;
 
-      tuckeyCorrection(it, rangeEndIter, sumIdentity, countFrag);
+      for(auto it2 = it; it2 != rangeEndIter; it2++)
+      {
+        sumIdentity += it2->nucIdentity;
+      }
 
       //Save the result 
       CGI_Results currentResult;
       currentResult.genomeId = currentGenomeId;
-      currentResult.countSeq = countFrag;
-      currentResult.identity = sumIdentity/countFrag;
+      currentResult.countSeq = std::distance(it, rangeEndIter);
+      currentResult.identity = sumIdentity/currentResult.countSeq;
 
       CGI_ResultsVector.push_back(currentResult);
 
@@ -259,32 +254,37 @@ namespace cgi
     //Sort in decreasing order of matches
     std::sort(CGI_ResultsVector.rbegin(), CGI_ResultsVector.rend());
 
-    std::ofstream outstrm(fileName);
-
-    //Report results
-    for(auto &e : CGI_ResultsVector)
     {
-      outstrm << parameters.refSequences[e.genomeId]
-        << " " << e.identity 
-        << " " << e.countSeq
-        << " " << totalQueryFragments
-        << " " << refLenStats[e.genomeId].first
-        << " " << refLenStats[e.genomeId].second
-        << "\n";
+      std::ofstream outstrm(fileName);
+
+      //Report results
+      for(auto &e : CGI_ResultsVector)
+      {
+        outstrm << parameters.refSequences[e.genomeId]
+          << " " << e.identity 
+          << " " << e.countSeq
+          << " " << totalQueryFragments
+          << " " << refLenStats[e.genomeId].first
+          << " " << refLenStats[e.genomeId].second
+          << "\n";
+      }
     }
 
 #ifdef DEBUG
-    std::ofstream outstrm2(fileName + ".map.best");
-
-    //Report all mappings that contribute to core-genome identity estimate
-    for(auto &e : mappings_2way)
     {
-      if(e.nucIdentity != 0) 
-        outstrm2 << parameters.refSequences[e.genomeId]
-          << " " << e.querySeqId 
-          << " " << e.mapRefPosBin
-          << " " << e.nucIdentity
-          << "\n";
+      std::ofstream outstrm(fileName + ".map.tuckey.2way");
+
+      //Report all mappings that contribute to core-genome identity estimate
+      for(auto &e : mappings_2way)
+      {
+        if(e.nucIdentity != 0) 
+          outstrm << parameters.refSequences[e.genomeId]
+            << " " << e.querySeqId 
+            << " " << e.refSequenceId 
+            << " " << e.mapRefPosBin
+            << " " << e.nucIdentity
+            << "\n";
+      }
     }
 #endif
 

@@ -35,7 +35,12 @@ int main(int argc, char** argv)
 
   //Redirect mapping output to null fs, using file name for CGI output
   std::string fileName = parameters.outFileName;
+
+#ifdef DEBUG
   parameters.outFileName = parameters.outFileName + ".map";
+#else
+  parameters.outFileName = "/dev/null";
+#endif
 
   auto t0 = skch::Time::now();
 
