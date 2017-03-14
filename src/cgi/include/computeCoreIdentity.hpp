@@ -270,26 +270,7 @@ namespace cgi
       }
     }
 
-#ifdef DEBUG
-    {
-      std::ofstream outstrm(fileName + ".map.tuckey.2way");
-
-      //Report all mappings that contribute to core-genome identity estimate
-      for(auto &e : mappings_2way)
-      {
-        if(e.nucIdentity != 0) 
-          outstrm << parameters.refSequences[e.genomeId]
-            << " " << e.querySeqId 
-            << " " << e.refSequenceId 
-            << " " << e.mapRefPosBin
-            << " " << e.nucIdentity
-            << "\n";
-      }
-    }
-#endif
-
   }
-
 }
 
 #endif

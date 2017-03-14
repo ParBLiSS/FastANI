@@ -366,12 +366,8 @@ namespace skch
             float nucIdentity = 100 * (1 - mash_dist);
             float nucIdentityUpperBound = 100 * (1 - mash_dist_lower_bound);
 
-
-            //TODO : Correct it after debugging
-            float referenceDNAComplexity = 1; //actualDensity/expectedDensity;
-
             //Report the alignment
-            if(nucIdentityUpperBound >= param.percentageIdentity && referenceDNAComplexity >= 0.75)
+            if(nucIdentityUpperBound >= param.percentageIdentity)
             {
               MappingResult res;
 
@@ -404,8 +400,7 @@ namespace skch
 
                 }
 
-                if(res.mappedRegionComplexity >= 0.75)
-                  l2Mappings.push_back(res);
+                l2Mappings.push_back(res);
               }
 
               mappingReported = true;
