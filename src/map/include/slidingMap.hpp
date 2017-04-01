@@ -31,10 +31,8 @@ namespace skch
         //Metadata for the minimizers saved in sliding ordered map during L2 stage
         struct slidingMapContainerValueType
         {
-          offset_t wposQ;                   //wpos and strand of minimizers in the query
-          strand_t strandQ;
-          offset_t wposR;                   //wpos and strand of minimizers in the reference
-          strand_t strandR;
+          offset_t wposQ;                   //wpos of minimizers in the query
+          offset_t wposR;                   //wpos of minimizers in the reference
         };
 
         //Container type for saving read sketches during L1 and L2 both
@@ -120,7 +118,7 @@ namespace skch
           //Insert query sketch elements to map
           for(auto it = Q.minimizerTableQuery.begin(); it != uniqEndIter; it++)
           {
-            this->slidingWindowMinhashes.emplace_hint(slidingWindowMinhashes.end(), it->hash, slidingMapContainerValueType{it->wpos, it->strand, NAPos, 0});
+            this->slidingWindowMinhashes.emplace_hint(slidingWindowMinhashes.end(), it->hash, slidingMapContainerValueType{it->wpos, NAPos});
           }
 
           //Point pivot to last element in the map
@@ -144,7 +142,7 @@ namespace skch
           //if hash doesn't exist in the map, add to it
           if(slidingWindowMinhashes.find(hashVal) == slidingWindowMinhashes.end())
           {
-            slidingWindowMinhashes[hashVal] = slidingMapContainerValueType{this->NAPos, 0, m->wpos, m->strand};   //add the hash to window
+            slidingWindowMinhashes[hashVal] = slidingMapContainerValueType{this->NAPos, m->wpos};   //add the hash to window
             status = IN::UNIQ;
           }
           else
@@ -154,7 +152,6 @@ namespace skch
 
             //if hash already exists in the map, just revise it
             slidingWindowMinhashes[hashVal].wposR = m->wpos;
-            slidingWindowMinhashes[hashVal].strandR = m->strand;
           }
 
           updateCountersAfterInsert(status, m);
@@ -222,35 +219,6 @@ namespace skch
         {
           for(auto it = begin; it != end; it++)
             this->insert_ref(it);
-        }
-
-        /**
-         * @brief       compute strand consensus and unique reference hashes
-         * @param[out]  strandVotes
-         * @param[out]  uniqueRefHashes
-         */
-        inline void computeStatistics(int &strandVotes, int &uniqueRefHashes)
-        {
-          int uniqueHashes = 0;
-          strandVotes = uniqueRefHashes = 0;
-
-          //Iterate over map
-          for (auto it = this->slidingWindowMinhashes.cbegin(); it != this->slidingWindowMinhashes.cend(); ++it)
-          {
-            uniqueHashes++;
-
-            //Fetch the value in map
-            auto m = it->second;
-
-            if(uniqueHashes <= Q.sketchSize && m.wposQ != this->NAPos && m.wposR != this->NAPos)
-            {
-              strandVotes += m.strandQ * m.strandR; //Assuming FWD=1, BWD=-1
-            }
-
-            //Check if minimizer occurs comes from the reference
-            if(m.wposR != this->NAPos)
-              uniqueRefHashes++;
-          }
         }
 
       private:

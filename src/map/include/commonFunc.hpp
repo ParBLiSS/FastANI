@@ -133,9 +133,6 @@ namespace skch
             //Take minimum value of kmer and its reverse complement
             hash_t currentKmer = std::min(hashFwd, hashBwd);
 
-            //Check the strand of this minimizer hash value
-            auto currentStrand = hashFwd < hashBwd ? strnd::FWD : strnd::REV;
-
             //If front minimum is not in the current window, remove it
             while(!Q.empty() && Q.front().second <=  i - windowSize)
               Q.pop_front();
@@ -148,7 +145,7 @@ namespace skch
             //Push currentKmer and position to back of the queue
             //0 indicates the dummy window # (will be updated later)
             Q.push_back( std::make_pair(
-                  MinimizerInfo{currentKmer, seqCounter, 0, currentStrand},
+                  MinimizerInfo{currentKmer, seqCounter, 0},
                   i)); 
 
             //Select the minimizer from Q and put into index

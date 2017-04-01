@@ -181,7 +181,7 @@ namespace skch
         {
           // [hash value -> info about minimizer]
           minimizerPosLookupIndex[e.hash].push_back( 
-              MinimizerMetaData{e.seqId, e.wpos, e.strand});
+              MinimizerMetaData{e.seqId, e.wpos});
         }
 
         std::cerr << "INFO, skch::Sketch::index, unique minimizers = " << minimizerPosLookupIndex.size() << std::endl;

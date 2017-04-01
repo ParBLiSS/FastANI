@@ -14,7 +14,6 @@ namespace skch
   typedef uint32_t hash_t;    //hash type
   typedef int offset_t;       //position within sequence
   typedef int seqno_t;        //sequence counter in file
-  typedef int32_t strand_t;   //sequence strand 
 
   //C++ timer
   typedef std::chrono::high_resolution_clock Time;
@@ -25,23 +24,22 @@ namespace skch
     hash_t hash;                              //hash value
     seqno_t seqId;                            //sequence or contig id
     offset_t wpos;                            //First (left-most) window position when the minimizer is saved
-    strand_t strand;                          //strand information
 
     //Lexographical less than comparison
     bool operator <(const MinimizerInfo& x) {
-      return std::tie(hash, seqId, wpos, strand) 
-        < std::tie(x.hash, x.seqId, x.wpos, x.strand);
+      return std::tie(hash, seqId, wpos) 
+        < std::tie(x.hash, x.seqId, x.wpos);
     }
 
     //Lexographical equality comparison
     bool operator ==(const MinimizerInfo& x) {
-      return std::tie(hash, seqId, wpos, strand) 
-        == std::tie(x.hash, x.seqId, x.wpos, x.strand);
+      return std::tie(hash, seqId, wpos) 
+        == std::tie(x.hash, x.seqId, x.wpos);
     }
 
     bool operator !=(const MinimizerInfo& x) {
-      return std::tie(hash, seqId, wpos, strand) 
-        != std::tie(x.hash, x.seqId, x.wpos, x.strand);
+      return std::tie(hash, seqId, wpos) 
+        != std::tie(x.hash, x.seqId, x.wpos);
     }
 
     static bool equalityByHash(const MinimizerInfo& x, const MinimizerInfo& y) {
@@ -60,11 +58,10 @@ namespace skch
   {
     seqno_t seqId;          //sequence or contig id
     offset_t wpos;          //window position (left-most window)
-    strand_t strand;        //strand information
 
     bool operator <(const MinimizerMetaData& x) const {
-      return std::tie(seqId, wpos, strand) 
-        < std::tie(x.seqId, x.wpos, x.strand);
+      return std::tie(seqId, wpos) 
+        < std::tie(x.seqId, x.wpos);
     }
   };
 
@@ -77,13 +74,6 @@ namespace skch
     std::string name;       //Name of the sequence
     offset_t len;           //Length of the sequence
   };
-
-  //Label tags for strand information
-  enum strnd : strand_t
-  {
-    FWD = 1,  
-    REV = -1
-  };  
 
   //Information about query sequence during L1/L2 mapping
   template <typename KSEQ, typename MinimizerVec>
@@ -107,7 +97,6 @@ namespace skch
     float nucIdentityUpperBound;      //upper bound on identity (90% C.I.)
     int sketchSize;                   //sketch size
     int conservedSketches;            //count of conserved sketches
-    strand_t strand;                  //strand
     float mappedRegionComplexity;     //estimated entropy in the mapped region on reference
     std::string queryName;            //name of query sequence
   };

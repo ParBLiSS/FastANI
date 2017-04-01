@@ -384,22 +384,6 @@ namespace skch
                 res.conservedSketches = l2.sharedSketchSize;
                 res.queryName = Q.kseq->name.s; 
 
-                //Compute additional statistics -> strand, reference compexity
-                {
-                  SlideMapper<Q_Info> slidemap(Q);
-                  slidemap.insert_ref(l2.optimalStart, l2.optimalEnd);
-                  int strandVotes, uniqueRefHashes;
-                  slidemap.computeStatistics(strandVotes, uniqueRefHashes);
-
-                  res.strand = strandVotes > 0 ? strnd::FWD : strnd::REV;
-
-                  //Compute reference region complexity
-                  float actualDensity = uniqueRefHashes * 1.0 / Q.kseq->seq.l;
-                  float expectedDensity = 2.0 / param.windowSize;
-                  res.mappedRegionComplexity = actualDensity/expectedDensity;
-
-                }
-
                 l2Mappings.push_back(res);
               }
 
@@ -525,7 +509,7 @@ namespace skch
               << " " << e.querySeqId 
               << " " << "0"
               << " " << e.queryLen - 1 
-              << " " << (e.strand == strnd::FWD ? "+" : "-") 
+              << " " << "+/-"
               << " " << this->refSketch.metadata[e.refSeqId].name
               << " " << this->refSketch.metadata[e.refSeqId].len
               << " " << e.refStartPos 
@@ -535,8 +519,7 @@ namespace skch
             //Print some additional statistics
             outstrm << " " << e.conservedSketches 
               << " " << e.sketchSize 
-              << " " << e.nucIdentityUpperBound
-              << " " << e.mappedRegionComplexity;
+              << " " << e.nucIdentityUpperBound;
 
             outstrm << "\n";
 
