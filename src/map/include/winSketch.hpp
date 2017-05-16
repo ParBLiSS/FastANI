@@ -15,9 +15,9 @@
 #include <zlib.h>  
 
 //Own includes
+#include "commonFunc.hpp"
 #include "base_types.hpp"
 #include "map_parameters.hpp"
-#include "commonFunc.hpp"
 
 //External includes
 #include "kseq.h"

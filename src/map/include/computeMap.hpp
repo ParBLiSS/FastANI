@@ -82,17 +82,19 @@ namespace skch
        * @param[in]   p                     algorithm parameters
        * @param[in]   refSketch             reference sketch
        * @param[out]  totalQueryFragments   count of total sequence fragments in query genome
+       * @param[in]   queryno               query genome is param.querySequences[queryno]
        * @param[in]   f                     optional user defined custom function to post 
        *                                    process the reported mapping results
        */
       Map(const skch::Parameters &p, const skch::Sketch &refsketch,
           uint64_t &totalQueryFragments,
+          int queryno,
           PostProcessResultsFn_t f = nullptr) :
         param(p),
         refSketch(refsketch),
         processMappingResults(f)
     {
-      this->mapQuery(totalQueryFragments);
+      this->mapQuery(totalQueryFragments, param.querySequences[queryno]);
     }
 
     private:
@@ -101,8 +103,9 @@ namespace skch
        * @brief                                 parse over sequences in query file 
        *                                        and map each on the reference
        * @param[out]  totalQueryFragments       Count of total sequence fragments in query genome
+       * @param[in]   queryFileName
        */
-      void mapQuery(uint64_t &totalQueryFragments)
+      void mapQuery(uint64_t &totalQueryFragments, const std::string &queryFileName)
       {
         //Count of fragments mapped by us
         //Some reads are dropped because of short length
@@ -110,15 +113,14 @@ namespace skch
 
         std::ofstream outstrm(param.outFileName);
 
-        for(const auto &fileName : param.querySequences)
         {
           //Open the file using kseq
-          FILE *file = fopen(fileName.c_str(), "r");
+          FILE *file = fopen(queryFileName.c_str(), "r");
           gzFile fp = gzdopen(fileno(file), "r");
           kseq_t *seq = kseq_init(fp);
 
 #ifdef DEBUG
-          std::cerr << "INFO, skch::Map::mapQuery, mapping reads in " << fileName << std::endl;
+          std::cerr << "INFO, skch::Map::mapQuery, mapping reads in " << queryFileName << std::endl;
 #endif
 
           //size of sequence

@@ -35,11 +35,14 @@ namespace skch
     cmd.defineOption("subject", "an input reference file (fasta/fastq)[.gz]", ArgvParser::OptionRequiresValue);
     cmd.defineOptionAlternative("subject","s");
 
-    cmd.defineOption("subjectList", "a file containing list of reference files, one per line", ArgvParser::OptionRequiresValue);
+    cmd.defineOption("subjectList", "a file containing list of reference genome files, one genome per line", ArgvParser::OptionRequiresValue);
     cmd.defineOptionAlternative("subjectList","sl");
 
     cmd.defineOption("query", "an input query file (fasta/fastq)[.gz]", ArgvParser::OptionRequiresValue);
     cmd.defineOptionAlternative("query","q");
+
+    cmd.defineOption("queryList", "a file containing list of query genome files, one genome per line", ArgvParser::OptionRequiresValue);
+    cmd.defineOptionAlternative("queryList","ql");
 
     cmd.defineOption("kmer", "kmer size <= 16 [default 16 (DNA), 5 (AA)]", ArgvParser::OptionRequiresValue);
     cmd.defineOptionAlternative("kmer","k");
@@ -162,9 +165,9 @@ P-value is not considered if a window value is provided. Lower window size impli
       std::cerr << "Provide reference file (s)\n";
       exit(1);
     }
-    else if (!cmd.foundOption("query"))
+    else if (!cmd.foundOption("query") && !cmd.foundOption("queryList"))
     {
-      std::cerr << "Provide reference file (s)\n";
+      std::cerr << "Provide query file (s)\n";
       exit(1);
     }
 
@@ -195,6 +198,7 @@ P-value is not considered if a window value is provided. Lower window size impli
     str.clear();
 
     //Parse query files
+    if(cmd.foundOption("query"))
     {
       std::string query;
 
@@ -202,6 +206,15 @@ P-value is not considered if a window value is provided. Lower window size impli
       str >> query;
 
       parameters.querySequences.push_back(query);
+    }
+    else //list of files
+    {
+      std::string listFile;
+
+      str << cmd.optionValue("queryList");
+      str >> listFile;
+
+      parseFileList(listFile, parameters.querySequences);
     }
     
     str.clear();

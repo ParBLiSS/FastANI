@@ -63,7 +63,7 @@ namespace cgi
           }
 
           //Sum of length of all the contigs in this genome
-          length = std::accumulate(lens.begin(), lens.end(), 0, plus<uint64_t>());
+          length = std::accumulate(lens.begin(), lens.end(), 0, std::plus<uint64_t>());
 
           //Sort length values in descending order
           std::sort(lens.rbegin(), lens.rend());
@@ -87,18 +87,24 @@ namespace cgi
       }
     }
 
+
   /**
    * @brief                             compute and report AAI/ANI 
    * @param[in]   parameters            algorithm parameters
    * @param[in]   results               mapping results
    * @param[in]   refSketch             reference sketch
+   * @param[in]   refLenStats           reference genome(s) assembly statistics
    * @param[in]   totalQueryFragments   count of total sequence fragments in query genome
+   * @param[in]   queryFileNo           query genome is parameters.querySequences[queryFileNo]
    * @param[in]   fileName              file name where results will be reported
    */
+  template <typename VEC>
   void computeCGI(skch::Parameters &parameters,
       skch::MappingResultsVector_t &results,
       skch::Sketch &refSketch,
-      uint64_t &totalQueryFragments, 
+      VEC &refLenStats,
+      uint64_t &totalQueryFragments,
+      uint64_t queryFileNo,
       std::string &fileName)
   {
 
@@ -126,9 +132,6 @@ namespace cgi
      */
     reviseRefIdToGenomeId(shortResults, refSketch);
 
-    //Compute assembly statistics of all the reference genomes
-    std::vector<std::pair< uint64_t, uint64_t >> refLenStats;
-    computeRefLenStatistics(refLenStats, refSketch); 
 
     //We need best reciprocal identity match for each genome, query pair
     std::vector<MappingResult_CGI> mappings_1way;
@@ -160,13 +163,14 @@ namespace cgi
 
 #ifdef DEBUG
     {
-      std::ofstream outstrm2(fileName + ".map.1way");
+      std::ofstream outstrm2(fileName + ".map.1way", std::ios::app);
 
       //Report all mappings that contribute to core-genome identity estimate
       for(auto &e : mappings_1way)
       {
         if(e.nucIdentity != 0) 
-          outstrm2 << parameters.refSequences[e.genomeId]
+          outstrm2 << parameters.querySequences[queryFileNo]
+            << " " << parameters.refSequences[e.genomeId]
             << " " << e.querySeqId 
             << " " << e.refSequenceId 
             << " " << e.mapRefPosBin
@@ -201,12 +205,13 @@ namespace cgi
 
 #ifdef DEBUG
     {
-      std::ofstream outstrm(fileName + ".map.2way");
+      std::ofstream outstrm(fileName + ".map.2way", std::ios::app);
 
       //Report all mappings that contribute to core-genome identity estimate
       for(auto &e : mappings_2way)
       {
-        outstrm << parameters.refSequences[e.genomeId]
+        outstrm2 << parameters.querySequences[queryFileNo]
+          << " " << parameters.refSequences[e.genomeId]
           << " " << e.querySeqId 
           << " " << e.refSequenceId 
           << " " << e.mapRefPosBin
@@ -255,17 +260,16 @@ namespace cgi
     std::sort(CGI_ResultsVector.rbegin(), CGI_ResultsVector.rend());
 
     {
-      std::ofstream outstrm(fileName);
+      std::ofstream outstrm(fileName,  std::ios::app);
 
       //Report results
       for(auto &e : CGI_ResultsVector)
       {
-        outstrm << parameters.refSequences[e.genomeId]
+        outstrm << parameters.querySequences[queryFileNo]
+          << " " << parameters.refSequences[e.genomeId]
           << " " << e.identity 
           << " " << e.countSeq
           << " " << totalQueryFragments
-          << " " << refLenStats[e.genomeId].first
-          << " " << refLenStats[e.genomeId].second
           << "\n";
       }
     }

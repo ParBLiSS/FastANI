@@ -16,6 +16,7 @@
 #include "winSketch.hpp"
 #include "computeMap.hpp"
 #include "computeCoreIdentity.hpp" 
+#include "commonFunc.hpp"
 
 //External includes
 #include "argvparser.hpp"
@@ -50,24 +51,43 @@ int main(int argc, char** argv)
   std::chrono::duration<double> timeRefSketch = skch::Time::now() - t0;
   std::cerr << "INFO, skch::main, Time spent sketching the reference : " << timeRefSketch.count() << " sec" << std::endl;
 
-  //Map the sequences in query file
-  t0 = skch::Time::now();
+  //Compute assembly statistics of all the reference genomes
+  std::vector<std::pair< uint64_t, uint64_t >> refLenStats;
+  cgi::computeRefLenStatistics(refLenStats, referSketch); 
 
-  skch::MappingResultsVector_t mapResults;
-  uint64_t totalQueryFragments;
 
-  auto fn = std::bind(skch::Map::insertL2ResultsToVec, std::ref(mapResults), _1);
-  skch::Map mapper = skch::Map(parameters, referSketch, totalQueryFragments, fn);
+  //Initialize the files to delete the existing content
+  {
+    std::ofstream outstrm1(fileName);
+#ifdef DEBUG
+    std::ofstream outstrm2(fileName + ".map.1way");
+    std::ofstream outstrm3(fileName + ".map.2way");
+#endif
+  }
 
-  std::chrono::duration<double> timeMapQuery = skch::Time::now() - t0;
-  std::cerr << "INFO, skch::main, Time spent mapping the query : " << timeMapQuery.count() << " sec" << std::endl;
+  //Loop over query genomes
+  for(uint64_t queryno = 0; queryno < parameters.querySequences.size(); queryno++)
+  {
 
-  std::cerr << "INFO, skch::main, mapping results saved in : " << parameters.outFileName << std::endl;
+    //Map the sequences in query file
+    t0 = skch::Time::now();
 
-  t0 = skch::Time::now();
+    skch::MappingResultsVector_t mapResults;
+    uint64_t totalQueryFragments;
 
-  cgi::computeCGI(parameters, mapResults, referSketch, totalQueryFragments, fileName);
+    auto fn = std::bind(skch::Map::insertL2ResultsToVec, std::ref(mapResults), _1);
+    skch::Map mapper = skch::Map(parameters, referSketch, totalQueryFragments, queryno, fn);
 
-  std::chrono::duration<double> timeCGI = skch::Time::now() - t0;
-  std::cerr << "INFO, skch::main, Time spent post mapping : " << timeCGI.count() << " sec" << std::endl;
+    std::chrono::duration<double> timeMapQuery = skch::Time::now() - t0;
+    std::cerr << "INFO, skch::main, Time spent mapping the query : " << timeMapQuery.count() << " sec" << std::endl;
+
+    std::cerr << "INFO, skch::main, mapping results saved in : " << parameters.outFileName << std::endl;
+
+    t0 = skch::Time::now();
+
+    cgi::computeCGI(parameters, mapResults, referSketch, refLenStats, totalQueryFragments, queryno, fileName);
+
+    std::chrono::duration<double> timeCGI = skch::Time::now() - t0;
+    std::cerr << "INFO, skch::main, Time spent post mapping : " << timeCGI.count() << " sec" << std::endl;
+  }
 }
