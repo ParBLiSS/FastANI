@@ -23,6 +23,7 @@ namespace skch
     int kmerSize;                                     //kmer size for sketching
     int windowSize;                                   //window size used for sketching 
     int minReadLength;                                //minimum read length which code maps
+    int minFragments;                                 //minimum fragment mappings for trusting ANI value
     int alphabetSize;                                 //alphabet size
     uint64_t referenceSize;                           //Approximate reference size
     float percentageIdentity;                         //user defined threshold for good similarity
@@ -31,9 +32,6 @@ namespace skch
     std::vector<std::string> querySequences;          //query sequence(s)
     std::string outFileName;                          //output file name
     bool reportAll;                                   //Report all alignments if this is true
-    //const static int L2slideJump = 5;                 //parameter to jump read during L2 evaluation, 
-                                                      //  1 is the most accurate
-
   };
 }
 

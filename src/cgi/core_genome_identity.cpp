@@ -68,8 +68,6 @@ int main(int argc, char** argv)
   //Loop over query genomes
   for(uint64_t queryno = 0; queryno < parameters.querySequences.size(); queryno++)
   {
-
-    //Map the sequences in query file
     t0 = skch::Time::now();
 
     skch::MappingResultsVector_t mapResults;
@@ -79,9 +77,7 @@ int main(int argc, char** argv)
     skch::Map mapper = skch::Map(parameters, referSketch, totalQueryFragments, queryno, fn);
 
     std::chrono::duration<double> timeMapQuery = skch::Time::now() - t0;
-    std::cerr << "INFO, skch::main, Time spent mapping the query : " << timeMapQuery.count() << " sec" << std::endl;
-
-    std::cerr << "INFO, skch::main, mapping results saved in : " << parameters.outFileName << std::endl;
+    std::cerr << "INFO, skch::main, Time spent mapping query #" << queryno <<  " : " << timeMapQuery.count() << " sec" << std::endl;
 
     t0 = skch::Time::now();
 
@@ -90,4 +86,6 @@ int main(int argc, char** argv)
     std::chrono::duration<double> timeCGI = skch::Time::now() - t0;
     std::cerr << "INFO, skch::main, Time spent post mapping : " << timeCGI.count() << " sec" << std::endl;
   }
+
+  std::cerr << "INFO, skch::main, mapping results saved in : " << parameters.outFileName << std::endl;
 }

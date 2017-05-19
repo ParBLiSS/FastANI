@@ -265,12 +265,15 @@ namespace cgi
       //Report results
       for(auto &e : CGI_ResultsVector)
       {
-        outstrm << parameters.querySequences[queryFileNo]
-          << " " << parameters.refSequences[e.genomeId]
-          << " " << e.identity 
-          << " " << e.countSeq
-          << " " << totalQueryFragments
-          << "\n";
+        if(e.countSeq >= parameters.minFragments)
+        {
+          outstrm << parameters.querySequences[queryFileNo]
+            << " " << parameters.refSequences[e.genomeId]
+            << " " << e.identity 
+            << " " << e.countSeq
+            << " " << totalQueryFragments
+            << "\n";
+        }
       }
     }
 

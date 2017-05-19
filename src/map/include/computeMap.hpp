@@ -258,6 +258,11 @@ namespace skch
           //This is the sketch size for estimating jaccard
           Q.sketchSize = std::distance(Q.minimizerTableQuery.begin(), uniqEndIter);
 
+          //For invalid query (example : just NNNs), we may be left with 0 sketch size
+          //Ignore the query in this case
+          if(Q.sketchSize == 0)
+            return;
+
           int totalMinimizersPicked = 0;
 
           for(auto it = Q.minimizerTableQuery.begin(); it != uniqEndIter; it++)

@@ -56,7 +56,8 @@ P-value is not considered if a window value is provided. Lower window size impli
     cmd.defineOptionAlternative("window","w");
 
     cmd.defineOption("fragLen", "fragment length [default : 3,000]", ArgvParser::OptionRequiresValue);
-    cmd.defineOptionAlternative("fragLen","m");
+
+    cmd.defineOption("minFrag", "minimum fragments for trusting ANI [default : 50]", ArgvParser::OptionRequiresValue);
 
     cmd.defineOption("perc_identity", "threshold for identity during mapping [default : 80]", ArgvParser::OptionRequiresValue);
     cmd.defineOptionAlternative("perc_identity","pi");
@@ -260,6 +261,15 @@ P-value is not considered if a window value is provided. Lower window size impli
     }
     else
       parameters.minReadLength = 3000;
+
+    if(cmd.foundOption("minFrag"))
+    {
+      str << cmd.optionValue("minFrag");
+      str >> parameters.minFragments;
+      str.clear();
+    }
+    else
+      parameters.minFragments = 50;
 
     if(cmd.foundOption("perc_identity"))
     {
