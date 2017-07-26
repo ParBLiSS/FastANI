@@ -14,10 +14,10 @@ SOURCES=src/cgi/core_genome_identity.cpp
 
 OBJECTS=$(SOURCES:.cpp=.o)  
 
-all : mashcgi
+all : fastANI
 
-mashcgi : $(OBJECTS) 
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OBJECTS) -o mashcgi @mathlib@ -lstdc++ -lz -lm -lpthread  
+fastANI : $(OBJECTS) 
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OBJECTS) -o fastANI @mathlib@ -lstdc++ -lz -lm  
 
 .SUFFIXES :
 
@@ -27,10 +27,10 @@ mashcgi : $(OBJECTS)
 %.o : %.c++
 	$(CXX) -c $(CXXFLAGS) $(CPPFLAGS) -o $@ $<
 
-install : mashcgi
+install : fastANI
 	mkdir -p @prefix@/bin/
-	cp `pwd`/mashmap @prefix@/bin/
+	cp `pwd`/fastANI @prefix@/bin/
 
 clean :
-	-rm -f mashcgi
+	-rm -f fastANI
 	-rm -f src/cgi/*.o

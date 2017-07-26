@@ -10,10 +10,6 @@ MurmurHash3
   code.google.com/p/smhasher/wiki/MurmurHash3
   Public domain
 
-Open Bloom Filter
-  https://code.google.com/p/bloom/source/browse/trunk/bloom_filter.hpp
-  Common Public License
-
 cxx-prettyprint
   louisdx.github.io/cxx-prettyprint
   Boost Software License

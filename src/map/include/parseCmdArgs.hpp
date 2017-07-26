@@ -28,7 +28,12 @@ namespace skch
    */
   void initCmdParser(CommandLineProcessing::ArgvParser &cmd)
   {
-    cmd.setIntroductoryDescription("Approximate read mapper based on Jaccard similarity");
+    cmd.setIntroductoryDescription("-----------------\n\
+fastANI is a fast alignment-free implementation for computing ANI between genomes\n\
+-----------------\n\
+Example usage: \n\
+$ fastANI -s genome1.fa -q genome2.fa -o output.txt\n\
+$ fastANI --sl genome_list.txt -q genome2.fa -o output.txt");
 
     cmd.setHelpOption("h", "help", "Print this help page");
 
@@ -44,26 +49,12 @@ namespace skch
     cmd.defineOption("queryList", "a file containing list of query genome files, one genome per line", ArgvParser::OptionRequiresValue);
     cmd.defineOptionAlternative("queryList","ql");
 
-    cmd.defineOption("kmer", "kmer size <= 16 [default 16 (DNA), 5 (AA)]", ArgvParser::OptionRequiresValue);
+    cmd.defineOption("kmer", "kmer size <= 16 [default 16]", ArgvParser::OptionRequiresValue);
     cmd.defineOptionAlternative("kmer","k");
-
-    cmd.defineOption("pval", "p-value cutoff, used to determine window/sketch sizes [default e-03]", ArgvParser::OptionRequiresValue);
-    cmd.defineOptionAlternative("pval","p");
-
-    cmd.defineOption("window", "window size [default : computed using pvalue cutoff]\n\
-P-value is not considered if a window value is provided. Lower window size implies denser sketch", 
-        ArgvParser::OptionRequiresValue);
-    cmd.defineOptionAlternative("window","w");
 
     cmd.defineOption("fragLen", "fragment length [default : 3,000]", ArgvParser::OptionRequiresValue);
 
     cmd.defineOption("minFrag", "minimum fragments for trusting ANI [default : 50]", ArgvParser::OptionRequiresValue);
-
-    cmd.defineOption("perc_identity", "threshold for identity during mapping [default : 80]", ArgvParser::OptionRequiresValue);
-    cmd.defineOptionAlternative("perc_identity","pi");
-
-    cmd.defineOption("protein", "set alphabet type to proteins, default is nucleotides");
-    cmd.defineOptionAlternative("protein","a");
 
     cmd.defineOption("output", "output file name", ArgvParser::OptionRequired | ArgvParser::OptionRequiresValue);
     cmd.defineOptionAlternative("output","o");
@@ -135,11 +126,7 @@ P-value is not considered if a window value is provided. Lower window size impli
     std::cerr << "Reference = " << parameters.refSequences << std::endl;
     std::cerr << "Query = " << parameters.querySequences << std::endl;
     std::cerr << "Kmer size = " << parameters.kmerSize << std::endl;
-    std::cerr << "Window size = " << parameters.windowSize << std::endl;
     std::cerr << "Fragment length = " << parameters.minReadLength << std::endl;
-    std::cerr << "Alphabet = " << (parameters.alphabetSize == 4 ? "DNA" : "AA") << std::endl;
-    std::cerr << "P-value = " << parameters.p_value << std::endl;
-    std::cerr << "Percentage identity threshold = " << parameters.percentageIdentity << std::endl;
     std::cerr << "Mapping output file = " << parameters.outFileName << std::endl;
     std::cerr << ">>>>>>>>>>>>>>>>>>" << std::endl;
   }
@@ -220,12 +207,7 @@ P-value is not considered if a window value is provided. Lower window size impli
     
     str.clear();
 
-    if(cmd.foundOption("protein"))
-    {
-      parameters.alphabetSize = 20;
-    }
-    else
-      parameters.alphabetSize = 4;
+    parameters.alphabetSize = 4;
 
     parameters.reportAll = true;
 
@@ -244,14 +226,7 @@ P-value is not considered if a window value is provided. Lower window size impli
         parameters.kmerSize = 5;
     }
 
-    if(cmd.foundOption("pval"))
-    {
-      str << cmd.optionValue("pval");
-      str >> parameters.p_value;
-      str.clear();
-    }
-    else
-      parameters.p_value = 1e-03;
+    parameters.p_value = 1e-03;
 
     if(cmd.foundOption("fragLen"))
     {
@@ -271,39 +246,17 @@ P-value is not considered if a window value is provided. Lower window size impli
     else
       parameters.minFragments = 50;
 
-    if(cmd.foundOption("perc_identity"))
-    {
-      str << cmd.optionValue("perc_identity");
-      str >> parameters.percentageIdentity;
-      str.clear();
-    }
-    else
-      parameters.percentageIdentity = 80;
+    parameters.percentageIdentity = 80;
 
     /*
      * Compute window size for sketching
      */
 
-    if(cmd.foundOption("window"))
-    {
-      str << cmd.optionValue("window");
-      str >> parameters.windowSize;
-      str.clear();
-
-      //Re-estimate p value
-      int s = parameters.minReadLength * 2 / parameters.windowSize; 
-      parameters.p_value = skch::Stat::estimate_pvalue (s, parameters.kmerSize, parameters.alphabetSize, 
-          parameters.percentageIdentity, 
-          parameters.minReadLength, parameters.referenceSize);
-    }
-    else
-    {
-      //Compute optimal window size
-      parameters.windowSize = skch::Stat::recommendedWindowSize(parameters.p_value,
-          parameters.kmerSize, parameters.alphabetSize,
-          parameters.percentageIdentity,
-          parameters.minReadLength, parameters.referenceSize);
-    }
+    //Compute optimal window size
+    parameters.windowSize = skch::Stat::recommendedWindowSize(parameters.p_value,
+        parameters.kmerSize, parameters.alphabetSize,
+        parameters.percentageIdentity,
+        parameters.minReadLength, parameters.referenceSize);
 
     str << cmd.optionValue("output");
     str >> parameters.outFileName;

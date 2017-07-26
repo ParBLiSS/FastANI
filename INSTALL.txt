@@ -15,14 +15,13 @@ Dependencies:
 Steps:
 ------
    ./bootstrap.sh
-   ./configure [--prefix=...] [--with-gsl=...] \
-               [--with-boost=...]
+   ./configure [--prefix=...] [--with-gsl=...] [--with-boost=...]
    make
 
 
 Products:
 ---------
-   - Executable mashcgi
+   - Executable fastANI
 
 
 

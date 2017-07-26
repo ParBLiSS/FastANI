@@ -15,7 +15,7 @@
 *.status
 
 #Executables
-mashcgi
+fastANI
 
 #Others
 autoParam
