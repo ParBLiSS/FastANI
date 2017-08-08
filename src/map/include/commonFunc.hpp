@@ -163,12 +163,6 @@ namespace skch
           }
         }
 
-#ifdef DEBUG
-        std::cout << "INFO, skch::CommonFunc::addMinimizers, inserted following minimizers: ";
-        for(auto &e: minimizerIndex) std::cout << "\n" << e;
-        std::cout << std::endl;
-#endif
-
         delete [] seqRev;
       }
 

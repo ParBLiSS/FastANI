@@ -93,16 +93,13 @@ namespace cgi
    * @param[in]   parameters            algorithm parameters
    * @param[in]   results               mapping results
    * @param[in]   refSketch             reference sketch
-   * @param[in]   refLenStats           reference genome(s) assembly statistics
    * @param[in]   totalQueryFragments   count of total sequence fragments in query genome
    * @param[in]   queryFileNo           query genome is parameters.querySequences[queryFileNo]
    * @param[in]   fileName              file name where results will be reported
    */
-  template <typename VEC>
   void computeCGI(skch::Parameters &parameters,
       skch::MappingResultsVector_t &results,
       skch::Sketch &refSketch,
-      VEC &refLenStats,
       uint64_t &totalQueryFragments,
       uint64_t queryFileNo,
       std::string &fileName)
@@ -163,13 +160,13 @@ namespace cgi
 
 #ifdef DEBUG
     {
-      std::ofstream outstrm2(fileName + ".map.1way", std::ios::app);
+      std::ofstream outstrm(fileName + ".map.1way", std::ios::app);
 
       //Report all mappings that contribute to core-genome identity estimate
       for(auto &e : mappings_1way)
       {
         if(e.nucIdentity != 0) 
-          outstrm2 << parameters.querySequences[queryFileNo]
+          outstrm << parameters.querySequences[queryFileNo]
             << " " << parameters.refSequences[e.genomeId]
             << " " << e.querySeqId 
             << " " << e.refSequenceId 
@@ -210,7 +207,7 @@ namespace cgi
       //Report all mappings that contribute to core-genome identity estimate
       for(auto &e : mappings_2way)
       {
-        outstrm2 << parameters.querySequences[queryFileNo]
+        outstrm << parameters.querySequences[queryFileNo]
           << " " << parameters.refSequences[e.genomeId]
           << " " << e.querySeqId 
           << " " << e.refSequenceId 

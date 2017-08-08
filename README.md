@@ -30,6 +30,6 @@ fastANI --ql [QUERY_LIST] --sl [REFERENCE_LIST] -o [OUTPUT_FILE]
 ```
 Again, QUERY\_LIST and REFERENCE\_LIST are files containing paths to genomes, one per line.
 
-In all above use cases, OUTPUT\_FILE will contain space delimited row(s) with query genome, reference genome, ANI value, count of bidirectional fragment mappings, and total query fragments. Additional log is printed to stderr. Two genome assemblies are provided in [data](data) folder to do an example run. 
+In all above use cases, OUTPUT\_FILE will contain space delimited row(s) with query genome, reference genome, ANI value, count of bidirectional fragment mappings, and total query fragments. Additional log is printed to stderr. Two genome assemblies are provided in [data](data) folder to do a quick test run. 
 
 We suggest users to do minimal quality check of their input genome assemblies (both reference and query), especially the N50 be ≥10 Kbp.

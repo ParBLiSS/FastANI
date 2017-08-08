@@ -52,8 +52,8 @@ int main(int argc, char** argv)
   std::cerr << "INFO, skch::main, Time spent sketching the reference : " << timeRefSketch.count() << " sec" << std::endl;
 
   //Compute assembly statistics of all the reference genomes
-  std::vector<std::pair< uint64_t, uint64_t >> refLenStats;
-  cgi::computeRefLenStatistics(refLenStats, referSketch); 
+  //std::vector<std::pair< uint64_t, uint64_t >> refLenStats;
+  //cgi::computeRefLenStatistics(refLenStats, referSketch); 
 
 
   //Initialize the files to delete the existing content
@@ -81,7 +81,7 @@ int main(int argc, char** argv)
 
     t0 = skch::Time::now();
 
-    cgi::computeCGI(parameters, mapResults, referSketch, refLenStats, totalQueryFragments, queryno, fileName);
+    cgi::computeCGI(parameters, mapResults, referSketch, totalQueryFragments, queryno, fileName);
 
     std::chrono::duration<double> timeCGI = skch::Time::now() - t0;
     std::cerr << "INFO, skch::main, Time spent post mapping : " << timeCGI.count() << " sec" << std::endl;
