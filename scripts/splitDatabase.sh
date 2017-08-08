@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 #######
-# Purpose: Split database list of multiple genomes into many chunks
-# Usage: <this_script>  <database of genomes with one file per line> <count> <output_directory>
-# Ouput: <count> number of files in <output_directory>
+# Purpose: Split database list of genomes into multiple chunks to parallelize 
+#          or distribute fastANI execution
+# Usage: <this_script>  <file containing genome paths, one per line> <count> <output_directory>
+# Ouput: see <count> number of files in <output_directory>
 
 DATABASE=$1
 COUNT=$2
