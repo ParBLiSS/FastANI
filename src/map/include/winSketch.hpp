@@ -149,8 +149,6 @@ namespace skch
 #ifdef DEBUG
               std::cerr << "WARNING, skch::Sketch::build, found an unusually short sequence relative to kmer and window size" << std::endl;
 #endif
-              seqCounter++;
-              continue;  
             }
             else
             {

@@ -32,6 +32,7 @@ namespace skch
     std::vector<std::string> querySequences;          //query sequence(s)
     std::string outFileName;                          //output file name
     bool reportAll;                                   //Report all alignments if this is true
+    bool visualize;                                   //Visualize the conserved regions of two genomes
   };
 }
 

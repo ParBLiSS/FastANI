@@ -77,6 +77,10 @@ namespace skch
 
     public:
 
+      //Keep sequence length, name that appear in the contigs to compute global offsets
+      //Optionally used if visualization is enabled
+      std::vector< ContigInfo > metadata;
+
       /**
        * @brief                             constructor
        * @param[in]   p                     algorithm parameters
@@ -136,11 +140,13 @@ namespace skch
             {
               fragmentCount = 0;
 
+              //Record contig length
+              if(param.visualize)
+                metadata.push_back( ContigInfo{seq->name.s, (offset_t)seq->seq.l} );
+
 #ifdef DEBUG
               std::cerr << "WARNING, skch::Map::mapQuery, read is not long enough for mapping" << std::endl;
 #endif
-
-              continue;
             }
             else 
             {
@@ -148,6 +154,14 @@ namespace skch
 
               for (int i = 0; i < fragmentCount; i++)
               {
+                //Record each fragment's length coverage in genome for supporting visualization
+                if(param.visualize)
+                {
+                  if (i != fragmentCount - 1)
+                    metadata.push_back( ContigInfo{seq->name.s, param.minReadLength} );
+                  else //Adjust for unmapped tail sequence
+                    metadata.push_back( ContigInfo{seq->name.s, param.minReadLength + (len % param.minReadLength)} );
+                }
 
                 QueryMetaData <decltype(seq), MinVec_Type> Q;
                 auto seqCopy = *seq;
@@ -157,30 +171,35 @@ namespace skch
                 Q.kseq->seq.l = param.minReadLength;
                 Q.seqCounter = seqCounter + i;
 
+                //Output vector for L2 mappings
+                MappingResultsVector_t l2Mappings;
+
                 //Map this sequence
-                bool mappingReported = mapSingleQuerySeq(Q, outstrm);
+                mapSingleQuerySeq(Q, l2Mappings, outstrm);
+
+                //Write mapping results to file
+                reportL2Mappings(l2Mappings, outstrm);
               }
             }
 
             seqCounter += fragmentCount;
+            totalQueryFragments += fragmentCount;
           }
-
-          totalQueryFragments = seqCounter;
 
           //Close the input file
           kseq_destroy(seq);  
           gzclose(fp);  
         }
-
       }
 
       /**
-       * @brief               map the parsed query sequence (L1 and L2 mapping)
-       * @param[in] Q         metadata about query sequence
-       * @param[in] outstrm   outstream stream where mappings will be reported
+       * @brief                   map the parsed query sequence (L1 and L2 mapping)
+       * @param[in]   Q           metadata about query sequence
+       * @param[in]   outstrm     outstream stream where mappings will be reported
+       * @param[out]  l2Mappings  Mappings computed after L2 stage
        */
       template<typename Q_Info>
-        inline bool mapSingleQuerySeq(Q_Info &Q, std::ofstream &outstrm)
+        inline void mapSingleQuerySeq(Q_Info &Q, MappingResultsVector_t &l2Mappings, std::ofstream &outstrm)
         {
 #if ENABLE_TIME_PROFILE_L1_L2
           auto t0 = skch::Time::now();
@@ -199,12 +218,7 @@ namespace skch
 #endif
 
           //L2 Mapping
-          MappingResultsVector_t l2Mappings;
-          bool mappingReported = doL2Mapping(Q, l1Mappings, l2Mappings);
-
-          //Write mapping results to file
-          reportL2Mappings(l2Mappings, outstrm);
-
+          doL2Mapping(Q, l1Mappings, l2Mappings);
 
 #if ENABLE_TIME_PROFILE_L1_L2
           {
@@ -220,8 +234,6 @@ namespace skch
               << "\n";
           }
 #endif
-
-          return mappingReported;
         }
 
       /**
@@ -375,13 +387,14 @@ namespace skch
                 res.queryLen = Q.kseq->seq.l;
                 res.refStartPos = l2.meanOptimalPos ;
                 res.refEndPos = l2.meanOptimalPos + Q.kseq->seq.l - 1;
+                res.queryStartPos = 0;
+                res.queryEndPos = Q.kseq->seq.l - 1;
                 res.refSeqId = l2.seqId;
                 res.querySeqId = Q.seqCounter;
                 res.nucIdentity = nucIdentity;
                 res.nucIdentityUpperBound = nucIdentityUpperBound;
                 res.sketchSize = Q.sketchSize;
                 res.conservedSketches = l2.sharedSketchSize;
-                res.queryName = Q.kseq->name.s; 
 
                 l2Mappings.push_back(res);
               }
@@ -503,11 +516,10 @@ namespace skch
           //Report top 1% mappings (unless reportAll flag is true, in which case we report all)
           if(param.reportAll == true || e.nucIdentity >= bestNucIdentity - 1.0)
           {
-            outstrm << e.queryName 
+            outstrm << e.querySeqId 
               << " " << e.queryLen 
-              << " " << e.querySeqId 
-              << " " << "0"
-              << " " << e.queryLen - 1 
+              << " " << e.queryStartPos
+              << " " << e.queryEndPos
               << " " << "+/-"
               << " " << this->refSketch.metadata[e.refSeqId].name
               << " " << this->refSketch.metadata[e.refSeqId].len

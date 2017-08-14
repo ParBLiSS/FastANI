@@ -18,6 +18,8 @@ namespace cgi
     skch::seqno_t refSequenceId;        //id of the reference contig
     skch::seqno_t genomeId;             //id of a genome
     skch::seqno_t querySeqId;           //name of query sequence
+    skch::offset_t refStartPos;         //start position of the mapping on reference
+    skch::offset_t queryStartPos;       //start position of the query for this mapping
     skch::offset_t mapRefPosBin;        //bin of mapped region on the reference sequence
     float nucIdentity;                  //calculated identity
   };
@@ -73,7 +75,6 @@ namespace cgi
       return identity < x.identity;
     }
   };
-
 }
 
 #endif

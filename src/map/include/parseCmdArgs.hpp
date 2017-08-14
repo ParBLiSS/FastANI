@@ -56,6 +56,8 @@ $ fastANI --sl genome_list.txt -q genome2.fa -o output.txt");
 
     cmd.defineOption("minFrag", "minimum fragments for trusting ANI [default : 50]", ArgvParser::OptionRequiresValue);
 
+    cmd.defineOption("visualize", "output mappings for visualization, can be enabled for single genome to single genome comparison only [disabled by default]");
+
     cmd.defineOption("output", "output file name", ArgvParser::OptionRequired | ArgvParser::OptionRequiresValue);
     cmd.defineOptionAlternative("output","o");
   }
@@ -127,7 +129,7 @@ $ fastANI --sl genome_list.txt -q genome2.fa -o output.txt");
     std::cerr << "Query = " << parameters.querySequences << std::endl;
     std::cerr << "Kmer size = " << parameters.kmerSize << std::endl;
     std::cerr << "Fragment length = " << parameters.minReadLength << std::endl;
-    std::cerr << "Mapping output file = " << parameters.outFileName << std::endl;
+    std::cerr << "ANI output file = " << parameters.outFileName << std::endl;
     std::cerr << ">>>>>>>>>>>>>>>>>>" << std::endl;
   }
 
@@ -210,6 +212,21 @@ $ fastANI --sl genome_list.txt -q genome2.fa -o output.txt");
     parameters.alphabetSize = 4;
 
     parameters.reportAll = true;
+
+    if(cmd.foundOption("visualize"))
+    {
+      if(parameters.refSequences.size() == 1 && parameters.querySequences.size() == 1)
+      {
+        parameters.visualize = true;
+      }
+      else
+      {
+         parameters.visualize = false;
+         std::cerr << "WARNING, skch::parseandSave, visualization is disabled. It is not supported if more than one pair of genomes are asked to compare \n";
+      }
+    }
+    else
+      parameters.visualize = false;
 
     //Parse algorithm parameters
     if(cmd.foundOption("kmer"))

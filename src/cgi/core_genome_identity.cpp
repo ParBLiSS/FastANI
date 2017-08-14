@@ -51,11 +51,6 @@ int main(int argc, char** argv)
   std::chrono::duration<double> timeRefSketch = skch::Time::now() - t0;
   std::cerr << "INFO, skch::main, Time spent sketching the reference : " << timeRefSketch.count() << " sec" << std::endl;
 
-  //Compute assembly statistics of all the reference genomes
-  //std::vector<std::pair< uint64_t, uint64_t >> refLenStats;
-  //cgi::computeRefLenStatistics(refLenStats, referSketch); 
-
-
   //Initialize the files to delete the existing content
   {
     std::ofstream outstrm1(fileName);
@@ -63,6 +58,8 @@ int main(int argc, char** argv)
     std::ofstream outstrm2(fileName + ".map.1way");
     std::ofstream outstrm3(fileName + ".map.2way");
 #endif
+    if(parameters.visualize)
+      std::ofstream outstrm4(fileName + ".visual");
   }
 
   //Loop over query genomes
@@ -71,7 +68,7 @@ int main(int argc, char** argv)
     t0 = skch::Time::now();
 
     skch::MappingResultsVector_t mapResults;
-    uint64_t totalQueryFragments;
+    uint64_t totalQueryFragments = 0;
 
     auto fn = std::bind(skch::Map::insertL2ResultsToVec, std::ref(mapResults), _1);
     skch::Map mapper = skch::Map(parameters, referSketch, totalQueryFragments, queryno, fn);
@@ -81,7 +78,7 @@ int main(int argc, char** argv)
 
     t0 = skch::Time::now();
 
-    cgi::computeCGI(parameters, mapResults, referSketch, totalQueryFragments, queryno, fileName);
+    cgi::computeCGI(parameters, mapResults, mapper, referSketch, totalQueryFragments, queryno, fileName);
 
     std::chrono::duration<double> timeCGI = skch::Time::now() - t0;
     std::cerr << "INFO, skch::main, Time spent post mapping : " << timeCGI.count() << " sec" << std::endl;

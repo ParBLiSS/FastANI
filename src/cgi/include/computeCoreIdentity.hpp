@@ -39,59 +39,68 @@ namespace cgi
   }
 
   /**
-   * @brief                       Compute N50 statistics and total bp length of all reference genomes
-   * @param[out]  refLenStats
-   * @param[in]   refSketch
+   * @brief                             output blast tabular mappings for visualization 
+   * @param[in]   parameters            algorithm parameters
+   * @param[in]   results               bidirectional mappings
+   * @param[in]   mapper                mapper object used for mapping
+   * @param[in]   refSketch             reference sketch
+   * @param[in]   queryFileNo           query genome is parameters.querySequences[queryFileNo]
+   * @param[in]   fileName              file name where results will be reported
    */
-  template <typename VEC>
-    void computeRefLenStatistics(VEC &refLenStats, 
-        skch::Sketch &refSketch) 
+  void outputVisualizationFile(skch::Parameters &parameters,
+      std::vector<MappingResult_CGI> &mappings_2way,
+      skch::Map &mapper,
+      skch::Sketch &refSketch,
+      uint64_t queryFileNo,
+      std::string &fileName)
+  {
+    std::ofstream outstrm(fileName + ".visual", std::ios::app);
+
+    //Shift offsets for converting from local (to contig) to global (to genome)
+    std::vector <skch::offset_t> queryOffsetAdder (mapper.metadata.size());
+    std::vector <skch::offset_t> refOffsetAdder (refSketch.metadata.size());
+
+    for(int i = 0; i < mapper.metadata.size(); i++)
     {
-      skch::seqno_t seqBeginOffset = 0;
-      for(auto &e : refSketch.sequencesByFileInfo)
-      {
-        skch::seqno_t seqEndOffset = e;
-
-        //Compute length statistics of sequences saved in metadata [seqBeginOffset, seqEndOffset)
-        {
-          uint64_t length, N50;
-
-          std::vector<uint64_t> lens;
-          for(skch::seqno_t i = seqBeginOffset; i < seqEndOffset; i++)
-          {
-            lens.push_back(refSketch.metadata[i].len);
-          }
-
-          //Sum of length of all the contigs in this genome
-          length = std::accumulate(lens.begin(), lens.end(), 0, std::plus<uint64_t>());
-
-          //Sort length values in descending order
-          std::sort(lens.rbegin(), lens.rend());
-
-          uint64_t partialSum = 0;
-          for(auto &f : lens)
-          {
-            partialSum += f;
-
-            if(partialSum >= length/2)
-            {
-              N50 = f;
-              break;
-            }
-          }
-
-          refLenStats.emplace_back(N50, length);
-        }//Next reference genome
-
-        seqBeginOffset = e;
-      }
+      if(i == 0)
+        queryOffsetAdder[i] = 0;
+      else
+        queryOffsetAdder[i] = queryOffsetAdder[i-1] + mapper.metadata[i-1].len;
     }
 
+    for(int i = 0; i < refSketch.metadata.size(); i++)
+    {
+      if(i == 0)
+        refOffsetAdder[i] = 0;
+      else
+        refOffsetAdder[i] = refOffsetAdder[i-1] + refSketch.metadata[i-1].len;
+    }
+
+    //Report all mappings that contribute to core-genome identity estimate
+    //Format the output to blast tabular way (outfmt 6)
+    for(auto &e : mappings_2way)
+    {
+      outstrm << parameters.querySequences[queryFileNo]
+        << "\t" << parameters.refSequences[e.genomeId]
+        << "\t" << e.nucIdentity
+        << "\t" << "NA"
+        << "\t" << "NA"
+        << "\t" << "NA"
+        << "\t" << e.queryStartPos                                    + queryOffsetAdder[e.querySeqId] 
+        << "\t" << e.queryStartPos + parameters.minReadLength - 1     + queryOffsetAdder[e.querySeqId]
+        << "\t" << e.refStartPos                                      + refOffsetAdder[e.refSequenceId]
+        << "\t" << e.refStartPos + parameters.minReadLength - 1       + refOffsetAdder[e.refSequenceId]
+        << "\t" << "NA"
+        << "\t" << "NA"
+        << "\n";
+    }
+  }
 
   /**
    * @brief                             compute and report AAI/ANI 
    * @param[in]   parameters            algorithm parameters
    * @param[in]   results               mapping results
+   * @param[in]   mapper                mapper object used for mapping
    * @param[in]   refSketch             reference sketch
    * @param[in]   totalQueryFragments   count of total sequence fragments in query genome
    * @param[in]   queryFileNo           query genome is parameters.querySequences[queryFileNo]
@@ -99,12 +108,12 @@ namespace cgi
    */
   void computeCGI(skch::Parameters &parameters,
       skch::MappingResultsVector_t &results,
+      skch::Map &mapper,
       skch::Sketch &refSketch,
       uint64_t &totalQueryFragments,
       uint64_t queryFileNo,
       std::string &fileName)
   {
-
     //Vector to save relevant fields from mapping results
     std::vector<MappingResult_CGI> shortResults;
 
@@ -118,6 +127,8 @@ namespace cgi
           e.refSeqId,
           0,                  //this value will be revised to genome id
           e.querySeqId,
+          e.refStartPos,
+          e.queryStartPos,
           e.refStartPos/(parameters.minReadLength - 20),
           e.nucIdentity
           });
@@ -218,6 +229,13 @@ namespace cgi
     }
 #endif
 
+    {
+      if(parameters.visualize)
+      {
+        outputVisualizationFile(parameters, mappings_2way, mapper, refSketch, queryFileNo, fileName);
+      }
+    }
+
     //Final output vector of ANI/AAI computation
     std::vector<cgi::CGI_Results> CGI_ResultsVector;
 
@@ -273,7 +291,6 @@ namespace cgi
         }
       }
     }
-
   }
 }
 

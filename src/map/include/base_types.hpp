@@ -91,14 +91,14 @@ namespace skch
     offset_t queryLen;                //length of the query sequence
     offset_t refStartPos;             //start position of the mapping on reference
     offset_t refEndPos;               //end pos
+    offset_t queryStartPos;           //start position of the query for this mapping
+    offset_t queryEndPos;             //end position of the query for this mapping
     seqno_t refSeqId;                 //internal sequence id of the reference contig
     seqno_t querySeqId;               //internal sequence id of the query sequence
     float nucIdentity;                //calculated identity
     float nucIdentityUpperBound;      //upper bound on identity (90% C.I.)
     int sketchSize;                   //sketch size
     int conservedSketches;            //count of conserved sketches
-    float mappedRegionComplexity;     //estimated entropy in the mapped region on reference
-    std::string queryName;            //name of query sequence
   };
 
   typedef std::vector<MappingResult> MappingResultsVector_t;
