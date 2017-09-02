@@ -15,14 +15,14 @@
 #include <zlib.h>  
 
 //Own includes
-#include "commonFunc.hpp"
-#include "base_types.hpp"
-#include "map_parameters.hpp"
+#include "map/include/commonFunc.hpp"
+#include "map/include/base_types.hpp"
+#include "map/include/map_parameters.hpp"
 
 //External includes
-#include "kseq.h"
-#include "murmur3.h"
-#include "prettyprint.hpp"
+#include "common/kseq.h"
+#include "common/murmur3.h"
+#include "common/prettyprint.hpp"
 
 KSEQ_INIT(gzFile, gzread)
 

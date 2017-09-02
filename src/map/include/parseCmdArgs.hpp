@@ -12,12 +12,12 @@
 #include <fstream>
 
 //Own includes
-#include "map_parameters.hpp"
-#include "map_stats.hpp"
-#include "commonFunc.hpp"
+#include "map/include/map_parameters.hpp"
+#include "map/include/map_stats.hpp"
+#include "map/include/commonFunc.hpp"
 
 //External includes
-#include "argvparser.hpp"
+#include "common/argvparser.hpp"
 
 namespace skch
 {

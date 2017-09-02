@@ -8,7 +8,7 @@
 #define CGID_TYPES_HPP
 
 #include <tuple>
-#include "base_types.hpp"
+#include "map/include/base_types.hpp"
 
 namespace cgi
 {

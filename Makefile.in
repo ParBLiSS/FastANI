@@ -1,4 +1,4 @@
-CXXFLAGS += -O3 -DNDEBUG -std=c++11 -Isrc/common -Isrc/cgi/include -Isrc/map/include -I @mathinc@
+CXXFLAGS += -O3 -DNDEBUG -std=c++11 -Isrc -I @mathinc@
 CPPFLAGS += @amcppflags@
 
 UNAME_S=$(shell uname -s)
@@ -12,20 +12,10 @@ endif
 
 SOURCES=src/cgi/core_genome_identity.cpp
 
-OBJECTS=$(SOURCES:.cpp=.o)  
-
 all : fastANI
 
-fastANI : $(OBJECTS) 
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OBJECTS) -o fastANI @mathlib@ -lstdc++ -lz -lm  
-
-.SUFFIXES :
-
-%.o : %.cpp 
-	$(CXX) -c $(CXXFLAGS) $(CPPFLAGS) -o $@ $<
-
-%.o : %.c++
-	$(CXX) -c $(CXXFLAGS) $(CPPFLAGS) -o $@ $<
+fastANI :  
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(SOURCES) -o fastANI @mathlib@ -lstdc++ -lz -lm  
 
 install : fastANI
 	mkdir -p @prefix@/bin/
@@ -33,4 +23,3 @@ install : fastANI
 
 clean :
 	-rm -f fastANI
-	-rm -f src/cgi/*.o

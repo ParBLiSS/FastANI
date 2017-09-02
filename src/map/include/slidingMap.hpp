@@ -12,7 +12,7 @@
 #include <map>
 
 //Own includes
-#include "base_types.hpp"
+#include "map/include/base_types.hpp"
 
 //External includes
 

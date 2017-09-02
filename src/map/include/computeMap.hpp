@@ -16,13 +16,13 @@
 
 
 //Own includes
-#include "base_types.hpp"
-#include "map_parameters.hpp"
-#include "commonFunc.hpp"
-#include "winSketch.hpp"
-#include "map_stats.hpp"
-#include "slidingMap.hpp"
-#include "MIIteratorL2.hpp"
+#include "map/include/base_types.hpp"
+#include "map/include/map_parameters.hpp"
+#include "map/include/commonFunc.hpp"
+#include "map/include/winSketch.hpp"
+#include "map/include/map_stats.hpp"
+#include "map/include/slidingMap.hpp"
+#include "map/include/MIIteratorL2.hpp"
 
 //External includes
 

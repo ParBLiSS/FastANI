@@ -13,12 +13,12 @@
 #include <fstream>
 
 //Own includes
-#include "map_parameters.hpp"
+#include "map/include/map_parameters.hpp"
 
 //External includes
-#include "murmur3.h"
-#include "kseq.h"
-#include "prettyprint.hpp"
+#include "common/murmur3.h"
+#include "common/kseq.h"
+#include "common/prettyprint.hpp"
 
 namespace skch
 {

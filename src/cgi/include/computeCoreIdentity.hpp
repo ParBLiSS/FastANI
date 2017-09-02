@@ -12,11 +12,11 @@
 #include <fstream>
 
 //Own includes
-#include "base_types.hpp"
-#include "cgid_types.hpp"
+#include "map/include/base_types.hpp"
+#include "cgi/include/cgid_types.hpp"
 
 //External includes
-#include "prettyprint.hpp"
+#include "common/prettyprint.hpp"
 
 namespace cgi
 {

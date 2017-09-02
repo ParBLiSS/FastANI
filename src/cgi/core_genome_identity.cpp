@@ -10,16 +10,16 @@
 #include <functional>
 
 //Own includes
-#include "map_parameters.hpp"
-#include "base_types.hpp"
-#include "parseCmdArgs.hpp"
-#include "winSketch.hpp"
-#include "computeMap.hpp"
-#include "computeCoreIdentity.hpp" 
-#include "commonFunc.hpp"
+#include "map/include/map_parameters.hpp"
+#include "map/include/base_types.hpp"
+#include "map/include/parseCmdArgs.hpp"
+#include "map/include/winSketch.hpp"
+#include "map/include/computeMap.hpp"
+#include "map/include/commonFunc.hpp"
+#include "cgi/include/computeCoreIdentity.hpp" 
 
 //External includes
-#include "argvparser.hpp"
+#include "common/argvparser.hpp"
 
 int main(int argc, char** argv)
 {
