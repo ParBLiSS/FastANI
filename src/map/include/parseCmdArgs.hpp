@@ -37,13 +37,13 @@ $ fastANI --sl genome_list.txt -q genome2.fa -o output.txt");
 
     cmd.setHelpOption("h", "help", "Print this help page");
 
-    cmd.defineOption("subject", "an input reference file (fasta/fastq)[.gz]", ArgvParser::OptionRequiresValue);
-    cmd.defineOptionAlternative("subject","s");
+    cmd.defineOption("ref", "reference genome (fasta/fastq)[.gz]", ArgvParser::OptionRequiresValue);
+    cmd.defineOptionAlternative("ref","r");
 
-    cmd.defineOption("subjectList", "a file containing list of reference genome files, one genome per line", ArgvParser::OptionRequiresValue);
-    cmd.defineOptionAlternative("subjectList","sl");
+    cmd.defineOption("refList", "a file containing list of reference genome files, one genome per line", ArgvParser::OptionRequiresValue);
+    cmd.defineOptionAlternative("refList","rl");
 
-    cmd.defineOption("query", "an input query file (fasta/fastq)[.gz]", ArgvParser::OptionRequiresValue);
+    cmd.defineOption("query", "query genome (fasta/fastq)[.gz]", ArgvParser::OptionRequiresValue);
     cmd.defineOptionAlternative("query","q");
 
     cmd.defineOption("queryList", "a file containing list of query genome files, one genome per line", ArgvParser::OptionRequiresValue);
@@ -150,7 +150,7 @@ $ fastANI --sl genome_list.txt -q genome2.fa -o output.txt");
       std::cerr << cmd.parseErrorDescription(result) << "\n";
       exit(1);
     }
-    else if (!cmd.foundOption("subject") && !cmd.foundOption("subjectList"))
+    else if (!cmd.foundOption("ref") && !cmd.foundOption("refList"))
     {
       std::cerr << "Provide reference file (s)\n";
       exit(1);
@@ -164,11 +164,11 @@ $ fastANI --sl genome_list.txt -q genome2.fa -o output.txt");
     std::stringstream str;
 
     //Parse reference files
-    if(cmd.foundOption("subject"))
+    if(cmd.foundOption("ref"))
     {
       std::string ref;
 
-      str << cmd.optionValue("subject");
+      str << cmd.optionValue("ref");
       str >> ref;
 
       parameters.refSequences.push_back(ref);
@@ -177,7 +177,7 @@ $ fastANI --sl genome_list.txt -q genome2.fa -o output.txt");
     {
       std::string listFile;
 
-      str << cmd.optionValue("subjectList");
+      str << cmd.optionValue("refList");
       str >> listFile;
 
       parseFileList(listFile, parameters.refSequences);

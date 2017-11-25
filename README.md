@@ -19,7 +19,7 @@ $ ./fastANI -h
 * **One to One.** Compute ANI between single query and single reference genome:
 
 ```sh
-$ ./fastANI -q [QUERY_GENOME] -s [REFERENCE_GENOME] -o [OUTPUT_FILE] 
+$ ./fastANI -q [QUERY_GENOME] -r [REFERENCE_GENOME] -o [OUTPUT_FILE] 
 ```
 
 Here QUERY\_GENOME and REFERENCE\_GENOME are the query genome assemblies in fasta or multi-fasta format.
@@ -27,7 +27,7 @@ Here QUERY\_GENOME and REFERENCE\_GENOME are the query genome assemblies in fast
 * **One to Many.** Compute ANI between single query genome and multiple reference genomes:
 
 ```sh
-$ ./fastANI -q [QUERY_GENOME] --sl [REFERENCE_LIST] -o [OUTPUT_FILE]
+$ ./fastANI -q [QUERY_GENOME] --rl [REFERENCE_LIST] -o [OUTPUT_FILE]
 ```
 
 For above use case, REFERENCE\_LIST should be a file containing directory paths to reference genomes, one per line.
@@ -35,7 +35,7 @@ For above use case, REFERENCE\_LIST should be a file containing directory paths 
 * **Many to Many.** When there are multiple query genomes and multiple reference genomes:
 
 ```sh
-$ ./fastANI --ql [QUERY_LIST] --sl [REFERENCE_LIST] -o [OUTPUT_FILE]
+$ ./fastANI --ql [QUERY_LIST] --rl [REFERENCE_LIST] -o [OUTPUT_FILE]
 ```
 Again, QUERY\_LIST and REFERENCE\_LIST are files containing paths to genomes, one per line.
 
@@ -48,13 +48,13 @@ We suggest users to do minimal quality check of their input genome assemblies (b
 * **One to One.** Here we compute ANI between *Escherichia coli* and *Shigella flexneri* genomes provided in the [data](data) folder.
 
 ```sh
-$ ./fastANI -q data/Shigella_flexneri_2a_01.fna -s data/Escherichia_coli_str_K12_MG1655.fna -o fastani.out 
+$ ./fastANI -q data/Shigella_flexneri_2a_01.fna -r data/Escherichia_coli_str_K12_MG1655.fna -o fastani.out 
 ```
 
 Expect output log in the following format in the console:
 
 ```sh
-$ ./fastANI -q data/Shigella_flexneri_2a_01.fna -s data/Escherichia_coli_str_K12_MG1655.fna -o fastani.out 
+$ ./fastANI -q data/Shigella_flexneri_2a_01.fna -r data/Escherichia_coli_str_K12_MG1655.fna -o fastani.out 
 >>>>>>>>>>>>>>>>>>
 Reference = [data/Escherichia_coli_str_K12_MG1655.fna]
 Query = [data/Shigella_flexneri_2a_01.fna]
@@ -83,7 +83,7 @@ Finally, an [R script](scripts) is provided in the repository which uses [genoPl
 Here we show an example run using two genomes: Bartonella quintana ([GenBank: CP003784.1](https://www.ncbi.nlm.nih.gov/nuccore/CP003784.1)) and Bartonella henselae ([NCBI Reference Sequence: NC_005956.1](https://www.ncbi.nlm.nih.gov/nuccore/NC_005956.1)).
 
 ```sh
-$ ./fastANI -q B_quintana.fna -s B_henselae.fna --visualize -o fastani.out
+$ ./fastANI -q B_quintana.fna -r B_henselae.fna --visualize -o fastani.out
 $ Rscript scripts/visualize.R B_quintana.fna B_henselae.fna fastani.out.visual
 ```
 
