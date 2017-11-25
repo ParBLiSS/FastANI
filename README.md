@@ -2,7 +2,7 @@ FastANI
 ========================================================================
 [![Apache 2.0 License](https://img.shields.io/badge/license-Apache%20v2.0-blue.svg)](LICENSE)
 
-FastANI is a fast alignment-free estimator of Average Nucleotide Identity (ANI) between two genomes. ANI is defined as mean nucleotide identity of orthologous gene pairs between two microbial genomes. This software supports comparison of both complete and draft genomes. FastANI follows a similar workflow as described by [Goris et al. 2007](http://www.ncbi.nlm.nih.gov/pubmed/17220447). However, it avoids expensive sequence alignments and uses [Mashmap](https://github.com/marbl/MashMap) as its MinHash based sequence mapping engine. Based on our experiments with complete and draft genomes, FastANI's accuracy is on par with [BLAST-based ANI solver](http://enve-omics.ce.gatech.edu/ani/) and yields two to three orders of magnitude speedup. Therefore, it is useful for ANI analysis of large number of genome pairs. Detailed results and comparisons with existing methods are described in the paper. 
+FastANI is a fast alignment-free estimator of Average Nucleotide Identity (ANI) between two genomes. ANI is defined as mean nucleotide identity of orthologous gene pairs between two microbial genomes. FastANI supports comparison of both complete and draft genomes. FastANI follows a similar workflow as described by [Goris et al. 2007](http://www.ncbi.nlm.nih.gov/pubmed/17220447). However, it avoids expensive sequence alignments and uses [Mashmap](https://github.com/marbl/MashMap) as its MinHash based sequence mapping engine. Based on our experiments with complete and draft genomes, its accuracy is on par with [BLAST-based ANI solver](http://enve-omics.ce.gatech.edu/ani/) and achieves two to three orders of magnitude speedup. Therefore, it is useful for ANI analysis of large number of genome pairs. Detailed results and comparisons with existing methods are described in our paper. 
 
 ### Download and Compile
 
@@ -41,7 +41,7 @@ Again, QUERY\_LIST and REFERENCE\_LIST are files containing paths to genomes, on
 
 In all above use cases, OUTPUT\_FILE will contain space delimited row(s) with query genome, reference genome, ANI value, count of bidirectional fragment mappings, and total query fragments. Alignment fraction (wrt. the query genome) is simply the ratio of mappings and total fragments. Two genome assemblies are provided in [data](data) folder to do a quick test run. 
 
-We suggest users to do minimal quality check of their input genome assemblies (both reference and query), especially the N50 be ≥10 Kbp.
+We suggest users to do an adequate quality check of their input genome assemblies (both reference and query), especially the N50 be ≥10 Kbp.
 
 ### An Example Run
 
