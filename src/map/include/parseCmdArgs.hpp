@@ -29,11 +29,11 @@ namespace skch
   void initCmdParser(CommandLineProcessing::ArgvParser &cmd)
   {
     cmd.setIntroductoryDescription("-----------------\n\
-fastANI is a fast alignment-free implementation for computing ANI between genomes\n\
+fastANI is a fast alignment-free implementation for computing whole-genome Average Nucleotide Identity (ANI) between genomes\n\
 -----------------\n\
 Example usage: \n\
-$ fastANI -s genome1.fa -q genome2.fa -o output.txt\n\
-$ fastANI --sl genome_list.txt -q genome2.fa -o output.txt");
+$ fastANI -q genome1.fa -r genome2.fa -o output.txt\n\
+$ fastANI -q genome1.fa --rl genome_list.txt -o output.txt");
 
     cmd.setHelpOption("h", "help", "Print this help page");
 

@@ -2,7 +2,7 @@ FastANI
 ========================================================================
 [![Apache 2.0 License](https://img.shields.io/badge/license-Apache%20v2.0-blue.svg)](LICENSE)
 
-FastANI is a fast alignment-free estimator of Average Nucleotide Identity (ANI) between two genomes. ANI is defined as mean nucleotide identity of orthologous gene pairs between two microbial genomes. FastANI supports comparison of both complete and draft genomes. FastANI follows a similar workflow as described by [Goris et al. 2007](http://www.ncbi.nlm.nih.gov/pubmed/17220447). However, it avoids expensive sequence alignments and uses [Mashmap](https://github.com/marbl/MashMap) as its MinHash based sequence mapping engine. Based on our experiments with complete and draft genomes, its accuracy is on par with [BLAST-based ANI solver](http://enve-omics.ce.gatech.edu/ani/) and achieves two to three orders of magnitude speedup. Therefore, it is useful for ANI analysis of large number of genome pairs. Detailed results and comparisons with existing methods are described in our paper. 
+FastANI is developed for fast alignment-free computation of whole-genome Average Nucleotide Identity (ANI). ANI is defined as mean nucleotide identity of orthologous gene pairs between two microbial genomes. FastANI supports both complete and draft genome assemblies. It follows a similar workflow as described by [Goris et al. 2007](http://www.ncbi.nlm.nih.gov/pubmed/17220447). However, it avoids expensive sequence alignments and uses [Mashmap](https://github.com/marbl/MashMap) as its MinHash based sequence mapping engine. Based on our experiments with complete and draft genomes, its accuracy is on par with [BLAST-based ANI solver](http://enve-omics.ce.gatech.edu/ani/) and achieves two to three orders of magnitude speedup. Therefore, it is useful for pairwise ANI computation of large number of genome pairs. Detailed results and comparisons with existing methods are described in our paper. 
 
 ### Download and Compile
 
@@ -67,18 +67,20 @@ ANI output file = fastani.out
 INFO, skch::main, Time spent post mapping : 0.00310319 sec
 ```
 
-Output is saved in file **fastani.out**. It should contain the ANI estimate between *E. coli* and *S. flexneri* genomes.
+Output is saved in file `fastani.out`, provided above using the `-o` option. 
 
 ```sh
 $ cat fastani.out
 data/Shigella_flexneri_2a_01.fna data/Escherichia_coli_str_K12_MG1655.fna 97.7443 1305 1608
 ```
 
+Above output implies that the ANI estimate between *S. flexneri* and *E. coli* genomes is 97.7443. Out of the total 1608 sequence fragments from *S. flexneri* genome, 1305 were aligned as orthologous matches.
+
 ### Visualize Conserved Regions b/w Two Genomes
 
 FastANI supports visualization of the reciprocal mappings computed between two genomes. 
 Getting this visualization requires a one to one comparison using FastANI as discussed above, except an additional flag `--visualize` should be provided. 
-This flag forces FastANI to output mapping file (with `.visual` extension) that contains information of all the reciprocal mappings. 
+This flag forces FastANI to output a mapping file (with `.visual` extension) that contains information of all the reciprocal mappings. 
 Finally, an [R script](scripts) is provided in the repository which uses [genoPlotR](https://cran.r-project.org/web/packages/genoPlotR/index.html) package to plot these mappings. 
 Here we show an example run using two genomes: *Bartonella quintana* ([GenBank: CP003784.1](https://www.ncbi.nlm.nih.gov/nuccore/CP003784.1)) and *Bartonella henselae* ([NCBI Reference Sequence: NC_005956.1](https://www.ncbi.nlm.nih.gov/nuccore/NC_005956.1)).
 
@@ -95,7 +97,7 @@ Using above commands, we get a plot file fastani.out.visual.pdf displayed below.
 
 ### Parallelization
 
-As of now, FastANI doesn't support parallelization internally. However, for one-to-many or many-to-many genome comparisons, users can simply divide their reference database into multiple chunks, and execute them as parallel processes. We provide a [helper script](scripts) to do this splitting.
+As of now, FastANI doesn't support parallelization internally. However, for one-to-many or many-to-many genome comparisons, users can simply divide their reference database into multiple chunks, and execute them as parallel processes. We provide a [script](scripts) in the repository to randomly split the database.
 
 ### Troubleshooting
 
