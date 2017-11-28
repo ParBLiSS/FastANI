@@ -2,11 +2,11 @@ FastANI
 ========================================================================
 [![Apache 2.0 License](https://img.shields.io/badge/license-Apache%20v2.0-blue.svg)](LICENSE)
 
-FastANI is developed for fast alignment-free computation of whole-genome Average Nucleotide Identity (ANI). ANI is defined as mean nucleotide identity of orthologous gene pairs between two microbial genomes. FastANI supports both complete and draft genome assemblies. It follows a similar workflow as described by [Goris et al. 2007](http://www.ncbi.nlm.nih.gov/pubmed/17220447). However, it avoids expensive sequence alignments and uses [Mashmap](https://github.com/marbl/MashMap) as its MinHash based sequence mapping engine. Based on our experiments with complete and draft genomes, its accuracy is on par with [BLAST-based ANI solver](http://enve-omics.ce.gatech.edu/ani/) and achieves two to three orders of magnitude speedup. Therefore, it is useful for pairwise ANI computation of large number of genome pairs. Detailed results and comparisons with existing methods are described in our paper. 
+FastANI is developed for fast alignment-free computation of whole-genome Average Nucleotide Identity (ANI). ANI is defined as mean nucleotide identity of orthologous gene pairs shared between two microbial genomes. FastANI supports pairwise comparison of both complete and draft genome assemblies. Its underlying procedure follows a similar workflow as described by [Goris et al. 2007](http://www.ncbi.nlm.nih.gov/pubmed/17220447). However, it avoids expensive sequence alignments and uses [Mashmap](https://github.com/marbl/MashMap) as its MinHash based sequence mapping engine to compute the orthologous mappings and alignment identity estimates. Based on our experiments with complete and draft genomes, its accuracy is on par with [BLAST-based ANI solver](http://enve-omics.ce.gatech.edu/ani/) and it achieves two to three orders of magnitude speedup. Therefore, it is useful for pairwise ANI computation of large number of genome pairs. More details about its speed, accuracy and potential applications are described here: "[High-throughput ANI Analysis of 90K Prokaryotic Genomes Reveals Clear Species Boundaries](https://doi.org/10.1101/225342)". 
 
 ### Download and Compile
 
-Clone the software from Github and follow [`INSTALL.txt`](INSTALL.txt) to compile the code. 
+Clone the software from Github and follow [`INSTALL.txt`](INSTALL.txt) to compile the code. There is also an option to download dependency-free binary for Linux or OSX through the [latest release](https://github.com/ParBliSS/FastANI/releases).
 
 ### Usage Summary
 
@@ -97,12 +97,8 @@ Using above commands, we get a plot file fastani.out.visual.pdf displayed below.
 
 ### Parallelization
 
-As of now, FastANI doesn't support parallelization internally. However, for one-to-many or many-to-many genome comparisons, users can simply divide their reference database into multiple chunks, and execute them as parallel processes. We provide a [script](scripts) in the repository to randomly split the database.
+As of now, FastANI doesn't support parallelization internally. However, for one-to-many or many-to-many genome comparisons, users can simply divide their reference database into multiple chunks, and execute them as parallel processes. We provide a [script](scripts) in the repository to randomly split the database for this purpose.
 
 ### Troubleshooting
 
 Users are welcome to report any issue or feedback related to FastANI by posting a [Github issue](https://github.com/ParBLiSS/FastANI/issues).
-
-### Publication
-
-To be updated soon...
