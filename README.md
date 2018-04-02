@@ -101,7 +101,7 @@ Using above commands, we get a plot file fastani.out.visual.pdf displayed below.
 
 As of now, FastANI doesn't support parallelization internally. However, for one-to-many or many-to-many genome comparisons, users can simply divide their reference database into multiple chunks, and execute them as parallel processes. We provide a [script](scripts) in the repository to randomly split the database for this purpose.
 
-One way to parallelize is with `xargs`. In this example, we provide six queries (really two queries three times over), and also two references per query.  Output is saved in six separate files that can be combined in the next step.
+One way to parallelize is with `xargs`. In this example, we provide six queries (really two queries three times over), and also two references per query.  Output is saved in six separate files that can be combined in the next step. The combined file can be viewed with `column -t` as suggested.
 
     export FNA=$(ls data/*.fna)
     echo $FNA $FNA $FNA | xargs -P 6 -n 1 bash -c '
@@ -111,6 +111,7 @@ One way to parallelize is with `xargs`. In this example, we provide six queries 
     '
     cat tmp.*.tsv > fastani.tsv
     rm tmp.*.tsv
+    column -t fastani.tsv
 
 ### Troubleshooting
 
