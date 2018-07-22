@@ -214,6 +214,39 @@ namespace skch
       return count;
     }
 
+
+    /**
+     * @brief               trim white spaces from start of the string
+     * @param[in/out]   s
+     */
+    inline void ltrim(std::string &s) 
+    {
+      s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int ch) {
+            return !std::isspace(ch);
+            }));
+    }
+
+    /**
+     * @brief               trim white spaces from end of the string
+     * @param[in/out]   s
+     */
+    inline void rtrim(std::string &s) 
+    {
+      s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) {
+            return !std::isspace(ch);
+            }).base(), s.end());
+    }
+
+    /**
+     * @brief               trim white spaces from start and end of 
+     *                      the input string
+     * @param[in/out]   s
+     */
+    inline void trim(std::string &s) 
+    {
+      ltrim(s);
+      rtrim(s);
+    }
   }
 }
 

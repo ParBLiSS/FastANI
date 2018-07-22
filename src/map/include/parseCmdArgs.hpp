@@ -82,7 +82,11 @@ $ fastANI -q genome1.fa --rl genome_list.txt -o output.txt");
 
       while (std::getline(in, line))
       {
-        fileList.push_back(line);
+        //trim whitespaces
+        skch::CommonFunc::trim (line);
+
+        if (line.length() > 0)        //avoid empty strings
+          fileList.push_back(line);
       }
     }
 
@@ -94,6 +98,12 @@ $ fastANI -q genome1.fa --rl genome_list.txt -o output.txt");
   template <typename VEC>
     void validateInputFiles(VEC &querySequences, VEC &refSequences)
     {
+      if (querySequences.size() == 0 || refSequences.size() == 0)
+      {
+        std::cerr << "ERROR, skch::validateInputFiles, Count of query and ref genomes should be non-zero" << std::endl;
+        exit(1);
+      }
+
       //Open file one by one
       for(auto &e : querySequences)
       {
@@ -101,7 +111,7 @@ $ fastANI -q genome1.fa --rl genome_list.txt -o output.txt");
 
         if (in.fail())
         {
-          std::cerr << "ERROR, skch::validateInputFiles, Could not open " << e << "\n";
+          std::cerr << "ERROR, skch::validateInputFiles, Could not open " << e << std::endl;
           exit(1);
         }
       }
@@ -112,7 +122,7 @@ $ fastANI -q genome1.fa --rl genome_list.txt -o output.txt");
 
         if (in.fail())
         {
-          std::cerr << "ERROR, skch::validateInputFiles, Could not open " << e << "\n";
+          std::cerr << "ERROR, skch::validateInputFiles, Could not open " << e << std::endl;
           exit(1);
         }
       }
