@@ -34,7 +34,7 @@ int main(int argc, char** argv)
 
   skch::parseandSave(argc, argv, cmd, parameters);   
 
-  //Redirect mapping output to null fs, using file name for CGI output
+  //Redirect Mashmap's mapping output to null fs, using file name for CGI output
   std::string fileName = parameters.outFileName;
 
 #ifdef DEBUG

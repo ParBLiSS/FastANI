@@ -283,10 +283,10 @@ namespace cgi
         if(e.countSeq >= parameters.minFragments)
         {
           outstrm << parameters.querySequences[queryFileNo]
-            << " " << parameters.refSequences[e.genomeId]
-            << " " << e.identity 
-            << " " << e.countSeq
-            << " " << totalQueryFragments
+            << "\t" << parameters.refSequences[e.genomeId]
+            << "\t" << e.identity 
+            << "\t" << e.countSeq
+            << "\t" << totalQueryFragments
             << "\n";
         }
       }
