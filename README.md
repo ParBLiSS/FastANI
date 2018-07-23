@@ -39,7 +39,7 @@ $ ./fastANI --ql [QUERY_LIST] --rl [REFERENCE_LIST] -o [OUTPUT_FILE]
 ```
 Again, QUERY\_LIST and REFERENCE\_LIST are files containing paths to genomes, one per line.
 
-In all above use cases, OUTPUT\_FILE will contain space delimited row(s) with query genome, reference genome, ANI value, count of bidirectional fragment mappings, and total query fragments. Alignment fraction (wrt. the query genome) is simply the ratio of mappings and total fragments. **NOTE:** No ANI output is reported for a genome pair if ANI value is much below 80%. Such case should be computed at [amino acid level](http://enve-omics.ce.gatech.edu/aai/).
+In all above use cases, OUTPUT\_FILE will contain tab delimited row(s) with query genome, reference genome, ANI value, count of bidirectional fragment mappings, and total query fragments. Alignment fraction (wrt. the query genome) is simply the ratio of mappings and total fragments. **NOTE:** No ANI output is reported for a genome pair if ANI value is much below 80%. Such case should be computed at [amino acid level](http://enve-omics.ce.gatech.edu/aai/).
 
 Two genome assemblies are provided in [data](data) folder to do a quick test run. 
 
