@@ -62,6 +62,9 @@ int main(int argc, char** argv)
       std::ofstream outstrm4(fileName + ".visual");
   }
 
+  //Final output vector of ANI computation
+  std::vector<cgi::CGI_Results> finalResults;
+
   //Loop over query genomes
   for(uint64_t queryno = 0; queryno < parameters.querySequences.size(); queryno++)
   {
@@ -78,9 +81,11 @@ int main(int argc, char** argv)
 
     t0 = skch::Time::now();
 
-    cgi::computeCGI(parameters, mapResults, mapper, referSketch, totalQueryFragments, queryno, fileName);
+    cgi::computeCGI(parameters, mapResults, mapper, referSketch, totalQueryFragments, queryno, fileName, finalResults);
 
     std::chrono::duration<double> timeCGI = skch::Time::now() - t0;
     std::cerr << "INFO, skch::main, Time spent post mapping : " << timeCGI.count() << " sec" << std::endl;
   }
+
+  cgi::outputCGI (parameters, finalResults, fileName);
 }

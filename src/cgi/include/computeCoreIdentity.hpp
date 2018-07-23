@@ -105,14 +105,17 @@ namespace cgi
    * @param[in]   totalQueryFragments   count of total sequence fragments in query genome
    * @param[in]   queryFileNo           query genome is parameters.querySequences[queryFileNo]
    * @param[in]   fileName              file name where results will be reported
+   * @param[out]  CGI_ResultsVector     FastANI results
    */
   void computeCGI(skch::Parameters &parameters,
       skch::MappingResultsVector_t &results,
       skch::Map &mapper,
       skch::Sketch &refSketch,
-      uint64_t &totalQueryFragments,
+      uint64_t totalQueryFragments,
       uint64_t queryFileNo,
-      std::string &fileName)
+      std::string &fileName,
+      std::vector<cgi::CGI_Results> &CGI_ResultsVector
+      )
   {
     //Vector to save relevant fields from mapping results
     std::vector<MappingResult_CGI> shortResults;
@@ -236,8 +239,6 @@ namespace cgi
       }
     }
 
-    //Final output vector of ANI/AAI computation
-    std::vector<cgi::CGI_Results> CGI_ResultsVector;
 
     //Do average for ANI/AAI computation 
     //mappings_2way should be sorted by genomeId 
@@ -261,8 +262,11 @@ namespace cgi
 
       //Save the result 
       CGI_Results currentResult;
-      currentResult.genomeId = currentGenomeId;
+
+      currentResult.qryGenomeId = queryFileNo;
+      currentResult.refGenomeId = currentGenomeId;
       currentResult.countSeq = std::distance(it, rangeEndIter);
+      currentResult.totalQueryFragments = totalQueryFragments;
       currentResult.identity = sumIdentity/currentResult.countSeq;
 
       CGI_ResultsVector.push_back(currentResult);
@@ -270,27 +274,38 @@ namespace cgi
       //Advance the iterator it
       it = rangeEndIter;
     }
+  }
 
-    //Sort in decreasing order of matches
+  /**
+   * @brief                             output FastANI results to file
+   * @param[in]   parameters            algorithm parameters
+   * @param[in]   CGI_ResultsVector     results
+   * @param[in]   fileName              file name where results will be reported
+   */
+  void outputCGI(skch::Parameters &parameters,
+      std::vector<cgi::CGI_Results> &CGI_ResultsVector,
+      std::string &fileName)
+  {
+    //sort result by identity
     std::sort(CGI_ResultsVector.rbegin(), CGI_ResultsVector.rend());
 
-    {
-      std::ofstream outstrm(fileName,  std::ios::app);
+    std::ofstream outstrm(fileName,  std::ios::app);
 
-      //Report results
-      for(auto &e : CGI_ResultsVector)
+    //Report results
+    for(auto &e : CGI_ResultsVector)
+    {
+      if(e.countSeq >= parameters.minFragments)
       {
-        if(e.countSeq >= parameters.minFragments)
-        {
-          outstrm << parameters.querySequences[queryFileNo]
-            << "\t" << parameters.refSequences[e.genomeId]
-            << "\t" << e.identity 
-            << "\t" << e.countSeq
-            << "\t" << totalQueryFragments
-            << "\n";
-        }
+        outstrm << parameters.querySequences[e.qryGenomeId]
+          << "\t" << parameters.refSequences[e.refGenomeId]
+          << "\t" << e.identity 
+          << "\t" << e.countSeq
+          << "\t" << e.totalQueryFragments
+          << "\n";
       }
     }
+
+    outstrm.close();
   }
 }
 

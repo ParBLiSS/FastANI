@@ -66,13 +66,15 @@ namespace cgi
   //Final format to save CGI results
   struct CGI_Results
   {
-    skch::seqno_t genomeId;
+    skch::seqno_t refGenomeId;
+    skch::seqno_t qryGenomeId;
     skch::seqno_t countSeq;
+    skch::seqno_t totalQueryFragments;
     float identity;
 
-    //Default comparison is by identity
     bool operator <(const CGI_Results& x) const {
-      return identity < x.identity;
+      return std::tie(x.qryGenomeId, identity) 
+        < std::tie(qryGenomeId, x.identity);
     }
   };
 }
