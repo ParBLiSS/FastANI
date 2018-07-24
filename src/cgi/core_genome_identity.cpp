@@ -53,7 +53,6 @@ int main(int argc, char** argv)
 
   //Initialize the files to delete the existing content
   {
-    std::ofstream outstrm1(fileName);
 #ifdef DEBUG
     std::ofstream outstrm2(fileName + ".map.1way");
     std::ofstream outstrm3(fileName + ".map.2way");
@@ -88,4 +87,7 @@ int main(int argc, char** argv)
   }
 
   cgi::outputCGI (parameters, finalResults, fileName);
+
+  if (parameters.matrixOutput)
+    cgi::outputPhylip (parameters, finalResults, fileName);
 }

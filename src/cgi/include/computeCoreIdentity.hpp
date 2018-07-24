@@ -289,7 +289,7 @@ namespace cgi
     //sort result by identity
     std::sort(CGI_ResultsVector.rbegin(), CGI_ResultsVector.rend());
 
-    std::ofstream outstrm(fileName,  std::ios::app);
+    std::ofstream outstrm(fileName);
 
     //Report results
     for(auto &e : CGI_ResultsVector)
@@ -303,6 +303,96 @@ namespace cgi
           << "\t" << e.totalQueryFragments
           << "\n";
       }
+    }
+
+    outstrm.close();
+  }
+
+  /**
+   * @brief                             output FastANI results as lower triangular matrix
+   * @param[in]   parameters            algorithm parameters
+   * @param[in]   CGI_ResultsVector     results
+   * @param[in]   fileName              file name where results will be reported
+   */
+  void outputPhylip(skch::Parameters &parameters,
+      std::vector<cgi::CGI_Results> &CGI_ResultsVector,
+      std::string &fileName)
+  {
+    std::unordered_map <std::string, int> genome2Int;    // name of genome -> integer
+    std::unordered_map <int, std::string> genome2Int_rev; // integer -> name of genome
+
+    //Assign unique index to the set of query and reference genomes
+    for(auto &e : parameters.querySequences)
+    {
+      auto id = genome2Int.size();
+      if( genome2Int.find(e) == genome2Int.end() )
+      {
+        genome2Int [e] = id;
+        genome2Int_rev [id] = e;
+      }
+    }
+
+    for(auto &e : parameters.refSequences)
+    {
+      auto id = genome2Int.size();
+      if( genome2Int.find(e) == genome2Int.end() )
+      {
+        genome2Int [e] = id;
+        genome2Int_rev [id] = e;
+      }
+    }
+
+    int totalGenomes = genome2Int.size();
+
+    //create a square 2-d matrix
+    std::vector< std::vector<float> > fastANI_matrix (totalGenomes,  std::vector<float> (totalGenomes, 0.0));
+
+    //transform FastANI results into 3-tuples
+    for(auto &e : CGI_ResultsVector)
+    {
+      if(e.countSeq >= parameters.minFragments)
+      {
+        int qGenome = genome2Int [ parameters.querySequences[e.qryGenomeId] ];
+        int rGenome = genome2Int [ parameters.refSequences[e.refGenomeId] ];
+
+        if (qGenome != rGenome)   //ignore if both genomes are same
+        {
+          if (qGenome > rGenome)
+          {
+            if (fastANI_matrix[qGenome][rGenome] > 0)
+              fastANI_matrix[qGenome][rGenome] = (fastANI_matrix[qGenome][rGenome] + e.identity)/2;
+            else
+              fastANI_matrix[qGenome][rGenome] = e.identity;
+          }
+          else
+          {
+            if (fastANI_matrix[rGenome][qGenome] > 0)
+              fastANI_matrix[rGenome][qGenome] = (fastANI_matrix[rGenome][qGenome] + e.identity)/2;
+            else
+              fastANI_matrix[rGenome][qGenome] = e.identity;
+          }
+        }
+      }
+    }
+
+    std::ofstream outstrm(fileName + ".matrix");
+
+    outstrm << totalGenomes << "\n";
+
+    //Report matrix
+    for (int i = 0; i < totalGenomes; i++)
+    {
+      //output genome name
+      outstrm << genome2Int_rev[i];
+
+      for (int j = 0; j < i; j++)
+      {
+        //output ani values
+        //average if computed twice
+        std::string val = fastANI_matrix[i][j] > 0.0 ? std::to_string (fastANI_matrix[i][j]) : "NA";
+        outstrm << "\t" << val; 
+      }
+      outstrm << "\n";
     }
 
     outstrm.close();

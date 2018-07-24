@@ -33,6 +33,7 @@ namespace skch
     std::string outFileName;                          //output file name
     bool reportAll;                                   //Report all alignments if this is true
     bool visualize;                                   //Visualize the conserved regions of two genomes
+    bool matrixOutput;                                //report fastani results as lower triangular matrix
   };
 }
 

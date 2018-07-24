@@ -49,7 +49,7 @@ $ fastANI -q genome1.fa --rl genome_list.txt -o output.txt");
     cmd.defineOption("queryList", "a file containing list of query genome files, one genome per line", ArgvParser::OptionRequiresValue);
     cmd.defineOptionAlternative("queryList","ql");
 
-    cmd.defineOption("kmer", "kmer size <= 16 [default 16]", ArgvParser::OptionRequiresValue);
+    cmd.defineOption("kmer", "kmer size <= 16 [default : 16]", ArgvParser::OptionRequiresValue);
     cmd.defineOptionAlternative("kmer","k");
 
     cmd.defineOption("fragLen", "fragment length [default : 3,000]", ArgvParser::OptionRequiresValue);
@@ -57,6 +57,8 @@ $ fastANI -q genome1.fa --rl genome_list.txt -o output.txt");
     cmd.defineOption("minFrag", "minimum fragments for trusting ANI [default : 50]", ArgvParser::OptionRequiresValue);
 
     cmd.defineOption("visualize", "output mappings for visualization, can be enabled for single genome to single genome comparison only [disabled by default]");
+
+    cmd.defineOption("matrix", "also output ANI values as lower triangular matrix (format inspired from phylip). If enabled, you should expect an output file with .matrix extension [disabled by default]");
 
     cmd.defineOption("output", "output file name", ArgvParser::OptionRequired | ArgvParser::OptionRequiresValue);
     cmd.defineOptionAlternative("output","o");
@@ -237,6 +239,12 @@ $ fastANI -q genome1.fa --rl genome_list.txt -o output.txt");
     }
     else
       parameters.visualize = false;
+
+
+    if(cmd.foundOption("matrix"))
+      parameters.matrixOutput = true;
+    else
+      parameters.matrixOutput = false;
 
     //Parse algorithm parameters
     if(cmd.foundOption("kmer"))
