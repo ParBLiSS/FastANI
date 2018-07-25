@@ -24,6 +24,7 @@ namespace skch
     int windowSize;                                   //window size used for sketching 
     int minReadLength;                                //minimum read length which code maps
     int minFragments;                                 //minimum fragment mappings for trusting ANI value
+    int threads;                                      //thread count
     int alphabetSize;                                 //alphabet size
     uint64_t referenceSize;                           //Approximate reference size
     float percentageIdentity;                         //user defined threshold for good similarity

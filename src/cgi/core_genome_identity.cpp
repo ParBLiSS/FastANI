@@ -8,6 +8,7 @@
 #include <ctime>
 #include <chrono>
 #include <functional>
+#include <omp.h>
 
 //Own includes
 #include "map/include/map_parameters.hpp"
@@ -23,6 +24,12 @@
 
 int main(int argc, char** argv)
 {
+  /*
+   * Make sure env variable MALLOC_ARENA_MAX is unset 
+   * for efficient multi-threaded execution
+   */
+  unsetenv((char *)"MALLOC_ARENA_MAX");
+
   CommandLineProcessing::ArgvParser cmd;
   using namespace std::placeholders;  // for _1, _2, _3...
 
@@ -34,60 +41,72 @@ int main(int argc, char** argv)
 
   skch::parseandSave(argc, argv, cmd, parameters);   
 
-  //Redirect Mashmap's mapping output to null fs, using file name for CGI output
   std::string fileName = parameters.outFileName;
 
-#ifdef DEBUG
-  parameters.outFileName = parameters.outFileName + ".map";
-#else
+  //To redirect Mashmap's mapping output to null fs, using file name for CGI output
   parameters.outFileName = "/dev/null";
-#endif
 
-  auto t0 = skch::Time::now();
-
-  //Build the sketch for reference
-  skch::Sketch referSketch(parameters);
-
-  std::chrono::duration<double> timeRefSketch = skch::Time::now() - t0;
-  std::cerr << "INFO, skch::main, Time spent sketching the reference : " << timeRefSketch.count() << " sec" << std::endl;
-
-  //Initialize the files to delete the existing content
-  {
-#ifdef DEBUG
-    std::ofstream outstrm2(fileName + ".map.1way");
-    std::ofstream outstrm3(fileName + ".map.2way");
-#endif
-    if(parameters.visualize)
-      std::ofstream outstrm4(fileName + ".visual");
-  }
+  //Set up for parallel execution
+  omp_set_num_threads( parameters.threads ); 
+  std::vector <skch::Parameters> parameters_split (parameters.threads);
+  cgi::splitReferenceGenomes (parameters, parameters_split);
 
   //Final output vector of ANI computation
   std::vector<cgi::CGI_Results> finalResults;
 
-  //Loop over query genomes
-  for(uint64_t queryno = 0; queryno < parameters.querySequences.size(); queryno++)
+#pragma omp parallel for
+  for (uint64_t i = 0; i < parameters.threads; i++)
   {
-    t0 = skch::Time::now();
+    //start timer
+    auto t0 = skch::Time::now();
 
-    skch::MappingResultsVector_t mapResults;
-    uint64_t totalQueryFragments = 0;
+    //Build the sketch for reference
+    skch::Sketch referSketch(parameters_split[i]);
 
-    auto fn = std::bind(skch::Map::insertL2ResultsToVec, std::ref(mapResults), _1);
-    skch::Map mapper = skch::Map(parameters, referSketch, totalQueryFragments, queryno, fn);
+    std::chrono::duration<double> timeRefSketch = skch::Time::now() - t0;
 
-    std::chrono::duration<double> timeMapQuery = skch::Time::now() - t0;
-    std::cerr << "INFO, skch::main, Time spent mapping fragments in query #" << queryno + 1 <<  " : " << timeMapQuery.count() << " sec" << std::endl;
+    if ( omp_get_thread_num() == 0)
+      std::cerr << "INFO [thread 0], skch::main, Time spent sketching the reference : " << timeRefSketch.count() << " sec" << std::endl;
 
-    t0 = skch::Time::now();
+    //Final output vector of ANI computation
+    std::vector<cgi::CGI_Results> finalResults_local;
 
-    cgi::computeCGI(parameters, mapResults, mapper, referSketch, totalQueryFragments, queryno, fileName, finalResults);
+    //Loop over query genomes
+    for(uint64_t queryno = 0; queryno < parameters_split[i].querySequences.size(); queryno++)
+    {
+      t0 = skch::Time::now();
 
-    std::chrono::duration<double> timeCGI = skch::Time::now() - t0;
-    std::cerr << "INFO, skch::main, Time spent post mapping : " << timeCGI.count() << " sec" << std::endl;
+      skch::MappingResultsVector_t mapResults;
+      uint64_t totalQueryFragments = 0;
+
+      auto fn = std::bind(skch::Map::insertL2ResultsToVec, std::ref(mapResults), _1);
+      skch::Map mapper = skch::Map(parameters_split[i], referSketch, totalQueryFragments, queryno, fn);
+
+      std::chrono::duration<double> timeMapQuery = skch::Time::now() - t0;
+
+      if ( omp_get_thread_num() == 0)
+        std::cerr << "INFO [thread 0], skch::main, Time spent mapping fragments in query #" << queryno + 1 <<  " : " << timeMapQuery.count() << " sec" << std::endl;
+
+      t0 = skch::Time::now();
+
+      cgi::computeCGI(parameters_split[i], mapResults, mapper, referSketch, totalQueryFragments, queryno, fileName, finalResults_local);
+
+      std::chrono::duration<double> timeCGI = skch::Time::now() - t0;
+
+      if ( omp_get_thread_num() == 0)
+        std::cerr << "INFO [thread 0], skch::main, Time spent post mapping : " << timeCGI.count() << " sec" << std::endl;
+    }
+
+    cgi::correctRefGenomeIds (finalResults_local);
+
+#pragma omp critical
+    finalResults.insert (finalResults.end(), finalResults_local.begin(), finalResults_local.end());
   }
 
+  //report output in file
   cgi::outputCGI (parameters, finalResults, fileName);
 
+  //report output as matrix
   if (parameters.matrixOutput)
     cgi::outputPhylip (parameters, finalResults, fileName);
 }

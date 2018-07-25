@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <unordered_map>
 #include <fstream>
+#include <omp.h>
 
 //Own includes
 #include "map/include/base_types.hpp"
@@ -172,25 +173,6 @@ namespace cgi
       }
     }
 
-#ifdef DEBUG
-    {
-      std::ofstream outstrm(fileName + ".map.1way", std::ios::app);
-
-      //Report all mappings that contribute to core-genome identity estimate
-      for(auto &e : mappings_1way)
-      {
-        if(e.nucIdentity != 0) 
-          outstrm << parameters.querySequences[queryFileNo]
-            << " " << parameters.refSequences[e.genomeId]
-            << " " << e.querySeqId 
-            << " " << e.refSequenceId 
-            << " " << e.mapRefPosBin
-            << " " << e.nucIdentity
-            << "\n";
-      }
-    }
-#endif
-
     ///2. Now, we compute 2-way ANI
     //For each mapped region, and within a reference bin bucket, single best query mapping is preserved
     {
@@ -214,31 +196,12 @@ namespace cgi
       }
     }
 
-#ifdef DEBUG
-    {
-      std::ofstream outstrm(fileName + ".map.2way", std::ios::app);
-
-      //Report all mappings that contribute to core-genome identity estimate
-      for(auto &e : mappings_2way)
-      {
-        outstrm << parameters.querySequences[queryFileNo]
-          << " " << parameters.refSequences[e.genomeId]
-          << " " << e.querySeqId 
-          << " " << e.refSequenceId 
-          << " " << e.mapRefPosBin
-          << " " << e.nucIdentity
-          << "\n";
-      }
-    }
-#endif
-
     {
       if(parameters.visualize)
       {
         outputVisualizationFile(parameters, mappings_2way, mapper, refSketch, queryFileNo, fileName);
       }
     }
-
 
     //Do average for ANI/AAI computation 
     //mappings_2way should be sorted by genomeId 
@@ -396,6 +359,45 @@ namespace cgi
     }
 
     outstrm.close();
+  }
+
+  /**
+   * @brief                         generate multiple parameter objects from one
+   * @details                       purpose it to divide the list of reference genomes
+   *                                into as many buckets as there are threads 
+   * @param[in]   parameters
+   * @param[out]  parameters_split
+   */
+  void splitReferenceGenomes(skch::Parameters &parameters,
+      std::vector <skch::Parameters> &parameters_split)
+  {
+    for (int i = 0; i < parameters.threads; i++)
+    {
+      parameters_split[i] = parameters;
+
+      //update the reference genomes list
+      parameters_split[i].refSequences.clear();
+
+      //assign ref. genome to threads in round-robin fashion
+      for (int j = 0; j < parameters.refSequences.size(); j++)
+      {
+        if (j % parameters.threads == i)
+          parameters_split[i].refSequences.push_back (parameters.refSequences[j]);
+      }
+    }
+  }
+
+  /**
+   * @brief                             update thread local reference genome ids to global ids
+   * @param[in/out] CGI_ResultsVector
+   */
+  void correctRefGenomeIds (std::vector<cgi::CGI_Results> &CGI_ResultsVector)
+  {
+    int tid = omp_get_thread_num();
+    int thread_count = omp_get_num_threads(); 
+    
+    for (auto &e : CGI_ResultsVector)
+      e.refGenomeId = e.refGenomeId * thread_count +  tid;
   }
 }
 

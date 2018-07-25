@@ -52,9 +52,12 @@ $ fastANI -q genome1.fa --rl genome_list.txt -o output.txt");
     cmd.defineOption("kmer", "kmer size <= 16 [default : 16]", ArgvParser::OptionRequiresValue);
     cmd.defineOptionAlternative("kmer","k");
 
+    cmd.defineOption("threads", "thread count for parallel execution [default : 1]", ArgvParser::OptionRequiresValue);
+    cmd.defineOptionAlternative("threads","t");
+
     cmd.defineOption("fragLen", "fragment length [default : 3,000]", ArgvParser::OptionRequiresValue);
 
-    cmd.defineOption("minFrag", "minimum fragments for trusting ANI [default : 50]", ArgvParser::OptionRequiresValue);
+    cmd.defineOption("minFrag", "minimum matched fragments for trusting ANI [default : 50]", ArgvParser::OptionRequiresValue);
 
     cmd.defineOption("visualize", "output mappings for visualization, can be enabled for single genome to single genome comparison only [disabled by default]");
 
@@ -141,6 +144,7 @@ $ fastANI -q genome1.fa --rl genome_list.txt -o output.txt");
     std::cerr << "Query = " << parameters.querySequences << std::endl;
     std::cerr << "Kmer size = " << parameters.kmerSize << std::endl;
     std::cerr << "Fragment length = " << parameters.minReadLength << std::endl;
+    std::cerr << "Threads = " << parameters.threads << std::endl;
     std::cerr << "ANI output file = " << parameters.outFileName << std::endl;
     std::cerr << ">>>>>>>>>>>>>>>>>>" << std::endl;
   }
@@ -196,7 +200,10 @@ $ fastANI -q genome1.fa --rl genome_list.txt -o output.txt");
     }
 
     //Size of reference
-    parameters.referenceSize = skch::CommonFunc::getReferenceSize(parameters.refSequences); 
+    //parameters.referenceSize = skch::CommonFunc::getReferenceSize(parameters.refSequences); 
+
+    //fix reference length to a typical bacterial genome length
+    parameters.referenceSize = 5000000;
     str.clear();
 
     //Parse query files
@@ -260,6 +267,15 @@ $ fastANI -q genome1.fa --rl genome_list.txt -o output.txt");
       else
         parameters.kmerSize = 5;
     }
+
+    if(cmd.foundOption("threads"))
+    {
+      str << cmd.optionValue("threads");
+      str >> parameters.threads;
+      str.clear();
+    }
+    else
+      parameters.threads = 1;
 
     parameters.p_value = 1e-03;
 

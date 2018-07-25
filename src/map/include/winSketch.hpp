@@ -13,6 +13,7 @@
 #include <map>
 #include <cassert>
 #include <zlib.h>  
+#include <omp.h>
 
 //Own includes
 #include "map/include/commonFunc.hpp"
@@ -165,7 +166,8 @@ namespace skch
           fclose(file);
         }
 
-        std::cerr << "INFO, skch::Sketch::build, minimizers picked from reference = " << minimizerIndex.size() << std::endl;
+        if ( omp_get_thread_num() == 0)
+          std::cerr << "INFO [thread 0], skch::Sketch::build, minimizers picked from reference = " << minimizerIndex.size() << std::endl;
 
       }
 
@@ -182,7 +184,8 @@ namespace skch
               MinimizerMetaData{e.seqId, e.wpos});
         }
 
-        std::cerr << "INFO, skch::Sketch::index, unique minimizers = " << minimizerPosLookupIndex.size() << std::endl;
+        if ( omp_get_thread_num() == 0)
+          std::cerr << "INFO [thread 0], skch::Sketch::index, unique minimizers = " << minimizerPosLookupIndex.size() << std::endl;
       }
 
       /**
@@ -197,7 +200,8 @@ namespace skch
         for(auto &e : this->minimizerPosLookupIndex)
           this->minimizerFreqHistogram[e.second.size()] += 1;
 
-        std::cerr << "INFO, skch::Sketch::computeFreqHist, Frequency histogram of minimizers = " <<  *this->minimizerFreqHistogram.begin() <<  " ... " << *this->minimizerFreqHistogram.rbegin() << std::endl;
+        if ( omp_get_thread_num() == 0)
+          std::cerr << "INFO [thread 0], skch::Sketch::computeFreqHist, Frequency histogram of minimizers = " <<  *this->minimizerFreqHistogram.begin() <<  " ... " << *this->minimizerFreqHistogram.rbegin() << std::endl;
 
         //2. Compute frequency threshold to ignore most frequent minimizers
 
@@ -227,9 +231,15 @@ namespace skch
         }
 
         if(this->freqThreshold != std::numeric_limits<int>::max())
-          std::cerr << "INFO, skch::Sketch::computeFreqHist, With threshold " << this->percentageThreshold << "\%, ignore minimizers occurring >= " << this->freqThreshold << " times during lookup." << std::endl;
+        {
+          if ( omp_get_thread_num() == 0)
+            std::cerr << "INFO [thread 0], skch::Sketch::computeFreqHist, With threshold " << this->percentageThreshold << "\%, ignore minimizers occurring >= " << this->freqThreshold << " times during lookup." << std::endl;
+        }
         else
-          std::cerr << "INFO, skch::Sketch::computeFreqHist, With threshold " << this->percentageThreshold << "\%, consider all minimizers during lookup." << std::endl;
+        {
+          if ( omp_get_thread_num() == 0)
+            std::cerr << "INFO [thread 0], skch::Sketch::computeFreqHist, With threshold " << this->percentageThreshold << "\%, consider all minimizers during lookup." << std::endl;
+        }
 
       }
 
