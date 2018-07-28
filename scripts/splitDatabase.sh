@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #######
-# Purpose: Split database list of genomes into multiple chunks to parallelize 
-#          or distribute fastANI execution
+# Purpose: Split database list of genomes into multiple chunks to  
+#          distribute fastANI execution on multiple compute nodes
 # Usage: <this_script>  <file containing genome paths, one per line> <count> <output_directory>
 # Ouput: see <count> number of files in <output_directory>
 

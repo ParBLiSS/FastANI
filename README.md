@@ -99,7 +99,7 @@ Using above commands, we get a plot file fastani.out.visual.pdf displayed below.
 
 ### Parallelization
 
-As of now, FastANI doesn't support parallelization internally. However, for one-to-many or many-to-many genome comparisons, users can simply divide their reference database into multiple chunks, and execute them as parallel processes. We provide a [script](scripts) in the repository to randomly split the database for this purpose.
+FastANI (v1.1 onwards) supports multi-threading, see the help page on how to configure thread count. To parallelize FastANI beyond single compute node, users also have the choice to simply divide their reference database into multiple chunks, and execute them as parallel processes. We provide a [script](scripts) in the repository to randomly split the database for this purpose.
 
 ### Troubleshooting
 
