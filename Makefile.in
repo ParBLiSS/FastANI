@@ -1,4 +1,4 @@
-CXXFLAGS += -O3 -DNDEBUG -std=c++11 -fopenmp -Isrc -I @mathinc@
+CXXFLAGS += -O3 -DNDEBUG -std=c++11 -Isrc -I @mathinc@ @OPENMP_CXXFLAGS@
 CPPFLAGS += @amcppflags@
 
 UNAME_S=$(shell uname -s)

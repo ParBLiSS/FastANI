@@ -12,6 +12,8 @@ AC_ARG_WITH(boost, [  --with-boost=<path/to/boost>     Boost Library install dir
 
 AC_LANG(C++)
 
+AC_OPENMP
+
 AC_CHECK_HEADER(zlib.h, [result=1], [result=0])
 
 if test $result == 0

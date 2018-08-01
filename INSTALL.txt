@@ -9,7 +9,7 @@ Dependencies:
      or..
        Boost Library ( http://www.boost.org ) (see "-with-boost" below)
    - Zlib ( included with OS X and most Linuxes, http://www.zlib.net ) *
-   - C++ compiler with C++11 support
+   - C++ compiler with C++11 and openmp support
 
 
 Steps:
