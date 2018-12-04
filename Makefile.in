@@ -4,7 +4,7 @@ CPPFLAGS += @amcppflags@
 UNAME_S=$(shell uname -s)
 
 ifeq ($(UNAME_S),Darwin)
-	CXXFLAGS += -mmacosx-version-min=10.7 -stdlib=libc++
+	CXXFLAGS += -mmacosx-version-min=10.7 -stdlib=libc++ -Xpreprocessor -fopenmp -lomp
 else
 	CXXFLAGS += -include src/common/memcpyLink.h -Wl,--wrap=memcpy
 	CFLAGS += -include src/common/memcpyLink.h
