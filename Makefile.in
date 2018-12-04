@@ -3,7 +3,7 @@ CPPFLAGS += @amcppflags@
 
 UNAME_S=$(shell uname -s)
 
-ifeq ($(UNAME_S),Darwin)
+ifeq ($(UNAME_S),Darwin)  #macOS clang
 	CXXFLAGS += -mmacosx-version-min=10.7 -stdlib=libc++ -Xpreprocessor -fopenmp -lomp
 else
 	CXXFLAGS += -include src/common/memcpyLink.h -Wl,--wrap=memcpy

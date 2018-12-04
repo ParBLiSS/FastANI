@@ -10,7 +10,7 @@ Dependencies:
        Boost Library ( http://www.boost.org ) (see "-with-boost" below)
    - Zlib ( included with OS X and most Linuxes, http://www.zlib.net ) *
    - C++ compiler with C++11 and openmp support
-       The standard way to link OpenMP while using Apple Clang on macOS seems to be by using libomp
+       The standard way to link OpenMP while using Apple Clang on macOS seems to be using "libomp"
        which is available through brew ( https://formulae.brew.sh/formula/libomp )
 
 
