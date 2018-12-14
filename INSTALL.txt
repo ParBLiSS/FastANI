@@ -1,5 +1,5 @@
 This software requires c++11 to build,
-which is available in and GCC >= 4.8 (on linux) and Clang >= 3.3 (on mac)
+which is available in GCC >= 4.8 (on linux) and Clang >= 3.3 (on mac)
 
 Dependencies:
 -------------
@@ -10,7 +10,7 @@ Dependencies:
        Boost Library ( http://www.boost.org ) (see "-with-boost" below)
    - Zlib ( included with OS X and most Linuxes, http://www.zlib.net ) *
    - C++ compiler with C++11 and openmp support
-       Note for macOS users: Use "libomp" to link OpenMP with Clang
+       Note for macOS users: Use "libomp" to link openmp with Clang
        libomp is available through brew ( https://formulae.brew.sh/formula/libomp )
 
 
