@@ -54,9 +54,12 @@ int main(int argc, char** argv)
   //Final output vector of ANI computation
   std::vector<cgi::CGI_Results> finalResults;
 
-#pragma omp parallel for
+#pragma omp parallel for schedule(static,1)
   for (uint64_t i = 0; i < parameters.threads; i++)
   {
+    if ( omp_get_thread_num() == 0)
+      std::cerr << "INFO [thread 0], skch::main, Count of threads executing parallel_for : " << omp_get_num_threads() << std::endl;
+
     //start timer
     auto t0 = skch::Time::now();
 
@@ -100,8 +103,17 @@ int main(int argc, char** argv)
     cgi::correctRefGenomeIds (finalResults_local);
 
 #pragma omp critical
-    finalResults.insert (finalResults.end(), finalResults_local.begin(), finalResults_local.end());
+    {
+      finalResults.insert (finalResults.end(), finalResults_local.begin(), finalResults_local.end());
+    }
+
+#pragma omp critical
+    {
+      std::cerr << "INFO [thread " << omp_get_thread_num() << "], skch::main, ready to exit the loop" << std::endl;
+    }
   }
+
+  std::cerr << "INFO, skch::main, parallel_for execution finished" << std::endl;
 
   //report output in file
   cgi::outputCGI (parameters, finalResults, fileName);
