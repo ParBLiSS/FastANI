@@ -49,7 +49,7 @@ namespace skch
       const skch::Parameters &param;
 
       //Ignore top % most frequent minimizers while lookups
-      const float percentageThreshold = 0.001;
+      const float percentageThreshold = 0.0;
 
       //Minimizers that occur this or more times will be ignored (computed based on percentageThreshold)
       int freqThreshold = std::numeric_limits<int>::max();
@@ -122,6 +122,9 @@ namespace skch
 
         //sequence counter while parsing file
         seqno_t seqCounter = 0;
+
+        if ( omp_get_thread_num() == 0)
+          std::cerr << "INFO [thread 0], skch::Sketch::build, window size for minimizer sampling  = " << param.windowSize << std::endl;
 
         for(const auto &fileName : param.refSequences)
         {
@@ -238,7 +241,7 @@ namespace skch
         else
         {
           if ( omp_get_thread_num() == 0)
-            std::cerr << "INFO [thread 0], skch::Sketch::computeFreqHist, With threshold " << this->percentageThreshold << "\%, consider all minimizers during lookup." << std::endl;
+            std::cerr << "INFO [thread 0], skch::Sketch::computeFreqHist, consider all minimizers during lookup." << std::endl;
         }
 
       }

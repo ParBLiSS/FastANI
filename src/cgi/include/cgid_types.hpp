@@ -32,8 +32,9 @@ namespace cgi
   {
     bool operator() (const MappingResult_CGI &x, const MappingResult_CGI &y)
     {
-      return std::tie(x.genomeId, x.querySeqId, x.nucIdentity) 
-        < std::tie(y.genomeId, y.querySeqId, y.nucIdentity);
+      return std::tie(x.genomeId, x.querySeqId, x.nucIdentity, x.mapRefPosBin) 
+        < std::tie(y.genomeId, y.querySeqId, y.nucIdentity, y.mapRefPosBin);
+      //Added ref. bin also to make sort output deterministic [issue #46]
     }
   } cmp_query_bucket;
 
