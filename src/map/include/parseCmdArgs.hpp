@@ -65,6 +65,9 @@ $ fastANI -q genome1.fa --rl genome_list.txt -o output.txt");
 
     cmd.defineOption("output", "output file name", ArgvParser::OptionRequired | ArgvParser::OptionRequiresValue);
     cmd.defineOptionAlternative("output","o");
+
+    cmd.defineOption("version", "Show version", ArgvParser::NoOptionAttribute);
+    cmd.defineOptionAlternative("version", "v");
   }
 
   /**
@@ -161,6 +164,11 @@ $ fastANI -q genome1.fa --rl genome_list.txt -o output.txt");
     int result = cmd.parse(argc, argv);
 
     //Make sure we get the right command line args
+    if (cmd.foundOption("version"))
+    {
+      std::cerr << "version 1.2\n\n";
+      exit(1);
+    }
     if (result != ArgvParser::NoParserError)
     {
       std::cerr << cmd.parseErrorDescription(result) << "\n";

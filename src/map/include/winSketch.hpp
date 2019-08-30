@@ -236,7 +236,7 @@ namespace skch
         if(this->freqThreshold != std::numeric_limits<int>::max())
         {
           if ( omp_get_thread_num() == 0)
-            std::cerr << "INFO [thread 0], skch::Sketch::computeFreqHist, With threshold " << this->percentageThreshold << "\%, ignore minimizers occurring >= " << this->freqThreshold << " times during lookup." << std::endl;
+            std::cerr << "INFO [thread 0], skch::Sketch::computeFreqHist, With threshold " << this->percentageThreshold << "%, ignore minimizers occurring >= " << this->freqThreshold << " times during lookup." << std::endl;
         }
         else
         {
