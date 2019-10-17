@@ -23,7 +23,7 @@ namespace skch
     int kmerSize;                                     //kmer size for sketching
     int windowSize;                                   //window size used for sketching 
     int minReadLength;                                //minimum read length which code maps
-    int minFragments;                                 //minimum fragment mappings for trusting ANI value
+    float minFraction;                                //minimum genome fraction for trusting ANI value
     int threads;                                      //thread count
     int alphabetSize;                                 //alphabet size
     uint64_t referenceSize;                           //Approximate reference size

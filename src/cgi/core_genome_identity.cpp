@@ -115,10 +115,13 @@ int main(int argc, char** argv)
 
   std::cerr << "INFO, skch::main, parallel_for execution finished" << std::endl;
 
+  std::unordered_map <std::string, uint64_t> genomeLengths;    // name of genome -> length
+  cgi::computeGenomeLengths(parameters, genomeLengths);
+
   //report output in file
-  cgi::outputCGI (parameters, finalResults, fileName);
+  cgi::outputCGI (parameters, genomeLengths, finalResults, fileName);
 
   //report output as matrix
   if (parameters.matrixOutput)
-    cgi::outputPhylip (parameters, finalResults, fileName);
+    cgi::outputPhylip (parameters, genomeLengths, finalResults, fileName);
 }

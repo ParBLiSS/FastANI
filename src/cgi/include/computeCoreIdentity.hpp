@@ -11,12 +11,14 @@
 #include <unordered_map>
 #include <fstream>
 #include <omp.h>
+#include <zlib.h>  
 
 //Own includes
 #include "map/include/base_types.hpp"
 #include "cgi/include/cgid_types.hpp"
 
 //External includes
+#include "common/kseq.h"
 #include "common/prettyprint.hpp"
 
 namespace cgi
@@ -36,6 +38,52 @@ namespace cgi
           referenceSequenceId);
 
       e.genomeId = std::distance(refSketch.sequencesByFileInfo.begin(), upperRangeIter);
+    }
+  }
+
+  /**
+   * @brief                       compute genome lengths in reference and query genome set
+   * @param[out] genomeLengths
+   */
+  void computeGenomeLengths(skch::Parameters &parameters, std::unordered_map <std::string, uint64_t> &genomeLengths) 
+  { 
+    for(auto &e : parameters.querySequences)
+    {
+      //Open the file using kseq
+      FILE *file = fopen(e.c_str(), "r");
+      gzFile fp = gzdopen(fileno(file), "r");
+      kseq_t *seq = kseq_init(fp);
+      int l; uint64_t genomeLen = 0;
+
+      while ((l = kseq_read(seq)) >= 0) 
+        genomeLen = genomeLen + (uint64_t)strlen(seq->seq.s);
+
+      genomeLengths[e] = genomeLen;
+
+      kseq_destroy(seq);  
+      gzclose(fp); //close the file handler 
+      fclose(file);
+    }
+
+    for(auto &e : parameters.refSequences)
+    {
+      if( genomeLengths.find(e) == genomeLengths.end() )
+      {
+        //Open the file using kseq
+        FILE *file = fopen(e.c_str(), "r");
+        gzFile fp = gzdopen(fileno(file), "r");
+        kseq_t *seq = kseq_init(fp);
+        int l; uint64_t genomeLen = 0;
+
+        while ((l = kseq_read(seq)) >= 0) 
+          genomeLen = genomeLen + (uint64_t)strlen(seq->seq.s);
+
+        genomeLengths[e] = genomeLen;
+
+        kseq_destroy(seq);  
+        gzclose(fp); //close the file handler 
+        fclose(file);
+      }
     }
   }
 
@@ -242,10 +290,12 @@ namespace cgi
   /**
    * @brief                             output FastANI results to file
    * @param[in]   parameters            algorithm parameters
+   * @param[in]   genomeLengths
    * @param[in]   CGI_ResultsVector     results
    * @param[in]   fileName              file name where results will be reported
    */
   void outputCGI(skch::Parameters &parameters,
+      std::unordered_map <std::string, uint64_t> &genomeLengths,
       std::vector<cgi::CGI_Results> &CGI_ResultsVector,
       std::string &fileName)
   {
@@ -257,10 +307,22 @@ namespace cgi
     //Report results
     for(auto &e : CGI_ResultsVector)
     {
-      if(e.countSeq >= parameters.minFragments)
+      std::string qryGenome = parameters.querySequences[e.qryGenomeId];
+      std::string refGenome = parameters.refSequences[e.refGenomeId];
+
+      assert(genomeLengths.find(qryGenome) != genomeLengths.end());
+      assert(genomeLengths.find(refGenome) != genomeLengths.end());
+
+      uint64_t queryGenomeLength = genomeLengths[qryGenome];
+      uint64_t refGenomeLength = genomeLengths[refGenome]; 
+      uint64_t minGenomeLength = std::min(queryGenomeLength, refGenomeLength);
+      uint64_t sharedLength = e.countSeq * parameters.minReadLength;
+
+      //Checking if shared genome is above a certain fraction of genome length
+      if(sharedLength >= minGenomeLength * parameters.minFraction)
       {
-        outstrm << parameters.querySequences[e.qryGenomeId]
-          << "\t" << parameters.refSequences[e.refGenomeId]
+        outstrm << qryGenome
+          << "\t" << refGenome
           << "\t" << e.identity 
           << "\t" << e.countSeq
           << "\t" << e.totalQueryFragments
@@ -274,10 +336,12 @@ namespace cgi
   /**
    * @brief                             output FastANI results as lower triangular matrix
    * @param[in]   parameters            algorithm parameters
+   * @param[in]   genomeLengths
    * @param[in]   CGI_ResultsVector     results
    * @param[in]   fileName              file name where results will be reported
    */
   void outputPhylip(skch::Parameters &parameters,
+      std::unordered_map <std::string, uint64_t> &genomeLengths,
       std::vector<cgi::CGI_Results> &CGI_ResultsVector,
       std::string &fileName)
   {
@@ -313,10 +377,22 @@ namespace cgi
     //transform FastANI results into 3-tuples
     for(auto &e : CGI_ResultsVector)
     {
-      if(e.countSeq >= parameters.minFragments)
+      std::string qryGenome = parameters.querySequences[e.qryGenomeId];
+      std::string refGenome = parameters.refSequences[e.refGenomeId];
+
+      assert(genomeLengths.find(qryGenome) != genomeLengths.end());
+      assert(genomeLengths.find(refGenome) != genomeLengths.end());
+
+      uint64_t queryGenomeLength = genomeLengths[qryGenome];
+      uint64_t refGenomeLength = genomeLengths[refGenome]; 
+      uint64_t minGenomeLength = std::min(queryGenomeLength, refGenomeLength);
+      uint64_t sharedLength = e.countSeq * parameters.minReadLength;
+
+      //Checking if shared genome is above a certain fraction of genome length
+      if(sharedLength >= minGenomeLength * parameters.minFraction)
       {
-        int qGenome = genome2Int [ parameters.querySequences[e.qryGenomeId] ];
-        int rGenome = genome2Int [ parameters.refSequences[e.refGenomeId] ];
+        int qGenome = genome2Int [ qryGenome ];
+        int rGenome = genome2Int [ refGenome ];
 
         if (qGenome != rGenome)   //ignore if both genomes are same
         {

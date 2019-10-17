@@ -10,6 +10,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <cassert>
 
 //Own includes
 #include "map/include/map_parameters.hpp"
@@ -57,7 +58,7 @@ $ fastANI -q genome1.fa --rl genome_list.txt -o output.txt");
 
     cmd.defineOption("fragLen", "fragment length [default : 3,000]", ArgvParser::OptionRequiresValue);
 
-    cmd.defineOption("minFrag", "minimum matched fragments for trusting ANI [default : 50]", ArgvParser::OptionRequiresValue);
+    cmd.defineOption("minFraction", "minimum fraction of genome that must be shared for trusting ANI. If reference and query genome size differ, smaller one among the two is considered. [default : 0.2]", ArgvParser::OptionRequiresValue);
 
     cmd.defineOption("visualize", "output mappings for visualization, can be enabled for single genome to single genome comparison only [disabled by default]");
 
@@ -167,20 +168,24 @@ $ fastANI -q genome1.fa --rl genome_list.txt -o output.txt");
     if (cmd.foundOption("version"))
     {
       std::cerr << "version 1.2\n\n";
-      exit(1);
+      exit(0);
     }
     if (result != ArgvParser::NoParserError)
     {
       std::cerr << cmd.parseErrorDescription(result) << "\n";
-      exit(1);
+
+      if (result == ArgvParser::ParserHelpRequested)
+        exit(0);
+      else
+        exit(1);
     }
     else if (!cmd.foundOption("ref") && !cmd.foundOption("refList"))
-    {
+    { 
       std::cerr << "Provide reference file (s)\n";
       exit(1);
     }
     else if (!cmd.foundOption("query") && !cmd.foundOption("queryList"))
-    {
+    { 
       std::cerr << "Provide query file (s)\n";
       exit(1);
     }
@@ -296,14 +301,15 @@ $ fastANI -q genome1.fa --rl genome_list.txt -o output.txt");
     else
       parameters.minReadLength = 3000;
 
-    if(cmd.foundOption("minFrag"))
+    if(cmd.foundOption("minFraction"))
     {
-      str << cmd.optionValue("minFrag");
-      str >> parameters.minFragments;
+      str << cmd.optionValue("minFraction");
+      str >> parameters.minFraction;
       str.clear();
+      assert(parameters.minFraction >= 0.0 && parameters.minFraction <= 1.0);
     }
     else
-      parameters.minFragments = 50;
+      parameters.minFraction = 0.2;
 
     parameters.percentageIdentity = 80;
 
