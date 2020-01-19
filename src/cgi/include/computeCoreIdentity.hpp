@@ -171,6 +171,9 @@ namespace cgi
 
     shortResults.reserve(results.size());
 
+    // Note to self: For debugging any issue, it is often useful to print
+    // shortResults, mappings_1way and mappings_2way vectors
+
     ///Parse map results and save fields which we need
     // reference id (R), query id (Q), estimated identity (I)
     for(auto &e : results)
