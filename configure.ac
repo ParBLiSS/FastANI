@@ -36,7 +36,7 @@ then
     
     if test "x$enable_static_gsl" == "xyes"
     then
-        AC_SUBST(mathlib, "$with_gsl/lib/libgsl.a $with_gsl/lib/libgslcblas.a")
+        AC_SUBST(mathlib, "$with_gsl/libgsl.a $with_gsl/libgslcblas.a")
     else
         AC_SUBST(mathlib, "-L$with_gsl/lib -lgsl -lgslcblas")
     fi
