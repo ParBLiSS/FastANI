@@ -50,8 +50,7 @@ namespace cgi
     for(auto &e : parameters.querySequences)
     {
       //Open the file using kseq
-      FILE *file = fopen(e.c_str(), "r");
-      gzFile fp = gzdopen(fileno(file), "r");
+      gzFile fp = gzopen(e.c_str(), "r");
       kseq_t *seq = kseq_init(fp);
       int l; uint64_t genomeLen = 0;
 
@@ -62,7 +61,6 @@ namespace cgi
 
       kseq_destroy(seq);  
       gzclose(fp); //close the file handler 
-      fclose(file);
     }
 
     for(auto &e : parameters.refSequences)
@@ -70,8 +68,7 @@ namespace cgi
       if( genomeLengths.find(e) == genomeLengths.end() )
       {
         //Open the file using kseq
-        FILE *file = fopen(e.c_str(), "r");
-        gzFile fp = gzdopen(fileno(file), "r");
+        gzFile fp = gzopen(e.c_str(), "r");
         kseq_t *seq = kseq_init(fp);
         int l; uint64_t genomeLen = 0;
 
@@ -82,7 +79,6 @@ namespace cgi
 
         kseq_destroy(seq);  
         gzclose(fp); //close the file handler 
-        fclose(file);
       }
     }
   }

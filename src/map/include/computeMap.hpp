@@ -119,8 +119,7 @@ namespace skch
 
         {
           //Open the file using kseq
-          FILE *file = fopen(queryFileName.c_str(), "r");
-          gzFile fp = gzdopen(fileno(file), "r");
+          gzFile fp = gzopen(queryFileName.c_str(), "r");
           kseq_t *seq = kseq_init(fp);
 
 #ifdef DEBUG
