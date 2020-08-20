@@ -54,8 +54,12 @@ namespace cgi
       kseq_t *seq = kseq_init(fp);
       int l; uint64_t genomeLen = 0;
 
-      while ((l = kseq_read(seq)) >= 0) 
-        genomeLen = genomeLen + (uint64_t)strlen(seq->seq.s);
+      while ((l = kseq_read(seq)) >= 0) {
+        if (l >= parameters.minReadLength) {
+          uint64_t _l_ = (((uint64_t)strlen(seq->seq.s)) / parameters.minReadLength) * parameters.minReadLength;
+          genomeLen = genomeLen + _l_;
+        }
+      }
 
       genomeLengths[e] = genomeLen;
 
@@ -72,8 +76,12 @@ namespace cgi
         kseq_t *seq = kseq_init(fp);
         int l; uint64_t genomeLen = 0;
 
-        while ((l = kseq_read(seq)) >= 0) 
-          genomeLen = genomeLen + (uint64_t)strlen(seq->seq.s);
+      while ((l = kseq_read(seq)) >= 0) {
+        if (l >= parameters.minReadLength) {
+          uint64_t _l_ = (((uint64_t)strlen(seq->seq.s)) / parameters.minReadLength) * parameters.minReadLength;
+          genomeLen = genomeLen + _l_;
+        }
+      }
 
         genomeLengths[e] = genomeLen;
 
