@@ -64,6 +64,7 @@ Reference = [data/Escherichia_coli_str_K12_MG1655.fna]
 Query = [data/Shigella_flexneri_2a_01.fna]
 Kmer size = 16
 Fragment length = 3000
+Threads = 1
 ANI output file = fastani.out
 >>>>>>>>>>>>>>>>>>
 ....
@@ -78,7 +79,7 @@ $ cat fastani.out
 data/Shigella_flexneri_2a_01.fna data/Escherichia_coli_str_K12_MG1655.fna 97.7507 1303 1608
 ```
 
-Above output implies that the ANI estimate between *S. flexneri* and *E. coli* genomes is 97.7443. Out of the total 1608 sequence fragments from *S. flexneri* genome, 1305 were aligned as orthologous matches.
+Above output implies that the ANI estimate between *S. flexneri* and *E. coli* genomes is 97.7507. Out of the total 1608 sequence fragments from *S. flexneri* genome, 1303 were aligned as orthologous matches.
 
 ### Visualize Conserved Regions b/w Two Genomes
 
