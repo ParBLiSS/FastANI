@@ -75,7 +75,7 @@ Output is saved in file `fastani.out`, provided above using the `-o` option.
 
 ```sh
 $ cat fastani.out
-data/Shigella_flexneri_2a_01.fna data/Escherichia_coli_str_K12_MG1655.fna 97.7443 1305 1608
+data/Shigella_flexneri_2a_01.fna data/Escherichia_coli_str_K12_MG1655.fna 97.7507 1303 1608
 ```
 
 Above output implies that the ANI estimate between *S. flexneri* and *E. coli* genomes is 97.7443. Out of the total 1608 sequence fragments from *S. flexneri* genome, 1305 were aligned as orthologous matches.
