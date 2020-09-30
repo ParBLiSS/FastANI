@@ -167,7 +167,7 @@ $ fastANI -q genome1.fa --rl genome_list.txt -o output.txt");
     //Make sure we get the right command line args
     if (cmd.foundOption("version"))
     {
-      std::cerr << "version 1.31\n\n";
+      std::cerr << "version 1.32\n\n";
       exit(0);
     }
     if (result != ArgvParser::NoParserError)
