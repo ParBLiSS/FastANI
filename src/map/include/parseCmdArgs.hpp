@@ -18,58 +18,10 @@
 #include "map/include/commonFunc.hpp"
 
 //External includes
-#include "common/argvparser.hpp"
+#include "common/clipp.h"
 
 namespace skch
 {
-
-  /**
-   * @brief           Initialize the command line argument parser 
-   * @param[out] cmd  command line parser object
-   */
-  void initCmdParser(CommandLineProcessing::ArgvParser &cmd)
-  {
-    cmd.setIntroductoryDescription("-----------------\n\
-fastANI is a fast alignment-free implementation for computing whole-genome Average Nucleotide Identity (ANI) between genomes\n\
------------------\n\
-Example usage: \n\
-$ fastANI -q genome1.fa -r genome2.fa -o output.txt\n\
-$ fastANI -q genome1.fa --rl genome_list.txt -o output.txt");
-
-    cmd.setHelpOption("h", "help", "Print this help page");
-
-    cmd.defineOption("ref", "reference genome (fasta/fastq)[.gz]", ArgvParser::OptionRequiresValue);
-    cmd.defineOptionAlternative("ref","r");
-
-    cmd.defineOption("refList", "a file containing list of reference genome files, one genome per line", ArgvParser::OptionRequiresValue);
-    cmd.defineOptionAlternative("refList","rl");
-
-    cmd.defineOption("query", "query genome (fasta/fastq)[.gz]", ArgvParser::OptionRequiresValue);
-    cmd.defineOptionAlternative("query","q");
-
-    cmd.defineOption("queryList", "a file containing list of query genome files, one genome per line", ArgvParser::OptionRequiresValue);
-    cmd.defineOptionAlternative("queryList","ql");
-
-    cmd.defineOption("kmer", "kmer size <= 16 [default : 16]", ArgvParser::OptionRequiresValue);
-    cmd.defineOptionAlternative("kmer","k");
-
-    cmd.defineOption("threads", "thread count for parallel execution [default : 1]", ArgvParser::OptionRequiresValue);
-    cmd.defineOptionAlternative("threads","t");
-
-    cmd.defineOption("fragLen", "fragment length [default : 3,000]", ArgvParser::OptionRequiresValue);
-
-    cmd.defineOption("minFraction", "minimum fraction of genome that must be shared for trusting ANI. If reference and query genome size differ, smaller one among the two is considered. [default : 0.2]", ArgvParser::OptionRequiresValue);
-
-    cmd.defineOption("visualize", "output mappings for visualization, can be enabled for single genome to single genome comparison only [disabled by default]");
-
-    cmd.defineOption("matrix", "also output ANI values as lower triangular matrix (format inspired from phylip). If enabled, you should expect an output file with .matrix extension [disabled by default]");
-
-    cmd.defineOption("output", "output file name", ArgvParser::OptionRequired | ArgvParser::OptionRequiresValue);
-    cmd.defineOptionAlternative("output","o");
-
-    cmd.defineOption("version", "Show version", ArgvParser::NoOptionAttribute);
-    cmd.defineOptionAlternative("version", "v");
-  }
 
   /**
    * @brief                   Parse the file which has list of reference or query files
@@ -159,173 +111,114 @@ $ fastANI -q genome1.fa --rl genome_list.txt -o output.txt");
    * @param[out]  parameters  sketch parameters are saved here
    */
   void parseandSave(int argc, char** argv, 
-      CommandLineProcessing::ArgvParser &cmd, 
       skch::Parameters &parameters)
   {
-    int result = cmd.parse(argc, argv);
+    //defaults
+    parameters.kmerSize = 16;
+    parameters.minReadLength = 3000;
+    parameters.alphabetSize = 4;
+    parameters.minFraction = 0.2;
+    parameters.threads = 1;
+    parameters.p_value = 1e-03;
+    parameters.percentageIdentity = 80;
+    parameters.visualize = false;
+    parameters.matrixOutput = false;
+    parameters.referenceSize = 5000000;
+    parameters.reportAll = true; //we need all mappings per fragment, not just best 1% as in mashmap
 
-    //Make sure we get the right command line args
-    if (cmd.foundOption("version"))
+
+    std::string refName, refList;
+    std::string qryName, qryList;
+    bool versioncheck = false;
+    bool help = false;
+
+    auto help_cmd = clipp::option("-h", "--help").set(help).doc("print this help page");
+    auto ref_cmd = (clipp::option("-r", "--ref") & clipp::value("value", refName)) % "reference genome (fasta/fastq)[.gz]";
+    auto refList_cmd = (clipp::option("--rl", "--refList") & clipp::value("value", refList)) % "a file containing list of reference genome files, one genome per line";
+    auto qry_cmd = (clipp::option("-q", "--query") & clipp::value("value", qryName)) % "query genome (fasta/fastq)[.gz]";
+    auto qryList_cmd = (clipp::option("--ql", "--queryList") & clipp::value("value", qryList)) % "a file containing list of query genome files, one genome per line";
+    auto kmer_cmd = (clipp::option("-k", "--kmer") & clipp::value("value", parameters.kmerSize)) % "kmer size <= 16 [default : 16]";
+    auto thread_cmd = (clipp::option("-t", "--threads") & clipp::value("value", parameters.threads)) % "thread count for parallel execution [default : 1]";
+    auto fraglen_cmd = (clipp::option("--fragLen") & clipp::value("value", parameters.minReadLength)) % "fragment length [default : 3,000]";
+    auto minfraction_cmd = (clipp::option("--minFraction") & clipp::value("value", parameters.minFraction)) % "minimum fraction of genome that must be shared for trusting ANI. If reference and query genome size differ, smaller one among the two is considered. [default : 0.2]";
+    auto visualize_cmd = clipp::option("--visualize").set(parameters.visualize).doc("output mappings for visualization, can be enabled for single genome to single genome comparison only [disabled by default]");
+    auto matrix_cmd = clipp::option("--matrix").set(parameters.matrixOutput).doc("also output ANI values as lower triangular matrix (format inspired from phylip). If enabled, you should expect an output file with .matrix extension [disabled by default]");
+    auto output_cmd = (clipp::option("-o", "--output") & clipp::value("value", parameters.outFileName)) % "output file name";
+    auto version_cmd = clipp::option("-v", "--version").set(versioncheck).doc("show version");
+
+    auto cli =
+      (
+       help_cmd,
+       ref_cmd,
+       refList_cmd,
+       qry_cmd,
+       qryList_cmd,
+       kmer_cmd,
+       thread_cmd,
+       fraglen_cmd,
+       minfraction_cmd,
+       visualize_cmd,
+       matrix_cmd,
+       output_cmd,
+       version_cmd
+      );
+
+    //with formatting options
+    auto fmt = clipp::doc_formatting{}
+    .first_column(0)
+      .doc_column(5)
+      .last_column(80);
+
+    std::string description = "fastANI is a fast alignment-free implementation for computing whole-genome Average Nucleotide Identity (ANI) between genomes\n-----------------\nExample usage:\n$ fastANI -q genome1.fa -r genome2.fa -o output.txt\n$ fastANI -q genome1.fa --rl genome_list.txt -o output.txt";
+
+    if(!clipp::parse(argc, argv, cli))
     {
-      std::cerr << "version 1.32\n\n";
+      //print help page
+      clipp::operator<<(std::cout, clipp::make_man_page(cli, argv[0], fmt).prepend_section("-----------------", description)) << std::endl;
+      exit(1);
+    }
+
+    if (help)
+    {
+      clipp::operator<<(std::cout, clipp::make_man_page(cli, argv[0], fmt).prepend_section("-----------------", description)) << std::endl;
       exit(0);
     }
-    if (result != ArgvParser::NoParserError)
-    {
-      std::cerr << cmd.parseErrorDescription(result) << "\n";
 
-      if (result == ArgvParser::ParserHelpRequested)
-        exit(0);
-      else
-        exit(1);
+    if (versioncheck)
+    {
+      std::cerr << "version 1.33\n\n";
+      exit(0);
     }
-    else if (!cmd.foundOption("ref") && !cmd.foundOption("refList"))
-    { 
+
+    if (refName == "" && refList == "")
+    {
       std::cerr << "Provide reference file (s)\n";
       exit(1);
     }
-    else if (!cmd.foundOption("query") && !cmd.foundOption("queryList"))
-    { 
+
+    if (qryName == "" && qryList == "")
+    {
       std::cerr << "Provide query file (s)\n";
       exit(1);
     }
 
-    std::stringstream str;
-
-    //Parse reference files
-    if(cmd.foundOption("ref"))
-    {
-      std::string ref;
-
-      str << cmd.optionValue("ref");
-      str >> ref;
-
-      parameters.refSequences.push_back(ref);
-    }
-    else //list of files
-    {
-      std::string listFile;
-
-      str << cmd.optionValue("refList");
-      str >> listFile;
-
-      parseFileList(listFile, parameters.refSequences);
-    }
-
-    //Size of reference
-    //parameters.referenceSize = skch::CommonFunc::getReferenceSize(parameters.refSequences); 
-
-    //fix reference length to a typical bacterial genome length
-    parameters.referenceSize = 5000000;
-    str.clear();
-
-    //Parse query files
-    if(cmd.foundOption("query"))
-    {
-      std::string query;
-
-      str << cmd.optionValue("query");
-      str >> query;
-
-      parameters.querySequences.push_back(query);
-    }
-    else //list of files
-    {
-      std::string listFile;
-
-      str << cmd.optionValue("queryList");
-      str >> listFile;
-
-      parseFileList(listFile, parameters.querySequences);
-    }
-    
-    str.clear();
-
-    parameters.alphabetSize = 4;
-
-    parameters.reportAll = true;
-
-    if(cmd.foundOption("visualize"))
-    {
-      if(parameters.refSequences.size() == 1 && parameters.querySequences.size() == 1)
-      {
-        parameters.visualize = true;
-      }
-      else
-      {
-         parameters.visualize = false;
-         std::cerr << "WARNING, skch::parseandSave, visualization is disabled. It is not supported if more than one pair of genomes are asked to compare \n";
-      }
-    }
+    if (refName != "")
+      parameters.refSequences.push_back(refName);
     else
-      parameters.visualize = false;
+      parseFileList(refList, parameters.refSequences);
 
-
-    if(cmd.foundOption("matrix"))
-      parameters.matrixOutput = true;
+    if (qryName != "")
+      parameters.querySequences.push_back(qryName);
     else
-      parameters.matrixOutput = false;
+      parseFileList(qryList, parameters.querySequences);
 
-    //Parse algorithm parameters
-    if(cmd.foundOption("kmer"))
-    {
-      str << cmd.optionValue("kmer");
-      str >> parameters.kmerSize;
-      str.clear();
-    }
-    else
-    {
-      if(parameters.alphabetSize == 4)
-        parameters.kmerSize = 16;
-      else
-        parameters.kmerSize = 5;
-    }
-
-    if(cmd.foundOption("threads"))
-    {
-      str << cmd.optionValue("threads");
-      str >> parameters.threads;
-      str.clear();
-    }
-    else
-      parameters.threads = 1;
-
-    parameters.p_value = 1e-03;
-
-    if(cmd.foundOption("fragLen"))
-    {
-      str << cmd.optionValue("fragLen");
-      str >> parameters.minReadLength;
-      str.clear();
-    }
-    else
-      parameters.minReadLength = 3000;
-
-    if(cmd.foundOption("minFraction"))
-    {
-      str << cmd.optionValue("minFraction");
-      str >> parameters.minFraction;
-      str.clear();
-      assert(parameters.minFraction >= 0.0 && parameters.minFraction <= 1.0);
-    }
-    else
-      parameters.minFraction = 0.2;
-
-    parameters.percentageIdentity = 80;
-
-    /*
-     * Compute window size for sketching
-     */
+    assert(parameters.minFraction >= 0.0 && parameters.minFraction <= 1.0);
 
     //Compute optimal window size
     parameters.windowSize = skch::Stat::recommendedWindowSize(parameters.p_value,
         parameters.kmerSize, parameters.alphabetSize,
         parameters.percentageIdentity,
         parameters.minReadLength, parameters.referenceSize);
-
-    str << cmd.optionValue("output");
-    str >> parameters.outFileName;
-    str.clear();
 
     printCmdOptions(parameters);
 

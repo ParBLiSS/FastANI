@@ -19,9 +19,6 @@
 #include "map/include/commonFunc.hpp"
 #include "cgi/include/computeCoreIdentity.hpp" 
 
-//External includes
-#include "common/argvparser.hpp"
-
 int main(int argc, char** argv)
 {
   /*
@@ -29,17 +26,11 @@ int main(int argc, char** argv)
    * for efficient multi-threaded execution
    */
   unsetenv((char *)"MALLOC_ARENA_MAX");
-
-  CommandLineProcessing::ArgvParser cmd;
   using namespace std::placeholders;  // for _1, _2, _3...
-
-  //Setup command line options
-  skch::initCmdParser(cmd);
 
   //Parse command line arguements   
   skch::Parameters parameters;        //sketching and mapping parameters
-
-  skch::parseandSave(argc, argv, cmd, parameters);   
+  skch::parseandSave(argc, argv, parameters);
 
   std::string fileName = parameters.outFileName;
 
