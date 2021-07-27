@@ -97,7 +97,7 @@ $ Rscript scripts/visualize.R B_quintana.fna B_henselae.fna fastani.out.visual
 Using above commands, we get a plot file fastani.out.visual.pdf displayed below. Each red line segment denotes a reciprocal mapping between two genomes, indicating their evolutionary conserved regions.
 
 <p align="center">
-<img src="https://1aaaa1f6-a-62cb3a1a-s-sites.googlegroups.com/site/chirgjain/readme-fastani.out.visual.jpg?attachauth=ANoY7cpSOke4rXUWIJzweKvFP8LqdFfJREDaqxuqkvi1AlyAi6Wv1VZEWf5ucZx1O_H46eY8Hts0T0DJId2bAQccHdQIyTTQQX84Mnmc2EG3jdiDNEw49wpypkpoPydnFf6owulWiYNM4Hdo2ZM_eCGXeaWAAYdRk4ENCC83m2tK5ev_vPFcT1VlBr6fdo4dgVawSjiKuddYP5_RpPoTq5g9uFa_a5XoNbt4Jjk92ZDWDL-WYLhpbHk%3D&attredirects=0" height="350"/>
+<img src="https://i.postimg.cc/kX77DHcr/readme-ANI.jpg" height="350"/>
 </p>
 
 ### Parallelization
