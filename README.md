@@ -94,7 +94,7 @@ $ ./fastANI -q B_quintana.fna -r B_henselae.fna --visualize -o fastani.out
 $ Rscript scripts/visualize.R B_quintana.fna B_henselae.fna fastani.out.visual
 ```
 
-Using above commands, we get a plot file fastani.out.visual.pdf displayed below. Each red line segment denotes a reciprocal mapping between two genomes, indicating their evolutionary conserved regions.
+Using above commands, we get a plot file fastani.out.visual.pdf displayed below. Each red line segment denotes a reciprocal mapping between two genomes, indicating their evolutionary conserved regions. Also see [this page](https://github.com/ParBLiSS/FastANI/issues/100).
 
 <p align="center">
 <img src="https://i.postimg.cc/kX77DHcr/readme-ANI.jpg" height="350"/>
