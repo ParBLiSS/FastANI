@@ -1,0 +1,2 @@
+data/D4/2000031004.LargeContigs.fna
+data/D4/2000031006.LargeContigs.fna

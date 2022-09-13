@@ -7,6 +7,7 @@
 #define SKETCH_CONFIG_HPP
 
 #include <vector>
+#include <string>
 
 //Switch to enable timing of L1 and L2 stages for each read
 //Timings are reported in a file
