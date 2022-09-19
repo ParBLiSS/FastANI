@@ -53,16 +53,20 @@ else()
 endif(${GSL_FOUND})
 #
 #
-if(${BUILD_TESTS})
+if(${BUILD_TESTING})
     add_subdirectory(ext/Catch2)
     include(CTest)
     include(Catch)
     add_executable(FastANITest tests/fastani_tests.cpp)
     target_include_directories(FastANITest PUBLIC "src/")
+    target_compile_options(FastANITest PUBLIC
+                --coverage -g -O0
+                -fprofile-arcs -ftest-coverage)
     target_link_libraries(FastANITest PRIVATE
                           Catch2::Catch2 Catch2::Catch2WithMain
                           ZLIB::ZLIB GSL::gsl GSL::gslcblas
-                          ${OpenMP_CXX_LIBRARIES})
+                          ${OpenMP_CXX_LIBRARIES}
+                          gcov)
     catch_discover_tests(FastANITest)
     file(COPY data DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-endif(${BUILD_TESTS})
+endif(${BUILD_TESTING})
