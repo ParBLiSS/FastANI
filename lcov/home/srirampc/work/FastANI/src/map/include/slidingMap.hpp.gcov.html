@@ -1,0 +1,365 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - FastANITest.out - /home/srirampc/work/FastANI/src/map/include/slidingMap.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../index.html">top level</a> - <a href="index.html">home/srirampc/work/FastANI/src/map/include</a> - slidingMap.hpp<span style="font-size: 80%;"> (source / <a href="slidingMap.hpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">FastANITest.out</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">66</td>
+            <td class="headerCovTableEntry">66</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2022-09-28 16:45:31</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr><td><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /**</a>
+<a name="2"><span class="lineNum">       2 </span>            :  * @file    slidingMap.hpp</a>
+<a name="3"><span class="lineNum">       3 </span>            :  * @brief   implements ordered map to compute Jaccard</a>
+<a name="4"><span class="lineNum">       4 </span>            :  * @author  Chirag Jain &lt;cjain7@gatech.edu&gt;</a>
+<a name="5"><span class="lineNum">       5 </span>            :  */</a>
+<a name="6"><span class="lineNum">       6 </span>            : </a>
+<a name="7"><span class="lineNum">       7 </span>            : #ifndef SLIDING_MAP_HPP </a>
+<a name="8"><span class="lineNum">       8 </span>            : #define SLIDING_MAP_HPP</a>
+<a name="9"><span class="lineNum">       9 </span>            : </a>
+<a name="10"><span class="lineNum">      10 </span>            : #include &lt;vector&gt;</a>
+<a name="11"><span class="lineNum">      11 </span>            : #include &lt;algorithm&gt;</a>
+<a name="12"><span class="lineNum">      12 </span>            : #include &lt;map&gt;</a>
+<a name="13"><span class="lineNum">      13 </span>            : </a>
+<a name="14"><span class="lineNum">      14 </span>            : //Own includes</a>
+<a name="15"><span class="lineNum">      15 </span>            : #include &quot;map/include/base_types.hpp&quot;</a>
+<a name="16"><span class="lineNum">      16 </span>            : </a>
+<a name="17"><span class="lineNum">      17 </span>            : //External includes</a>
+<a name="18"><span class="lineNum">      18 </span>            : </a>
+<a name="19"><span class="lineNum">      19 </span>            : namespace skch</a>
+<a name="20"><span class="lineNum">      20 </span>            : {</a>
+<a name="21"><span class="lineNum">      21 </span>            :   /**</a>
+<a name="22"><span class="lineNum">      22 </span>            :    * @class     skch::SlideMapper</a>
+<a name="23"><span class="lineNum">      23 </span>            :    * @brief     L1 and L2 mapping stages</a>
+<a name="24"><span class="lineNum">      24 </span>            :    */</a>
+<a name="25"><span class="lineNum">      25 </span>            :   template &lt;typename Q_Info&gt;</a>
+<a name="26"><span class="lineNum">      26 </span>            :     class SlideMapper</a>
+<a name="27"><span class="lineNum">      27 </span>            :     {</a>
+<a name="28"><span class="lineNum">      28 </span>            : </a>
+<a name="29"><span class="lineNum">      29 </span>            :       private:</a>
+<a name="30"><span class="lineNum">      30 </span>            : </a>
+<a name="31"><span class="lineNum">      31 </span>            :         //Metadata for the minimizers saved in sliding ordered map during L2 stage</a>
+<a name="32"><span class="lineNum">      32 </span>            :         struct slidingMapContainerValueType</a>
+<a name="33"><span class="lineNum">      33 </span>            :         {</a>
+<a name="34"><span class="lineNum">      34 </span>            :           offset_t wposQ;                   //wpos of minimizers in the query</a>
+<a name="35"><span class="lineNum">      35 </span>            :           offset_t wposR;                   //wpos of minimizers in the reference</a>
+<a name="36"><span class="lineNum">      36 </span>            :         };</a>
+<a name="37"><span class="lineNum">      37 </span>            : </a>
+<a name="38"><span class="lineNum">      38 </span>            :         //Container type for saving read sketches during L1 and L2 both</a>
+<a name="39"><span class="lineNum">      39 </span>            :         typedef Sketch::MI_Type MinVec_Type;</a>
+<a name="40"><span class="lineNum">      40 </span>            : </a>
+<a name="41"><span class="lineNum">      41 </span>            :         typedef Sketch::MIIter_t MIIter_t;</a>
+<a name="42"><span class="lineNum">      42 </span>            : </a>
+<a name="43"><span class="lineNum">      43 </span>            :         //reference to query's metadata</a>
+<a name="44"><span class="lineNum">      44 </span>            :         const Q_Info &amp;Q;</a>
+<a name="45"><span class="lineNum">      45 </span>            : </a>
+<a name="46"><span class="lineNum">      46 </span>            :         //Define a Not available position marker</a>
+<a name="47"><span class="lineNum">      47 </span>            :         static const offset_t NAPos = std::numeric_limits&lt;offset_t&gt;::max();</a>
+<a name="48"><span class="lineNum">      48 </span>            : </a>
+<a name="49"><span class="lineNum">      49 </span>            :         //Ordered map to save unique sketch elements, and associated value as </a>
+<a name="50"><span class="lineNum">      50 </span>            :         //a pair of its occurrence in the query and the reference</a>
+<a name="51"><span class="lineNum">      51 </span>            :         typedef std::map&lt; hash_t, slidingMapContainerValueType &gt; MapType;</a>
+<a name="52"><span class="lineNum">      52 </span>            :         MapType slidingWindowMinhashes;</a>
+<a name="53"><span class="lineNum">      53 </span>            : </a>
+<a name="54"><span class="lineNum">      54 </span>            :         //Iterator pointing to the smallest 's'th element in the map</a>
+<a name="55"><span class="lineNum">      55 </span>            :         typename MapType::iterator pivot;</a>
+<a name="56"><span class="lineNum">      56 </span>            : </a>
+<a name="57"><span class="lineNum">      57 </span>            :         //Label status while inserting reference minimizer</a>
+<a name="58"><span class="lineNum">      58 </span>            :         enum IN : int</a>
+<a name="59"><span class="lineNum">      59 </span>            :         {</a>
+<a name="60"><span class="lineNum">      60 </span>            :           //reference minimizer is inserted into map as a new map entry</a>
+<a name="61"><span class="lineNum">      61 </span>            :           UNIQ = 1,</a>
+<a name="62"><span class="lineNum">      62 </span>            : </a>
+<a name="63"><span class="lineNum">      63 </span>            :           //reference minimizer is coupled with a query minimizer, </a>
+<a name="64"><span class="lineNum">      64 </span>            :           //previously, there was no ref. minimizer at this entry</a>
+<a name="65"><span class="lineNum">      65 </span>            :           CPLD = 2, </a>
+<a name="66"><span class="lineNum">      66 </span>            : </a>
+<a name="67"><span class="lineNum">      67 </span>            :           //ref. minimizer just revises the hash position of already </a>
+<a name="68"><span class="lineNum">      68 </span>            :           //existing reference minimizer</a>
+<a name="69"><span class="lineNum">      69 </span>            :           REV = 3</a>
+<a name="70"><span class="lineNum">      70 </span>            :         };  </a>
+<a name="71"><span class="lineNum">      71 </span>            : </a>
+<a name="72"><span class="lineNum">      72 </span>            :         //Label status while deleting reference minimizer</a>
+<a name="73"><span class="lineNum">      73 </span>            :         enum OUT : int</a>
+<a name="74"><span class="lineNum">      74 </span>            :         {</a>
+<a name="75"><span class="lineNum">      75 </span>            :           //entry in the map is deleted</a>
+<a name="76"><span class="lineNum">      76 </span>            :           DEL = 1,</a>
+<a name="77"><span class="lineNum">      77 </span>            : </a>
+<a name="78"><span class="lineNum">      78 </span>            :           //just the reference minimizer is updated to null</a>
+<a name="79"><span class="lineNum">      79 </span>            :           UPD = 2,</a>
+<a name="80"><span class="lineNum">      80 </span>            : </a>
+<a name="81"><span class="lineNum">      81 </span>            :           //Nothing changed in the map</a>
+<a name="82"><span class="lineNum">      82 </span>            :           NOOP = 3</a>
+<a name="83"><span class="lineNum">      83 </span>            :         };</a>
+<a name="84"><span class="lineNum">      84 </span>            : </a>
+<a name="85"><span class="lineNum">      85 </span>            :       public:</a>
+<a name="86"><span class="lineNum">      86 </span>            : </a>
+<a name="87"><span class="lineNum">      87 </span>            :         //Count of shared sketch elements between query and the reference</a>
+<a name="88"><span class="lineNum">      88 </span>            :         //Updated after insert or delete operation on map </a>
+<a name="89"><span class="lineNum">      89 </span>            :         int sharedSketchElements;</a>
+<a name="90"><span class="lineNum">      90 </span>            : </a>
+<a name="91"><span class="lineNum">      91 </span>            : </a>
+<a name="92"><span class="lineNum">      92 </span>            :         //Delete default constructor</a>
+<a name="93"><span class="lineNum">      93 </span>            :         SlideMapper() = delete;</a>
+<a name="94"><span class="lineNum">      94 </span>            : </a>
+<a name="95"><span class="lineNum">      95 </span>            :         /**</a>
+<a name="96"><span class="lineNum">      96 </span>            :          * @brief                 constructor</a>
+<a name="97"><span class="lineNum">      97 </span>            :          * @param[in]   Q         query meta data</a>
+<a name="98"><span class="lineNum">      98 </span>            :          */</a>
+<a name="99"><span class="lineNum">      99 </span><span class="lineCov">      27745 :         SlideMapper(Q_Info &amp;Q_) :</span></a>
+<a name="100"><span class="lineNum">     100 </span><span class="lineCov">      27745 :           Q(Q_),</span></a>
+<a name="101"><span class="lineNum">     101 </span><span class="lineCov">      27745 :           pivot(this-&gt;slidingWindowMinhashes.end()),</span></a>
+<a name="102"><span class="lineNum">     102 </span><span class="lineCov">      27745 :           sharedSketchElements(0)</span></a>
+<a name="103"><span class="lineNum">     103 </span>            :         {</a>
+<a name="104"><span class="lineNum">     104 </span><span class="lineCov">      27745 :           this-&gt;init();</span></a>
+<a name="105"><span class="lineNum">     105 </span><span class="lineCov">      27745 :         }</span></a>
+<a name="106"><span class="lineNum">     106 </span>            : </a>
+<a name="107"><span class="lineNum">     107 </span>            :       private:</a>
+<a name="108"><span class="lineNum">     108 </span>            : </a>
+<a name="109"><span class="lineNum">     109 </span>            :         /**</a>
+<a name="110"><span class="lineNum">     110 </span>            :          * @brief       Fills map with minimum 's' minimizers in the query</a>
+<a name="111"><span class="lineNum">     111 </span>            :          */</a>
+<a name="112"><span class="lineNum">     112 </span><span class="lineCov">      27745 :         inline void init()</span></a>
+<a name="113"><span class="lineNum">     113 </span>            :         {</a>
+<a name="114"><span class="lineNum">     114 </span>            :           //Range of sketch in query</a>
+<a name="115"><span class="lineNum">     115 </span>            :           //Assuming unique query minimizers were placed at the start during L1 mapping</a>
+<a name="116"><span class="lineNum">     116 </span><span class="lineCov">      27745 :           auto uniqEndIter = std::next(Q.minimizerTableQuery.begin(), Q.sketchSize);</span></a>
+<a name="117"><span class="lineNum">     117 </span>            : </a>
+<a name="118"><span class="lineNum">     118 </span>            :           //Insert query sketch elements to map</a>
+<a name="119"><span class="lineNum">     119 </span><span class="lineCov">    6597571 :           for(auto it = Q.minimizerTableQuery.begin(); it != uniqEndIter; it++)</span></a>
+<a name="120"><span class="lineNum">     120 </span>            :           {</a>
+<a name="121"><span class="lineNum">     121 </span><span class="lineCov">    6569826 :             this-&gt;slidingWindowMinhashes.emplace_hint(slidingWindowMinhashes.end(), it-&gt;hash, slidingMapContainerValueType{it-&gt;wpos, NAPos});</span></a>
+<a name="122"><span class="lineNum">     122 </span>            :           }</a>
+<a name="123"><span class="lineNum">     123 </span>            : </a>
+<a name="124"><span class="lineNum">     124 </span>            :           //Point pivot to last element in the map</a>
+<a name="125"><span class="lineNum">     125 </span><span class="lineCov">      27745 :           this-&gt;pivot = std::next(this-&gt;slidingWindowMinhashes.begin(), Q.sketchSize - 1);</span></a>
+<a name="126"><span class="lineNum">     126 </span>            : </a>
+<a name="127"><span class="lineNum">     127 </span>            :           //Current count of shared sketch elements is zero</a>
+<a name="128"><span class="lineNum">     128 </span><span class="lineCov">      27745 :           this-&gt;sharedSketchElements = 0;</span></a>
+<a name="129"><span class="lineNum">     129 </span><span class="lineCov">      27745 :         }</span></a>
+<a name="130"><span class="lineNum">     130 </span>            : </a>
+<a name="131"><span class="lineNum">     131 </span>            :       public:</a>
+<a name="132"><span class="lineNum">     132 </span>            : </a>
+<a name="133"><span class="lineNum">     133 </span>            :         /**</a>
+<a name="134"><span class="lineNum">     134 </span>            :          * @brief               insert a minimizer from the reference sequence into the map</a>
+<a name="135"><span class="lineNum">     135 </span>            :          * @param[in]   m       reference minimizer to insert</a>
+<a name="136"><span class="lineNum">     136 </span>            :          */</a>
+<a name="137"><span class="lineNum">     137 </span><span class="lineCov">   17304148 :         inline void insert_ref(MIIter_t m)</span></a>
+<a name="138"><span class="lineNum">     138 </span>            :         {</a>
+<a name="139"><span class="lineNum">     139 </span><span class="lineCov">   17304148 :           hash_t hashVal = m-&gt;hash;</span></a>
+<a name="140"><span class="lineNum">     140 </span>            :           int status;</a>
+<a name="141"><span class="lineNum">     141 </span>            : </a>
+<a name="142"><span class="lineNum">     142 </span>            :           //if hash doesn't exist in the map, add to it</a>
+<a name="143"><span class="lineNum">     143 </span><span class="lineCov">   17304148 :           if(slidingWindowMinhashes.find(hashVal) == slidingWindowMinhashes.end())</span></a>
+<a name="144"><span class="lineNum">     144 </span>            :           {</a>
+<a name="145"><span class="lineNum">     145 </span><span class="lineCov">   12869902 :             slidingWindowMinhashes[hashVal] = slidingMapContainerValueType{this-&gt;NAPos, m-&gt;wpos};   //add the hash to window</span></a>
+<a name="146"><span class="lineNum">     146 </span><span class="lineCov">   12869902 :             status = IN::UNIQ;</span></a>
+<a name="147"><span class="lineNum">     147 </span>            :           }</a>
+<a name="148"><span class="lineNum">     148 </span>            :           else</a>
+<a name="149"><span class="lineNum">     149 </span>            :           {</a>
+<a name="150"><span class="lineNum">     150 </span><span class="lineCov">    4434246 :             status = (slidingWindowMinhashes[hashVal].wposR == NAPos) ? IN::CPLD </span></a>
+<a name="151"><span class="lineNum">     151 </span>            :               : IN::REV;</a>
+<a name="152"><span class="lineNum">     152 </span>            : </a>
+<a name="153"><span class="lineNum">     153 </span>            :             //if hash already exists in the map, just revise it</a>
+<a name="154"><span class="lineNum">     154 </span><span class="lineCov">    4434246 :             slidingWindowMinhashes[hashVal].wposR = m-&gt;wpos;</span></a>
+<a name="155"><span class="lineNum">     155 </span>            :           }</a>
+<a name="156"><span class="lineNum">     156 </span>            : </a>
+<a name="157"><span class="lineNum">     157 </span><span class="lineCov">   17304148 :           updateCountersAfterInsert(status, m);</span></a>
+<a name="158"><span class="lineNum">     158 </span>            : </a>
+<a name="159"><span class="lineNum">     159 </span><span class="lineCov">   17304148 :           assert(this-&gt;sharedSketchElements &gt;= 0);</span></a>
+<a name="160"><span class="lineNum">     160 </span><span class="lineCov">   17304148 :           assert(this-&gt;sharedSketchElements &lt;= Q.sketchSize);</span></a>
+<a name="161"><span class="lineNum">     161 </span><span class="lineCov">   17304148 :         }</span></a>
+<a name="162"><span class="lineNum">     162 </span>            : </a>
+<a name="163"><span class="lineNum">     163 </span>            :         /**</a>
+<a name="164"><span class="lineNum">     164 </span>            :          * @brief               delete a minimizer from the reference sequence from the map</a>
+<a name="165"><span class="lineNum">     165 </span>            :          * @param[in]   m       reference minimizer to remove</a>
+<a name="166"><span class="lineNum">     166 </span>            :          */</a>
+<a name="167"><span class="lineNum">     167 </span><span class="lineCov">   10728806 :         inline void delete_ref(MIIter_t m)</span></a>
+<a name="168"><span class="lineNum">     168 </span>            :         {</a>
+<a name="169"><span class="lineNum">     169 </span><span class="lineCov">   10728806 :           hash_t hashVal = m-&gt;hash;</span></a>
+<a name="170"><span class="lineNum">     170 </span>            :           int status;</a>
+<a name="171"><span class="lineNum">     171 </span><span class="lineCov">   10728806 :           bool pivotDeleteCase = false;</span></a>
+<a name="172"><span class="lineNum">     172 </span>            :           </a>
+<a name="173"><span class="lineNum">     173 </span><span class="lineCov">   10728806 :           assert(this-&gt;slidingWindowMinhashes.find(hashVal) != this-&gt;slidingWindowMinhashes.end());</span></a>
+<a name="174"><span class="lineNum">     174 </span>            : </a>
+<a name="175"><span class="lineNum">     175 </span>            :           //This hashVal may exist with different wpos from </a>
+<a name="176"><span class="lineNum">     176 </span>            :           //reference, do nothing in that case</a>
+<a name="177"><span class="lineNum">     177 </span>            :           </a>
+<a name="178"><span class="lineNum">     178 </span><span class="lineCov">   10728806 :           if(this-&gt;slidingWindowMinhashes[hashVal].wposR == m-&gt;wpos)</span></a>
+<a name="179"><span class="lineNum">     179 </span>            :           {</a>
+<a name="180"><span class="lineNum">     180 </span><span class="lineCov">   10702554 :             if(this-&gt;slidingWindowMinhashes[hashVal].wposQ == NAPos)</span></a>
+<a name="181"><span class="lineNum">     181 </span>            :             {</a>
+<a name="182"><span class="lineNum">     182 </span>            :               //Handle pivot deletion as a separate case</a>
+<a name="183"><span class="lineNum">     183 </span><span class="lineCov">    6376786 :               if(this-&gt;slidingWindowMinhashes.find(hashVal) == pivot)</span></a>
+<a name="184"><span class="lineNum">     184 </span>            :               {</a>
+<a name="185"><span class="lineNum">     185 </span><span class="lineCov">      16685 :                 pivot++;</span></a>
+<a name="186"><span class="lineNum">     186 </span>            : </a>
+<a name="187"><span class="lineNum">     187 </span><span class="lineCov">      16685 :                 if( (this-&gt;pivot-&gt;second).wposQ != NAPos &amp;&amp; (this-&gt;pivot-&gt;second).wposR != NAPos)</span></a>
+<a name="188"><span class="lineNum">     188 </span><span class="lineCov">       5568 :                   this-&gt;sharedSketchElements += 1;</span></a>
+<a name="189"><span class="lineNum">     189 </span>            : </a>
+<a name="190"><span class="lineNum">     190 </span><span class="lineCov">      16685 :                 pivotDeleteCase = true;</span></a>
+<a name="191"><span class="lineNum">     191 </span>            :               }</a>
+<a name="192"><span class="lineNum">     192 </span>            : </a>
+<a name="193"><span class="lineNum">     193 </span><span class="lineCov">    6376786 :               this-&gt;slidingWindowMinhashes.erase(hashVal);              //Remove the entry from the map</span></a>
+<a name="194"><span class="lineNum">     194 </span><span class="lineCov">    6376786 :               status = OUT::DEL; </span></a>
+<a name="195"><span class="lineNum">     195 </span>            :             }</a>
+<a name="196"><span class="lineNum">     196 </span>            :             else</a>
+<a name="197"><span class="lineNum">     197 </span>            :             {</a>
+<a name="198"><span class="lineNum">     198 </span><span class="lineCov">    4325768 :               this-&gt;slidingWindowMinhashes[hashVal].wposR = NAPos;      //Just mark the reference hash absent</span></a>
+<a name="199"><span class="lineNum">     199 </span><span class="lineCov">    4325768 :               status = OUT::UPD; </span></a>
+<a name="200"><span class="lineNum">     200 </span>            :             }</a>
+<a name="201"><span class="lineNum">     201 </span>            :           }</a>
+<a name="202"><span class="lineNum">     202 </span>            :           else</a>
+<a name="203"><span class="lineNum">     203 </span>            :           {</a>
+<a name="204"><span class="lineNum">     204 </span><span class="lineCov">      26252 :             status = OUT::NOOP;</span></a>
+<a name="205"><span class="lineNum">     205 </span>            :           }</a>
+<a name="206"><span class="lineNum">     206 </span>            : </a>
+<a name="207"><span class="lineNum">     207 </span><span class="lineCov">   10728806 :           if(!pivotDeleteCase) updateCountersAfterDelete(status, m);</span></a>
+<a name="208"><span class="lineNum">     208 </span>            : </a>
+<a name="209"><span class="lineNum">     209 </span><span class="lineCov">   10728806 :           assert(this-&gt;sharedSketchElements &gt;= 0);</span></a>
+<a name="210"><span class="lineNum">     210 </span><span class="lineCov">   10728806 :           assert(this-&gt;sharedSketchElements &lt;= Q.sketchSize);</span></a>
+<a name="211"><span class="lineNum">     211 </span><span class="lineCov">   10728806 :         }</span></a>
+<a name="212"><span class="lineNum">     212 </span>            : </a>
+<a name="213"><span class="lineNum">     213 </span>            :         /**</a>
+<a name="214"><span class="lineNum">     214 </span>            :          * @brief               insert a range of minimizers from the reference sequence into the map</a>
+<a name="215"><span class="lineNum">     215 </span>            :          * @param[in]   begin   begin iterator</a>
+<a name="216"><span class="lineNum">     216 </span>            :          * @param[in]   end     end iterator</a>
+<a name="217"><span class="lineNum">     217 </span>            :          */</a>
+<a name="218"><span class="lineNum">     218 </span><span class="lineCov">      27745 :         inline void insert_ref(MIIter_t begin, MIIter_t end)</span></a>
+<a name="219"><span class="lineNum">     219 </span>            :         {</a>
+<a name="220"><span class="lineNum">     220 </span><span class="lineCov">    6611807 :           for(auto it = begin; it != end; it++)</span></a>
+<a name="221"><span class="lineNum">     221 </span><span class="lineCov">    6584062 :             this-&gt;insert_ref(it);</span></a>
+<a name="222"><span class="lineNum">     222 </span><span class="lineCov">      27745 :         }</span></a>
+<a name="223"><span class="lineNum">     223 </span>            : </a>
+<a name="224"><span class="lineNum">     224 </span>            :       private:</a>
+<a name="225"><span class="lineNum">     225 </span>            : </a>
+<a name="226"><span class="lineNum">     226 </span>            :         /**</a>
+<a name="227"><span class="lineNum">     227 </span>            :          * @brief             logic to update internal counters after insert to map</a>
+<a name="228"><span class="lineNum">     228 </span>            :          * @param[in] status  insert status</a>
+<a name="229"><span class="lineNum">     229 </span>            :          * @param[in] m       reference minimizer that was inserted</a>
+<a name="230"><span class="lineNum">     230 </span>            :          */</a>
+<a name="231"><span class="lineNum">     231 </span><span class="lineCov">   17304148 :         inline void updateCountersAfterInsert(int status, MIIter_t m)</span></a>
+<a name="232"><span class="lineNum">     232 </span>            :         {</a>
+<a name="233"><span class="lineNum">     233 </span>            :           //Revise internal counters</a>
+<a name="234"><span class="lineNum">     234 </span><span class="lineCov">   17304148 :           if(m-&gt;hash &lt;= this-&gt;pivot-&gt;first)</span></a>
+<a name="235"><span class="lineNum">     235 </span>            :           {</a>
+<a name="236"><span class="lineNum">     236 </span><span class="lineCov">   11564389 :             if(status == IN::CPLD)</span></a>
+<a name="237"><span class="lineNum">     237 </span>            :             {</a>
+<a name="238"><span class="lineNum">     238 </span>            :               //Increase count of shared sketch elements by 1</a>
+<a name="239"><span class="lineNum">     239 </span><span class="lineCov">    3044177 :               this-&gt;sharedSketchElements += 1;</span></a>
+<a name="240"><span class="lineNum">     240 </span>            :             }</a>
+<a name="241"><span class="lineNum">     241 </span><span class="lineCov">    8520212 :             else if(status == IN::UNIQ)</span></a>
+<a name="242"><span class="lineNum">     242 </span>            :             {</a>
+<a name="243"><span class="lineNum">     243 </span>            :               //Pivot needs to be decremented</a>
+<a name="244"><span class="lineNum">     244 </span><span class="lineCov">    8494144 :               if( (this-&gt;pivot-&gt;second).wposQ != NAPos &amp;&amp; (this-&gt;pivot-&gt;second).wposR != NAPos)</span></a>
+<a name="245"><span class="lineNum">     245 </span><span class="lineCov">    1323734 :                 this-&gt;sharedSketchElements -= 1;</span></a>
+<a name="246"><span class="lineNum">     246 </span>            : </a>
+<a name="247"><span class="lineNum">     247 </span><span class="lineCov">    8494144 :               std::advance(this-&gt;pivot, -1);</span></a>
+<a name="248"><span class="lineNum">     248 </span>            :             }</a>
+<a name="249"><span class="lineNum">     249 </span>            :             else if(status == IN::REV)</a>
+<a name="250"><span class="lineNum">     250 </span>            :             {</a>
+<a name="251"><span class="lineNum">     251 </span>            :               //Do nothing</a>
+<a name="252"><span class="lineNum">     252 </span>            :             }</a>
+<a name="253"><span class="lineNum">     253 </span>            :           }</a>
+<a name="254"><span class="lineNum">     254 </span><span class="lineCov">   17304148 :         }</span></a>
+<a name="255"><span class="lineNum">     255 </span>            : </a>
+<a name="256"><span class="lineNum">     256 </span>            :         /**</a>
+<a name="257"><span class="lineNum">     257 </span>            :          * @brief             logic to update internal counters after delete to map</a>
+<a name="258"><span class="lineNum">     258 </span>            :          * @param[in] status  insert status</a>
+<a name="259"><span class="lineNum">     259 </span>            :          * @param[in] m       reference minimizer that was inserted</a>
+<a name="260"><span class="lineNum">     260 </span>            :          */</a>
+<a name="261"><span class="lineNum">     261 </span><span class="lineCov">   10712121 :         inline void updateCountersAfterDelete(int status, MIIter_t m)</span></a>
+<a name="262"><span class="lineNum">     262 </span>            :         {</a>
+<a name="263"><span class="lineNum">     263 </span>            :           //Revise internal counters</a>
+<a name="264"><span class="lineNum">     264 </span><span class="lineCov">   10712121 :           if(m-&gt;hash &lt;= this-&gt;pivot-&gt;first)</span></a>
+<a name="265"><span class="lineNum">     265 </span>            :           {</a>
+<a name="266"><span class="lineNum">     266 </span><span class="lineCov">    6988348 :             if(status == OUT::UPD)</span></a>
+<a name="267"><span class="lineNum">     267 </span>            :             {</a>
+<a name="268"><span class="lineNum">     268 </span>            :               //Decrease count of shared sketch elements by 1</a>
+<a name="269"><span class="lineNum">     269 </span><span class="lineCov">    2984388 :               this-&gt;sharedSketchElements -= 1;</span></a>
+<a name="270"><span class="lineNum">     270 </span>            :             }</a>
+<a name="271"><span class="lineNum">     271 </span><span class="lineCov">    4003960 :             else if(status == OUT::DEL)</span></a>
+<a name="272"><span class="lineNum">     272 </span>            :             {</a>
+<a name="273"><span class="lineNum">     273 </span>            :               //Pivot needs to be advanced</a>
+<a name="274"><span class="lineNum">     274 </span><span class="lineCov">    3986168 :               std::advance(this-&gt;pivot, 1);</span></a>
+<a name="275"><span class="lineNum">     275 </span>            : </a>
+<a name="276"><span class="lineNum">     276 </span><span class="lineCov">    3986168 :               if( (this-&gt;pivot-&gt;second).wposQ != NAPos &amp;&amp; (this-&gt;pivot-&gt;second).wposR != NAPos)</span></a>
+<a name="277"><span class="lineNum">     277 </span><span class="lineCov">    1315081 :                 this-&gt;sharedSketchElements += 1;</span></a>
+<a name="278"><span class="lineNum">     278 </span>            :             }</a>
+<a name="279"><span class="lineNum">     279 </span>            :             else if(status == OUT::NOOP)</a>
+<a name="280"><span class="lineNum">     280 </span>            :             {</a>
+<a name="281"><span class="lineNum">     281 </span>            :               //Do nothing</a>
+<a name="282"><span class="lineNum">     282 </span>            :             }</a>
+<a name="283"><span class="lineNum">     283 </span>            :           }</a>
+<a name="284"><span class="lineNum">     284 </span><span class="lineCov">   10712121 :         }</span></a>
+<a name="285"><span class="lineNum">     285 </span>            : </a>
+<a name="286"><span class="lineNum">     286 </span>            :     };</a>
+<a name="287"><span class="lineNum">     287 </span>            : }</a>
+<a name="288"><span class="lineNum">     288 </span>            : </a>
+<a name="289"><span class="lineNum">     289 </span>            : #endif</a>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.14</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
