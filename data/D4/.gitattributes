@@ -1,3 +1,5 @@
 2000031001.LargeContigs.fna filter=lfs diff=lfs merge=lfs -text
 2000031004.LargeContigs.fna filter=lfs diff=lfs merge=lfs -text
 2000031006.LargeContigs.fna filter=lfs diff=lfs merge=lfs -text
+2000031008.LargeContigs.fna filter=lfs diff=lfs merge=lfs -text
+2000031009.LargeContigs.fna filter=lfs diff=lfs merge=lfs -text

@@ -69,4 +69,7 @@ if(${BUILD_TESTING})
                           gcov)
     catch_discover_tests(FastANITest)
     file(COPY data DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+    add_custom_target(lcov lcov -c -d .. -o FastANITest.out
+                        COMMAND genhtml -o ../lcov/ FastANITest.out
+                        DEPENDS FastANITest)
 endif(${BUILD_TESTING})
