@@ -31,18 +31,18 @@
             <td class="headerValue">FastANITest.out</td>
             <td></td>
             <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
             <td class="headerCovTableEntry">10</td>
-            <td class="headerCovTableEntry">10</td>
-            <td class="headerCovTableEntryHi">100.0 %</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-09-28 16:45:31</td>
+            <td class="headerValue">2022-10-03 15:00:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntry">0</td>
             <td class="headerCovTableEntry">20</td>
-            <td class="headerCovTableEntryLo">50.0 %</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
           </tr>
           <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -119,8 +119,8 @@
 <a name="57"><span class="lineNum">      57 </span>            : </a>
 <a name="58"><span class="lineNum">      58 </span>            :   template&lt;typename _Res, typename _Fn, typename... _Args&gt;</a>
 <a name="59"><span class="lineNum">      59 </span>            :     constexpr _Res</a>
-<a name="60"><span class="lineNum">      60 </span><span class="lineCov">      49446 :     __invoke_impl(__invoke_other, _Fn&amp;&amp; __f, _Args&amp;&amp;... __args)</span></a>
-<a name="61"><span class="lineNum">      61 </span><span class="lineCov">      49446 :     { return std::forward&lt;_Fn&gt;(__f)(std::forward&lt;_Args&gt;(__args)...); }</span></a>
+<a name="60"><span class="lineNum">      60 </span><span class="lineNoCov">          0 :     __invoke_impl(__invoke_other, _Fn&amp;&amp; __f, _Args&amp;&amp;... __args)</span></a>
+<a name="61"><span class="lineNum">      61 </span><span class="lineNoCov">          0 :     { return std::forward&lt;_Fn&gt;(__f)(std::forward&lt;_Args&gt;(__args)...); }</span></a>
 <a name="62"><span class="lineNum">      62 </span>            : </a>
 <a name="63"><span class="lineNum">      63 </span>            :   template&lt;typename _Res, typename _MemFun, typename _Tp, typename... _Args&gt;</a>
 <a name="64"><span class="lineNum">      64 </span>            :     constexpr _Res</a>
@@ -149,34 +149,34 @@
 <a name="87"><span class="lineNum">      87 </span>            :   /// Invoke a callable object.</a>
 <a name="88"><span class="lineNum">      88 </span>            :   template&lt;typename _Callable, typename... _Args&gt;</a>
 <a name="89"><span class="lineNum">      89 </span>            :     constexpr typename __invoke_result&lt;_Callable, _Args...&gt;::type</a>
-<a name="90"><span class="lineNum">      90 </span><span class="lineCov">      24705 :     __invoke(_Callable&amp;&amp; __fn, _Args&amp;&amp;... __args)</span></a>
+<a name="90"><span class="lineNum">      90 </span><span class="lineNoCov">          0 :     __invoke(_Callable&amp;&amp; __fn, _Args&amp;&amp;... __args)</span></a>
 <a name="91"><span class="lineNum">      91 </span>            :     noexcept(__is_nothrow_invocable&lt;_Callable, _Args...&gt;::value)</a>
 <a name="92"><span class="lineNum">      92 </span>            :     {</a>
 <a name="93"><span class="lineNum">      93 </span>            :       using __result = __invoke_result&lt;_Callable, _Args...&gt;;</a>
 <a name="94"><span class="lineNum">      94 </span>            :       using __type = typename __result::type;</a>
 <a name="95"><span class="lineNum">      95 </span>            :       using __tag = typename __result::__invoke_type;</a>
-<a name="96"><span class="lineNum">      96 </span><span class="lineCov">      24705 :       return std::__invoke_impl&lt;__type&gt;(__tag{}, std::forward&lt;_Callable&gt;(__fn),</span></a>
-<a name="97"><span class="lineNum">      97 </span><span class="lineCov">      24705 :                                         std::forward&lt;_Args&gt;(__args)...);</span></a>
+<a name="96"><span class="lineNum">      96 </span><span class="lineNoCov">          0 :       return std::__invoke_impl&lt;__type&gt;(__tag{}, std::forward&lt;_Callable&gt;(__fn),</span></a>
+<a name="97"><span class="lineNum">      97 </span><span class="lineNoCov">          0 :                                         std::forward&lt;_Args&gt;(__args)...);</span></a>
 <a name="98"><span class="lineNum">      98 </span>            :     }</a>
 <a name="99"><span class="lineNum">      99 </span>            : </a>
 <a name="100"><span class="lineNum">     100 </span>            : #if __cplusplus &gt;= 201703L</a>
 <a name="101"><span class="lineNum">     101 </span>            :   // INVOKE&lt;R&gt;: Invoke a callable object and convert the result to R.</a>
 <a name="102"><span class="lineNum">     102 </span>            :   template&lt;typename _Res, typename _Callable, typename... _Args&gt;</a>
 <a name="103"><span class="lineNum">     103 </span>            :     constexpr enable_if_t&lt;is_invocable_r_v&lt;_Res, _Callable, _Args...&gt;, _Res&gt;</a>
-<a name="104"><span class="lineNum">     104 </span><span class="lineCov">      24741 :     __invoke_r(_Callable&amp;&amp; __fn, _Args&amp;&amp;... __args)</span></a>
+<a name="104"><span class="lineNum">     104 </span><span class="lineNoCov">          0 :     __invoke_r(_Callable&amp;&amp; __fn, _Args&amp;&amp;... __args)</span></a>
 <a name="105"><span class="lineNum">     105 </span>            :     noexcept(is_nothrow_invocable_r_v&lt;_Res, _Callable, _Args...&gt;)</a>
 <a name="106"><span class="lineNum">     106 </span>            :     {</a>
 <a name="107"><span class="lineNum">     107 </span>            :       using __result = __invoke_result&lt;_Callable, _Args...&gt;;</a>
 <a name="108"><span class="lineNum">     108 </span>            :       using __type = typename __result::type;</a>
 <a name="109"><span class="lineNum">     109 </span>            :       using __tag = typename __result::__invoke_type;</a>
 <a name="110"><span class="lineNum">     110 </span>            :       if constexpr (is_void_v&lt;_Res&gt;)</a>
-<a name="111"><span class="lineNum">     111 </span><span class="lineCov">      24717 :         std::__invoke_impl&lt;__type&gt;(__tag{}, std::forward&lt;_Callable&gt;(__fn),</span></a>
+<a name="111"><span class="lineNum">     111 </span><span class="lineNoCov">          0 :         std::__invoke_impl&lt;__type&gt;(__tag{}, std::forward&lt;_Callable&gt;(__fn),</span></a>
 <a name="112"><span class="lineNum">     112 </span>            :                                         std::forward&lt;_Args&gt;(__args)...);</a>
 <a name="113"><span class="lineNum">     113 </span>            :       else</a>
-<a name="114"><span class="lineNum">     114 </span><span class="lineCov">         24 :         return std::__invoke_impl&lt;__type&gt;(__tag{},</span></a>
+<a name="114"><span class="lineNum">     114 </span><span class="lineNoCov">          0 :         return std::__invoke_impl&lt;__type&gt;(__tag{},</span></a>
 <a name="115"><span class="lineNum">     115 </span>            :                                           std::forward&lt;_Callable&gt;(__fn),</a>
-<a name="116"><span class="lineNum">     116 </span><span class="lineCov">         24 :                                           std::forward&lt;_Args&gt;(__args)...);</span></a>
-<a name="117"><span class="lineNum">     117 </span><span class="lineCov">      24717 :     }</span></a>
+<a name="116"><span class="lineNum">     116 </span><span class="lineNoCov">          0 :                                           std::forward&lt;_Args&gt;(__args)...);</span></a>
+<a name="117"><span class="lineNum">     117 </span><span class="lineNoCov">          0 :     }</span></a>
 <a name="118"><span class="lineNum">     118 </span>            : #else // C++11</a>
 <a name="119"><span class="lineNum">     119 </span>            :   template&lt;typename _Res, typename _Callable, typename... _Args&gt;</a>
 <a name="120"><span class="lineNum">     120 </span>            :     using __can_invoke_as_void = __enable_if_t&lt;</a>

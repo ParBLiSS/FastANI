@@ -31,18 +31,18 @@
             <td class="headerValue">FastANITest.out</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">17</td>
+            <td class="headerCovTableEntry">0</td>
             <td class="headerCovTableEntry">20</td>
-            <td class="headerCovTableEntryMed">85.0 %</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-09-28 16:45:31</td>
+            <td class="headerValue">2022-10-03 15:00:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">16</td>
+            <td class="headerCovTableEntry">0</td>
             <td class="headerCovTableEntry">19</td>
-            <td class="headerCovTableEntryMed">84.2 %</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
           </tr>
           <tr><td><img src="../../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -104,10 +104,10 @@
 <a name="42"><span class="lineNum">      42 </span>            :         auto getResult() const -&gt; bool { return m_result; }</a>
 <a name="43"><span class="lineNum">      43 </span>            :         virtual void streamReconstructedExpression( std::ostream &amp;os ) const = 0;</a>
 <a name="44"><span class="lineNum">      44 </span>            : </a>
-<a name="45"><span class="lineNum">      45 </span><span class="lineCov">         48 :         ITransientExpression( bool isBinaryExpression, bool result )</span></a>
-<a name="46"><span class="lineNum">      46 </span><span class="lineCov">         48 :         :   m_isBinaryExpression( isBinaryExpression ),</span></a>
-<a name="47"><span class="lineNum">      47 </span><span class="lineCov">         48 :             m_result( result )</span></a>
-<a name="48"><span class="lineNum">      48 </span><span class="lineCov">         48 :         {}</span></a>
+<a name="45"><span class="lineNum">      45 </span><span class="lineNoCov">          0 :         ITransientExpression( bool isBinaryExpression, bool result )</span></a>
+<a name="46"><span class="lineNum">      46 </span><span class="lineNoCov">          0 :         :   m_isBinaryExpression( isBinaryExpression ),</span></a>
+<a name="47"><span class="lineNum">      47 </span><span class="lineNoCov">          0 :             m_result( result )</span></a>
+<a name="48"><span class="lineNum">      48 </span><span class="lineNoCov">          0 :         {}</span></a>
 <a name="49"><span class="lineNum">      49 </span>            : </a>
 <a name="50"><span class="lineNum">      50 </span>            :         ITransientExpression() = default;</a>
 <a name="51"><span class="lineNum">      51 </span>            :         ITransientExpression(ITransientExpression const&amp;) = default;</a>
@@ -137,12 +137,12 @@
 <a name="75"><span class="lineNum">      75 </span><span class="lineNoCov">          0 :         }</span></a>
 <a name="76"><span class="lineNum">      76 </span>            : </a>
 <a name="77"><span class="lineNum">      77 </span>            :     public:</a>
-<a name="78"><span class="lineNum">      78 </span><span class="lineCov">         48 :         BinaryExpr( bool comparisonResult, LhsT lhs, StringRef op, RhsT rhs )</span></a>
+<a name="78"><span class="lineNum">      78 </span><span class="lineNoCov">          0 :         BinaryExpr( bool comparisonResult, LhsT lhs, StringRef op, RhsT rhs )</span></a>
 <a name="79"><span class="lineNum">      79 </span>            :         :   ITransientExpression{ true, comparisonResult },</a>
-<a name="80"><span class="lineNum">      80 </span><span class="lineCov">         48 :             m_lhs( lhs ),</span></a>
-<a name="81"><span class="lineNum">      81 </span><span class="lineCov">         48 :             m_op( op ),</span></a>
-<a name="82"><span class="lineNum">      82 </span><span class="lineCov">         48 :             m_rhs( rhs )</span></a>
-<a name="83"><span class="lineNum">      83 </span><span class="lineCov">         48 :         {}</span></a>
+<a name="80"><span class="lineNum">      80 </span><span class="lineNoCov">          0 :             m_lhs( lhs ),</span></a>
+<a name="81"><span class="lineNum">      81 </span><span class="lineNoCov">          0 :             m_op( op ),</span></a>
+<a name="82"><span class="lineNum">      82 </span><span class="lineNoCov">          0 :             m_rhs( rhs )</span></a>
+<a name="83"><span class="lineNum">      83 </span><span class="lineNoCov">          0 :         {}</span></a>
 <a name="84"><span class="lineNum">      84 </span>            : </a>
 <a name="85"><span class="lineNum">      85 </span>            :         template&lt;typename T&gt;</a>
 <a name="86"><span class="lineNum">      86 </span>            :         auto operator &amp;&amp; ( T ) const -&gt; BinaryExpr&lt;LhsT, RhsT const&amp;&gt; const {</a>
@@ -219,7 +219,7 @@
 <a name="157"><span class="lineNum">     157 </span>            : </a>
 <a name="158"><span class="lineNum">     158 </span>            :     // Specialised comparison functions to handle equality comparisons between ints and pointers (NULL deduces as an int)</a>
 <a name="159"><span class="lineNum">     159 </span>            :     template&lt;typename LhsT, typename RhsT&gt;</a>
-<a name="160"><span class="lineNum">     160 </span><span class="lineCov">         26 :     auto compareEqual( LhsT const&amp; lhs, RhsT const&amp; rhs ) -&gt; bool { return static_cast&lt;bool&gt;(lhs == rhs); }</span></a>
+<a name="160"><span class="lineNum">     160 </span><span class="lineNoCov">          0 :     auto compareEqual( LhsT const&amp; lhs, RhsT const&amp; rhs ) -&gt; bool { return static_cast&lt;bool&gt;(lhs == rhs); }</span></a>
 <a name="161"><span class="lineNum">     161 </span>            :     template&lt;typename T&gt;</a>
 <a name="162"><span class="lineNum">     162 </span>            :     auto compareEqual( T* const&amp; lhs, int rhs ) -&gt; bool { return lhs == reinterpret_cast&lt;void const*&gt;( rhs ); }</a>
 <a name="163"><span class="lineNum">     163 </span>            :     template&lt;typename T&gt;</a>
@@ -245,15 +245,15 @@
 <a name="183"><span class="lineNum">     183 </span>            :     class ExprLhs {</a>
 <a name="184"><span class="lineNum">     184 </span>            :         LhsT m_lhs;</a>
 <a name="185"><span class="lineNum">     185 </span>            :     public:</a>
-<a name="186"><span class="lineNum">     186 </span><span class="lineCov">         48 :         explicit ExprLhs( LhsT lhs ) : m_lhs( lhs ) {}</span></a>
+<a name="186"><span class="lineNum">     186 </span><span class="lineNoCov">          0 :         explicit ExprLhs( LhsT lhs ) : m_lhs( lhs ) {}</span></a>
 <a name="187"><span class="lineNum">     187 </span>            : </a>
 <a name="188"><span class="lineNum">     188 </span>            :         template&lt;typename RhsT, std::enable_if_t&lt;!std::is_arithmetic&lt;std::remove_reference_t&lt;RhsT&gt;&gt;::value, int&gt; = 0&gt;</a>
 <a name="189"><span class="lineNum">     189 </span>            :         friend auto operator == ( ExprLhs &amp;&amp; lhs, RhsT &amp;&amp; rhs ) -&gt; BinaryExpr&lt;LhsT, RhsT const&amp;&gt; {</a>
 <a name="190"><span class="lineNum">     190 </span>            :             return { compareEqual( lhs.m_lhs, rhs ), lhs.m_lhs, &quot;==&quot;_sr, rhs };</a>
 <a name="191"><span class="lineNum">     191 </span>            :         }</a>
 <a name="192"><span class="lineNum">     192 </span>            :         template&lt;typename RhsT, std::enable_if_t&lt;std::is_arithmetic&lt;RhsT&gt;::value, int&gt; = 0&gt;</a>
-<a name="193"><span class="lineNum">     193 </span><span class="lineCov">         26 :         friend auto operator == ( ExprLhs &amp;&amp; lhs, RhsT rhs ) -&gt; BinaryExpr&lt;LhsT, RhsT&gt; {</span></a>
-<a name="194"><span class="lineNum">     194 </span><span class="lineCov">         26 :             return { compareEqual( lhs.m_lhs, rhs ), lhs.m_lhs, &quot;==&quot;_sr, rhs };</span></a>
+<a name="193"><span class="lineNum">     193 </span><span class="lineNoCov">          0 :         friend auto operator == ( ExprLhs &amp;&amp; lhs, RhsT rhs ) -&gt; BinaryExpr&lt;LhsT, RhsT&gt; {</span></a>
+<a name="194"><span class="lineNum">     194 </span><span class="lineNoCov">          0 :             return { compareEqual( lhs.m_lhs, rhs ), lhs.m_lhs, &quot;==&quot;_sr, rhs };</span></a>
 <a name="195"><span class="lineNum">     195 </span>            :         }</a>
 <a name="196"><span class="lineNum">     196 </span>            : </a>
 <a name="197"><span class="lineNum">     197 </span>            :         template&lt;typename RhsT, std::enable_if_t&lt;!std::is_arithmetic&lt;std::remove_reference_t&lt;RhsT&gt;&gt;::value, int&gt; = 0&gt;</a>
@@ -275,8 +275,8 @@
 <a name="213"><span class="lineNum">     213 </span>            :             return { static_cast&lt;bool&gt;(lhs.m_lhs op rhs), lhs.m_lhs, #op##_sr, rhs }; \</a>
 <a name="214"><span class="lineNum">     214 </span>            :         }</a>
 <a name="215"><span class="lineNum">     215 </span>            : </a>
-<a name="216"><span class="lineNum">     216 </span><span class="lineCov">         11 :         CATCH_INTERNAL_DEFINE_EXPRESSION_OPERATOR(&lt;)</span></a>
-<a name="217"><span class="lineNum">     217 </span><span class="lineCov">         11 :         CATCH_INTERNAL_DEFINE_EXPRESSION_OPERATOR(&gt;)</span></a>
+<a name="216"><span class="lineNum">     216 </span><span class="lineNoCov">          0 :         CATCH_INTERNAL_DEFINE_EXPRESSION_OPERATOR(&lt;)</span></a>
+<a name="217"><span class="lineNum">     217 </span><span class="lineNoCov">          0 :         CATCH_INTERNAL_DEFINE_EXPRESSION_OPERATOR(&gt;)</span></a>
 <a name="218"><span class="lineNum">     218 </span>            :         CATCH_INTERNAL_DEFINE_EXPRESSION_OPERATOR(&lt;=)</a>
 <a name="219"><span class="lineNum">     219 </span>            :         CATCH_INTERNAL_DEFINE_EXPRESSION_OPERATOR(&gt;=)</a>
 <a name="220"><span class="lineNum">     220 </span>            :         CATCH_INTERNAL_DEFINE_EXPRESSION_OPERATOR(|)</a>
@@ -311,8 +311,8 @@
 <a name="249"><span class="lineNum">     249 </span>            :         }</a>
 <a name="250"><span class="lineNum">     250 </span>            : </a>
 <a name="251"><span class="lineNum">     251 </span>            :         template&lt;typename T, std::enable_if_t&lt;std::is_arithmetic&lt;T&gt;::value, int&gt; = 0&gt;</a>
-<a name="252"><span class="lineNum">     252 </span><span class="lineCov">         48 :         friend auto operator &lt;= ( Decomposer &amp;&amp;, T value ) -&gt; ExprLhs&lt;T&gt; {</span></a>
-<a name="253"><span class="lineNum">     253 </span><span class="lineCov">         48 :             return ExprLhs&lt;T&gt;{ value };</span></a>
+<a name="252"><span class="lineNum">     252 </span><span class="lineNoCov">          0 :         friend auto operator &lt;= ( Decomposer &amp;&amp;, T value ) -&gt; ExprLhs&lt;T&gt; {</span></a>
+<a name="253"><span class="lineNum">     253 </span><span class="lineNoCov">          0 :             return ExprLhs&lt;T&gt;{ value };</span></a>
 <a name="254"><span class="lineNum">     254 </span>            :         }</a>
 <a name="255"><span class="lineNum">     255 </span>            :     };</a>
 <a name="256"><span class="lineNum">     256 </span>            : </a>

@@ -58,10 +58,11 @@ if(${BUILD_TESTING})
     include(CTest)
     include(Catch)
     add_executable(FastANITest tests/fastani_tests.cpp)
-    target_include_directories(FastANITest PUBLIC "src/")
+    target_include_directories(FastANITest PUBLIC "src/"
+                            ${OpenMP_CXX_INCLUDE_DIRS})
     target_compile_options(FastANITest PUBLIC
                 --coverage -g -O0
-                -fprofile-arcs -ftest-coverage)
+                -fprofile-arcs -ftest-coverage ${OpenMP_CXX_FLAGS})
     target_link_libraries(FastANITest PRIVATE
                           Catch2::Catch2 Catch2::Catch2WithMain
                           ZLIB::ZLIB GSL::gsl GSL::gslcblas

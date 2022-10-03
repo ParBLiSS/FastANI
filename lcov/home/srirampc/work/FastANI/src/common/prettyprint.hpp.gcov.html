@@ -31,18 +31,18 @@
             <td class="headerValue">FastANITest.out</td>
             <td></td>
             <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
             <td class="headerCovTableEntry">30</td>
-            <td class="headerCovTableEntry">30</td>
-            <td class="headerCovTableEntryHi">100.0 %</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-09-28 16:45:31</td>
+            <td class="headerValue">2022-10-03 15:00:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
             <td class="headerCovTableEntry">10</td>
-            <td class="headerCovTableEntry">10</td>
-            <td class="headerCovTableEntryHi">100.0 %</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
           </tr>
           <tr><td><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -171,43 +171,43 @@
 <a name="109"><span class="lineNum">     109 </span>            :         template &lt;typename U&gt;</a>
 <a name="110"><span class="lineNum">     110 </span>            :         struct printer</a>
 <a name="111"><span class="lineNum">     111 </span>            :         {</a>
-<a name="112"><span class="lineNum">     112 </span><span class="lineCov">          8 :             static void print_body(const U &amp; c, ostream_type &amp; stream)</span></a>
+<a name="112"><span class="lineNum">     112 </span><span class="lineNoCov">          0 :             static void print_body(const U &amp; c, ostream_type &amp; stream)</span></a>
 <a name="113"><span class="lineNum">     113 </span>            :             {</a>
 <a name="114"><span class="lineNum">     114 </span>            :                 using std::begin;</a>
 <a name="115"><span class="lineNum">     115 </span>            :                 using std::end;</a>
 <a name="116"><span class="lineNum">     116 </span>            : </a>
-<a name="117"><span class="lineNum">     117 </span><span class="lineCov">          8 :                 auto it = begin(c);</span></a>
-<a name="118"><span class="lineNum">     118 </span><span class="lineCov">          8 :                 const auto the_end = end(c);</span></a>
+<a name="117"><span class="lineNum">     117 </span><span class="lineNoCov">          0 :                 auto it = begin(c);</span></a>
+<a name="118"><span class="lineNum">     118 </span><span class="lineNoCov">          0 :                 const auto the_end = end(c);</span></a>
 <a name="119"><span class="lineNum">     119 </span>            : </a>
-<a name="120"><span class="lineNum">     120 </span><span class="lineCov">          8 :                 if (it != the_end)</span></a>
+<a name="120"><span class="lineNum">     120 </span><span class="lineNoCov">          0 :                 if (it != the_end)</span></a>
 <a name="121"><span class="lineNum">     121 </span>            :                 {</a>
 <a name="122"><span class="lineNum">     122 </span>            :                     for ( ; ; )</a>
 <a name="123"><span class="lineNum">     123 </span>            :                     {</a>
-<a name="124"><span class="lineNum">     124 </span><span class="lineCov">         13 :                         stream &lt;&lt; *it;</span></a>
+<a name="124"><span class="lineNum">     124 </span><span class="lineNoCov">          0 :                         stream &lt;&lt; *it;</span></a>
 <a name="125"><span class="lineNum">     125 </span>            : </a>
-<a name="126"><span class="lineNum">     126 </span><span class="lineCov">         13 :                     if (++it == the_end) break;</span></a>
+<a name="126"><span class="lineNum">     126 </span><span class="lineNoCov">          0 :                     if (++it == the_end) break;</span></a>
 <a name="127"><span class="lineNum">     127 </span>            : </a>
-<a name="128"><span class="lineNum">     128 </span><span class="lineCov">          5 :                     if (delimiters_type::values.delimiter != NULL)</span></a>
-<a name="129"><span class="lineNum">     129 </span><span class="lineCov">          5 :                         stream &lt;&lt; delimiters_type::values.delimiter;</span></a>
+<a name="128"><span class="lineNum">     128 </span><span class="lineNoCov">          0 :                     if (delimiters_type::values.delimiter != NULL)</span></a>
+<a name="129"><span class="lineNum">     129 </span><span class="lineNoCov">          0 :                         stream &lt;&lt; delimiters_type::values.delimiter;</span></a>
 <a name="130"><span class="lineNum">     130 </span>            :                     }</a>
 <a name="131"><span class="lineNum">     131 </span>            :                 }</a>
-<a name="132"><span class="lineNum">     132 </span><span class="lineCov">          8 :             }</span></a>
+<a name="132"><span class="lineNum">     132 </span><span class="lineNoCov">          0 :             }</span></a>
 <a name="133"><span class="lineNum">     133 </span>            :         };</a>
 <a name="134"><span class="lineNum">     134 </span>            : </a>
-<a name="135"><span class="lineNum">     135 </span><span class="lineCov">         16 :         print_container_helper(const T &amp; container)</span></a>
-<a name="136"><span class="lineNum">     136 </span><span class="lineCov">         16 :         : container_(container)</span></a>
-<a name="137"><span class="lineNum">     137 </span><span class="lineCov">         16 :         { }</span></a>
+<a name="135"><span class="lineNum">     135 </span><span class="lineNoCov">          0 :         print_container_helper(const T &amp; container)</span></a>
+<a name="136"><span class="lineNum">     136 </span><span class="lineNoCov">          0 :         : container_(container)</span></a>
+<a name="137"><span class="lineNum">     137 </span><span class="lineNoCov">          0 :         { }</span></a>
 <a name="138"><span class="lineNum">     138 </span>            : </a>
-<a name="139"><span class="lineNum">     139 </span><span class="lineCov">         16 :         inline void operator()(ostream_type &amp; stream) const</span></a>
+<a name="139"><span class="lineNum">     139 </span><span class="lineNoCov">          0 :         inline void operator()(ostream_type &amp; stream) const</span></a>
 <a name="140"><span class="lineNum">     140 </span>            :         {</a>
-<a name="141"><span class="lineNum">     141 </span><span class="lineCov">         16 :             if (delimiters_type::values.prefix != NULL)</span></a>
-<a name="142"><span class="lineNum">     142 </span><span class="lineCov">         16 :                 stream &lt;&lt; delimiters_type::values.prefix;</span></a>
+<a name="141"><span class="lineNum">     141 </span><span class="lineNoCov">          0 :             if (delimiters_type::values.prefix != NULL)</span></a>
+<a name="142"><span class="lineNum">     142 </span><span class="lineNoCov">          0 :                 stream &lt;&lt; delimiters_type::values.prefix;</span></a>
 <a name="143"><span class="lineNum">     143 </span>            : </a>
-<a name="144"><span class="lineNum">     144 </span><span class="lineCov">         16 :             printer&lt;T&gt;::print_body(container_, stream);</span></a>
+<a name="144"><span class="lineNum">     144 </span><span class="lineNoCov">          0 :             printer&lt;T&gt;::print_body(container_, stream);</span></a>
 <a name="145"><span class="lineNum">     145 </span>            : </a>
-<a name="146"><span class="lineNum">     146 </span><span class="lineCov">         16 :             if (delimiters_type::values.postfix != NULL)</span></a>
-<a name="147"><span class="lineNum">     147 </span><span class="lineCov">         16 :                 stream &lt;&lt; delimiters_type::values.postfix;</span></a>
-<a name="148"><span class="lineNum">     148 </span><span class="lineCov">         16 :         }</span></a>
+<a name="146"><span class="lineNum">     146 </span><span class="lineNoCov">          0 :             if (delimiters_type::values.postfix != NULL)</span></a>
+<a name="147"><span class="lineNum">     147 </span><span class="lineNoCov">          0 :                 stream &lt;&lt; delimiters_type::values.postfix;</span></a>
+<a name="148"><span class="lineNum">     148 </span><span class="lineNoCov">          0 :         }</span></a>
 <a name="149"><span class="lineNum">     149 </span>            : </a>
 <a name="150"><span class="lineNum">     150 </span>            :     private:</a>
 <a name="151"><span class="lineNum">     151 </span>            :         const T &amp; container_;</a>
@@ -221,13 +221,13 @@
 <a name="159"><span class="lineNum">     159 </span>            :     {</a>
 <a name="160"><span class="lineNum">     160 </span>            :         using ostream_type = print_container_helper&lt;T, TChar, TCharTraits, TDelimiters&gt;::ostream_type;</a>
 <a name="161"><span class="lineNum">     161 </span>            : </a>
-<a name="162"><span class="lineNum">     162 </span><span class="lineCov">          8 :         static void print_body(const std::pair&lt;T1, T2&gt; &amp; c, ostream_type &amp; stream)</span></a>
+<a name="162"><span class="lineNum">     162 </span><span class="lineNoCov">          0 :         static void print_body(const std::pair&lt;T1, T2&gt; &amp; c, ostream_type &amp; stream)</span></a>
 <a name="163"><span class="lineNum">     163 </span>            :         {</a>
-<a name="164"><span class="lineNum">     164 </span><span class="lineCov">          8 :             stream &lt;&lt; c.first;</span></a>
-<a name="165"><span class="lineNum">     165 </span><span class="lineCov">          8 :             if (print_container_helper&lt;T, TChar, TCharTraits, TDelimiters&gt;::delimiters_type::values.delimiter != NULL)</span></a>
-<a name="166"><span class="lineNum">     166 </span><span class="lineCov">          8 :                 stream &lt;&lt; print_container_helper&lt;T, TChar, TCharTraits, TDelimiters&gt;::delimiters_type::values.delimiter;</span></a>
-<a name="167"><span class="lineNum">     167 </span><span class="lineCov">          8 :             stream &lt;&lt; c.second;</span></a>
-<a name="168"><span class="lineNum">     168 </span><span class="lineCov">          8 :         }</span></a>
+<a name="164"><span class="lineNum">     164 </span><span class="lineNoCov">          0 :             stream &lt;&lt; c.first;</span></a>
+<a name="165"><span class="lineNum">     165 </span><span class="lineNoCov">          0 :             if (print_container_helper&lt;T, TChar, TCharTraits, TDelimiters&gt;::delimiters_type::values.delimiter != NULL)</span></a>
+<a name="166"><span class="lineNum">     166 </span><span class="lineNoCov">          0 :                 stream &lt;&lt; print_container_helper&lt;T, TChar, TCharTraits, TDelimiters&gt;::delimiters_type::values.delimiter;</span></a>
+<a name="167"><span class="lineNum">     167 </span><span class="lineNoCov">          0 :             stream &lt;&lt; c.second;</span></a>
+<a name="168"><span class="lineNum">     168 </span><span class="lineNoCov">          0 :         }</span></a>
 <a name="169"><span class="lineNum">     169 </span>            :     };</a>
 <a name="170"><span class="lineNum">     170 </span>            : </a>
 <a name="171"><span class="lineNum">     171 </span>            :     // Specialization for tuples</a>
@@ -272,12 +272,12 @@
 <a name="210"><span class="lineNum">     210 </span>            :     // Prints a print_container_helper to the specified stream.</a>
 <a name="211"><span class="lineNum">     211 </span>            : </a>
 <a name="212"><span class="lineNum">     212 </span>            :     template&lt;typename T, typename TChar, typename TCharTraits, typename TDelimiters&gt;</a>
-<a name="213"><span class="lineNum">     213 </span><span class="lineCov">         16 :     inline std::basic_ostream&lt;TChar, TCharTraits&gt; &amp; operator&lt;&lt;(</span></a>
+<a name="213"><span class="lineNum">     213 </span><span class="lineNoCov">          0 :     inline std::basic_ostream&lt;TChar, TCharTraits&gt; &amp; operator&lt;&lt;(</span></a>
 <a name="214"><span class="lineNum">     214 </span>            :         std::basic_ostream&lt;TChar, TCharTraits&gt; &amp; stream,</a>
 <a name="215"><span class="lineNum">     215 </span>            :         const print_container_helper&lt;T, TChar, TCharTraits, TDelimiters&gt; &amp; helper)</a>
 <a name="216"><span class="lineNum">     216 </span>            :     {</a>
-<a name="217"><span class="lineNum">     217 </span><span class="lineCov">         16 :         helper(stream);</span></a>
-<a name="218"><span class="lineNum">     218 </span><span class="lineCov">         16 :         return stream;</span></a>
+<a name="217"><span class="lineNum">     217 </span><span class="lineNoCov">          0 :         helper(stream);</span></a>
+<a name="218"><span class="lineNum">     218 </span><span class="lineNoCov">          0 :         return stream;</span></a>
 <a name="219"><span class="lineNum">     219 </span>            :     }</a>
 <a name="220"><span class="lineNum">     220 </span>            : </a>
 <a name="221"><span class="lineNum">     221 </span>            : </a>
@@ -496,9 +496,9 @@
 <a name="434"><span class="lineNum">     434 </span>            :     template&lt;typename T, typename TChar, typename TCharTraits&gt;</a>
 <a name="435"><span class="lineNum">     435 </span>            :     inline typename enable_if&lt; ::pretty_print::is_container&lt;T&gt;::value,</a>
 <a name="436"><span class="lineNum">     436 </span>            :                               basic_ostream&lt;TChar, TCharTraits&gt; &amp;&gt;::type</a>
-<a name="437"><span class="lineNum">     437 </span><span class="lineCov">         16 :     operator&lt;&lt;(basic_ostream&lt;TChar, TCharTraits&gt; &amp; stream, const T &amp; container)</span></a>
+<a name="437"><span class="lineNum">     437 </span><span class="lineNoCov">          0 :     operator&lt;&lt;(basic_ostream&lt;TChar, TCharTraits&gt; &amp; stream, const T &amp; container)</span></a>
 <a name="438"><span class="lineNum">     438 </span>            :     {</a>
-<a name="439"><span class="lineNum">     439 </span><span class="lineCov">         16 :         return stream &lt;&lt; ::pretty_print::print_container_helper&lt;T, TChar, TCharTraits&gt;(container);</span></a>
+<a name="439"><span class="lineNum">     439 </span><span class="lineNoCov">          0 :         return stream &lt;&lt; ::pretty_print::print_container_helper&lt;T, TChar, TCharTraits&gt;(container);</span></a>
 <a name="440"><span class="lineNum">     440 </span>            :     }</a>
 <a name="441"><span class="lineNum">     441 </span>            : }</a>
 <a name="442"><span class="lineNum">     442 </span>            : </a>
