@@ -31,18 +31,18 @@
             <td class="headerValue">FastANITest.out</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">13</td>
             <td class="headerCovTableEntry">14</td>
-            <td class="headerCovTableEntryHi">92.9 %</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-10-03 15:00:45</td>
+            <td class="headerValue">2022-10-03 16:47:33</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">51</td>
             <td class="headerCovTableEntry">74</td>
-            <td class="headerCovTableEntryLo">5.4 %</td>
+            <td class="headerCovTableEntryLo">68.9 %</td>
           </tr>
           <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -168,7 +168,7 @@
 <a name="106"><span class="lineNum">     106 </span>            :   template&lt;typename _Tp, typename... _Args&gt;</a>
 <a name="107"><span class="lineNum">     107 </span>            :     _GLIBCXX20_CONSTEXPR</a>
 <a name="108"><span class="lineNum">     108 </span>            :     inline void</a>
-<a name="109"><span class="lineNum">     109 </span><span class="lineCov">       4708 :     _Construct(_Tp* __p, _Args&amp;&amp;... __args)</span></a>
+<a name="109"><span class="lineNum">     109 </span><span class="lineCov">      20615 :     _Construct(_Tp* __p, _Args&amp;&amp;... __args)</span></a>
 <a name="110"><span class="lineNum">     110 </span>            :     {</a>
 <a name="111"><span class="lineNum">     111 </span>            : #if __cplusplus &gt;= 202002L &amp;&amp; __has_builtin(__builtin_is_constant_evaluated)</a>
 <a name="112"><span class="lineNum">     112 </span>            :       if (__builtin_is_constant_evaluated())</a>
@@ -178,8 +178,8 @@
 <a name="116"><span class="lineNum">     116 </span>            :           return;</a>
 <a name="117"><span class="lineNum">     117 </span>            :         }</a>
 <a name="118"><span class="lineNum">     118 </span>            : #endif</a>
-<a name="119"><span class="lineNum">     119 </span><span class="lineCov">       4708 :       ::new(static_cast&lt;void*&gt;(__p)) _Tp(std::forward&lt;_Args&gt;(__args)...);</span></a>
-<a name="120"><span class="lineNum">     120 </span><span class="lineCov">       4708 :     }</span></a>
+<a name="119"><span class="lineNum">     119 </span><span class="lineCov">      20615 :       ::new(static_cast&lt;void*&gt;(__p)) _Tp(std::forward&lt;_Args&gt;(__args)...);</span></a>
+<a name="120"><span class="lineNum">     120 </span><span class="lineCov">      20615 :     }</span></a>
 <a name="121"><span class="lineNum">     121 </span>            : #else</a>
 <a name="122"><span class="lineNum">     122 </span>            :   template&lt;typename _T1, typename _T2&gt;</a>
 <a name="123"><span class="lineNum">     123 </span>            :     inline void</a>
@@ -205,25 +205,25 @@
 <a name="143"><span class="lineNum">     143 </span>            :    */</a>
 <a name="144"><span class="lineNum">     144 </span>            :   template&lt;typename _Tp&gt;</a>
 <a name="145"><span class="lineNum">     145 </span>            :     _GLIBCXX14_CONSTEXPR inline void</a>
-<a name="146"><span class="lineNum">     146 </span><span class="lineCov">       4818 :     _Destroy(_Tp* __pointer)</span></a>
+<a name="146"><span class="lineNum">     146 </span><span class="lineCov">      20636 :     _Destroy(_Tp* __pointer)</span></a>
 <a name="147"><span class="lineNum">     147 </span>            :     {</a>
 <a name="148"><span class="lineNum">     148 </span>            : #if __cplusplus &gt; 201703L</a>
 <a name="149"><span class="lineNum">     149 </span>            :       std::destroy_at(__pointer);</a>
 <a name="150"><span class="lineNum">     150 </span>            : #else</a>
-<a name="151"><span class="lineNum">     151 </span><span class="lineCov">       4818 :       __pointer-&gt;~_Tp();</span></a>
+<a name="151"><span class="lineNum">     151 </span><span class="lineCov">      20636 :       __pointer-&gt;~_Tp();</span></a>
 <a name="152"><span class="lineNum">     152 </span>            : #endif</a>
-<a name="153"><span class="lineNum">     153 </span><span class="lineCov">       4818 :     }</span></a>
+<a name="153"><span class="lineNum">     153 </span><span class="lineCov">      20636 :     }</span></a>
 <a name="154"><span class="lineNum">     154 </span>            : </a>
 <a name="155"><span class="lineNum">     155 </span>            :   template&lt;bool&gt;</a>
 <a name="156"><span class="lineNum">     156 </span>            :     struct _Destroy_aux</a>
 <a name="157"><span class="lineNum">     157 </span>            :     {</a>
 <a name="158"><span class="lineNum">     158 </span>            :       template&lt;typename _ForwardIterator&gt;</a>
 <a name="159"><span class="lineNum">     159 </span>            :         static _GLIBCXX20_CONSTEXPR void</a>
-<a name="160"><span class="lineNum">     160 </span><span class="lineCov">       3938 :         __destroy(_ForwardIterator __first, _ForwardIterator __last)</span></a>
+<a name="160"><span class="lineNum">     160 </span><span class="lineCov">      23953 :         __destroy(_ForwardIterator __first, _ForwardIterator __last)</span></a>
 <a name="161"><span class="lineNum">     161 </span>            :         {</a>
-<a name="162"><span class="lineNum">     162 </span><span class="lineCov">       8756 :           for (; __first != __last; ++__first)</span></a>
-<a name="163"><span class="lineNum">     163 </span><span class="lineCov">       4818 :             std::_Destroy(std::__addressof(*__first));</span></a>
-<a name="164"><span class="lineNum">     164 </span><span class="lineCov">       3938 :         }</span></a>
+<a name="162"><span class="lineNum">     162 </span><span class="lineCov">      44589 :           for (; __first != __last; ++__first)</span></a>
+<a name="163"><span class="lineNum">     163 </span><span class="lineCov">      20636 :             std::_Destroy(std::__addressof(*__first));</span></a>
+<a name="164"><span class="lineNum">     164 </span><span class="lineCov">      23953 :         }</span></a>
 <a name="165"><span class="lineNum">     165 </span>            :     };</a>
 <a name="166"><span class="lineNum">     166 </span>            : </a>
 <a name="167"><span class="lineNum">     167 </span>            :   template&lt;&gt;</a>
@@ -231,7 +231,7 @@
 <a name="169"><span class="lineNum">     169 </span>            :     {</a>
 <a name="170"><span class="lineNum">     170 </span>            :       template&lt;typename _ForwardIterator&gt;</a>
 <a name="171"><span class="lineNum">     171 </span>            :         static void</a>
-<a name="172"><span class="lineNum">     172 </span><span class="lineNoCov">          0 :         __destroy(_ForwardIterator, _ForwardIterator) { }</span></a>
+<a name="172"><span class="lineNum">     172 </span><span class="lineCov">    7905710 :         __destroy(_ForwardIterator, _ForwardIterator) { }</span></a>
 <a name="173"><span class="lineNum">     173 </span>            :     };</a>
 <a name="174"><span class="lineNum">     174 </span>            : </a>
 <a name="175"><span class="lineNum">     175 </span>            :   /**</a>
@@ -241,7 +241,7 @@
 <a name="179"><span class="lineNum">     179 </span>            :    */</a>
 <a name="180"><span class="lineNum">     180 </span>            :   template&lt;typename _ForwardIterator&gt;</a>
 <a name="181"><span class="lineNum">     181 </span>            :     _GLIBCXX20_CONSTEXPR inline void</a>
-<a name="182"><span class="lineNum">     182 </span><span class="lineCov">       3938 :     _Destroy(_ForwardIterator __first, _ForwardIterator __last)</span></a>
+<a name="182"><span class="lineNum">     182 </span><span class="lineCov">    7929663 :     _Destroy(_ForwardIterator __first, _ForwardIterator __last)</span></a>
 <a name="183"><span class="lineNum">     183 </span>            :     {</a>
 <a name="184"><span class="lineNum">     184 </span>            :       typedef typename iterator_traits&lt;_ForwardIterator&gt;::value_type</a>
 <a name="185"><span class="lineNum">     185 </span>            :                        _Value_type;</a>
@@ -255,8 +255,8 @@
 <a name="193"><span class="lineNum">     193 </span>            :         return _Destroy_aux&lt;false&gt;::__destroy(__first, __last);</a>
 <a name="194"><span class="lineNum">     194 </span>            : #endif</a>
 <a name="195"><span class="lineNum">     195 </span>            :       std::_Destroy_aux&lt;__has_trivial_destructor(_Value_type)&gt;::</a>
-<a name="196"><span class="lineNum">     196 </span><span class="lineCov">       3938 :         __destroy(__first, __last);</span></a>
-<a name="197"><span class="lineNum">     197 </span><span class="lineCov">       3938 :     }</span></a>
+<a name="196"><span class="lineNum">     196 </span><span class="lineCov">    7929663 :         __destroy(__first, __last);</span></a>
+<a name="197"><span class="lineNum">     197 </span><span class="lineCov">    7929663 :     }</span></a>
 <a name="198"><span class="lineNum">     198 </span>            : </a>
 <a name="199"><span class="lineNum">     199 </span>            :   template&lt;bool&gt;</a>
 <a name="200"><span class="lineNum">     200 </span>            :     struct _Destroy_n_aux</a>

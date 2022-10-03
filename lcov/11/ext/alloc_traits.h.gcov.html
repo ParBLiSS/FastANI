@@ -31,18 +31,18 @@
             <td class="headerValue">FastANITest.out</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">4</td>
             <td class="headerCovTableEntry">6</td>
-            <td class="headerCovTableEntryLo">33.3 %</td>
+            <td class="headerCovTableEntryLo">66.7 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-10-03 15:00:45</td>
+            <td class="headerValue">2022-10-03 16:47:33</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">10</td>
             <td class="headerCovTableEntry">15</td>
-            <td class="headerCovTableEntryLo">6.7 %</td>
+            <td class="headerCovTableEntryLo">66.7 %</td>
           </tr>
           <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -156,14 +156,14 @@
 <a name="94"><span class="lineNum">      94 </span>            :       noexcept(noexcept(_Base_type::destroy(__a, std::__to_address(__p))))</a>
 <a name="95"><span class="lineNum">      95 </span>            :       { _Base_type::destroy(__a, std::__to_address(__p)); }</a>
 <a name="96"><span class="lineNum">      96 </span>            : </a>
-<a name="97"><span class="lineNum">      97 </span><span class="lineCov">       2664 :     static constexpr _Alloc _S_select_on_copy(const _Alloc&amp; __a)</span></a>
-<a name="98"><span class="lineNum">      98 </span><span class="lineCov">       2664 :     { return _Base_type::select_on_container_copy_construction(__a); }</span></a>
+<a name="97"><span class="lineNum">      97 </span><span class="lineCov">    5162748 :     static constexpr _Alloc _S_select_on_copy(const _Alloc&amp; __a)</span></a>
+<a name="98"><span class="lineNum">      98 </span><span class="lineCov">    5162748 :     { return _Base_type::select_on_container_copy_construction(__a); }</span></a>
 <a name="99"><span class="lineNum">      99 </span>            : </a>
 <a name="100"><span class="lineNum">     100 </span>            :     static _GLIBCXX14_CONSTEXPR void _S_on_swap(_Alloc&amp; __a, _Alloc&amp; __b)</a>
 <a name="101"><span class="lineNum">     101 </span>            :     { std::__alloc_on_swap(__a, __b); }</a>
 <a name="102"><span class="lineNum">     102 </span>            : </a>
-<a name="103"><span class="lineNum">     103 </span><span class="lineNoCov">          0 :     static constexpr bool _S_propagate_on_copy_assign()</span></a>
-<a name="104"><span class="lineNum">     104 </span><span class="lineNoCov">          0 :     { return _Base_type::propagate_on_container_copy_assignment::value; }</span></a>
+<a name="103"><span class="lineNum">     103 </span><span class="lineCov">         68 :     static constexpr bool _S_propagate_on_copy_assign()</span></a>
+<a name="104"><span class="lineNum">     104 </span><span class="lineCov">         68 :     { return _Base_type::propagate_on_container_copy_assignment::value; }</span></a>
 <a name="105"><span class="lineNum">     105 </span>            : </a>
 <a name="106"><span class="lineNum">     106 </span>            :     static constexpr bool _S_propagate_on_move_assign()</a>
 <a name="107"><span class="lineNum">     107 </span>            :     { return _Base_type::propagate_on_container_move_assignment::value; }</a>

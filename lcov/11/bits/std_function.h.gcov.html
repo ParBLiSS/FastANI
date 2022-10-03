@@ -31,18 +31,18 @@
             <td class="headerValue">FastANITest.out</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">83</td>
             <td class="headerCovTableEntry">96</td>
-            <td class="headerCovTableEntryLo">0.0 %</td>
+            <td class="headerCovTableEntryMed">86.5 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-10-03 15:00:45</td>
+            <td class="headerValue">2022-10-03 16:47:33</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">125</td>
             <td class="headerCovTableEntry">154</td>
-            <td class="headerCovTableEntryLo">0.0 %</td>
+            <td class="headerCovTableEntryMed">81.2 %</td>
           </tr>
           <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -144,18 +144,18 @@
 <a name="82"><span class="lineNum">      82 </span>            : </a>
 <a name="83"><span class="lineNum">      83 </span>            :   union [[gnu::may_alias]] _Any_data</a>
 <a name="84"><span class="lineNum">      84 </span>            :   {</a>
-<a name="85"><span class="lineNum">      85 </span><span class="lineNoCov">          0 :     void*       _M_access()       { return &amp;_M_pod_data[0]; }</span></a>
-<a name="86"><span class="lineNum">      86 </span><span class="lineNoCov">          0 :     const void* _M_access() const { return &amp;_M_pod_data[0]; }</span></a>
+<a name="85"><span class="lineNum">      85 </span><span class="lineCov">       6712 :     void*       _M_access()       { return &amp;_M_pod_data[0]; }</span></a>
+<a name="86"><span class="lineNum">      86 </span><span class="lineCov">      40171 :     const void* _M_access() const { return &amp;_M_pod_data[0]; }</span></a>
 <a name="87"><span class="lineNum">      87 </span>            : </a>
 <a name="88"><span class="lineNum">      88 </span>            :     template&lt;typename _Tp&gt;</a>
 <a name="89"><span class="lineNum">      89 </span>            :       _Tp&amp;</a>
-<a name="90"><span class="lineNum">      90 </span><span class="lineNoCov">          0 :       _M_access()</span></a>
-<a name="91"><span class="lineNum">      91 </span><span class="lineNoCov">          0 :       { return *static_cast&lt;_Tp*&gt;(_M_access()); }</span></a>
+<a name="90"><span class="lineNum">      90 </span><span class="lineCov">       4782 :       _M_access()</span></a>
+<a name="91"><span class="lineNum">      91 </span><span class="lineCov">       4782 :       { return *static_cast&lt;_Tp*&gt;(_M_access()); }</span></a>
 <a name="92"><span class="lineNum">      92 </span>            : </a>
 <a name="93"><span class="lineNum">      93 </span>            :     template&lt;typename _Tp&gt;</a>
 <a name="94"><span class="lineNum">      94 </span>            :       const _Tp&amp;</a>
-<a name="95"><span class="lineNum">      95 </span><span class="lineNoCov">          0 :       _M_access() const</span></a>
-<a name="96"><span class="lineNum">      96 </span><span class="lineNoCov">          0 :       { return *static_cast&lt;const _Tp*&gt;(_M_access()); }</span></a>
+<a name="95"><span class="lineNum">      95 </span><span class="lineCov">      40171 :       _M_access() const</span></a>
+<a name="96"><span class="lineNum">      96 </span><span class="lineCov">      40171 :       { return *static_cast&lt;const _Tp*&gt;(_M_access()); }</span></a>
 <a name="97"><span class="lineNum">      97 </span>            : </a>
 <a name="98"><span class="lineNum">      98 </span>            :     _Nocopy_types _M_unused;</a>
 <a name="99"><span class="lineNum">      99 </span>            :     char _M_pod_data[sizeof(_Nocopy_types)];</a>
@@ -193,15 +193,15 @@
 <a name="131"><span class="lineNum">     131 </span>            : </a>
 <a name="132"><span class="lineNum">     132 </span>            :         // Retrieve a pointer to the function object</a>
 <a name="133"><span class="lineNum">     133 </span>            :         static _Functor*</a>
-<a name="134"><span class="lineNum">     134 </span><span class="lineNoCov">          0 :         _M_get_pointer(const _Any_data&amp; __source)</span></a>
+<a name="134"><span class="lineNum">     134 </span><span class="lineCov">      40171 :         _M_get_pointer(const _Any_data&amp; __source)</span></a>
 <a name="135"><span class="lineNum">     135 </span>            :         {</a>
 <a name="136"><span class="lineNum">     136 </span>            :           if _GLIBCXX17_CONSTEXPR (__stored_locally)</a>
 <a name="137"><span class="lineNum">     137 </span>            :             {</a>
-<a name="138"><span class="lineNum">     138 </span><span class="lineNoCov">          0 :               const _Functor&amp; __f = __source._M_access&lt;_Functor&gt;();</span></a>
-<a name="139"><span class="lineNum">     139 </span><span class="lineNoCov">          0 :               return const_cast&lt;_Functor*&gt;(std::__addressof(__f));</span></a>
+<a name="138"><span class="lineNum">     138 </span><span class="lineCov">       1787 :               const _Functor&amp; __f = __source._M_access&lt;_Functor&gt;();</span></a>
+<a name="139"><span class="lineNum">     139 </span><span class="lineCov">       1787 :               return const_cast&lt;_Functor*&gt;(std::__addressof(__f));</span></a>
 <a name="140"><span class="lineNum">     140 </span>            :             }</a>
 <a name="141"><span class="lineNum">     141 </span>            :           else // have stored a pointer</a>
-<a name="142"><span class="lineNum">     142 </span><span class="lineNoCov">          0 :             return __source._M_access&lt;_Functor*&gt;();</span></a>
+<a name="142"><span class="lineNum">     142 </span><span class="lineCov">      38384 :             return __source._M_access&lt;_Functor*&gt;();</span></a>
 <a name="143"><span class="lineNum">     143 </span>            :         }</a>
 <a name="144"><span class="lineNum">     144 </span>            : </a>
 <a name="145"><span class="lineNum">     145 </span>            :       private:</a>
@@ -209,40 +209,40 @@
 <a name="147"><span class="lineNum">     147 </span>            :         // an _Any_data structure.</a>
 <a name="148"><span class="lineNum">     148 </span>            :         template&lt;typename _Fn&gt;</a>
 <a name="149"><span class="lineNum">     149 </span>            :           static void</a>
-<a name="150"><span class="lineNum">     150 </span><span class="lineNoCov">          0 :           _M_create(_Any_data&amp; __dest, _Fn&amp;&amp; __f, true_type)</span></a>
+<a name="150"><span class="lineNum">     150 </span><span class="lineCov">       1930 :           _M_create(_Any_data&amp; __dest, _Fn&amp;&amp; __f, true_type)</span></a>
 <a name="151"><span class="lineNum">     151 </span>            :           {</a>
-<a name="152"><span class="lineNum">     152 </span><span class="lineNoCov">          0 :             ::new (__dest._M_access()) _Functor(std::forward&lt;_Fn&gt;(__f));</span></a>
-<a name="153"><span class="lineNum">     153 </span><span class="lineNoCov">          0 :           }</span></a>
+<a name="152"><span class="lineNum">     152 </span><span class="lineCov">       1930 :             ::new (__dest._M_access()) _Functor(std::forward&lt;_Fn&gt;(__f));</span></a>
+<a name="153"><span class="lineNum">     153 </span><span class="lineCov">       1930 :           }</span></a>
 <a name="154"><span class="lineNum">     154 </span>            : </a>
 <a name="155"><span class="lineNum">     155 </span>            :         // Construct a function object on the heap and store a pointer.</a>
 <a name="156"><span class="lineNum">     156 </span>            :         template&lt;typename _Fn&gt;</a>
 <a name="157"><span class="lineNum">     157 </span>            :           static void</a>
-<a name="158"><span class="lineNum">     158 </span><span class="lineNoCov">          0 :           _M_create(_Any_data&amp; __dest, _Fn&amp;&amp; __f, false_type)</span></a>
+<a name="158"><span class="lineNum">     158 </span><span class="lineCov">       1426 :           _M_create(_Any_data&amp; __dest, _Fn&amp;&amp; __f, false_type)</span></a>
 <a name="159"><span class="lineNum">     159 </span>            :           {</a>
-<a name="160"><span class="lineNum">     160 </span><span class="lineNoCov">          0 :             __dest._M_access&lt;_Functor*&gt;()</span></a>
-<a name="161"><span class="lineNum">     161 </span><span class="lineNoCov">          0 :               = new _Functor(std::forward&lt;_Fn&gt;(__f));</span></a>
-<a name="162"><span class="lineNum">     162 </span><span class="lineNoCov">          0 :           }</span></a>
+<a name="160"><span class="lineNum">     160 </span><span class="lineCov">       1426 :             __dest._M_access&lt;_Functor*&gt;()</span></a>
+<a name="161"><span class="lineNum">     161 </span><span class="lineCov">       1426 :               = new _Functor(std::forward&lt;_Fn&gt;(__f));</span></a>
+<a name="162"><span class="lineNum">     162 </span><span class="lineCov">       1426 :           }</span></a>
 <a name="163"><span class="lineNum">     163 </span>            : </a>
 <a name="164"><span class="lineNum">     164 </span>            :         // Destroy an object stored in the internal buffer.</a>
 <a name="165"><span class="lineNum">     165 </span>            :         static void</a>
-<a name="166"><span class="lineNum">     166 </span><span class="lineNoCov">          0 :         _M_destroy(_Any_data&amp; __victim, true_type)</span></a>
+<a name="166"><span class="lineNum">     166 </span><span class="lineCov">       1930 :         _M_destroy(_Any_data&amp; __victim, true_type)</span></a>
 <a name="167"><span class="lineNum">     167 </span>            :         {</a>
-<a name="168"><span class="lineNum">     168 </span><span class="lineNoCov">          0 :           __victim._M_access&lt;_Functor&gt;().~_Functor();</span></a>
-<a name="169"><span class="lineNum">     169 </span><span class="lineNoCov">          0 :         }</span></a>
+<a name="168"><span class="lineNum">     168 </span><span class="lineCov">       1930 :           __victim._M_access&lt;_Functor&gt;().~_Functor();</span></a>
+<a name="169"><span class="lineNum">     169 </span><span class="lineCov">       1930 :         }</span></a>
 <a name="170"><span class="lineNum">     170 </span>            : </a>
 <a name="171"><span class="lineNum">     171 </span>            :         // Destroy an object located on the heap.</a>
 <a name="172"><span class="lineNum">     172 </span>            :         static void</a>
-<a name="173"><span class="lineNum">     173 </span><span class="lineNoCov">          0 :         _M_destroy(_Any_data&amp; __victim, false_type)</span></a>
+<a name="173"><span class="lineNum">     173 </span><span class="lineCov">       1426 :         _M_destroy(_Any_data&amp; __victim, false_type)</span></a>
 <a name="174"><span class="lineNum">     174 </span>            :         {</a>
-<a name="175"><span class="lineNum">     175 </span><span class="lineNoCov">          0 :           delete __victim._M_access&lt;_Functor*&gt;();</span></a>
-<a name="176"><span class="lineNum">     176 </span><span class="lineNoCov">          0 :         }</span></a>
+<a name="175"><span class="lineNum">     175 </span><span class="lineCov">       1426 :           delete __victim._M_access&lt;_Functor*&gt;();</span></a>
+<a name="176"><span class="lineNum">     176 </span><span class="lineCov">       1426 :         }</span></a>
 <a name="177"><span class="lineNum">     177 </span>            : </a>
 <a name="178"><span class="lineNum">     178 </span>            :       public:</a>
 <a name="179"><span class="lineNum">     179 </span>            :         static bool</a>
-<a name="180"><span class="lineNum">     180 </span><span class="lineNoCov">          0 :         _M_manager(_Any_data&amp; __dest, const _Any_data&amp; __source,</span></a>
+<a name="180"><span class="lineNum">     180 </span><span class="lineCov">       6394 :         _M_manager(_Any_data&amp; __dest, const _Any_data&amp; __source,</span></a>
 <a name="181"><span class="lineNum">     181 </span>            :                    _Manager_operation __op)</a>
 <a name="182"><span class="lineNum">     182 </span>            :         {</a>
-<a name="183"><span class="lineNum">     183 </span><span class="lineNoCov">          0 :           switch (__op)</span></a>
+<a name="183"><span class="lineNum">     183 </span><span class="lineCov">       6394 :           switch (__op)</span></a>
 <a name="184"><span class="lineNum">     184 </span>            :             {</a>
 <a name="185"><span class="lineNum">     185 </span><span class="lineNoCov">          0 :             case __get_type_info:</span></a>
 <a name="186"><span class="lineNum">     186 </span>            : #if __cpp_rtti</a>
@@ -256,26 +256,26 @@
 <a name="194"><span class="lineNum">     194 </span><span class="lineNoCov">          0 :               __dest._M_access&lt;_Functor*&gt;() = _M_get_pointer(__source);</span></a>
 <a name="195"><span class="lineNum">     195 </span><span class="lineNoCov">          0 :               break;</span></a>
 <a name="196"><span class="lineNum">     196 </span>            : </a>
-<a name="197"><span class="lineNum">     197 </span><span class="lineNoCov">          0 :             case __clone_functor:</span></a>
-<a name="198"><span class="lineNum">     198 </span><span class="lineNoCov">          0 :               _M_init_functor(__dest,</span></a>
-<a name="199"><span class="lineNum">     199 </span><span class="lineNoCov">          0 :                   *const_cast&lt;const _Functor*&gt;(_M_get_pointer(__source)));</span></a>
-<a name="200"><span class="lineNum">     200 </span><span class="lineNoCov">          0 :               break;</span></a>
+<a name="197"><span class="lineNum">     197 </span><span class="lineCov">       3038 :             case __clone_functor:</span></a>
+<a name="198"><span class="lineNum">     198 </span><span class="lineCov">       3038 :               _M_init_functor(__dest,</span></a>
+<a name="199"><span class="lineNum">     199 </span><span class="lineCov">       3038 :                   *const_cast&lt;const _Functor*&gt;(_M_get_pointer(__source)));</span></a>
+<a name="200"><span class="lineNum">     200 </span><span class="lineCov">       3038 :               break;</span></a>
 <a name="201"><span class="lineNum">     201 </span>            : </a>
-<a name="202"><span class="lineNum">     202 </span><span class="lineNoCov">          0 :             case __destroy_functor:</span></a>
-<a name="203"><span class="lineNum">     203 </span><span class="lineNoCov">          0 :               _M_destroy(__dest, _Local_storage());</span></a>
-<a name="204"><span class="lineNum">     204 </span><span class="lineNoCov">          0 :               break;</span></a>
+<a name="202"><span class="lineNum">     202 </span><span class="lineCov">       3356 :             case __destroy_functor:</span></a>
+<a name="203"><span class="lineNum">     203 </span><span class="lineCov">       3356 :               _M_destroy(__dest, _Local_storage());</span></a>
+<a name="204"><span class="lineNum">     204 </span><span class="lineCov">       3356 :               break;</span></a>
 <a name="205"><span class="lineNum">     205 </span>            :             }</a>
-<a name="206"><span class="lineNum">     206 </span><span class="lineNoCov">          0 :           return false;</span></a>
+<a name="206"><span class="lineNum">     206 </span><span class="lineCov">       6394 :           return false;</span></a>
 <a name="207"><span class="lineNum">     207 </span>            :         }</a>
 <a name="208"><span class="lineNum">     208 </span>            : </a>
 <a name="209"><span class="lineNum">     209 </span>            :         template&lt;typename _Fn&gt;</a>
 <a name="210"><span class="lineNum">     210 </span>            :           static void</a>
-<a name="211"><span class="lineNum">     211 </span><span class="lineNoCov">          0 :           _M_init_functor(_Any_data&amp; __functor, _Fn&amp;&amp; __f)</span></a>
+<a name="211"><span class="lineNum">     211 </span><span class="lineCov">       3356 :           _M_init_functor(_Any_data&amp; __functor, _Fn&amp;&amp; __f)</span></a>
 <a name="212"><span class="lineNum">     212 </span>            :           noexcept(__and_&lt;_Local_storage,</a>
 <a name="213"><span class="lineNum">     213 </span>            :                           is_nothrow_constructible&lt;_Functor, _Fn&gt;&gt;::value)</a>
 <a name="214"><span class="lineNum">     214 </span>            :           {</a>
-<a name="215"><span class="lineNum">     215 </span><span class="lineNoCov">          0 :             _M_create(__functor, std::forward&lt;_Fn&gt;(__f), _Local_storage());</span></a>
-<a name="216"><span class="lineNum">     216 </span><span class="lineNoCov">          0 :           }</span></a>
+<a name="215"><span class="lineNum">     215 </span><span class="lineCov">       3356 :             _M_create(__functor, std::forward&lt;_Fn&gt;(__f), _Local_storage());</span></a>
+<a name="216"><span class="lineNum">     216 </span><span class="lineCov">       3356 :           }</span></a>
 <a name="217"><span class="lineNum">     217 </span>            : </a>
 <a name="218"><span class="lineNum">     218 </span>            :         template&lt;typename _Signature&gt;</a>
 <a name="219"><span class="lineNum">     219 </span>            :           static bool</a>
@@ -284,8 +284,8 @@
 <a name="222"><span class="lineNum">     222 </span>            : </a>
 <a name="223"><span class="lineNum">     223 </span>            :         template&lt;typename _Tp&gt;</a>
 <a name="224"><span class="lineNum">     224 </span>            :           static bool</a>
-<a name="225"><span class="lineNum">     225 </span><span class="lineNoCov">          0 :           _M_not_empty_function(_Tp* __fp)</span></a>
-<a name="226"><span class="lineNum">     226 </span><span class="lineNoCov">          0 :           { return __fp != nullptr; }</span></a>
+<a name="225"><span class="lineNum">     225 </span><span class="lineCov">        110 :           _M_not_empty_function(_Tp* __fp)</span></a>
+<a name="226"><span class="lineNum">     226 </span><span class="lineCov">        110 :           { return __fp != nullptr; }</span></a>
 <a name="227"><span class="lineNum">     227 </span>            : </a>
 <a name="228"><span class="lineNum">     228 </span>            :         template&lt;typename _Class, typename _Tp&gt;</a>
 <a name="229"><span class="lineNum">     229 </span>            :           static bool</a>
@@ -294,19 +294,19 @@
 <a name="232"><span class="lineNum">     232 </span>            : </a>
 <a name="233"><span class="lineNum">     233 </span>            :         template&lt;typename _Tp&gt;</a>
 <a name="234"><span class="lineNum">     234 </span>            :           static bool</a>
-<a name="235"><span class="lineNum">     235 </span><span class="lineNoCov">          0 :           _M_not_empty_function(const _Tp&amp;)</span></a>
-<a name="236"><span class="lineNum">     236 </span><span class="lineNoCov">          0 :           { return true; }</span></a>
+<a name="235"><span class="lineNum">     235 </span><span class="lineCov">        208 :           _M_not_empty_function(const _Tp&amp;)</span></a>
+<a name="236"><span class="lineNum">     236 </span><span class="lineCov">        208 :           { return true; }</span></a>
 <a name="237"><span class="lineNum">     237 </span>            :       };</a>
 <a name="238"><span class="lineNum">     238 </span>            : </a>
-<a name="239"><span class="lineNum">     239 </span><span class="lineNoCov">          0 :     _Function_base() = default;</span></a>
+<a name="239"><span class="lineNum">     239 </span><span class="lineCov">       4011 :     _Function_base() = default;</span></a>
 <a name="240"><span class="lineNum">     240 </span>            : </a>
-<a name="241"><span class="lineNum">     241 </span><span class="lineNoCov">          0 :     ~_Function_base()</span></a>
+<a name="241"><span class="lineNum">     241 </span><span class="lineCov">       4011 :     ~_Function_base()</span></a>
 <a name="242"><span class="lineNum">     242 </span>            :     {</a>
-<a name="243"><span class="lineNum">     243 </span><span class="lineNoCov">          0 :       if (_M_manager)</span></a>
-<a name="244"><span class="lineNum">     244 </span><span class="lineNoCov">          0 :         _M_manager(_M_functor, _M_functor, __destroy_functor);</span></a>
-<a name="245"><span class="lineNum">     245 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="243"><span class="lineNum">     243 </span><span class="lineCov">       4011 :       if (_M_manager)</span></a>
+<a name="244"><span class="lineNum">     244 </span><span class="lineCov">       3356 :         _M_manager(_M_functor, _M_functor, __destroy_functor);</span></a>
+<a name="245"><span class="lineNum">     245 </span><span class="lineCov">       4011 :     }</span></a>
 <a name="246"><span class="lineNum">     246 </span>            : </a>
-<a name="247"><span class="lineNum">     247 </span><span class="lineNoCov">          0 :     bool _M_empty() const { return !_M_manager; }</span></a>
+<a name="247"><span class="lineNum">     247 </span><span class="lineCov">      77911 :     bool _M_empty() const { return !_M_manager; }</span></a>
 <a name="248"><span class="lineNum">     248 </span>            : </a>
 <a name="249"><span class="lineNum">     249 </span>            :     using _Manager_type</a>
 <a name="250"><span class="lineNum">     250 </span>            :       = bool (*)(_Any_data&amp;, const _Any_data&amp;, _Manager_operation);</a>
@@ -326,10 +326,10 @@
 <a name="264"><span class="lineNum">     264 </span>            : </a>
 <a name="265"><span class="lineNum">     265 </span>            :     public:</a>
 <a name="266"><span class="lineNum">     266 </span>            :       static bool</a>
-<a name="267"><span class="lineNum">     267 </span><span class="lineNoCov">          0 :       _M_manager(_Any_data&amp; __dest, const _Any_data&amp; __source,</span></a>
+<a name="267"><span class="lineNum">     267 </span><span class="lineCov">       6394 :       _M_manager(_Any_data&amp; __dest, const _Any_data&amp; __source,</span></a>
 <a name="268"><span class="lineNum">     268 </span>            :                  _Manager_operation __op)</a>
 <a name="269"><span class="lineNum">     269 </span>            :       {</a>
-<a name="270"><span class="lineNum">     270 </span><span class="lineNoCov">          0 :         switch (__op)</span></a>
+<a name="270"><span class="lineNum">     270 </span><span class="lineCov">       6394 :         switch (__op)</span></a>
 <a name="271"><span class="lineNum">     271 </span>            :           {</a>
 <a name="272"><span class="lineNum">     272 </span>            : #if __cpp_rtti</a>
 <a name="273"><span class="lineNum">     273 </span><span class="lineNoCov">          0 :           case __get_type_info:</span></a>
@@ -340,17 +340,17 @@
 <a name="278"><span class="lineNum">     278 </span><span class="lineNoCov">          0 :             __dest._M_access&lt;_Functor*&gt;() = _Base::_M_get_pointer(__source);</span></a>
 <a name="279"><span class="lineNum">     279 </span><span class="lineNoCov">          0 :             break;</span></a>
 <a name="280"><span class="lineNum">     280 </span>            : </a>
-<a name="281"><span class="lineNum">     281 </span><span class="lineNoCov">          0 :           default:</span></a>
-<a name="282"><span class="lineNum">     282 </span><span class="lineNoCov">          0 :             _Base::_M_manager(__dest, __source, __op);</span></a>
+<a name="281"><span class="lineNum">     281 </span><span class="lineCov">       6394 :           default:</span></a>
+<a name="282"><span class="lineNum">     282 </span><span class="lineCov">       6394 :             _Base::_M_manager(__dest, __source, __op);</span></a>
 <a name="283"><span class="lineNum">     283 </span>            :           }</a>
-<a name="284"><span class="lineNum">     284 </span><span class="lineNoCov">          0 :         return false;</span></a>
+<a name="284"><span class="lineNum">     284 </span><span class="lineCov">       6394 :         return false;</span></a>
 <a name="285"><span class="lineNum">     285 </span>            :       }</a>
 <a name="286"><span class="lineNum">     286 </span>            : </a>
 <a name="287"><span class="lineNum">     287 </span>            :       static _Res</a>
-<a name="288"><span class="lineNum">     288 </span><span class="lineNoCov">          0 :       _M_invoke(const _Any_data&amp; __functor, _ArgTypes&amp;&amp;... __args)</span></a>
+<a name="288"><span class="lineNum">     288 </span><span class="lineCov">      37133 :       _M_invoke(const _Any_data&amp; __functor, _ArgTypes&amp;&amp;... __args)</span></a>
 <a name="289"><span class="lineNum">     289 </span>            :       {</a>
-<a name="290"><span class="lineNum">     290 </span><span class="lineNoCov">          0 :         return std::__invoke_r&lt;_Res&gt;(*_Base::_M_get_pointer(__functor),</span></a>
-<a name="291"><span class="lineNum">     291 </span><span class="lineNoCov">          0 :                                      std::forward&lt;_ArgTypes&gt;(__args)...);</span></a>
+<a name="290"><span class="lineNum">     290 </span><span class="lineCov">      37133 :         return std::__invoke_r&lt;_Res&gt;(*_Base::_M_get_pointer(__functor),</span></a>
+<a name="291"><span class="lineNum">     291 </span><span class="lineCov">      37133 :                                      std::forward&lt;_ArgTypes&gt;(__args)...);</span></a>
 <a name="292"><span class="lineNum">     292 </span>            :       }</a>
 <a name="293"><span class="lineNum">     293 </span>            : </a>
 <a name="294"><span class="lineNum">     294 </span>            :       template&lt;typename _Fn&gt;</a>
@@ -445,16 +445,16 @@
 <a name="383"><span class="lineNum">     383 </span>            :        *  The newly-created %function contains a copy of the target of</a>
 <a name="384"><span class="lineNum">     384 </span>            :        *  `__x` (if it has one).</a>
 <a name="385"><span class="lineNum">     385 </span>            :        */</a>
-<a name="386"><span class="lineNum">     386 </span><span class="lineNoCov">          0 :       function(const function&amp; __x)</span></a>
-<a name="387"><span class="lineNum">     387 </span><span class="lineNoCov">          0 :       : _Function_base()</span></a>
+<a name="386"><span class="lineNum">     386 </span><span class="lineCov">       3038 :       function(const function&amp; __x)</span></a>
+<a name="387"><span class="lineNum">     387 </span><span class="lineCov">       3038 :       : _Function_base()</span></a>
 <a name="388"><span class="lineNum">     388 </span>            :       {</a>
-<a name="389"><span class="lineNum">     389 </span><span class="lineNoCov">          0 :         if (static_cast&lt;bool&gt;(__x))</span></a>
+<a name="389"><span class="lineNum">     389 </span><span class="lineCov">       3038 :         if (static_cast&lt;bool&gt;(__x))</span></a>
 <a name="390"><span class="lineNum">     390 </span>            :           {</a>
-<a name="391"><span class="lineNum">     391 </span><span class="lineNoCov">          0 :             __x._M_manager(_M_functor, __x._M_functor, __clone_functor);</span></a>
-<a name="392"><span class="lineNum">     392 </span><span class="lineNoCov">          0 :             _M_invoker = __x._M_invoker;</span></a>
-<a name="393"><span class="lineNum">     393 </span><span class="lineNoCov">          0 :             _M_manager = __x._M_manager;</span></a>
+<a name="391"><span class="lineNum">     391 </span><span class="lineCov">       3038 :             __x._M_manager(_M_functor, __x._M_functor, __clone_functor);</span></a>
+<a name="392"><span class="lineNum">     392 </span><span class="lineCov">       3038 :             _M_invoker = __x._M_invoker;</span></a>
+<a name="393"><span class="lineNum">     393 </span><span class="lineCov">       3038 :             _M_manager = __x._M_manager;</span></a>
 <a name="394"><span class="lineNum">     394 </span>            :           }</a>
-<a name="395"><span class="lineNum">     395 </span><span class="lineNoCov">          0 :       }</span></a>
+<a name="395"><span class="lineNum">     395 </span><span class="lineCov">       3038 :       }</span></a>
 <a name="396"><span class="lineNum">     396 </span>            : </a>
 <a name="397"><span class="lineNum">     397 </span>            :       /**</a>
 <a name="398"><span class="lineNum">     398 </span>            :        *  @brief %Function move constructor.</a>
@@ -463,17 +463,17 @@
 <a name="401"><span class="lineNum">     401 </span>            :        *  The newly-created %function contains the target of `__x`</a>
 <a name="402"><span class="lineNum">     402 </span>            :        *  (if it has one).</a>
 <a name="403"><span class="lineNum">     403 </span>            :        */</a>
-<a name="404"><span class="lineNum">     404 </span><span class="lineNoCov">          0 :       function(function&amp;&amp; __x) noexcept</span></a>
-<a name="405"><span class="lineNum">     405 </span><span class="lineNoCov">          0 :       : _Function_base(), _M_invoker(__x._M_invoker)</span></a>
+<a name="404"><span class="lineNum">     404 </span><span class="lineCov">        655 :       function(function&amp;&amp; __x) noexcept</span></a>
+<a name="405"><span class="lineNum">     405 </span><span class="lineCov">        655 :       : _Function_base(), _M_invoker(__x._M_invoker)</span></a>
 <a name="406"><span class="lineNum">     406 </span>            :       {</a>
-<a name="407"><span class="lineNum">     407 </span><span class="lineNoCov">          0 :         if (static_cast&lt;bool&gt;(__x))</span></a>
+<a name="407"><span class="lineNum">     407 </span><span class="lineCov">        655 :         if (static_cast&lt;bool&gt;(__x))</span></a>
 <a name="408"><span class="lineNum">     408 </span>            :           {</a>
-<a name="409"><span class="lineNum">     409 </span><span class="lineNoCov">          0 :             _M_functor = __x._M_functor;</span></a>
-<a name="410"><span class="lineNum">     410 </span><span class="lineNoCov">          0 :             _M_manager = __x._M_manager;</span></a>
-<a name="411"><span class="lineNum">     411 </span><span class="lineNoCov">          0 :             __x._M_manager = nullptr;</span></a>
-<a name="412"><span class="lineNum">     412 </span><span class="lineNoCov">          0 :             __x._M_invoker = nullptr;</span></a>
+<a name="409"><span class="lineNum">     409 </span><span class="lineCov">        655 :             _M_functor = __x._M_functor;</span></a>
+<a name="410"><span class="lineNum">     410 </span><span class="lineCov">        655 :             _M_manager = __x._M_manager;</span></a>
+<a name="411"><span class="lineNum">     411 </span><span class="lineCov">        655 :             __x._M_manager = nullptr;</span></a>
+<a name="412"><span class="lineNum">     412 </span><span class="lineCov">        655 :             __x._M_invoker = nullptr;</span></a>
 <a name="413"><span class="lineNum">     413 </span>            :           }</a>
-<a name="414"><span class="lineNum">     414 </span><span class="lineNoCov">          0 :       }</span></a>
+<a name="414"><span class="lineNum">     414 </span><span class="lineCov">        655 :       }</span></a>
 <a name="415"><span class="lineNum">     415 </span>            : </a>
 <a name="416"><span class="lineNum">     416 </span>            :       /**</a>
 <a name="417"><span class="lineNum">     417 </span>            :        *  @brief Builds a %function that targets a copy of the incoming</a>
@@ -494,9 +494,9 @@
 <a name="432"><span class="lineNum">     432 </span>            :       // 2774. std::function construction vs assignment</a>
 <a name="433"><span class="lineNum">     433 </span>            :       template&lt;typename _Functor,</a>
 <a name="434"><span class="lineNum">     434 </span>            :                typename _Constraints = _Requires&lt;_Callable&lt;_Functor&gt;&gt;&gt;</a>
-<a name="435"><span class="lineNum">     435 </span><span class="lineNoCov">          0 :         function(_Functor&amp;&amp; __f)</span></a>
+<a name="435"><span class="lineNum">     435 </span><span class="lineCov">        318 :         function(_Functor&amp;&amp; __f)</span></a>
 <a name="436"><span class="lineNum">     436 </span>            :         noexcept(_Handler&lt;_Functor&gt;::template _S_nothrow_init&lt;_Functor&gt;())</a>
-<a name="437"><span class="lineNum">     437 </span><span class="lineNoCov">          0 :         : _Function_base()</span></a>
+<a name="437"><span class="lineNum">     437 </span><span class="lineCov">        318 :         : _Function_base()</span></a>
 <a name="438"><span class="lineNum">     438 </span>            :         {</a>
 <a name="439"><span class="lineNum">     439 </span>            :           static_assert(is_copy_constructible&lt;__decay_t&lt;_Functor&gt;&gt;::value,</a>
 <a name="440"><span class="lineNum">     440 </span>            :               &quot;std::function target must be copy-constructible&quot;);</a>
@@ -506,14 +506,14 @@
 <a name="444"><span class="lineNum">     444 </span>            : </a>
 <a name="445"><span class="lineNum">     445 </span>            :           using _My_handler = _Handler&lt;_Functor&gt;;</a>
 <a name="446"><span class="lineNum">     446 </span>            : </a>
-<a name="447"><span class="lineNum">     447 </span><span class="lineNoCov">          0 :           if (_My_handler::_M_not_empty_function(__f))</span></a>
+<a name="447"><span class="lineNum">     447 </span><span class="lineCov">        318 :           if (_My_handler::_M_not_empty_function(__f))</span></a>
 <a name="448"><span class="lineNum">     448 </span>            :             {</a>
-<a name="449"><span class="lineNum">     449 </span><span class="lineNoCov">          0 :               _My_handler::_M_init_functor(_M_functor,</span></a>
+<a name="449"><span class="lineNum">     449 </span><span class="lineCov">        318 :               _My_handler::_M_init_functor(_M_functor,</span></a>
 <a name="450"><span class="lineNum">     450 </span>            :                                            std::forward&lt;_Functor&gt;(__f));</a>
-<a name="451"><span class="lineNum">     451 </span><span class="lineNoCov">          0 :               _M_invoker = &amp;_My_handler::_M_invoke;</span></a>
-<a name="452"><span class="lineNum">     452 </span><span class="lineNoCov">          0 :               _M_manager = &amp;_My_handler::_M_manager;</span></a>
+<a name="451"><span class="lineNum">     451 </span><span class="lineCov">        318 :               _M_invoker = &amp;_My_handler::_M_invoke;</span></a>
+<a name="452"><span class="lineNum">     452 </span><span class="lineCov">        318 :               _M_manager = &amp;_My_handler::_M_manager;</span></a>
 <a name="453"><span class="lineNum">     453 </span>            :             }</a>
-<a name="454"><span class="lineNum">     454 </span><span class="lineNoCov">          0 :         }</span></a>
+<a name="454"><span class="lineNum">     454 </span><span class="lineCov">        318 :         }</span></a>
 <a name="455"><span class="lineNum">     455 </span>            : </a>
 <a name="456"><span class="lineNum">     456 </span>            :       /**</a>
 <a name="457"><span class="lineNum">     457 </span>            :        *  @brief %Function assignment operator.</a>
@@ -631,8 +631,8 @@
 <a name="569"><span class="lineNum">     569 </span>            :        *</a>
 <a name="570"><span class="lineNum">     570 </span>            :        *  This function will not throw an %exception.</a>
 <a name="571"><span class="lineNum">     571 </span>            :        */</a>
-<a name="572"><span class="lineNum">     572 </span><span class="lineNoCov">          0 :       explicit operator bool() const noexcept</span></a>
-<a name="573"><span class="lineNum">     573 </span><span class="lineNoCov">          0 :       { return !_M_empty(); }</span></a>
+<a name="572"><span class="lineNum">     572 </span><span class="lineCov">      40778 :       explicit operator bool() const noexcept</span></a>
+<a name="573"><span class="lineNum">     573 </span><span class="lineCov">      40778 :       { return !_M_empty(); }</span></a>
 <a name="574"><span class="lineNum">     574 </span>            : </a>
 <a name="575"><span class="lineNum">     575 </span>            :       // [3.7.2.4] function invocation</a>
 <a name="576"><span class="lineNum">     576 </span>            : </a>
@@ -645,11 +645,11 @@
 <a name="583"><span class="lineNum">     583 </span>            :        *  stored by @c this.</a>
 <a name="584"><span class="lineNum">     584 </span>            :        */</a>
 <a name="585"><span class="lineNum">     585 </span>            :       _Res</a>
-<a name="586"><span class="lineNum">     586 </span><span class="lineNoCov">          0 :       operator()(_ArgTypes... __args) const</span></a>
+<a name="586"><span class="lineNum">     586 </span><span class="lineCov">      37133 :       operator()(_ArgTypes... __args) const</span></a>
 <a name="587"><span class="lineNum">     587 </span>            :       {</a>
-<a name="588"><span class="lineNum">     588 </span><span class="lineNoCov">          0 :         if (_M_empty())</span></a>
+<a name="588"><span class="lineNum">     588 </span><span class="lineCov">      37133 :         if (_M_empty())</span></a>
 <a name="589"><span class="lineNum">     589 </span><span class="lineNoCov">          0 :           __throw_bad_function_call();</span></a>
-<a name="590"><span class="lineNum">     590 </span><span class="lineNoCov">          0 :         return _M_invoker(_M_functor, std::forward&lt;_ArgTypes&gt;(__args)...);</span></a>
+<a name="590"><span class="lineNum">     590 </span><span class="lineCov">      37133 :         return _M_invoker(_M_functor, std::forward&lt;_ArgTypes&gt;(__args)...);</span></a>
 <a name="591"><span class="lineNum">     591 </span>            :       }</a>
 <a name="592"><span class="lineNum">     592 </span>            : </a>
 <a name="593"><span class="lineNum">     593 </span>            : #if __cpp_rtti</a>
@@ -796,8 +796,8 @@
 <a name="734"><span class="lineNum">     734 </span>            :    */</a>
 <a name="735"><span class="lineNum">     735 </span>            :   template&lt;typename _Res, typename... _Args&gt;</a>
 <a name="736"><span class="lineNum">     736 </span>            :     inline bool</a>
-<a name="737"><span class="lineNum">     737 </span><span class="lineNoCov">          0 :     operator!=(const function&lt;_Res(_Args...)&gt;&amp; __f, nullptr_t) noexcept</span></a>
-<a name="738"><span class="lineNum">     738 </span><span class="lineNoCov">          0 :     { return static_cast&lt;bool&gt;(__f); }</span></a>
+<a name="737"><span class="lineNum">     737 </span><span class="lineCov">      37085 :     operator!=(const function&lt;_Res(_Args...)&gt;&amp; __f, nullptr_t) noexcept</span></a>
+<a name="738"><span class="lineNum">     738 </span><span class="lineCov">      37085 :     { return static_cast&lt;bool&gt;(__f); }</span></a>
 <a name="739"><span class="lineNum">     739 </span>            : </a>
 <a name="740"><span class="lineNum">     740 </span>            :   /// @overload</a>
 <a name="741"><span class="lineNum">     741 </span>            :   template&lt;typename _Res, typename... _Args&gt;</a>

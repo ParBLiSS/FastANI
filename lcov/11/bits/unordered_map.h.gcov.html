@@ -31,18 +31,18 @@
             <td class="headerValue">FastANITest.out</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">0</td>
             <td class="headerCovTableEntry">17</td>
-            <td class="headerCovTableEntryLo">0.0 %</td>
+            <td class="headerCovTableEntry">17</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-10-03 15:00:45</td>
+            <td class="headerValue">2022-10-03 16:47:33</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">14</td>
             <td class="headerCovTableEntry">22</td>
-            <td class="headerCovTableEntryLo">0.0 %</td>
+            <td class="headerCovTableEntryLo">63.6 %</td>
           </tr>
           <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -200,7 +200,7 @@
 <a name="138"><span class="lineNum">     138 </span>            :       //construct/destroy/copy</a>
 <a name="139"><span class="lineNum">     139 </span>            : </a>
 <a name="140"><span class="lineNum">     140 </span>            :       /// Default constructor.</a>
-<a name="141"><span class="lineNum">     141 </span><span class="lineNoCov">          0 :       unordered_map() = default;</span></a>
+<a name="141"><span class="lineNum">     141 </span><span class="lineCov">         11 :       unordered_map() = default;</span></a>
 <a name="142"><span class="lineNum">     142 </span>            : </a>
 <a name="143"><span class="lineNum">     143 </span>            :       /**</a>
 <a name="144"><span class="lineNum">     144 </span>            :        *  @brief  Default constructor creates no elements.</a>
@@ -369,8 +369,8 @@
 <a name="307"><span class="lineNum">     307 </span>            : </a>
 <a name="308"><span class="lineNum">     308 </span>            :       ///  Returns the size of the %unordered_map.</a>
 <a name="309"><span class="lineNum">     309 </span>            :       size_type</a>
-<a name="310"><span class="lineNum">     310 </span><span class="lineNoCov">          0 :       size() const noexcept</span></a>
-<a name="311"><span class="lineNum">     311 </span><span class="lineNoCov">          0 :       { return _M_h.size(); }</span></a>
+<a name="310"><span class="lineNum">     310 </span><span class="lineCov">         16 :       size() const noexcept</span></a>
+<a name="311"><span class="lineNum">     311 </span><span class="lineCov">         16 :       { return _M_h.size(); }</span></a>
 <a name="312"><span class="lineNum">     312 </span>            : </a>
 <a name="313"><span class="lineNum">     313 </span>            :       ///  Returns the maximum size of the %unordered_map.</a>
 <a name="314"><span class="lineNum">     314 </span>            :       size_type</a>
@@ -384,8 +384,8 @@
 <a name="322"><span class="lineNum">     322 </span>            :        *  %unordered_map.</a>
 <a name="323"><span class="lineNum">     323 </span>            :        */</a>
 <a name="324"><span class="lineNum">     324 </span>            :       iterator</a>
-<a name="325"><span class="lineNum">     325 </span><span class="lineNoCov">          0 :       begin() noexcept</span></a>
-<a name="326"><span class="lineNum">     326 </span><span class="lineNoCov">          0 :       { return _M_h.begin(); }</span></a>
+<a name="325"><span class="lineNum">     325 </span><span class="lineCov">         11 :       begin() noexcept</span></a>
+<a name="326"><span class="lineNum">     326 </span><span class="lineCov">         11 :       { return _M_h.begin(); }</span></a>
 <a name="327"><span class="lineNum">     327 </span>            : </a>
 <a name="328"><span class="lineNum">     328 </span>            :       ///@{</a>
 <a name="329"><span class="lineNum">     329 </span>            :       /**</a>
@@ -406,8 +406,8 @@
 <a name="344"><span class="lineNum">     344 </span>            :        *  the %unordered_map.</a>
 <a name="345"><span class="lineNum">     345 </span>            :        */</a>
 <a name="346"><span class="lineNum">     346 </span>            :       iterator</a>
-<a name="347"><span class="lineNum">     347 </span><span class="lineNoCov">          0 :       end() noexcept</span></a>
-<a name="348"><span class="lineNum">     348 </span><span class="lineNoCov">          0 :       { return _M_h.end(); }</span></a>
+<a name="347"><span class="lineNum">     347 </span><span class="lineCov">         53 :       end() noexcept</span></a>
+<a name="348"><span class="lineNum">     348 </span><span class="lineCov">         53 :       { return _M_h.end(); }</span></a>
 <a name="349"><span class="lineNum">     349 </span>            : </a>
 <a name="350"><span class="lineNum">     350 </span>            :       ///@{</a>
 <a name="351"><span class="lineNum">     351 </span>            :       /**</a>
@@ -415,8 +415,8 @@
 <a name="353"><span class="lineNum">     353 </span>            :        *  element in the %unordered_map.</a>
 <a name="354"><span class="lineNum">     354 </span>            :        */</a>
 <a name="355"><span class="lineNum">     355 </span>            :       const_iterator</a>
-<a name="356"><span class="lineNum">     356 </span><span class="lineNoCov">          0 :       end() const noexcept</span></a>
-<a name="357"><span class="lineNum">     357 </span><span class="lineNoCov">          0 :       { return _M_h.end(); }</span></a>
+<a name="356"><span class="lineNum">     356 </span><span class="lineCov">    5333743 :       end() const noexcept</span></a>
+<a name="357"><span class="lineNum">     357 </span><span class="lineCov">    5333743 :       { return _M_h.end(); }</span></a>
 <a name="358"><span class="lineNum">     358 </span>            : </a>
 <a name="359"><span class="lineNum">     359 </span>            :       const_iterator</a>
 <a name="360"><span class="lineNum">     360 </span>            :       cend() const noexcept</a>
@@ -927,8 +927,8 @@
 <a name="865"><span class="lineNum">     865 </span>            :        *  past-the-end ( @c end() ) iterator.</a>
 <a name="866"><span class="lineNum">     866 </span>            :        */</a>
 <a name="867"><span class="lineNum">     867 </span>            :       iterator</a>
-<a name="868"><span class="lineNum">     868 </span><span class="lineNoCov">          0 :       find(const key_type&amp; __x)</span></a>
-<a name="869"><span class="lineNum">     869 </span><span class="lineNoCov">          0 :       { return _M_h.find(__x); }</span></a>
+<a name="868"><span class="lineNum">     868 </span><span class="lineCov">         42 :       find(const key_type&amp; __x)</span></a>
+<a name="869"><span class="lineNum">     869 </span><span class="lineCov">         42 :       { return _M_h.find(__x); }</span></a>
 <a name="870"><span class="lineNum">     870 </span>            : </a>
 <a name="871"><span class="lineNum">     871 </span>            : #if __cplusplus &gt; 201703L</a>
 <a name="872"><span class="lineNum">     872 </span>            :       template&lt;typename _Kt&gt;</a>
@@ -938,8 +938,8 @@
 <a name="876"><span class="lineNum">     876 </span>            : #endif</a>
 <a name="877"><span class="lineNum">     877 </span>            : </a>
 <a name="878"><span class="lineNum">     878 </span>            :       const_iterator</a>
-<a name="879"><span class="lineNum">     879 </span><span class="lineNoCov">          0 :       find(const key_type&amp; __x) const</span></a>
-<a name="880"><span class="lineNum">     880 </span><span class="lineNoCov">          0 :       { return _M_h.find(__x); }</span></a>
+<a name="879"><span class="lineNum">     879 </span><span class="lineCov">    5333743 :       find(const key_type&amp; __x) const</span></a>
+<a name="880"><span class="lineNum">     880 </span><span class="lineCov">    5333743 :       { return _M_h.find(__x); }</span></a>
 <a name="881"><span class="lineNum">     881 </span>            : </a>
 <a name="882"><span class="lineNum">     882 </span>            : #if __cplusplus &gt; 201703L</a>
 <a name="883"><span class="lineNum">     883 </span>            :       template&lt;typename _Kt&gt;</a>
@@ -1038,12 +1038,12 @@
 <a name="976"><span class="lineNum">     976 </span>            :        *  Lookup requires constant time.</a>
 <a name="977"><span class="lineNum">     977 </span>            :        */</a>
 <a name="978"><span class="lineNum">     978 </span>            :       mapped_type&amp;</a>
-<a name="979"><span class="lineNum">     979 </span><span class="lineNoCov">          0 :       operator[](const key_type&amp; __k)</span></a>
-<a name="980"><span class="lineNum">     980 </span><span class="lineNoCov">          0 :       { return _M_h[__k]; }</span></a>
+<a name="979"><span class="lineNum">     979 </span><span class="lineCov">    3362342 :       operator[](const key_type&amp; __k)</span></a>
+<a name="980"><span class="lineNum">     980 </span><span class="lineCov">    3362342 :       { return _M_h[__k]; }</span></a>
 <a name="981"><span class="lineNum">     981 </span>            : </a>
 <a name="982"><span class="lineNum">     982 </span>            :       mapped_type&amp;</a>
-<a name="983"><span class="lineNum">     983 </span><span class="lineNoCov">          0 :       operator[](key_type&amp;&amp; __k)</span></a>
-<a name="984"><span class="lineNum">     984 </span><span class="lineNoCov">          0 :       { return _M_h[std::move(__k)]; }</span></a>
+<a name="983"><span class="lineNum">     983 </span><span class="lineCov">         18 :       operator[](key_type&amp;&amp; __k)</span></a>
+<a name="984"><span class="lineNum">     984 </span><span class="lineCov">         18 :       { return _M_h[std::move(__k)]; }</span></a>
 <a name="985"><span class="lineNum">     985 </span>            :       ///@}</a>
 <a name="986"><span class="lineNum">     986 </span>            : </a>
 <a name="987"><span class="lineNum">     987 </span>            :       ///@{</a>

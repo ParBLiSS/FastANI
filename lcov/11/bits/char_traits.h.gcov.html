@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-10-03 15:00:45</td>
+            <td class="headerValue">2022-10-03 16:47:33</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">2</td>
@@ -349,7 +349,7 @@
 <a name="287"><span class="lineNum">     287 </span>            : #ifdef _GLIBCXX_HAVE_BUILTIN_IS_CONSTANT_EVALUATED</a>
 <a name="288"><span class="lineNum">     288 </span>            :       (void) __s;</a>
 <a name="289"><span class="lineNum">     289 </span>            :       // In constexpr contexts all strings should be constant.</a>
-<a name="290"><span class="lineNum">     290 </span><span class="lineCov">        266 :       return __builtin_is_constant_evaluated();</span></a>
+<a name="290"><span class="lineNum">     290 </span><span class="lineCov">       1526 :       return __builtin_is_constant_evaluated();</span></a>
 <a name="291"><span class="lineNum">     291 </span>            : #else</a>
 <a name="292"><span class="lineNum">     292 </span>            :       while (__builtin_constant_p(*__s) &amp;&amp; *__s)</a>
 <a name="293"><span class="lineNum">     293 </span>            :         __s++;</a>
@@ -431,14 +431,14 @@
 <a name="369"><span class="lineNum">     369 </span>            :       }</a>
 <a name="370"><span class="lineNum">     370 </span>            : </a>
 <a name="371"><span class="lineNum">     371 </span>            :       static _GLIBCXX17_CONSTEXPR int</a>
-<a name="372"><span class="lineNum">     372 </span><span class="lineCov">          6 :       compare(const char_type* __s1, const char_type* __s2, size_t __n)</span></a>
+<a name="372"><span class="lineNum">     372 </span><span class="lineCov">        151 :       compare(const char_type* __s1, const char_type* __s2, size_t __n)</span></a>
 <a name="373"><span class="lineNum">     373 </span>            :       {</a>
-<a name="374"><span class="lineNum">     374 </span><span class="lineCov">          6 :         if (__n == 0)</span></a>
+<a name="374"><span class="lineNum">     374 </span><span class="lineCov">        151 :         if (__n == 0)</span></a>
 <a name="375"><span class="lineNum">     375 </span><span class="lineNoCov">          0 :           return 0;</span></a>
 <a name="376"><span class="lineNum">     376 </span>            : #if __cplusplus &gt;= 201703L</a>
-<a name="377"><span class="lineNum">     377 </span><span class="lineCov">          6 :         if (__builtin_constant_p(__n)</span></a>
+<a name="377"><span class="lineNum">     377 </span><span class="lineCov">        151 :         if (__builtin_constant_p(__n)</span></a>
 <a name="378"><span class="lineNum">     378 </span>            :             &amp;&amp; __constant_char_array_p(__s1, __n)</a>
-<a name="379"><span class="lineNum">     379 </span><span class="lineCov">          6 :             &amp;&amp; __constant_char_array_p(__s2, __n))</span></a>
+<a name="379"><span class="lineNum">     379 </span><span class="lineCov">        151 :             &amp;&amp; __constant_char_array_p(__s2, __n))</span></a>
 <a name="380"><span class="lineNum">     380 </span>            :           {</a>
 <a name="381"><span class="lineNum">     381 </span><span class="lineNoCov">          0 :             for (size_t __i = 0; __i &lt; __n; ++__i)</span></a>
 <a name="382"><span class="lineNum">     382 </span><span class="lineNoCov">          0 :               if (lt(__s1[__i], __s2[__i]))</span></a>
@@ -448,17 +448,17 @@
 <a name="386"><span class="lineNum">     386 </span><span class="lineNoCov">          0 :             return 0;</span></a>
 <a name="387"><span class="lineNum">     387 </span>            :           }</a>
 <a name="388"><span class="lineNum">     388 </span>            : #endif</a>
-<a name="389"><span class="lineNum">     389 </span><span class="lineCov">          6 :         return __builtin_memcmp(__s1, __s2, __n);</span></a>
+<a name="389"><span class="lineNum">     389 </span><span class="lineCov">        151 :         return __builtin_memcmp(__s1, __s2, __n);</span></a>
 <a name="390"><span class="lineNum">     390 </span>            :       }</a>
 <a name="391"><span class="lineNum">     391 </span>            : </a>
 <a name="392"><span class="lineNum">     392 </span>            :       static _GLIBCXX17_CONSTEXPR size_t</a>
-<a name="393"><span class="lineNum">     393 </span><span class="lineCov">        266 :       length(const char_type* __s)</span></a>
+<a name="393"><span class="lineNum">     393 </span><span class="lineCov">       1526 :       length(const char_type* __s)</span></a>
 <a name="394"><span class="lineNum">     394 </span>            :       {</a>
 <a name="395"><span class="lineNum">     395 </span>            : #if __cplusplus &gt;= 201703L</a>
-<a name="396"><span class="lineNum">     396 </span><span class="lineCov">        266 :         if (__constant_string_p(__s))</span></a>
+<a name="396"><span class="lineNum">     396 </span><span class="lineCov">       1526 :         if (__constant_string_p(__s))</span></a>
 <a name="397"><span class="lineNum">     397 </span><span class="lineNoCov">          0 :           return __gnu_cxx::char_traits&lt;char_type&gt;::length(__s);</span></a>
 <a name="398"><span class="lineNum">     398 </span>            : #endif</a>
-<a name="399"><span class="lineNum">     399 </span><span class="lineCov">        266 :         return __builtin_strlen(__s);</span></a>
+<a name="399"><span class="lineNum">     399 </span><span class="lineCov">       1526 :         return __builtin_strlen(__s);</span></a>
 <a name="400"><span class="lineNum">     400 </span>            :       }</a>
 <a name="401"><span class="lineNum">     401 </span>            : </a>
 <a name="402"><span class="lineNum">     402 </span>            :       static _GLIBCXX17_CONSTEXPR const char_type*</a>

@@ -37,12 +37,12 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-10-03 15:00:45</td>
+            <td class="headerValue">2022-10-03 16:47:33</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntry">192</td>
             <td class="headerCovTableEntry">265</td>
-            <td class="headerCovTableEntryLo">3.8 %</td>
+            <td class="headerCovTableEntryLo">72.5 %</td>
           </tr>
           <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -138,17 +138,17 @@
 <a name="76"><span class="lineNum">      76 </span>            : #endif</a>
 <a name="77"><span class="lineNum">      77 </span>            : </a>
 <a name="78"><span class="lineNum">      78 </span>            :       _GLIBCXX20_CONSTEXPR</a>
-<a name="79"><span class="lineNum">      79 </span><span class="lineCov">         86 :       new_allocator() _GLIBCXX_USE_NOEXCEPT { }</span></a>
+<a name="79"><span class="lineNum">      79 </span><span class="lineCov">    2667860 :       new_allocator() _GLIBCXX_USE_NOEXCEPT { }</span></a>
 <a name="80"><span class="lineNum">      80 </span>            : </a>
 <a name="81"><span class="lineNum">      81 </span>            :       _GLIBCXX20_CONSTEXPR</a>
-<a name="82"><span class="lineNum">      82 </span><span class="lineCov">       6546 :       new_allocator(const new_allocator&amp;) _GLIBCXX_USE_NOEXCEPT { }</span></a>
+<a name="82"><span class="lineNum">      82 </span><span class="lineCov">   10332347 :       new_allocator(const new_allocator&amp;) _GLIBCXX_USE_NOEXCEPT { }</span></a>
 <a name="83"><span class="lineNum">      83 </span>            : </a>
 <a name="84"><span class="lineNum">      84 </span>            :       template&lt;typename _Tp1&gt;</a>
 <a name="85"><span class="lineNum">      85 </span>            :         _GLIBCXX20_CONSTEXPR</a>
 <a name="86"><span class="lineNum">      86 </span>            :         new_allocator(const new_allocator&lt;_Tp1&gt;&amp;) _GLIBCXX_USE_NOEXCEPT { }</a>
 <a name="87"><span class="lineNum">      87 </span>            : </a>
 <a name="88"><span class="lineNum">      88 </span>            : #if __cplusplus &lt;= 201703L</a>
-<a name="89"><span class="lineNum">      89 </span><span class="lineCov">       6632 :       ~new_allocator() _GLIBCXX_USE_NOEXCEPT { }</span></a>
+<a name="89"><span class="lineNum">      89 </span><span class="lineCov">   13000207 :       ~new_allocator() _GLIBCXX_USE_NOEXCEPT { }</span></a>
 <a name="90"><span class="lineNum">      90 </span>            : </a>
 <a name="91"><span class="lineNum">      91 </span>            :       pointer</a>
 <a name="92"><span class="lineNum">      92 </span>            :       address(reference __x) const _GLIBCXX_NOEXCEPT</a>
@@ -162,7 +162,7 @@
 <a name="100"><span class="lineNum">     100 </span>            :       // NB: __n is permitted to be 0.  The C++ standard says nothing</a>
 <a name="101"><span class="lineNum">     101 </span>            :       // about what the return value is when __n == 0.</a>
 <a name="102"><span class="lineNum">     102 </span>            :       _GLIBCXX_NODISCARD _Tp*</a>
-<a name="103"><span class="lineNum">     103 </span><span class="lineCov">       2768 :       allocate(size_type __n, const void* = static_cast&lt;const void*&gt;(0))</span></a>
+<a name="103"><span class="lineNum">     103 </span><span class="lineCov">   43563277 :       allocate(size_type __n, const void* = static_cast&lt;const void*&gt;(0))</span></a>
 <a name="104"><span class="lineNum">     104 </span>            :       {</a>
 <a name="105"><span class="lineNum">     105 </span>            : #if __cplusplus &gt;= 201103L</a>
 <a name="106"><span class="lineNum">     106 </span>            :          // _GLIBCXX_RESOLVE_LIB_DEFECTS</a>
@@ -170,7 +170,7 @@
 <a name="108"><span class="lineNum">     108 </span>            :          static_assert(sizeof(_Tp) != 0, &quot;cannot allocate incomplete types&quot;);</a>
 <a name="109"><span class="lineNum">     109 </span>            : #endif</a>
 <a name="110"><span class="lineNum">     110 </span>            : </a>
-<a name="111"><span class="lineNum">     111 </span><span class="lineCov">       2768 :         if (__builtin_expect(__n &gt; this-&gt;_M_max_size(), false))</span></a>
+<a name="111"><span class="lineNum">     111 </span><span class="lineCov">   43563277 :         if (__builtin_expect(__n &gt; this-&gt;_M_max_size(), false))</span></a>
 <a name="112"><span class="lineNum">     112 </span>            :           {</a>
 <a name="113"><span class="lineNum">     113 </span>            :             // _GLIBCXX_RESOLVE_LIB_DEFECTS</a>
 <a name="114"><span class="lineNum">     114 </span>            :             // 3190. allocator::allocate sometimes returns too little storage</a>
@@ -186,12 +186,12 @@
 <a name="124"><span class="lineNum">     124 </span>            :             return static_cast&lt;_Tp*&gt;(::operator new(__n * sizeof(_Tp), __al));</a>
 <a name="125"><span class="lineNum">     125 </span>            :           }</a>
 <a name="126"><span class="lineNum">     126 </span>            : #endif</a>
-<a name="127"><span class="lineNum">     127 </span><span class="lineCov">       2768 :         return static_cast&lt;_Tp*&gt;(::operator new(__n * sizeof(_Tp)));</span></a>
+<a name="127"><span class="lineNum">     127 </span><span class="lineCov">   43563277 :         return static_cast&lt;_Tp*&gt;(::operator new(__n * sizeof(_Tp)));</span></a>
 <a name="128"><span class="lineNum">     128 </span>            :       }</a>
 <a name="129"><span class="lineNum">     129 </span>            : </a>
 <a name="130"><span class="lineNum">     130 </span>            :       // __p is not permitted to be a null pointer.</a>
 <a name="131"><span class="lineNum">     131 </span>            :       void</a>
-<a name="132"><span class="lineNum">     132 </span><span class="lineCov">       2768 :       deallocate(_Tp* __p, size_type __t __attribute__ ((__unused__)))</span></a>
+<a name="132"><span class="lineNum">     132 </span><span class="lineCov">   43563277 :       deallocate(_Tp* __p, size_type __t __attribute__ ((__unused__)))</span></a>
 <a name="133"><span class="lineNum">     133 </span>            :       {</a>
 <a name="134"><span class="lineNum">     134 </span>            : #if __cpp_aligned_new</a>
 <a name="135"><span class="lineNum">     135 </span>            :         if (alignof(_Tp) &gt; __STDCPP_DEFAULT_NEW_ALIGNMENT__)</a>
@@ -204,7 +204,7 @@
 <a name="142"><span class="lineNum">     142 </span>            :             return;</a>
 <a name="143"><span class="lineNum">     143 </span>            :           }</a>
 <a name="144"><span class="lineNum">     144 </span>            : #endif</a>
-<a name="145"><span class="lineNum">     145 </span><span class="lineCov">       2768 :         ::operator delete(__p</span></a>
+<a name="145"><span class="lineNum">     145 </span><span class="lineCov">   43563277 :         ::operator delete(__p</span></a>
 <a name="146"><span class="lineNum">     146 </span>            : #if __cpp_sized_deallocation</a>
 <a name="147"><span class="lineNum">     147 </span>            :                           , __t * sizeof(_Tp)</a>
 <a name="148"><span class="lineNum">     148 </span>            : #endif</a>
@@ -213,21 +213,21 @@
 <a name="151"><span class="lineNum">     151 </span>            : </a>
 <a name="152"><span class="lineNum">     152 </span>            : #if __cplusplus &lt;= 201703L</a>
 <a name="153"><span class="lineNum">     153 </span>            :       size_type</a>
-<a name="154"><span class="lineNum">     154 </span><span class="lineCov">        214 :       max_size() const _GLIBCXX_USE_NOEXCEPT</span></a>
-<a name="155"><span class="lineNum">     155 </span><span class="lineCov">        214 :       { return _M_max_size(); }</span></a>
+<a name="154"><span class="lineNum">     154 </span><span class="lineCov">   10775745 :       max_size() const _GLIBCXX_USE_NOEXCEPT</span></a>
+<a name="155"><span class="lineNum">     155 </span><span class="lineCov">   10775745 :       { return _M_max_size(); }</span></a>
 <a name="156"><span class="lineNum">     156 </span>            : </a>
 <a name="157"><span class="lineNum">     157 </span>            : #if __cplusplus &gt;= 201103L</a>
 <a name="158"><span class="lineNum">     158 </span>            :       template&lt;typename _Up, typename... _Args&gt;</a>
 <a name="159"><span class="lineNum">     159 </span>            :         void</a>
-<a name="160"><span class="lineNum">     160 </span><span class="lineCov">        144 :         construct(_Up* __p, _Args&amp;&amp;... __args)</span></a>
+<a name="160"><span class="lineNum">     160 </span><span class="lineCov">  152751652 :         construct(_Up* __p, _Args&amp;&amp;... __args)</span></a>
 <a name="161"><span class="lineNum">     161 </span>            :         noexcept(std::is_nothrow_constructible&lt;_Up, _Args...&gt;::value)</a>
-<a name="162"><span class="lineNum">     162 </span><span class="lineCov">        144 :         { ::new((void *)__p) _Up(std::forward&lt;_Args&gt;(__args)...); }</span></a>
+<a name="162"><span class="lineNum">     162 </span><span class="lineCov">  152751652 :         { ::new((void *)__p) _Up(std::forward&lt;_Args&gt;(__args)...); }</span></a>
 <a name="163"><span class="lineNum">     163 </span>            : </a>
 <a name="164"><span class="lineNum">     164 </span>            :       template&lt;typename _Up&gt;</a>
 <a name="165"><span class="lineNum">     165 </span>            :         void</a>
-<a name="166"><span class="lineNum">     166 </span><span class="lineCov">         44 :         destroy(_Up* __p)</span></a>
+<a name="166"><span class="lineNum">     166 </span><span class="lineCov">  140388310 :         destroy(_Up* __p)</span></a>
 <a name="167"><span class="lineNum">     167 </span>            :         noexcept(std::is_nothrow_destructible&lt;_Up&gt;::value)</a>
-<a name="168"><span class="lineNum">     168 </span><span class="lineCov">         44 :         { __p-&gt;~_Up(); }</span></a>
+<a name="168"><span class="lineNum">     168 </span><span class="lineCov">  140388310 :         { __p-&gt;~_Up(); }</span></a>
 <a name="169"><span class="lineNum">     169 </span>            : #else</a>
 <a name="170"><span class="lineNum">     170 </span>            :       // _GLIBCXX_RESOLVE_LIB_DEFECTS</a>
 <a name="171"><span class="lineNum">     171 </span>            :       // 402. wrong new expression in [some_] allocator::construct</a>
@@ -256,10 +256,10 @@
 <a name="194"><span class="lineNum">     194 </span>            : </a>
 <a name="195"><span class="lineNum">     195 </span>            :     private:</a>
 <a name="196"><span class="lineNum">     196 </span>            :       _GLIBCXX_CONSTEXPR size_type</a>
-<a name="197"><span class="lineNum">     197 </span><span class="lineCov">       2982 :       _M_max_size() const _GLIBCXX_USE_NOEXCEPT</span></a>
+<a name="197"><span class="lineNum">     197 </span><span class="lineCov">   54339022 :       _M_max_size() const _GLIBCXX_USE_NOEXCEPT</span></a>
 <a name="198"><span class="lineNum">     198 </span>            :       {</a>
 <a name="199"><span class="lineNum">     199 </span>            : #if __PTRDIFF_MAX__ &lt; __SIZE_MAX__</a>
-<a name="200"><span class="lineNum">     200 </span><span class="lineCov">       2982 :         return std::size_t(__PTRDIFF_MAX__) / sizeof(_Tp);</span></a>
+<a name="200"><span class="lineNum">     200 </span><span class="lineCov">   54339022 :         return std::size_t(__PTRDIFF_MAX__) / sizeof(_Tp);</span></a>
 <a name="201"><span class="lineNum">     201 </span>            : #else</a>
 <a name="202"><span class="lineNum">     202 </span>            :         return std::size_t(-1) / sizeof(_Tp);</a>
 <a name="203"><span class="lineNum">     203 </span>            : #endif</a>

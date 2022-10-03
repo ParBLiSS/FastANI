@@ -31,18 +31,18 @@
             <td class="headerValue">FastANITest.out</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">60</td>
             <td class="headerCovTableEntry">62</td>
-            <td class="headerCovTableEntryLo">0.0 %</td>
+            <td class="headerCovTableEntryHi">96.8 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-10-03 15:00:45</td>
+            <td class="headerValue">2022-10-03 16:47:33</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">0</td>
             <td class="headerCovTableEntry">10</td>
-            <td class="headerCovTableEntryLo">0.0 %</td>
+            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr><td><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -96,50 +96,50 @@
 <a name="34"><span class="lineNum">      34 </span>            :     /**</a>
 <a name="35"><span class="lineNum">      35 </span>            :      * @brief   reverse complement of kmer (borrowed from mash)</a>
 <a name="36"><span class="lineNum">      36 </span>            :      */</a>
-<a name="37"><span class="lineNum">      37 </span><span class="lineNoCov">          0 :     inline void reverseComplement(const char * src, char * dest, int length) </span></a>
+<a name="37"><span class="lineNum">      37 </span><span class="lineCov">      22674 :     inline void reverseComplement(const char * src, char * dest, int length) </span></a>
 <a name="38"><span class="lineNum">      38 </span>            :     {</a>
-<a name="39"><span class="lineNum">      39 </span><span class="lineNoCov">          0 :       for ( int i = 0; i &lt; length; i++ )</span></a>
+<a name="39"><span class="lineNum">      39 </span><span class="lineCov">  109453965 :       for ( int i = 0; i &lt; length; i++ )</span></a>
 <a name="40"><span class="lineNum">      40 </span>            :       {    </a>
-<a name="41"><span class="lineNum">      41 </span><span class="lineNoCov">          0 :         char base = src[i];</span></a>
+<a name="41"><span class="lineNum">      41 </span><span class="lineCov">  109431291 :         char base = src[i];</span></a>
 <a name="42"><span class="lineNum">      42 </span>            : </a>
-<a name="43"><span class="lineNum">      43 </span><span class="lineNoCov">          0 :         switch ( base )</span></a>
+<a name="43"><span class="lineNum">      43 </span><span class="lineCov">  109431291 :         switch ( base )</span></a>
 <a name="44"><span class="lineNum">      44 </span>            :         {    </a>
-<a name="45"><span class="lineNum">      45 </span><span class="lineNoCov">          0 :           case 'A': base = 'T'; break;</span></a>
-<a name="46"><span class="lineNum">      46 </span><span class="lineNoCov">          0 :           case 'C': base = 'G'; break;</span></a>
-<a name="47"><span class="lineNum">      47 </span><span class="lineNoCov">          0 :           case 'G': base = 'C'; break;</span></a>
-<a name="48"><span class="lineNum">      48 </span><span class="lineNoCov">          0 :           case 'T': base = 'A'; break;</span></a>
-<a name="49"><span class="lineNum">      49 </span><span class="lineNoCov">          0 :           default: break;</span></a>
+<a name="45"><span class="lineNum">      45 </span><span class="lineCov">   35152851 :           case 'A': base = 'T'; break;</span></a>
+<a name="46"><span class="lineNum">      46 </span><span class="lineCov">   19237579 :           case 'C': base = 'G'; break;</span></a>
+<a name="47"><span class="lineNum">      47 </span><span class="lineCov">   20717292 :           case 'G': base = 'C'; break;</span></a>
+<a name="48"><span class="lineNum">      48 </span><span class="lineCov">   34323173 :           case 'T': base = 'A'; break;</span></a>
+<a name="49"><span class="lineNum">      49 </span><span class="lineCov">        396 :           default: break;</span></a>
 <a name="50"><span class="lineNum">      50 </span>            :         }    </a>
 <a name="51"><span class="lineNum">      51 </span>            : </a>
-<a name="52"><span class="lineNum">      52 </span><span class="lineNoCov">          0 :         dest[length - i - 1] = base;</span></a>
+<a name="52"><span class="lineNum">      52 </span><span class="lineCov">  109431291 :         dest[length - i - 1] = base;</span></a>
 <a name="53"><span class="lineNum">      53 </span>            :       }    </a>
-<a name="54"><span class="lineNum">      54 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="54"><span class="lineNum">      54 </span><span class="lineCov">      22674 :     }</span></a>
 <a name="55"><span class="lineNum">      55 </span>            : </a>
 <a name="56"><span class="lineNum">      56 </span>            :     template &lt;typename KSEQ&gt;</a>
-<a name="57"><span class="lineNum">      57 </span><span class="lineNoCov">          0 :       inline void makeUpperCase(KSEQ kseq)</span></a>
+<a name="57"><span class="lineNum">      57 </span><span class="lineCov">      22674 :       inline void makeUpperCase(KSEQ kseq)</span></a>
 <a name="58"><span class="lineNum">      58 </span>            :       {</a>
-<a name="59"><span class="lineNum">      59 </span><span class="lineNoCov">          0 :         for ( int i = 0; i &lt; kseq-&gt;seq.l; i++ )</span></a>
+<a name="59"><span class="lineNum">      59 </span><span class="lineCov">  109453965 :         for ( int i = 0; i &lt; kseq-&gt;seq.l; i++ )</span></a>
 <a name="60"><span class="lineNum">      60 </span>            :         {</a>
-<a name="61"><span class="lineNum">      61 </span><span class="lineNoCov">          0 :           if (kseq-&gt;seq.s[i] &gt; 96 &amp;&amp; kseq-&gt;seq.s[i] &lt; 123)</span></a>
+<a name="61"><span class="lineNum">      61 </span><span class="lineCov">  109431291 :           if (kseq-&gt;seq.s[i] &gt; 96 &amp;&amp; kseq-&gt;seq.s[i] &lt; 123)</span></a>
 <a name="62"><span class="lineNum">      62 </span>            :           {</a>
 <a name="63"><span class="lineNum">      63 </span><span class="lineNoCov">          0 :             kseq-&gt;seq.s[i] -= 32;</span></a>
 <a name="64"><span class="lineNum">      64 </span>            :           }</a>
 <a name="65"><span class="lineNum">      65 </span>            :         }</a>
-<a name="66"><span class="lineNum">      66 </span><span class="lineNoCov">          0 :       }</span></a>
+<a name="66"><span class="lineNum">      66 </span><span class="lineCov">      22674 :       }</span></a>
 <a name="67"><span class="lineNum">      67 </span>            : </a>
 <a name="68"><span class="lineNum">      68 </span>            :     /**</a>
 <a name="69"><span class="lineNum">      69 </span>            :      * @brief   hashing kmer string (borrowed from mash)</a>
 <a name="70"><span class="lineNum">      70 </span>            :      */</a>
-<a name="71"><span class="lineNum">      71 </span><span class="lineNoCov">          0 :     inline hash_t getHash(const char * seq, int length)</span></a>
+<a name="71"><span class="lineNum">      71 </span><span class="lineCov">  218182362 :     inline hash_t getHash(const char * seq, int length)</span></a>
 <a name="72"><span class="lineNum">      72 </span>            :     {</a>
 <a name="73"><span class="lineNum">      73 </span>            :       char data[16];</a>
-<a name="74"><span class="lineNum">      74 </span><span class="lineNoCov">          0 :       MurmurHash3_x64_128(seq, length, seed, data);</span></a>
+<a name="74"><span class="lineNum">      74 </span><span class="lineCov">  218182362 :       MurmurHash3_x64_128(seq, length, seed, data);</span></a>
 <a name="75"><span class="lineNum">      75 </span>            : </a>
 <a name="76"><span class="lineNum">      76 </span>            :       hash_t hash;</a>
 <a name="77"><span class="lineNum">      77 </span>            : </a>
-<a name="78"><span class="lineNum">      78 </span><span class="lineNoCov">          0 :       hash = *((hash_t *)data);</span></a>
+<a name="78"><span class="lineNum">      78 </span><span class="lineCov">  218182362 :       hash = *((hash_t *)data);</span></a>
 <a name="79"><span class="lineNum">      79 </span>            : </a>
-<a name="80"><span class="lineNum">      80 </span><span class="lineNoCov">          0 :       return hash;</span></a>
+<a name="80"><span class="lineNum">      80 </span><span class="lineCov">  218182362 :       return hash;</span></a>
 <a name="81"><span class="lineNum">      81 </span>            :     }</a>
 <a name="82"><span class="lineNum">      82 </span>            : </a>
 <a name="83"><span class="lineNum">      83 </span>            :     /**</a>
@@ -151,7 +151,7 @@
 <a name="89"><span class="lineNum">      89 </span>            :      * @param[in]   seqCounter      current sequence number, used while saving the position of minimizer</a>
 <a name="90"><span class="lineNum">      90 </span>            :      */</a>
 <a name="91"><span class="lineNum">      91 </span>            :     template &lt;typename T, typename KSEQ&gt;</a>
-<a name="92"><span class="lineNum">      92 </span><span class="lineNoCov">          0 :       inline void addMinimizers(std::vector&lt;T&gt; &amp;minimizerIndex, KSEQ kseq, int kmerSize, </span></a>
+<a name="92"><span class="lineNum">      92 </span><span class="lineCov">      22674 :       inline void addMinimizers(std::vector&lt;T&gt; &amp;minimizerIndex, KSEQ kseq, int kmerSize, </span></a>
 <a name="93"><span class="lineNum">      93 </span>            :           int windowSize,</a>
 <a name="94"><span class="lineNum">      94 </span>            :           int alphabetSize,</a>
 <a name="95"><span class="lineNum">      95 </span>            :           seqno_t seqCounter)</a>
@@ -161,83 +161,83 @@
 <a name="99"><span class="lineNum">      99 </span>            :          * Saves pair of the minimizer and the position of hashed kmer in the sequence</a>
 <a name="100"><span class="lineNum">     100 </span>            :          * Position of kmer is required to discard kmers that fall out of current window</a>
 <a name="101"><span class="lineNum">     101 </span>            :          */</a>
-<a name="102"><span class="lineNum">     102 </span><span class="lineNoCov">          0 :         std::deque&lt; std::pair&lt;MinimizerInfo, offset_t&gt; &gt; Q;</span></a>
+<a name="102"><span class="lineNum">     102 </span><span class="lineCov">      22674 :         std::deque&lt; std::pair&lt;MinimizerInfo, offset_t&gt; &gt; Q;</span></a>
 <a name="103"><span class="lineNum">     103 </span>            : </a>
-<a name="104"><span class="lineNum">     104 </span><span class="lineNoCov">          0 :         makeUpperCase(kseq);</span></a>
+<a name="104"><span class="lineNum">     104 </span><span class="lineCov">      22674 :         makeUpperCase(kseq);</span></a>
 <a name="105"><span class="lineNum">     105 </span>            : </a>
 <a name="106"><span class="lineNum">     106 </span>            :         //length of the sequencd</a>
-<a name="107"><span class="lineNum">     107 </span><span class="lineNoCov">          0 :         offset_t len = kseq-&gt;seq.l;</span></a>
+<a name="107"><span class="lineNum">     107 </span><span class="lineCov">      22674 :         offset_t len = kseq-&gt;seq.l;</span></a>
 <a name="108"><span class="lineNum">     108 </span>            : </a>
 <a name="109"><span class="lineNum">     109 </span>            :         //Compute reverse complement of seq</a>
-<a name="110"><span class="lineNum">     110 </span><span class="lineNoCov">          0 :         char *seqRev = new char[len];</span></a>
+<a name="110"><span class="lineNum">     110 </span><span class="lineCov">      22674 :         char *seqRev = new char[len];</span></a>
 <a name="111"><span class="lineNum">     111 </span>            : </a>
-<a name="112"><span class="lineNum">     112 </span><span class="lineNoCov">          0 :         if(alphabetSize == 4) //not protein</span></a>
-<a name="113"><span class="lineNum">     113 </span><span class="lineNoCov">          0 :           CommonFunc::reverseComplement(kseq-&gt;seq.s, seqRev, len);</span></a>
+<a name="112"><span class="lineNum">     112 </span><span class="lineCov">      22674 :         if(alphabetSize == 4) //not protein</span></a>
+<a name="113"><span class="lineNum">     113 </span><span class="lineCov">      22674 :           CommonFunc::reverseComplement(kseq-&gt;seq.s, seqRev, len);</span></a>
 <a name="114"><span class="lineNum">     114 </span>            : </a>
-<a name="115"><span class="lineNum">     115 </span><span class="lineNoCov">          0 :         for(offset_t i = 0; i &lt; len - kmerSize + 1; i++)</span></a>
+<a name="115"><span class="lineNum">     115 </span><span class="lineCov">  109113855 :         for(offset_t i = 0; i &lt; len - kmerSize + 1; i++)</span></a>
 <a name="116"><span class="lineNum">     116 </span>            :         {</a>
 <a name="117"><span class="lineNum">     117 </span>            :           //The serial number of current sliding window</a>
 <a name="118"><span class="lineNum">     118 </span>            :           //First valid window appears when i = windowSize - 1</a>
-<a name="119"><span class="lineNum">     119 </span><span class="lineNoCov">          0 :           offset_t currentWindowId = i - windowSize + 1;</span></a>
+<a name="119"><span class="lineNum">     119 </span><span class="lineCov">  109091181 :           offset_t currentWindowId = i - windowSize + 1;</span></a>
 <a name="120"><span class="lineNum">     120 </span>            : </a>
 <a name="121"><span class="lineNum">     121 </span>            :           //Hash kmers</a>
-<a name="122"><span class="lineNum">     122 </span><span class="lineNoCov">          0 :           hash_t hashFwd = CommonFunc::getHash(kseq-&gt;seq.s + i, kmerSize); </span></a>
+<a name="122"><span class="lineNum">     122 </span><span class="lineCov">  109091181 :           hash_t hashFwd = CommonFunc::getHash(kseq-&gt;seq.s + i, kmerSize); </span></a>
 <a name="123"><span class="lineNum">     123 </span>            :           hash_t hashBwd;</a>
 <a name="124"><span class="lineNum">     124 </span>            : </a>
-<a name="125"><span class="lineNum">     125 </span><span class="lineNoCov">          0 :           if(alphabetSize == 4)</span></a>
-<a name="126"><span class="lineNum">     126 </span><span class="lineNoCov">          0 :             hashBwd = CommonFunc::getHash(seqRev + len - i - kmerSize, kmerSize);</span></a>
+<a name="125"><span class="lineNum">     125 </span><span class="lineCov">  109091181 :           if(alphabetSize == 4)</span></a>
+<a name="126"><span class="lineNum">     126 </span><span class="lineCov">  109091181 :             hashBwd = CommonFunc::getHash(seqRev + len - i - kmerSize, kmerSize);</span></a>
 <a name="127"><span class="lineNum">     127 </span>            :           else  //proteins</a>
 <a name="128"><span class="lineNum">     128 </span><span class="lineNoCov">          0 :             hashBwd = std::numeric_limits&lt;hash_t&gt;::max();   //Pick a dummy high value so that it is ignored later</span></a>
 <a name="129"><span class="lineNum">     129 </span>            : </a>
 <a name="130"><span class="lineNum">     130 </span>            :           //Consider non-symmetric kmers only</a>
-<a name="131"><span class="lineNum">     131 </span><span class="lineNoCov">          0 :           if(hashBwd != hashFwd)</span></a>
+<a name="131"><span class="lineNum">     131 </span><span class="lineCov">  109091181 :           if(hashBwd != hashFwd)</span></a>
 <a name="132"><span class="lineNum">     132 </span>            :           {</a>
 <a name="133"><span class="lineNum">     133 </span>            :             //Take minimum value of kmer and its reverse complement</a>
-<a name="134"><span class="lineNum">     134 </span><span class="lineNoCov">          0 :             hash_t currentKmer = std::min(hashFwd, hashBwd);</span></a>
+<a name="134"><span class="lineNum">     134 </span><span class="lineCov">  109085858 :             hash_t currentKmer = std::min(hashFwd, hashBwd);</span></a>
 <a name="135"><span class="lineNum">     135 </span>            : </a>
 <a name="136"><span class="lineNum">     136 </span>            :             //If front minimum is not in the current window, remove it</a>
-<a name="137"><span class="lineNum">     137 </span><span class="lineNoCov">          0 :             while(!Q.empty() &amp;&amp; Q.front().second &lt;=  i - windowSize)</span></a>
-<a name="138"><span class="lineNum">     138 </span><span class="lineNoCov">          0 :               Q.pop_front();</span></a>
+<a name="137"><span class="lineNum">     137 </span><span class="lineCov">  113606553 :             while(!Q.empty() &amp;&amp; Q.front().second &lt;=  i - windowSize)</span></a>
+<a name="138"><span class="lineNum">     138 </span><span class="lineCov">    4520695 :               Q.pop_front();</span></a>
 <a name="139"><span class="lineNum">     139 </span>            : </a>
 <a name="140"><span class="lineNum">     140 </span>            :             //Hashes less than equal to currentKmer are not required</a>
 <a name="141"><span class="lineNum">     141 </span>            :             //Remove them from Q (back)</a>
-<a name="142"><span class="lineNum">     142 </span><span class="lineNoCov">          0 :             while(!Q.empty() &amp;&amp; Q.back().first.hash &gt;= currentKmer) </span></a>
-<a name="143"><span class="lineNum">     143 </span><span class="lineNoCov">          0 :               Q.pop_back();</span></a>
+<a name="142"><span class="lineNum">     142 </span><span class="lineCov">  213565435 :             while(!Q.empty() &amp;&amp; Q.back().first.hash &gt;= currentKmer) </span></a>
+<a name="143"><span class="lineNum">     143 </span><span class="lineCov">  104479577 :               Q.pop_back();</span></a>
 <a name="144"><span class="lineNum">     144 </span>            : </a>
 <a name="145"><span class="lineNum">     145 </span>            :             //Push currentKmer and position to back of the queue</a>
 <a name="146"><span class="lineNum">     146 </span>            :             //-1 indicates the dummy window # (will be updated later)</a>
-<a name="147"><span class="lineNum">     147 </span><span class="lineNoCov">          0 :             Q.push_back( std::make_pair(</span></a>
+<a name="147"><span class="lineNum">     147 </span><span class="lineCov">  109085858 :             Q.push_back( std::make_pair(</span></a>
 <a name="148"><span class="lineNum">     148 </span>            :                   MinimizerInfo{currentKmer, seqCounter, -1},</a>
 <a name="149"><span class="lineNum">     149 </span>            :                   i)); </a>
 <a name="150"><span class="lineNum">     150 </span>            : </a>
 <a name="151"><span class="lineNum">     151 </span>            :             //Select the minimizer from Q and put into index</a>
-<a name="152"><span class="lineNum">     152 </span><span class="lineNoCov">          0 :             if(currentWindowId &gt;= 0)</span></a>
+<a name="152"><span class="lineNum">     152 </span><span class="lineCov">  109085858 :             if(currentWindowId &gt;= 0)</span></a>
 <a name="153"><span class="lineNum">     153 </span>            :             {</a>
 <a name="154"><span class="lineNum">     154 </span>            :               //We save the minimizer if we are seeing it for first time</a>
-<a name="155"><span class="lineNum">     155 </span><span class="lineNoCov">          0 :               if(minimizerIndex.empty() || minimizerIndex.back() != Q.front().first)</span></a>
+<a name="155"><span class="lineNum">     155 </span><span class="lineCov">  108564393 :               if(minimizerIndex.empty() || minimizerIndex.back() != Q.front().first)</span></a>
 <a name="156"><span class="lineNum">     156 </span>            :               {</a>
 <a name="157"><span class="lineNum">     157 </span>            :                 //Update the window position in this minimizer</a>
 <a name="158"><span class="lineNum">     158 </span>            :                 //This step also ensures we don't re-insert the same minimizer again</a>
-<a name="159"><span class="lineNum">     159 </span><span class="lineNoCov">          0 :                 Q.front().first.wpos = currentWindowId;     </span></a>
-<a name="160"><span class="lineNum">     160 </span><span class="lineNoCov">          0 :                 minimizerIndex.push_back(Q.front().first);</span></a>
+<a name="159"><span class="lineNum">     159 </span><span class="lineCov">    8702658 :                 Q.front().first.wpos = currentWindowId;     </span></a>
+<a name="160"><span class="lineNum">     160 </span><span class="lineCov">    8702658 :                 minimizerIndex.push_back(Q.front().first);</span></a>
 <a name="161"><span class="lineNum">     161 </span>            :               }</a>
 <a name="162"><span class="lineNum">     162 </span>            :             }</a>
 <a name="163"><span class="lineNum">     163 </span>            :           }</a>
 <a name="164"><span class="lineNum">     164 </span>            :         }</a>
 <a name="165"><span class="lineNum">     165 </span>            : </a>
-<a name="166"><span class="lineNum">     166 </span><span class="lineNoCov">          0 :         delete [] seqRev;</span></a>
-<a name="167"><span class="lineNum">     167 </span><span class="lineNoCov">          0 :       }</span></a>
+<a name="166"><span class="lineNum">     166 </span><span class="lineCov">      22674 :         delete [] seqRev;</span></a>
+<a name="167"><span class="lineNum">     167 </span><span class="lineCov">      22674 :       }</span></a>
 <a name="168"><span class="lineNum">     168 </span>            : </a>
 <a name="169"><span class="lineNum">     169 </span>            :     /**</a>
 <a name="170"><span class="lineNum">     170 </span>            :      * @brief       overloaded function for case where seq. counter does not matter</a>
 <a name="171"><span class="lineNum">     171 </span>            :      */</a>
 <a name="172"><span class="lineNum">     172 </span>            :     template &lt;typename T, typename KSEQ&gt;</a>
-<a name="173"><span class="lineNum">     173 </span><span class="lineNoCov">          0 :       inline void addMinimizers(std::vector&lt;T&gt; &amp;minimizerIndex, KSEQ kseq, int kmerSize,</span></a>
+<a name="173"><span class="lineNum">     173 </span><span class="lineCov">      22459 :       inline void addMinimizers(std::vector&lt;T&gt; &amp;minimizerIndex, KSEQ kseq, int kmerSize,</span></a>
 <a name="174"><span class="lineNum">     174 </span>            :           int windowSize, </a>
 <a name="175"><span class="lineNum">     175 </span>            :           int alphabetSize)</a>
 <a name="176"><span class="lineNum">     176 </span>            :       {</a>
-<a name="177"><span class="lineNum">     177 </span><span class="lineNoCov">          0 :         addMinimizers(minimizerIndex, kseq, kmerSize, windowSize, alphabetSize, 0);</span></a>
-<a name="178"><span class="lineNum">     178 </span><span class="lineNoCov">          0 :       }</span></a>
+<a name="177"><span class="lineNum">     177 </span><span class="lineCov">      22459 :         addMinimizers(minimizerIndex, kseq, kmerSize, windowSize, alphabetSize, 0);</span></a>
+<a name="178"><span class="lineNum">     178 </span><span class="lineCov">      22459 :       }</span></a>
 <a name="179"><span class="lineNum">     179 </span>            : </a>
 <a name="180"><span class="lineNum">     180 </span>            :    /**</a>
 <a name="181"><span class="lineNum">     181 </span>            :      * @brief           Functor for comparing tuples by single index layer</a>
@@ -281,34 +281,34 @@
 <a name="219"><span class="lineNum">     219 </span>            :      * @brief               trim white spaces from start of the string</a>
 <a name="220"><span class="lineNum">     220 </span>            :      * @param[in/out]   s</a>
 <a name="221"><span class="lineNum">     221 </span>            :      */</a>
-<a name="222"><span class="lineNum">     222 </span><span class="lineNoCov">          0 :     inline void ltrim(std::string &amp;s) </span></a>
+<a name="222"><span class="lineNum">     222 </span><span class="lineCov">         14 :     inline void ltrim(std::string &amp;s) </span></a>
 <a name="223"><span class="lineNum">     223 </span>            :     {</a>
-<a name="224"><span class="lineNum">     224 </span><span class="lineNoCov">          0 :       s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int ch) {</span></a>
-<a name="225"><span class="lineNum">     225 </span><span class="lineNoCov">          0 :             return !std::isspace(ch);</span></a>
+<a name="224"><span class="lineNum">     224 </span><span class="lineCov">         14 :       s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int ch) {</span></a>
+<a name="225"><span class="lineNum">     225 </span><span class="lineCov">         14 :             return !std::isspace(ch);</span></a>
 <a name="226"><span class="lineNum">     226 </span>            :             }));</a>
-<a name="227"><span class="lineNum">     227 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="227"><span class="lineNum">     227 </span><span class="lineCov">         14 :     }</span></a>
 <a name="228"><span class="lineNum">     228 </span>            : </a>
 <a name="229"><span class="lineNum">     229 </span>            :     /**</a>
 <a name="230"><span class="lineNum">     230 </span>            :      * @brief               trim white spaces from end of the string</a>
 <a name="231"><span class="lineNum">     231 </span>            :      * @param[in/out]   s</a>
 <a name="232"><span class="lineNum">     232 </span>            :      */</a>
-<a name="233"><span class="lineNum">     233 </span><span class="lineNoCov">          0 :     inline void rtrim(std::string &amp;s) </span></a>
+<a name="233"><span class="lineNum">     233 </span><span class="lineCov">         14 :     inline void rtrim(std::string &amp;s) </span></a>
 <a name="234"><span class="lineNum">     234 </span>            :     {</a>
-<a name="235"><span class="lineNum">     235 </span><span class="lineNoCov">          0 :       s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) {</span></a>
-<a name="236"><span class="lineNum">     236 </span><span class="lineNoCov">          0 :             return !std::isspace(ch);</span></a>
-<a name="237"><span class="lineNum">     237 </span><span class="lineNoCov">          0 :             }).base(), s.end());</span></a>
-<a name="238"><span class="lineNum">     238 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="235"><span class="lineNum">     235 </span><span class="lineCov">         28 :       s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) {</span></a>
+<a name="236"><span class="lineNum">     236 </span><span class="lineCov">         14 :             return !std::isspace(ch);</span></a>
+<a name="237"><span class="lineNum">     237 </span><span class="lineCov">         28 :             }).base(), s.end());</span></a>
+<a name="238"><span class="lineNum">     238 </span><span class="lineCov">         14 :     }</span></a>
 <a name="239"><span class="lineNum">     239 </span>            : </a>
 <a name="240"><span class="lineNum">     240 </span>            :     /**</a>
 <a name="241"><span class="lineNum">     241 </span>            :      * @brief               trim white spaces from start and end of </a>
 <a name="242"><span class="lineNum">     242 </span>            :      *                      the input string</a>
 <a name="243"><span class="lineNum">     243 </span>            :      * @param[in/out]   s</a>
 <a name="244"><span class="lineNum">     244 </span>            :      */</a>
-<a name="245"><span class="lineNum">     245 </span><span class="lineNoCov">          0 :     inline void trim(std::string &amp;s) </span></a>
+<a name="245"><span class="lineNum">     245 </span><span class="lineCov">         14 :     inline void trim(std::string &amp;s) </span></a>
 <a name="246"><span class="lineNum">     246 </span>            :     {</a>
-<a name="247"><span class="lineNum">     247 </span><span class="lineNoCov">          0 :       ltrim(s);</span></a>
-<a name="248"><span class="lineNum">     248 </span><span class="lineNoCov">          0 :       rtrim(s);</span></a>
-<a name="249"><span class="lineNum">     249 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="247"><span class="lineNum">     247 </span><span class="lineCov">         14 :       ltrim(s);</span></a>
+<a name="248"><span class="lineNum">     248 </span><span class="lineCov">         14 :       rtrim(s);</span></a>
+<a name="249"><span class="lineNum">     249 </span><span class="lineCov">         14 :     }</span></a>
 <a name="250"><span class="lineNum">     250 </span>            :   }</a>
 <a name="251"><span class="lineNum">     251 </span>            : }</a>
 <a name="252"><span class="lineNum">     252 </span>            : </a>

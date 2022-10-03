@@ -31,18 +31,18 @@
             <td class="headerValue">FastANITest.out</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">3</td>
             <td class="headerCovTableEntry">4</td>
-            <td class="headerCovTableEntryLo">0.0 %</td>
+            <td class="headerCovTableEntryMed">75.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-10-03 15:00:45</td>
+            <td class="headerValue">2022-10-03 16:47:33</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">2</td>
             <td class="headerCovTableEntry">3</td>
-            <td class="headerCovTableEntryLo">0.0 %</td>
+            <td class="headerCovTableEntryLo">66.7 %</td>
           </tr>
           <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -225,7 +225,7 @@
 <a name="163"><span class="lineNum">     163 </span>            :   _Cxx_hashtable_define_trivial_hash(unsigned short)</a>
 <a name="164"><span class="lineNum">     164 </span>            : </a>
 <a name="165"><span class="lineNum">     165 </span>            :   /// Explicit specialization for unsigned int.</a>
-<a name="166"><span class="lineNum">     166 </span><span class="lineNoCov">          0 :   _Cxx_hashtable_define_trivial_hash(unsigned int)</span></a>
+<a name="166"><span class="lineNum">     166 </span><span class="lineCov">   17520233 :   _Cxx_hashtable_define_trivial_hash(unsigned int)</span></a>
 <a name="167"><span class="lineNum">     167 </span>            : </a>
 <a name="168"><span class="lineNum">     168 </span>            :   /// Explicit specialization for unsigned long.</a>
 <a name="169"><span class="lineNum">     169 </span>            :   _Cxx_hashtable_define_trivial_hash(unsigned long)</a>
@@ -255,9 +255,9 @@
 <a name="193"><span class="lineNum">     193 </span>            :   struct _Hash_impl</a>
 <a name="194"><span class="lineNum">     194 </span>            :   {</a>
 <a name="195"><span class="lineNum">     195 </span>            :     static size_t</a>
-<a name="196"><span class="lineNum">     196 </span><span class="lineNoCov">          0 :     hash(const void* __ptr, size_t __clength,</span></a>
+<a name="196"><span class="lineNum">     196 </span><span class="lineCov">        112 :     hash(const void* __ptr, size_t __clength,</span></a>
 <a name="197"><span class="lineNum">     197 </span>            :          size_t __seed = static_cast&lt;size_t&gt;(0xc70f6907UL))</a>
-<a name="198"><span class="lineNum">     198 </span><span class="lineNoCov">          0 :     { return _Hash_bytes(__ptr, __clength, __seed); }</span></a>
+<a name="198"><span class="lineNum">     198 </span><span class="lineCov">        112 :     { return _Hash_bytes(__ptr, __clength, __seed); }</span></a>
 <a name="199"><span class="lineNum">     199 </span>            : </a>
 <a name="200"><span class="lineNum">     200 </span>            :     template&lt;typename _Tp&gt;</a>
 <a name="201"><span class="lineNum">     201 </span>            :       static size_t</a>
