@@ -37,12 +37,12 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-10-03 16:47:33</td>
+            <td class="headerValue">2022-10-05 13:58:09</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">90</td>
+            <td class="headerCovTableEntry">91</td>
             <td class="headerCovTableEntry">148</td>
-            <td class="headerCovTableEntryLo">60.8 %</td>
+            <td class="headerCovTableEntryLo">61.5 %</td>
           </tr>
           <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -529,8 +529,8 @@
 <a name="467"><span class="lineNum">     467 </span>            :   template&lt;typename _InputIterator, typename _Predicate&gt;</a>
 <a name="468"><span class="lineNum">     468 </span>            :     _GLIBCXX20_CONSTEXPR</a>
 <a name="469"><span class="lineNum">     469 </span>            :     inline bool</a>
-<a name="470"><span class="lineNum">     470 </span><span class="lineCov">        124 :     none_of(_InputIterator __first, _InputIterator __last, _Predicate __pred)</span></a>
-<a name="471"><span class="lineNum">     471 </span><span class="lineCov">        124 :     { return __last == _GLIBCXX_STD_A::find_if(__first, __last, __pred); }</span></a>
+<a name="470"><span class="lineNum">     470 </span><span class="lineCov">        134 :     none_of(_InputIterator __first, _InputIterator __last, _Predicate __pred)</span></a>
+<a name="471"><span class="lineNum">     471 </span><span class="lineCov">        134 :     { return __last == _GLIBCXX_STD_A::find_if(__first, __last, __pred); }</span></a>
 <a name="472"><span class="lineNum">     472 </span>            : </a>
 <a name="473"><span class="lineNum">     473 </span>            :   /**</a>
 <a name="474"><span class="lineNum">     474 </span>            :    *  @brief  Checks that a predicate is true for at least one element</a>
@@ -548,8 +548,8 @@
 <a name="486"><span class="lineNum">     486 </span>            :   template&lt;typename _InputIterator, typename _Predicate&gt;</a>
 <a name="487"><span class="lineNum">     487 </span>            :     _GLIBCXX20_CONSTEXPR</a>
 <a name="488"><span class="lineNum">     488 </span>            :     inline bool</a>
-<a name="489"><span class="lineNum">     489 </span><span class="lineCov">        124 :     any_of(_InputIterator __first, _InputIterator __last, _Predicate __pred)</span></a>
-<a name="490"><span class="lineNum">     490 </span><span class="lineCov">        124 :     { return !std::none_of(__first, __last, __pred); }</span></a>
+<a name="489"><span class="lineNum">     489 </span><span class="lineCov">        134 :     any_of(_InputIterator __first, _InputIterator __last, _Predicate __pred)</span></a>
+<a name="490"><span class="lineNum">     490 </span><span class="lineCov">        134 :     { return !std::none_of(__first, __last, __pred); }</span></a>
 <a name="491"><span class="lineNum">     491 </span>            : </a>
 <a name="492"><span class="lineNum">     492 </span>            :   /**</a>
 <a name="493"><span class="lineNum">     493 </span>            :    *  @brief  Find the first element in a sequence for which a</a>
@@ -1878,12 +1878,12 @@
 <a name="1816"><span class="lineNum">    1816 </span>            :   template&lt;typename _RandomAccessIterator, typename _Compare&gt;</a>
 <a name="1817"><span class="lineNum">    1817 </span>            :     _GLIBCXX20_CONSTEXPR</a>
 <a name="1818"><span class="lineNum">    1818 </span>            :     void</a>
-<a name="1819"><span class="lineNum">    1819 </span><span class="lineCov">      44924 :     __insertion_sort(_RandomAccessIterator __first,</span></a>
+<a name="1819"><span class="lineNum">    1819 </span><span class="lineCov">      44925 :     __insertion_sort(_RandomAccessIterator __first,</span></a>
 <a name="1820"><span class="lineNum">    1820 </span>            :                      _RandomAccessIterator __last, _Compare __comp)</a>
 <a name="1821"><span class="lineNum">    1821 </span>            :     {</a>
-<a name="1822"><span class="lineNum">    1822 </span><span class="lineCov">      44924 :       if (__first == __last) return;</span></a>
+<a name="1822"><span class="lineNum">    1822 </span><span class="lineCov">      44925 :       if (__first == __last) return;</span></a>
 <a name="1823"><span class="lineNum">    1823 </span>            : </a>
-<a name="1824"><span class="lineNum">    1824 </span><span class="lineCov">     715240 :       for (_RandomAccessIterator __i = __first + 1; __i != __last; ++__i)</span></a>
+<a name="1824"><span class="lineNum">    1824 </span><span class="lineCov">     715241 :       for (_RandomAccessIterator __i = __first + 1; __i != __last; ++__i)</span></a>
 <a name="1825"><span class="lineNum">    1825 </span>            :         {</a>
 <a name="1826"><span class="lineNum">    1826 </span><span class="lineCov">     670316 :           if (__comp(__i, __first))</span></a>
 <a name="1827"><span class="lineNum">    1827 </span>            :             {</a>
@@ -1920,18 +1920,18 @@
 <a name="1858"><span class="lineNum">    1858 </span>            :   template&lt;typename _RandomAccessIterator, typename _Compare&gt;</a>
 <a name="1859"><span class="lineNum">    1859 </span>            :     _GLIBCXX20_CONSTEXPR</a>
 <a name="1860"><span class="lineNum">    1860 </span>            :     void</a>
-<a name="1861"><span class="lineNum">    1861 </span><span class="lineCov">      44924 :     __final_insertion_sort(_RandomAccessIterator __first,</span></a>
+<a name="1861"><span class="lineNum">    1861 </span><span class="lineCov">      44925 :     __final_insertion_sort(_RandomAccessIterator __first,</span></a>
 <a name="1862"><span class="lineNum">    1862 </span>            :                            _RandomAccessIterator __last, _Compare __comp)</a>
 <a name="1863"><span class="lineNum">    1863 </span>            :     {</a>
-<a name="1864"><span class="lineNum">    1864 </span><span class="lineCov">      44924 :       if (__last - __first &gt; int(_S_threshold))</span></a>
+<a name="1864"><span class="lineNum">    1864 </span><span class="lineCov">      44925 :       if (__last - __first &gt; int(_S_threshold))</span></a>
 <a name="1865"><span class="lineNum">    1865 </span>            :         {</a>
 <a name="1866"><span class="lineNum">    1866 </span><span class="lineCov">      44618 :           std::__insertion_sort(__first, __first + int(_S_threshold), __comp);</span></a>
 <a name="1867"><span class="lineNum">    1867 </span><span class="lineCov">      44618 :           std::__unguarded_insertion_sort(__first + int(_S_threshold), __last,</span></a>
 <a name="1868"><span class="lineNum">    1868 </span>            :                                           __comp);</a>
 <a name="1869"><span class="lineNum">    1869 </span>            :         }</a>
 <a name="1870"><span class="lineNum">    1870 </span>            :       else</a>
-<a name="1871"><span class="lineNum">    1871 </span><span class="lineCov">        306 :         std::__insertion_sort(__first, __last, __comp);</span></a>
-<a name="1872"><span class="lineNum">    1872 </span><span class="lineCov">      44924 :     }</span></a>
+<a name="1871"><span class="lineNum">    1871 </span><span class="lineCov">        307 :         std::__insertion_sort(__first, __last, __comp);</span></a>
+<a name="1872"><span class="lineNum">    1872 </span><span class="lineCov">      44925 :     }</span></a>
 <a name="1873"><span class="lineNum">    1873 </span>            : </a>
 <a name="1874"><span class="lineNum">    1874 </span>            :   /// This is a helper function...</a>
 <a name="1875"><span class="lineNum">    1875 </span>            :   template&lt;typename _RandomAccessIterator, typename _Compare&gt;</a>
@@ -1984,11 +1984,11 @@
 <a name="1922"><span class="lineNum">    1922 </span>            :   template&lt;typename _RandomAccessIterator, typename _Size, typename _Compare&gt;</a>
 <a name="1923"><span class="lineNum">    1923 </span>            :     _GLIBCXX20_CONSTEXPR</a>
 <a name="1924"><span class="lineNum">    1924 </span>            :     void</a>
-<a name="1925"><span class="lineNum">    1925 </span><span class="lineCov">    1288207 :     __introsort_loop(_RandomAccessIterator __first,</span></a>
+<a name="1925"><span class="lineNum">    1925 </span><span class="lineCov">    1288208 :     __introsort_loop(_RandomAccessIterator __first,</span></a>
 <a name="1926"><span class="lineNum">    1926 </span>            :                      _RandomAccessIterator __last,</a>
 <a name="1927"><span class="lineNum">    1927 </span>            :                      _Size __depth_limit, _Compare __comp)</a>
 <a name="1928"><span class="lineNum">    1928 </span>            :     {</a>
-<a name="1929"><span class="lineNum">    1929 </span><span class="lineCov">    2531490 :       while (__last - __first &gt; int(_S_threshold))</span></a>
+<a name="1929"><span class="lineNum">    1929 </span><span class="lineCov">    2531491 :       while (__last - __first &gt; int(_S_threshold))</span></a>
 <a name="1930"><span class="lineNum">    1930 </span>            :         {</a>
 <a name="1931"><span class="lineNum">    1931 </span><span class="lineCov">    1243349 :           if (__depth_limit == 0)</span></a>
 <a name="1932"><span class="lineNum">    1932 </span>            :             {</a>
@@ -2008,17 +2008,17 @@
 <a name="1946"><span class="lineNum">    1946 </span>            :   template&lt;typename _RandomAccessIterator, typename _Compare&gt;</a>
 <a name="1947"><span class="lineNum">    1947 </span>            :     _GLIBCXX20_CONSTEXPR</a>
 <a name="1948"><span class="lineNum">    1948 </span>            :     inline void</a>
-<a name="1949"><span class="lineNum">    1949 </span><span class="lineCov">      44953 :     __sort(_RandomAccessIterator __first, _RandomAccessIterator __last,</span></a>
+<a name="1949"><span class="lineNum">    1949 </span><span class="lineCov">      44954 :     __sort(_RandomAccessIterator __first, _RandomAccessIterator __last,</span></a>
 <a name="1950"><span class="lineNum">    1950 </span>            :            _Compare __comp)</a>
 <a name="1951"><span class="lineNum">    1951 </span>            :     {</a>
-<a name="1952"><span class="lineNum">    1952 </span><span class="lineCov">      44953 :       if (__first != __last)</span></a>
+<a name="1952"><span class="lineNum">    1952 </span><span class="lineCov">      44954 :       if (__first != __last)</span></a>
 <a name="1953"><span class="lineNum">    1953 </span>            :         {</a>
-<a name="1954"><span class="lineNum">    1954 </span><span class="lineCov">      44924 :           std::__introsort_loop(__first, __last,</span></a>
-<a name="1955"><span class="lineNum">    1955 </span><span class="lineCov">      44924 :                                 std::__lg(__last - __first) * 2,</span></a>
+<a name="1954"><span class="lineNum">    1954 </span><span class="lineCov">      44925 :           std::__introsort_loop(__first, __last,</span></a>
+<a name="1955"><span class="lineNum">    1955 </span><span class="lineCov">      44925 :                                 std::__lg(__last - __first) * 2,</span></a>
 <a name="1956"><span class="lineNum">    1956 </span>            :                                 __comp);</a>
-<a name="1957"><span class="lineNum">    1957 </span><span class="lineCov">      44924 :           std::__final_insertion_sort(__first, __last, __comp);</span></a>
+<a name="1957"><span class="lineNum">    1957 </span><span class="lineCov">      44925 :           std::__final_insertion_sort(__first, __last, __comp);</span></a>
 <a name="1958"><span class="lineNum">    1958 </span>            :         }</a>
-<a name="1959"><span class="lineNum">    1959 </span><span class="lineCov">      44953 :     }</span></a>
+<a name="1959"><span class="lineNum">    1959 </span><span class="lineCov">      44954 :     }</span></a>
 <a name="1960"><span class="lineNum">    1960 </span>            : </a>
 <a name="1961"><span class="lineNum">    1961 </span>            :   template&lt;typename _RandomAccessIterator, typename _Size, typename _Compare&gt;</a>
 <a name="1962"><span class="lineNum">    1962 </span>            :     _GLIBCXX20_CONSTEXPR</a>
@@ -3935,7 +3935,7 @@
 <a name="3873"><span class="lineNum">    3873 </span>            :   template&lt;typename _InputIterator, typename _Tp&gt;</a>
 <a name="3874"><span class="lineNum">    3874 </span>            :     _GLIBCXX20_CONSTEXPR</a>
 <a name="3875"><span class="lineNum">    3875 </span>            :     inline _InputIterator</a>
-<a name="3876"><span class="lineNum">    3876 </span><span class="lineCov">        519 :     find(_InputIterator __first, _InputIterator __last,</span></a>
+<a name="3876"><span class="lineNum">    3876 </span><span class="lineCov">        624 :     find(_InputIterator __first, _InputIterator __last,</span></a>
 <a name="3877"><span class="lineNum">    3877 </span>            :          const _Tp&amp; __val)</a>
 <a name="3878"><span class="lineNum">    3878 </span>            :     {</a>
 <a name="3879"><span class="lineNum">    3879 </span>            :       // concept requirements</a>
@@ -3943,8 +3943,8 @@
 <a name="3881"><span class="lineNum">    3881 </span>            :       __glibcxx_function_requires(_EqualOpConcept&lt;</a>
 <a name="3882"><span class="lineNum">    3882 </span>            :                 typename iterator_traits&lt;_InputIterator&gt;::value_type, _Tp&gt;)</a>
 <a name="3883"><span class="lineNum">    3883 </span>            :       __glibcxx_requires_valid_range(__first, __last);</a>
-<a name="3884"><span class="lineNum">    3884 </span><span class="lineCov">        519 :       return std::__find_if(__first, __last,</span></a>
-<a name="3885"><span class="lineNum">    3885 </span><span class="lineCov">        519 :                             __gnu_cxx::__ops::__iter_equals_val(__val));</span></a>
+<a name="3884"><span class="lineNum">    3884 </span><span class="lineCov">        624 :       return std::__find_if(__first, __last,</span></a>
+<a name="3885"><span class="lineNum">    3885 </span><span class="lineCov">        624 :                             __gnu_cxx::__ops::__iter_equals_val(__val));</span></a>
 <a name="3886"><span class="lineNum">    3886 </span>            :     }</a>
 <a name="3887"><span class="lineNum">    3887 </span>            : </a>
 <a name="3888"><span class="lineNum">    3888 </span>            :   /**</a>
@@ -3960,7 +3960,7 @@
 <a name="3898"><span class="lineNum">    3898 </span>            :   template&lt;typename _InputIterator, typename _Predicate&gt;</a>
 <a name="3899"><span class="lineNum">    3899 </span>            :     _GLIBCXX20_CONSTEXPR</a>
 <a name="3900"><span class="lineNum">    3900 </span>            :     inline _InputIterator</a>
-<a name="3901"><span class="lineNum">    3901 </span><span class="lineCov">        313 :     find_if(_InputIterator __first, _InputIterator __last,</span></a>
+<a name="3901"><span class="lineNum">    3901 </span><span class="lineCov">        373 :     find_if(_InputIterator __first, _InputIterator __last,</span></a>
 <a name="3902"><span class="lineNum">    3902 </span>            :             _Predicate __pred)</a>
 <a name="3903"><span class="lineNum">    3903 </span>            :     {</a>
 <a name="3904"><span class="lineNum">    3904 </span>            :       // concept requirements</a>
@@ -3969,8 +3969,8 @@
 <a name="3907"><span class="lineNum">    3907 </span>            :               typename iterator_traits&lt;_InputIterator&gt;::value_type&gt;)</a>
 <a name="3908"><span class="lineNum">    3908 </span>            :       __glibcxx_requires_valid_range(__first, __last);</a>
 <a name="3909"><span class="lineNum">    3909 </span>            : </a>
-<a name="3910"><span class="lineNum">    3910 </span><span class="lineCov">        171 :       return std::__find_if(__first, __last,</span></a>
-<a name="3911"><span class="lineNum">    3911 </span><span class="lineCov">        313 :                             __gnu_cxx::__ops::__pred_iter(__pred));</span></a>
+<a name="3910"><span class="lineNum">    3910 </span><span class="lineCov">        181 :       return std::__find_if(__first, __last,</span></a>
+<a name="3911"><span class="lineNum">    3911 </span><span class="lineCov">        373 :                             __gnu_cxx::__ops::__pred_iter(__pred));</span></a>
 <a name="3912"><span class="lineNum">    3912 </span>            :     }</a>
 <a name="3913"><span class="lineNum">    3913 </span>            : </a>
 <a name="3914"><span class="lineNum">    3914 </span>            :   /**</a>
@@ -4922,7 +4922,7 @@
 <a name="4860"><span class="lineNum">    4860 </span>            :   template&lt;typename _RandomAccessIterator, typename _Compare&gt;</a>
 <a name="4861"><span class="lineNum">    4861 </span>            :     _GLIBCXX20_CONSTEXPR</a>
 <a name="4862"><span class="lineNum">    4862 </span>            :     inline void</a>
-<a name="4863"><span class="lineNum">    4863 </span><span class="lineCov">      22489 :     sort(_RandomAccessIterator __first, _RandomAccessIterator __last,</span></a>
+<a name="4863"><span class="lineNum">    4863 </span><span class="lineCov">      22490 :     sort(_RandomAccessIterator __first, _RandomAccessIterator __last,</span></a>
 <a name="4864"><span class="lineNum">    4864 </span>            :          _Compare __comp)</a>
 <a name="4865"><span class="lineNum">    4865 </span>            :     {</a>
 <a name="4866"><span class="lineNum">    4866 </span>            :       // concept requirements</a>
@@ -4934,8 +4934,8 @@
 <a name="4872"><span class="lineNum">    4872 </span>            :       __glibcxx_requires_valid_range(__first, __last);</a>
 <a name="4873"><span class="lineNum">    4873 </span>            :       __glibcxx_requires_irreflexive_pred(__first, __last, __comp);</a>
 <a name="4874"><span class="lineNum">    4874 </span>            : </a>
-<a name="4875"><span class="lineNum">    4875 </span><span class="lineCov">      22489 :       std::__sort(__first, __last, __gnu_cxx::__ops::__iter_comp_iter(__comp));</span></a>
-<a name="4876"><span class="lineNum">    4876 </span><span class="lineCov">      22489 :     }</span></a>
+<a name="4875"><span class="lineNum">    4875 </span><span class="lineCov">      22490 :       std::__sort(__first, __last, __gnu_cxx::__ops::__iter_comp_iter(__comp));</span></a>
+<a name="4876"><span class="lineNum">    4876 </span><span class="lineCov">      22490 :     }</span></a>
 <a name="4877"><span class="lineNum">    4877 </span>            : </a>
 <a name="4878"><span class="lineNum">    4878 </span>            :   template&lt;typename _InputIterator1, typename _InputIterator2,</a>
 <a name="4879"><span class="lineNum">    4879 </span>            :            typename _OutputIterator, typename _Compare&gt;</a>

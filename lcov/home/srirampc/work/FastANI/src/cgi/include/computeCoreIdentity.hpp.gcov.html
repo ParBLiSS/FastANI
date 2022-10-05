@@ -31,18 +31,18 @@
             <td class="headerValue">FastANITest.out</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">113</td>
+            <td class="headerCovTableEntry">179</td>
             <td class="headerCovTableEntry">183</td>
-            <td class="headerCovTableEntryLo">61.7 %</td>
+            <td class="headerCovTableEntryHi">97.8 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-10-03 16:47:33</td>
+            <td class="headerValue">2022-10-05 13:58:09</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">7</td>
             <td class="headerCovTableEntry">9</td>
-            <td class="headerCovTableEntryMed">77.8 %</td>
+            <td class="headerCovTableEntry">9</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr><td><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -162,54 +162,54 @@
 <a name="100"><span class="lineNum">     100 </span>            :    * @param[in]   queryFileNo           query genome is parameters.querySequences[queryFileNo]</a>
 <a name="101"><span class="lineNum">     101 </span>            :    * @param[in]   fileName              file name where results will be reported</a>
 <a name="102"><span class="lineNum">     102 </span>            :    */</a>
-<a name="103"><span class="lineNum">     103 </span><span class="lineNoCov">          0 :   void outputVisualizationFile(skch::Parameters &amp;parameters,</span></a>
+<a name="103"><span class="lineNum">     103 </span><span class="lineCov">         13 :   void outputVisualizationFile(skch::Parameters &amp;parameters,</span></a>
 <a name="104"><span class="lineNum">     104 </span>            :       std::vector&lt;MappingResult_CGI&gt; &amp;mappings_2way,</a>
 <a name="105"><span class="lineNum">     105 </span>            :       skch::Map &amp;mapper,</a>
 <a name="106"><span class="lineNum">     106 </span>            :       skch::Sketch &amp;refSketch,</a>
 <a name="107"><span class="lineNum">     107 </span>            :       uint64_t queryFileNo,</a>
 <a name="108"><span class="lineNum">     108 </span>            :       std::string &amp;fileName)</a>
 <a name="109"><span class="lineNum">     109 </span>            :   {</a>
-<a name="110"><span class="lineNum">     110 </span><span class="lineNoCov">          0 :     std::ofstream outstrm(fileName + &quot;.visual&quot;, std::ios::app);</span></a>
+<a name="110"><span class="lineNum">     110 </span><span class="lineCov">         13 :     std::ofstream outstrm(fileName + &quot;.visual&quot;, std::ios::app);</span></a>
 <a name="111"><span class="lineNum">     111 </span>            : </a>
 <a name="112"><span class="lineNum">     112 </span>            :     //Shift offsets for converting from local (to contig) to global (to genome)</a>
-<a name="113"><span class="lineNum">     113 </span><span class="lineNoCov">          0 :     std::vector &lt;skch::offset_t&gt; queryOffsetAdder (mapper.metadata.size());</span></a>
-<a name="114"><span class="lineNum">     114 </span><span class="lineNoCov">          0 :     std::vector &lt;skch::offset_t&gt; refOffsetAdder (refSketch.metadata.size());</span></a>
+<a name="113"><span class="lineNum">     113 </span><span class="lineCov">         13 :     std::vector &lt;skch::offset_t&gt; queryOffsetAdder (mapper.metadata.size());</span></a>
+<a name="114"><span class="lineNum">     114 </span><span class="lineCov">         13 :     std::vector &lt;skch::offset_t&gt; refOffsetAdder (refSketch.metadata.size());</span></a>
 <a name="115"><span class="lineNum">     115 </span>            : </a>
-<a name="116"><span class="lineNum">     116 </span><span class="lineNoCov">          0 :     for(int i = 0; i &lt; mapper.metadata.size(); i++)</span></a>
+<a name="116"><span class="lineNum">     116 </span><span class="lineCov">      22500 :     for(int i = 0; i &lt; mapper.metadata.size(); i++)</span></a>
 <a name="117"><span class="lineNum">     117 </span>            :     {</a>
-<a name="118"><span class="lineNum">     118 </span><span class="lineNoCov">          0 :       if(i == 0)</span></a>
-<a name="119"><span class="lineNum">     119 </span><span class="lineNoCov">          0 :         queryOffsetAdder[i] = 0;</span></a>
+<a name="118"><span class="lineNum">     118 </span><span class="lineCov">      22487 :       if(i == 0)</span></a>
+<a name="119"><span class="lineNum">     119 </span><span class="lineCov">         13 :         queryOffsetAdder[i] = 0;</span></a>
 <a name="120"><span class="lineNum">     120 </span>            :       else</a>
-<a name="121"><span class="lineNum">     121 </span><span class="lineNoCov">          0 :         queryOffsetAdder[i] = queryOffsetAdder[i-1] + mapper.metadata[i-1].len;</span></a>
+<a name="121"><span class="lineNum">     121 </span><span class="lineCov">      22474 :         queryOffsetAdder[i] = queryOffsetAdder[i-1] + mapper.metadata[i-1].len;</span></a>
 <a name="122"><span class="lineNum">     122 </span>            :     }</a>
 <a name="123"><span class="lineNum">     123 </span>            : </a>
-<a name="124"><span class="lineNum">     124 </span><span class="lineNoCov">          0 :     for(int i = 0; i &lt; refSketch.metadata.size(); i++)</span></a>
+<a name="124"><span class="lineNum">     124 </span><span class="lineCov">        497 :     for(int i = 0; i &lt; refSketch.metadata.size(); i++)</span></a>
 <a name="125"><span class="lineNum">     125 </span>            :     {</a>
-<a name="126"><span class="lineNum">     126 </span><span class="lineNoCov">          0 :       if(i == 0)</span></a>
-<a name="127"><span class="lineNum">     127 </span><span class="lineNoCov">          0 :         refOffsetAdder[i] = 0;</span></a>
+<a name="126"><span class="lineNum">     126 </span><span class="lineCov">        484 :       if(i == 0)</span></a>
+<a name="127"><span class="lineNum">     127 </span><span class="lineCov">         13 :         refOffsetAdder[i] = 0;</span></a>
 <a name="128"><span class="lineNum">     128 </span>            :       else</a>
-<a name="129"><span class="lineNum">     129 </span><span class="lineNoCov">          0 :         refOffsetAdder[i] = refOffsetAdder[i-1] + refSketch.metadata[i-1].len;</span></a>
+<a name="129"><span class="lineNum">     129 </span><span class="lineCov">        471 :         refOffsetAdder[i] = refOffsetAdder[i-1] + refSketch.metadata[i-1].len;</span></a>
 <a name="130"><span class="lineNum">     130 </span>            :     }</a>
 <a name="131"><span class="lineNum">     131 </span>            : </a>
 <a name="132"><span class="lineNum">     132 </span>            :     //Report all mappings that contribute to core-genome identity estimate</a>
 <a name="133"><span class="lineNum">     133 </span>            :     //Format the output to blast tabular way (outfmt 6)</a>
-<a name="134"><span class="lineNum">     134 </span><span class="lineNoCov">          0 :     for(auto &amp;e : mappings_2way)</span></a>
+<a name="134"><span class="lineNum">     134 </span><span class="lineCov">      28790 :     for(auto &amp;e : mappings_2way)</span></a>
 <a name="135"><span class="lineNum">     135 </span>            :     {</a>
-<a name="136"><span class="lineNum">     136 </span><span class="lineNoCov">          0 :       outstrm &lt;&lt; parameters.querySequences[queryFileNo]</span></a>
-<a name="137"><span class="lineNum">     137 </span><span class="lineNoCov">          0 :         &lt;&lt; &quot;\t&quot; &lt;&lt; parameters.refSequences[e.genomeId]</span></a>
-<a name="138"><span class="lineNum">     138 </span><span class="lineNoCov">          0 :         &lt;&lt; &quot;\t&quot; &lt;&lt; e.nucIdentity</span></a>
+<a name="136"><span class="lineNum">     136 </span><span class="lineCov">      28777 :       outstrm &lt;&lt; parameters.querySequences[queryFileNo]</span></a>
+<a name="137"><span class="lineNum">     137 </span><span class="lineCov">      28777 :         &lt;&lt; &quot;\t&quot; &lt;&lt; parameters.refSequences[e.genomeId]</span></a>
+<a name="138"><span class="lineNum">     138 </span><span class="lineCov">      28777 :         &lt;&lt; &quot;\t&quot; &lt;&lt; e.nucIdentity</span></a>
 <a name="139"><span class="lineNum">     139 </span>            :         &lt;&lt; &quot;\t&quot; &lt;&lt; &quot;NA&quot;</a>
 <a name="140"><span class="lineNum">     140 </span>            :         &lt;&lt; &quot;\t&quot; &lt;&lt; &quot;NA&quot;</a>
 <a name="141"><span class="lineNum">     141 </span>            :         &lt;&lt; &quot;\t&quot; &lt;&lt; &quot;NA&quot;</a>
-<a name="142"><span class="lineNum">     142 </span><span class="lineNoCov">          0 :         &lt;&lt; &quot;\t&quot; &lt;&lt; e.queryStartPos                                    + queryOffsetAdder[e.querySeqId] </span></a>
-<a name="143"><span class="lineNum">     143 </span><span class="lineNoCov">          0 :         &lt;&lt; &quot;\t&quot; &lt;&lt; e.queryStartPos + parameters.minReadLength - 1     + queryOffsetAdder[e.querySeqId]</span></a>
-<a name="144"><span class="lineNum">     144 </span><span class="lineNoCov">          0 :         &lt;&lt; &quot;\t&quot; &lt;&lt; e.refStartPos                                      + refOffsetAdder[e.refSequenceId]</span></a>
-<a name="145"><span class="lineNum">     145 </span><span class="lineNoCov">          0 :         &lt;&lt; &quot;\t&quot; &lt;&lt; e.refStartPos + parameters.minReadLength - 1       + refOffsetAdder[e.refSequenceId]</span></a>
+<a name="142"><span class="lineNum">     142 </span><span class="lineCov">      28777 :         &lt;&lt; &quot;\t&quot; &lt;&lt; e.queryStartPos                                    + queryOffsetAdder[e.querySeqId] </span></a>
+<a name="143"><span class="lineNum">     143 </span><span class="lineCov">      28777 :         &lt;&lt; &quot;\t&quot; &lt;&lt; e.queryStartPos + parameters.minReadLength - 1     + queryOffsetAdder[e.querySeqId]</span></a>
+<a name="144"><span class="lineNum">     144 </span><span class="lineCov">      28777 :         &lt;&lt; &quot;\t&quot; &lt;&lt; e.refStartPos                                      + refOffsetAdder[e.refSequenceId]</span></a>
+<a name="145"><span class="lineNum">     145 </span><span class="lineCov">      28777 :         &lt;&lt; &quot;\t&quot; &lt;&lt; e.refStartPos + parameters.minReadLength - 1       + refOffsetAdder[e.refSequenceId]</span></a>
 <a name="146"><span class="lineNum">     146 </span>            :         &lt;&lt; &quot;\t&quot; &lt;&lt; &quot;NA&quot;</a>
 <a name="147"><span class="lineNum">     147 </span>            :         &lt;&lt; &quot;\t&quot; &lt;&lt; &quot;NA&quot;</a>
-<a name="148"><span class="lineNum">     148 </span><span class="lineNoCov">          0 :         &lt;&lt; &quot;\n&quot;;</span></a>
+<a name="148"><span class="lineNum">     148 </span><span class="lineCov">      28777 :         &lt;&lt; &quot;\n&quot;;</span></a>
 <a name="149"><span class="lineNum">     149 </span>            :     }</a>
-<a name="150"><span class="lineNum">     150 </span><span class="lineNoCov">          0 :   }</span></a>
+<a name="150"><span class="lineNum">     150 </span><span class="lineCov">         13 :   }</span></a>
 <a name="151"><span class="lineNum">     151 </span>            : </a>
 <a name="152"><span class="lineNum">     152 </span>            :   /**</a>
 <a name="153"><span class="lineNum">     153 </span>            :    * @brief                             compute and report AAI/ANI </a>
@@ -316,7 +316,7 @@
 <a name="254"><span class="lineNum">     254 </span>            :     {</a>
 <a name="255"><span class="lineNum">     255 </span><span class="lineCov">         13 :       if(parameters.visualize)</span></a>
 <a name="256"><span class="lineNum">     256 </span>            :       {</a>
-<a name="257"><span class="lineNum">     257 </span><span class="lineNoCov">          0 :         outputVisualizationFile(parameters, mappings_2way, mapper, refSketch, queryFileNo, fileName);</span></a>
+<a name="257"><span class="lineNum">     257 </span><span class="lineCov">         13 :         outputVisualizationFile(parameters, mappings_2way, mapper, refSketch, queryFileNo, fileName);</span></a>
 <a name="258"><span class="lineNum">     258 </span>            :       }</a>
 <a name="259"><span class="lineNum">     259 </span>            :     }</a>
 <a name="260"><span class="lineNum">     260 </span>            : </a>
@@ -409,63 +409,63 @@
 <a name="347"><span class="lineNum">     347 </span>            :    * @param[in]   CGI_ResultsVector     results</a>
 <a name="348"><span class="lineNum">     348 </span>            :    * @param[in]   fileName              file name where results will be reported</a>
 <a name="349"><span class="lineNum">     349 </span>            :    */</a>
-<a name="350"><span class="lineNum">     350 </span><span class="lineNoCov">          0 :   void outputPhylip(skch::Parameters &amp;parameters,</span></a>
+<a name="350"><span class="lineNum">     350 </span><span class="lineCov">          5 :   void outputPhylip(skch::Parameters &amp;parameters,</span></a>
 <a name="351"><span class="lineNum">     351 </span>            :       std::unordered_map &lt;std::string, uint64_t&gt; &amp;genomeLengths,</a>
 <a name="352"><span class="lineNum">     352 </span>            :       std::vector&lt;cgi::CGI_Results&gt; &amp;CGI_ResultsVector,</a>
 <a name="353"><span class="lineNum">     353 </span>            :       std::string &amp;fileName)</a>
 <a name="354"><span class="lineNum">     354 </span>            :   {</a>
-<a name="355"><span class="lineNum">     355 </span><span class="lineNoCov">          0 :     std::unordered_map &lt;std::string, int&gt; genome2Int;    // name of genome -&gt; integer</span></a>
-<a name="356"><span class="lineNum">     356 </span><span class="lineNoCov">          0 :     std::unordered_map &lt;int, std::string&gt; genome2Int_rev; // integer -&gt; name of genome</span></a>
+<a name="355"><span class="lineNum">     355 </span><span class="lineCov">          5 :     std::unordered_map &lt;std::string, int&gt; genome2Int;    // name of genome -&gt; integer</span></a>
+<a name="356"><span class="lineNum">     356 </span><span class="lineCov">          5 :     std::unordered_map &lt;int, std::string&gt; genome2Int_rev; // integer -&gt; name of genome</span></a>
 <a name="357"><span class="lineNum">     357 </span>            : </a>
 <a name="358"><span class="lineNum">     358 </span>            :     //Assign unique index to the set of query and reference genomes</a>
-<a name="359"><span class="lineNum">     359 </span><span class="lineNoCov">          0 :     for(auto &amp;e : parameters.querySequences)</span></a>
+<a name="359"><span class="lineNum">     359 </span><span class="lineCov">         15 :     for(auto &amp;e : parameters.querySequences)</span></a>
 <a name="360"><span class="lineNum">     360 </span>            :     {</a>
-<a name="361"><span class="lineNum">     361 </span><span class="lineNoCov">          0 :       auto id = genome2Int.size();</span></a>
-<a name="362"><span class="lineNum">     362 </span><span class="lineNoCov">          0 :       if( genome2Int.find(e) == genome2Int.end() )</span></a>
+<a name="361"><span class="lineNum">     361 </span><span class="lineCov">         10 :       auto id = genome2Int.size();</span></a>
+<a name="362"><span class="lineNum">     362 </span><span class="lineCov">         10 :       if( genome2Int.find(e) == genome2Int.end() )</span></a>
 <a name="363"><span class="lineNum">     363 </span>            :       {</a>
-<a name="364"><span class="lineNum">     364 </span><span class="lineNoCov">          0 :         genome2Int [e] = id;</span></a>
-<a name="365"><span class="lineNum">     365 </span><span class="lineNoCov">          0 :         genome2Int_rev [id] = e;</span></a>
+<a name="364"><span class="lineNum">     364 </span><span class="lineCov">         10 :         genome2Int [e] = id;</span></a>
+<a name="365"><span class="lineNum">     365 </span><span class="lineCov">         10 :         genome2Int_rev [id] = e;</span></a>
 <a name="366"><span class="lineNum">     366 </span>            :       }</a>
 <a name="367"><span class="lineNum">     367 </span>            :     }</a>
 <a name="368"><span class="lineNum">     368 </span>            : </a>
-<a name="369"><span class="lineNum">     369 </span><span class="lineNoCov">          0 :     for(auto &amp;e : parameters.refSequences)</span></a>
+<a name="369"><span class="lineNum">     369 </span><span class="lineCov">         13 :     for(auto &amp;e : parameters.refSequences)</span></a>
 <a name="370"><span class="lineNum">     370 </span>            :     {</a>
-<a name="371"><span class="lineNum">     371 </span><span class="lineNoCov">          0 :       auto id = genome2Int.size();</span></a>
-<a name="372"><span class="lineNum">     372 </span><span class="lineNoCov">          0 :       if( genome2Int.find(e) == genome2Int.end() )</span></a>
+<a name="371"><span class="lineNum">     371 </span><span class="lineCov">          8 :       auto id = genome2Int.size();</span></a>
+<a name="372"><span class="lineNum">     372 </span><span class="lineCov">          8 :       if( genome2Int.find(e) == genome2Int.end() )</span></a>
 <a name="373"><span class="lineNum">     373 </span>            :       {</a>
-<a name="374"><span class="lineNum">     374 </span><span class="lineNoCov">          0 :         genome2Int [e] = id;</span></a>
-<a name="375"><span class="lineNum">     375 </span><span class="lineNoCov">          0 :         genome2Int_rev [id] = e;</span></a>
+<a name="374"><span class="lineNum">     374 </span><span class="lineCov">          8 :         genome2Int [e] = id;</span></a>
+<a name="375"><span class="lineNum">     375 </span><span class="lineCov">          8 :         genome2Int_rev [id] = e;</span></a>
 <a name="376"><span class="lineNum">     376 </span>            :       }</a>
 <a name="377"><span class="lineNum">     377 </span>            :     }</a>
 <a name="378"><span class="lineNum">     378 </span>            : </a>
-<a name="379"><span class="lineNum">     379 </span><span class="lineNoCov">          0 :     int totalGenomes = genome2Int.size();</span></a>
+<a name="379"><span class="lineNum">     379 </span><span class="lineCov">          5 :     int totalGenomes = genome2Int.size();</span></a>
 <a name="380"><span class="lineNum">     380 </span>            : </a>
 <a name="381"><span class="lineNum">     381 </span>            :     //create a square 2-d matrix</a>
-<a name="382"><span class="lineNum">     382 </span><span class="lineNoCov">          0 :     std::vector&lt; std::vector&lt;float&gt; &gt; fastANI_matrix (totalGenomes,  std::vector&lt;float&gt; (totalGenomes, 0.0));</span></a>
+<a name="382"><span class="lineNum">     382 </span><span class="lineCov">         10 :     std::vector&lt; std::vector&lt;float&gt; &gt; fastANI_matrix (totalGenomes,  std::vector&lt;float&gt; (totalGenomes, 0.0));</span></a>
 <a name="383"><span class="lineNum">     383 </span>            : </a>
 <a name="384"><span class="lineNum">     384 </span>            :     //transform FastANI results into 3-tuples</a>
-<a name="385"><span class="lineNum">     385 </span><span class="lineNoCov">          0 :     for(auto &amp;e : CGI_ResultsVector)</span></a>
+<a name="385"><span class="lineNum">     385 </span><span class="lineCov">         22 :     for(auto &amp;e : CGI_ResultsVector)</span></a>
 <a name="386"><span class="lineNum">     386 </span>            :     {</a>
-<a name="387"><span class="lineNum">     387 </span><span class="lineNoCov">          0 :       std::string qryGenome = parameters.querySequences[e.qryGenomeId];</span></a>
-<a name="388"><span class="lineNum">     388 </span><span class="lineNoCov">          0 :       std::string refGenome = parameters.refSequences[e.refGenomeId];</span></a>
+<a name="387"><span class="lineNum">     387 </span><span class="lineCov">         17 :       std::string qryGenome = parameters.querySequences[e.qryGenomeId];</span></a>
+<a name="388"><span class="lineNum">     388 </span><span class="lineCov">         17 :       std::string refGenome = parameters.refSequences[e.refGenomeId];</span></a>
 <a name="389"><span class="lineNum">     389 </span>            : </a>
-<a name="390"><span class="lineNum">     390 </span><span class="lineNoCov">          0 :       assert(genomeLengths.find(qryGenome) != genomeLengths.end());</span></a>
-<a name="391"><span class="lineNum">     391 </span><span class="lineNoCov">          0 :       assert(genomeLengths.find(refGenome) != genomeLengths.end());</span></a>
+<a name="390"><span class="lineNum">     390 </span><span class="lineCov">         17 :       assert(genomeLengths.find(qryGenome) != genomeLengths.end());</span></a>
+<a name="391"><span class="lineNum">     391 </span><span class="lineCov">         17 :       assert(genomeLengths.find(refGenome) != genomeLengths.end());</span></a>
 <a name="392"><span class="lineNum">     392 </span>            : </a>
-<a name="393"><span class="lineNum">     393 </span><span class="lineNoCov">          0 :       uint64_t queryGenomeLength = genomeLengths[qryGenome];</span></a>
-<a name="394"><span class="lineNum">     394 </span><span class="lineNoCov">          0 :       uint64_t refGenomeLength = genomeLengths[refGenome]; </span></a>
-<a name="395"><span class="lineNum">     395 </span><span class="lineNoCov">          0 :       uint64_t minGenomeLength = std::min(queryGenomeLength, refGenomeLength);</span></a>
-<a name="396"><span class="lineNum">     396 </span><span class="lineNoCov">          0 :       uint64_t sharedLength = e.countSeq * parameters.minReadLength;</span></a>
+<a name="393"><span class="lineNum">     393 </span><span class="lineCov">         17 :       uint64_t queryGenomeLength = genomeLengths[qryGenome];</span></a>
+<a name="394"><span class="lineNum">     394 </span><span class="lineCov">         17 :       uint64_t refGenomeLength = genomeLengths[refGenome]; </span></a>
+<a name="395"><span class="lineNum">     395 </span><span class="lineCov">         17 :       uint64_t minGenomeLength = std::min(queryGenomeLength, refGenomeLength);</span></a>
+<a name="396"><span class="lineNum">     396 </span><span class="lineCov">         17 :       uint64_t sharedLength = e.countSeq * parameters.minReadLength;</span></a>
 <a name="397"><span class="lineNum">     397 </span>            : </a>
 <a name="398"><span class="lineNum">     398 </span>            :       //Checking if shared genome is above a certain fraction of genome length</a>
-<a name="399"><span class="lineNum">     399 </span><span class="lineNoCov">          0 :       if(sharedLength &gt;= minGenomeLength * parameters.minFraction)</span></a>
+<a name="399"><span class="lineNum">     399 </span><span class="lineCov">         17 :       if(sharedLength &gt;= minGenomeLength * parameters.minFraction)</span></a>
 <a name="400"><span class="lineNum">     400 </span>            :       {</a>
-<a name="401"><span class="lineNum">     401 </span><span class="lineNoCov">          0 :         int qGenome = genome2Int [ qryGenome ];</span></a>
-<a name="402"><span class="lineNum">     402 </span><span class="lineNoCov">          0 :         int rGenome = genome2Int [ refGenome ];</span></a>
+<a name="401"><span class="lineNum">     401 </span><span class="lineCov">         17 :         int qGenome = genome2Int [ qryGenome ];</span></a>
+<a name="402"><span class="lineNum">     402 </span><span class="lineCov">         17 :         int rGenome = genome2Int [ refGenome ];</span></a>
 <a name="403"><span class="lineNum">     403 </span>            : </a>
-<a name="404"><span class="lineNum">     404 </span><span class="lineNoCov">          0 :         if (qGenome != rGenome)   //ignore if both genomes are same</span></a>
+<a name="404"><span class="lineNum">     404 </span><span class="lineCov">         17 :         if (qGenome != rGenome)   //ignore if both genomes are same</span></a>
 <a name="405"><span class="lineNum">     405 </span>            :         {</a>
-<a name="406"><span class="lineNum">     406 </span><span class="lineNoCov">          0 :           if (qGenome &gt; rGenome)</span></a>
+<a name="406"><span class="lineNum">     406 </span><span class="lineCov">         17 :           if (qGenome &gt; rGenome)</span></a>
 <a name="407"><span class="lineNum">     407 </span>            :           {</a>
 <a name="408"><span class="lineNum">     408 </span><span class="lineNoCov">          0 :             if (fastANI_matrix[qGenome][rGenome] &gt; 0)</span></a>
 <a name="409"><span class="lineNum">     409 </span><span class="lineNoCov">          0 :               fastANI_matrix[qGenome][rGenome] = (fastANI_matrix[qGenome][rGenome] + e.identity)/2;</span></a>
@@ -474,37 +474,37 @@
 <a name="412"><span class="lineNum">     412 </span>            :           }</a>
 <a name="413"><span class="lineNum">     413 </span>            :           else</a>
 <a name="414"><span class="lineNum">     414 </span>            :           {</a>
-<a name="415"><span class="lineNum">     415 </span><span class="lineNoCov">          0 :             if (fastANI_matrix[rGenome][qGenome] &gt; 0)</span></a>
+<a name="415"><span class="lineNum">     415 </span><span class="lineCov">         17 :             if (fastANI_matrix[rGenome][qGenome] &gt; 0)</span></a>
 <a name="416"><span class="lineNum">     416 </span><span class="lineNoCov">          0 :               fastANI_matrix[rGenome][qGenome] = (fastANI_matrix[rGenome][qGenome] + e.identity)/2;</span></a>
 <a name="417"><span class="lineNum">     417 </span>            :             else</a>
-<a name="418"><span class="lineNum">     418 </span><span class="lineNoCov">          0 :               fastANI_matrix[rGenome][qGenome] = e.identity;</span></a>
+<a name="418"><span class="lineNum">     418 </span><span class="lineCov">         17 :               fastANI_matrix[rGenome][qGenome] = e.identity;</span></a>
 <a name="419"><span class="lineNum">     419 </span>            :           }</a>
 <a name="420"><span class="lineNum">     420 </span>            :         }</a>
 <a name="421"><span class="lineNum">     421 </span>            :       }</a>
-<a name="422"><span class="lineNum">     422 </span><span class="lineNoCov">          0 :     }</span></a>
+<a name="422"><span class="lineNum">     422 </span><span class="lineCov">         17 :     }</span></a>
 <a name="423"><span class="lineNum">     423 </span>            : </a>
-<a name="424"><span class="lineNum">     424 </span><span class="lineNoCov">          0 :     std::ofstream outstrm(fileName + &quot;.matrix&quot;);</span></a>
+<a name="424"><span class="lineNum">     424 </span><span class="lineCov">          5 :     std::ofstream outstrm(fileName + &quot;.matrix&quot;);</span></a>
 <a name="425"><span class="lineNum">     425 </span>            : </a>
-<a name="426"><span class="lineNum">     426 </span><span class="lineNoCov">          0 :     outstrm &lt;&lt; totalGenomes &lt;&lt; &quot;\n&quot;;</span></a>
+<a name="426"><span class="lineNum">     426 </span><span class="lineCov">          5 :     outstrm &lt;&lt; totalGenomes &lt;&lt; &quot;\n&quot;;</span></a>
 <a name="427"><span class="lineNum">     427 </span>            : </a>
 <a name="428"><span class="lineNum">     428 </span>            :     //Report matrix</a>
-<a name="429"><span class="lineNum">     429 </span><span class="lineNoCov">          0 :     for (int i = 0; i &lt; totalGenomes; i++)</span></a>
+<a name="429"><span class="lineNum">     429 </span><span class="lineCov">         23 :     for (int i = 0; i &lt; totalGenomes; i++)</span></a>
 <a name="430"><span class="lineNum">     430 </span>            :     {</a>
 <a name="431"><span class="lineNum">     431 </span>            :       //output genome name</a>
-<a name="432"><span class="lineNum">     432 </span><span class="lineNoCov">          0 :       outstrm &lt;&lt; genome2Int_rev[i];</span></a>
+<a name="432"><span class="lineNum">     432 </span><span class="lineCov">         18 :       outstrm &lt;&lt; genome2Int_rev[i];</span></a>
 <a name="433"><span class="lineNum">     433 </span>            : </a>
-<a name="434"><span class="lineNum">     434 </span><span class="lineNoCov">          0 :       for (int j = 0; j &lt; i; j++)</span></a>
+<a name="434"><span class="lineNum">     434 </span><span class="lineCov">         45 :       for (int j = 0; j &lt; i; j++)</span></a>
 <a name="435"><span class="lineNum">     435 </span>            :       {</a>
 <a name="436"><span class="lineNum">     436 </span>            :         //output ani values</a>
 <a name="437"><span class="lineNum">     437 </span>            :         //average if computed twice</a>
-<a name="438"><span class="lineNum">     438 </span><span class="lineNoCov">          0 :         std::string val = fastANI_matrix[i][j] &gt; 0.0 ? std::to_string (fastANI_matrix[i][j]) : &quot;NA&quot;;</span></a>
-<a name="439"><span class="lineNum">     439 </span><span class="lineNoCov">          0 :         outstrm &lt;&lt; &quot;\t&quot; &lt;&lt; val; </span></a>
-<a name="440"><span class="lineNum">     440 </span><span class="lineNoCov">          0 :       }</span></a>
-<a name="441"><span class="lineNum">     441 </span><span class="lineNoCov">          0 :       outstrm &lt;&lt; &quot;\n&quot;;</span></a>
+<a name="438"><span class="lineNum">     438 </span><span class="lineCov">         27 :         std::string val = fastANI_matrix[i][j] &gt; 0.0 ? std::to_string (fastANI_matrix[i][j]) : &quot;NA&quot;;</span></a>
+<a name="439"><span class="lineNum">     439 </span><span class="lineCov">         27 :         outstrm &lt;&lt; &quot;\t&quot; &lt;&lt; val; </span></a>
+<a name="440"><span class="lineNum">     440 </span><span class="lineCov">         27 :       }</span></a>
+<a name="441"><span class="lineNum">     441 </span><span class="lineCov">         18 :       outstrm &lt;&lt; &quot;\n&quot;;</span></a>
 <a name="442"><span class="lineNum">     442 </span>            :     }</a>
 <a name="443"><span class="lineNum">     443 </span>            : </a>
-<a name="444"><span class="lineNum">     444 </span><span class="lineNoCov">          0 :     outstrm.close();</span></a>
-<a name="445"><span class="lineNum">     445 </span><span class="lineNoCov">          0 :   }</span></a>
+<a name="444"><span class="lineNum">     444 </span><span class="lineCov">          5 :     outstrm.close();</span></a>
+<a name="445"><span class="lineNum">     445 </span><span class="lineCov">          5 :   }</span></a>
 <a name="446"><span class="lineNum">     446 </span>            : </a>
 <a name="447"><span class="lineNum">     447 </span>            :   /**</a>
 <a name="448"><span class="lineNum">     448 </span>            :    * @brief                         generate multiple parameter objects from one</a>

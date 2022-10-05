@@ -37,12 +37,12 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-10-03 16:47:33</td>
+            <td class="headerValue">2022-10-05 13:58:09</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">16</td>
             <td class="headerCovTableEntry">24</td>
-            <td class="headerCovTableEntryLo">66.7 %</td>
+            <td class="headerCovTableEntry">24</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -161,24 +161,24 @@
 <a name="99"><span class="lineNum">      99 </span>            :       __aligned_buffer(std::nullptr_t) { }</a>
 <a name="100"><span class="lineNum">     100 </span>            : </a>
 <a name="101"><span class="lineNum">     101 </span>            :       void*</a>
-<a name="102"><span class="lineNum">     102 </span><span class="lineCov">   15907864 :       _M_addr() noexcept</span></a>
+<a name="102"><span class="lineNum">     102 </span><span class="lineCov">   15908058 :       _M_addr() noexcept</span></a>
 <a name="103"><span class="lineNum">     103 </span>            :       {</a>
-<a name="104"><span class="lineNum">     104 </span><span class="lineCov">   15907864 :         return static_cast&lt;void*&gt;(&amp;_M_storage);</span></a>
+<a name="104"><span class="lineNum">     104 </span><span class="lineCov">   15908058 :         return static_cast&lt;void*&gt;(&amp;_M_storage);</span></a>
 <a name="105"><span class="lineNum">     105 </span>            :       }</a>
 <a name="106"><span class="lineNum">     106 </span>            : </a>
 <a name="107"><span class="lineNum">     107 </span>            :       const void*</a>
-<a name="108"><span class="lineNum">     108 </span><span class="lineCov">   18668400 :       _M_addr() const noexcept</span></a>
+<a name="108"><span class="lineNum">     108 </span><span class="lineCov">   18668533 :       _M_addr() const noexcept</span></a>
 <a name="109"><span class="lineNum">     109 </span>            :       {</a>
-<a name="110"><span class="lineNum">     110 </span><span class="lineCov">   18668400 :         return static_cast&lt;const void*&gt;(&amp;_M_storage);</span></a>
+<a name="110"><span class="lineNum">     110 </span><span class="lineCov">   18668533 :         return static_cast&lt;const void*&gt;(&amp;_M_storage);</span></a>
 <a name="111"><span class="lineNum">     111 </span>            :       }</a>
 <a name="112"><span class="lineNum">     112 </span>            : </a>
 <a name="113"><span class="lineNum">     113 </span>            :       _Tp*</a>
-<a name="114"><span class="lineNum">     114 </span><span class="lineCov">   15907864 :       _M_ptr() noexcept</span></a>
-<a name="115"><span class="lineNum">     115 </span><span class="lineCov">   15907864 :       { return static_cast&lt;_Tp*&gt;(_M_addr()); }</span></a>
+<a name="114"><span class="lineNum">     114 </span><span class="lineCov">   15908058 :       _M_ptr() noexcept</span></a>
+<a name="115"><span class="lineNum">     115 </span><span class="lineCov">   15908058 :       { return static_cast&lt;_Tp*&gt;(_M_addr()); }</span></a>
 <a name="116"><span class="lineNum">     116 </span>            : </a>
 <a name="117"><span class="lineNum">     117 </span>            :       const _Tp*</a>
-<a name="118"><span class="lineNum">     118 </span><span class="lineCov">   18668400 :       _M_ptr() const noexcept</span></a>
-<a name="119"><span class="lineNum">     119 </span><span class="lineCov">   18668400 :       { return static_cast&lt;const _Tp*&gt;(_M_addr()); }</span></a>
+<a name="118"><span class="lineNum">     118 </span><span class="lineCov">   18668533 :       _M_ptr() const noexcept</span></a>
+<a name="119"><span class="lineNum">     119 </span><span class="lineCov">   18668533 :       { return static_cast&lt;const _Tp*&gt;(_M_addr()); }</span></a>
 <a name="120"><span class="lineNum">     120 </span>            :     };</a>
 <a name="121"><span class="lineNum">     121 </span>            : #endif</a>
 <a name="122"><span class="lineNum">     122 </span>            : </a>

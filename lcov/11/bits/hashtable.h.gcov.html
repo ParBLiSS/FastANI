@@ -37,12 +37,12 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-10-03 16:47:33</td>
+            <td class="headerValue">2022-10-05 13:58:09</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">45</td>
+            <td class="headerCovTableEntry">84</td>
             <td class="headerCovTableEntry">86</td>
-            <td class="headerCovTableEntryLo">52.3 %</td>
+            <td class="headerCovTableEntryHi">97.7 %</td>
           </tr>
           <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -361,13 +361,13 @@
 <a name="299"><span class="lineNum">     299 </span>            : </a>
 <a name="300"><span class="lineNum">     300 </span>            :         // Allocate a node and construct an element within it.</a>
 <a name="301"><span class="lineNum">     301 </span>            :         template&lt;typename... _Args&gt;</a>
-<a name="302"><span class="lineNum">     302 </span><span class="lineCov">    2466647 :           _Scoped_node(__hashtable_alloc* __h, _Args&amp;&amp;... __args)</span></a>
-<a name="303"><span class="lineNum">     303 </span><span class="lineCov">    2466647 :           : _M_h(__h),</span></a>
-<a name="304"><span class="lineNum">     304 </span><span class="lineCov">    2466647 :             _M_node(__h-&gt;_M_allocate_node(std::forward&lt;_Args&gt;(__args)...))</span></a>
-<a name="305"><span class="lineNum">     305 </span><span class="lineCov">    2466647 :           { }</span></a>
+<a name="302"><span class="lineNum">     302 </span><span class="lineCov">    2466683 :           _Scoped_node(__hashtable_alloc* __h, _Args&amp;&amp;... __args)</span></a>
+<a name="303"><span class="lineNum">     303 </span><span class="lineCov">    2466683 :           : _M_h(__h),</span></a>
+<a name="304"><span class="lineNum">     304 </span><span class="lineCov">    2466683 :             _M_node(__h-&gt;_M_allocate_node(std::forward&lt;_Args&gt;(__args)...))</span></a>
+<a name="305"><span class="lineNum">     305 </span><span class="lineCov">    2466683 :           { }</span></a>
 <a name="306"><span class="lineNum">     306 </span>            : </a>
 <a name="307"><span class="lineNum">     307 </span>            :         // Destroy element and deallocate node.</a>
-<a name="308"><span class="lineNum">     308 </span><span class="lineCov">    2466647 :         ~_Scoped_node() { if (_M_node) _M_h-&gt;_M_deallocate_node(_M_node); };</span></a>
+<a name="308"><span class="lineNum">     308 </span><span class="lineCov">    2466683 :         ~_Scoped_node() { if (_M_node) _M_h-&gt;_M_deallocate_node(_M_node); };</span></a>
 <a name="309"><span class="lineNum">     309 </span>            : </a>
 <a name="310"><span class="lineNum">     310 </span>            :         _Scoped_node(const _Scoped_node&amp;) = delete;</a>
 <a name="311"><span class="lineNum">     311 </span>            :         _Scoped_node&amp; operator=(const _Scoped_node&amp;) = delete;</a>
@@ -480,8 +480,8 @@
 <a name="418"><span class="lineNum">     418 </span>            :       }</a>
 <a name="419"><span class="lineNum">     419 </span>            : </a>
 <a name="420"><span class="lineNum">     420 </span>            :       bool</a>
-<a name="421"><span class="lineNum">     421 </span><span class="lineCov">        111 :       _M_uses_single_bucket(__buckets_ptr __bkts) const</span></a>
-<a name="422"><span class="lineNum">     422 </span><span class="lineCov">        111 :       { return __builtin_expect(__bkts == &amp;_M_single_bucket, false); }</span></a>
+<a name="421"><span class="lineNum">     421 </span><span class="lineCov">        131 :       _M_uses_single_bucket(__buckets_ptr __bkts) const</span></a>
+<a name="422"><span class="lineNum">     422 </span><span class="lineCov">        131 :       { return __builtin_expect(__bkts == &amp;_M_single_bucket, false); }</span></a>
 <a name="423"><span class="lineNum">     423 </span>            : </a>
 <a name="424"><span class="lineNum">     424 </span>            :       bool</a>
 <a name="425"><span class="lineNum">     425 </span>            :       _M_uses_single_bucket() const</a>
@@ -491,29 +491,29 @@
 <a name="429"><span class="lineNum">     429 </span>            :       _M_base_alloc() { return *this; }</a>
 <a name="430"><span class="lineNum">     430 </span>            : </a>
 <a name="431"><span class="lineNum">     431 </span>            :       __buckets_ptr</a>
-<a name="432"><span class="lineNum">     432 </span><span class="lineCov">        100 :       _M_allocate_buckets(size_type __bkt_count)</span></a>
+<a name="432"><span class="lineNum">     432 </span><span class="lineCov">        110 :       _M_allocate_buckets(size_type __bkt_count)</span></a>
 <a name="433"><span class="lineNum">     433 </span>            :       {</a>
-<a name="434"><span class="lineNum">     434 </span><span class="lineCov">        100 :         if (__builtin_expect(__bkt_count == 1, false))</span></a>
+<a name="434"><span class="lineNum">     434 </span><span class="lineCov">        110 :         if (__builtin_expect(__bkt_count == 1, false))</span></a>
 <a name="435"><span class="lineNum">     435 </span>            :           {</a>
 <a name="436"><span class="lineNum">     436 </span><span class="lineNoCov">          0 :             _M_single_bucket = nullptr;</span></a>
 <a name="437"><span class="lineNum">     437 </span><span class="lineNoCov">          0 :             return &amp;_M_single_bucket;</span></a>
 <a name="438"><span class="lineNum">     438 </span>            :           }</a>
 <a name="439"><span class="lineNum">     439 </span>            : </a>
-<a name="440"><span class="lineNum">     440 </span><span class="lineCov">        100 :         return __hashtable_alloc::_M_allocate_buckets(__bkt_count);</span></a>
+<a name="440"><span class="lineNum">     440 </span><span class="lineCov">        110 :         return __hashtable_alloc::_M_allocate_buckets(__bkt_count);</span></a>
 <a name="441"><span class="lineNum">     441 </span>            :       }</a>
 <a name="442"><span class="lineNum">     442 </span>            : </a>
 <a name="443"><span class="lineNum">     443 </span>            :       void</a>
-<a name="444"><span class="lineNum">     444 </span><span class="lineCov">        111 :       _M_deallocate_buckets(__buckets_ptr __bkts, size_type __bkt_count)</span></a>
+<a name="444"><span class="lineNum">     444 </span><span class="lineCov">        131 :       _M_deallocate_buckets(__buckets_ptr __bkts, size_type __bkt_count)</span></a>
 <a name="445"><span class="lineNum">     445 </span>            :       {</a>
-<a name="446"><span class="lineNum">     446 </span><span class="lineCov">        111 :         if (_M_uses_single_bucket(__bkts))</span></a>
-<a name="447"><span class="lineNum">     447 </span><span class="lineCov">         11 :           return;</span></a>
+<a name="446"><span class="lineNum">     446 </span><span class="lineCov">        131 :         if (_M_uses_single_bucket(__bkts))</span></a>
+<a name="447"><span class="lineNum">     447 </span><span class="lineCov">         21 :           return;</span></a>
 <a name="448"><span class="lineNum">     448 </span>            : </a>
-<a name="449"><span class="lineNum">     449 </span><span class="lineCov">        100 :         __hashtable_alloc::_M_deallocate_buckets(__bkts, __bkt_count);</span></a>
+<a name="449"><span class="lineNum">     449 </span><span class="lineCov">        110 :         __hashtable_alloc::_M_deallocate_buckets(__bkts, __bkt_count);</span></a>
 <a name="450"><span class="lineNum">     450 </span>            :       }</a>
 <a name="451"><span class="lineNum">     451 </span>            : </a>
 <a name="452"><span class="lineNum">     452 </span>            :       void</a>
-<a name="453"><span class="lineNum">     453 </span><span class="lineCov">        111 :       _M_deallocate_buckets()</span></a>
-<a name="454"><span class="lineNum">     454 </span><span class="lineCov">        111 :       { _M_deallocate_buckets(_M_buckets, _M_bucket_count); }</span></a>
+<a name="453"><span class="lineNum">     453 </span><span class="lineCov">        131 :       _M_deallocate_buckets()</span></a>
+<a name="454"><span class="lineNum">     454 </span><span class="lineCov">        131 :       { _M_deallocate_buckets(_M_buckets, _M_bucket_count); }</span></a>
 <a name="455"><span class="lineNum">     455 </span>            : </a>
 <a name="456"><span class="lineNum">     456 </span>            :       // Gets bucket begin, deals with the fact that non-empty buckets contain</a>
 <a name="457"><span class="lineNum">     457 </span>            :       // their before begin node.</a>
@@ -521,8 +521,8 @@
 <a name="459"><span class="lineNum">     459 </span>            :       _M_bucket_begin(size_type __bkt) const;</a>
 <a name="460"><span class="lineNum">     460 </span>            : </a>
 <a name="461"><span class="lineNum">     461 </span>            :       __node_ptr</a>
-<a name="462"><span class="lineNum">     462 </span><span class="lineCov">        122 :       _M_begin() const</span></a>
-<a name="463"><span class="lineNum">     463 </span><span class="lineCov">        122 :       { return static_cast&lt;__node_ptr&gt;(_M_before_begin._M_nxt); }</span></a>
+<a name="462"><span class="lineNum">     462 </span><span class="lineCov">        142 :       _M_begin() const</span></a>
+<a name="463"><span class="lineNum">     463 </span><span class="lineCov">        142 :       { return static_cast&lt;__node_ptr&gt;(_M_before_begin._M_nxt); }</span></a>
 <a name="464"><span class="lineNum">     464 </span>            : </a>
 <a name="465"><span class="lineNum">     465 </span>            :       // Assign *this using another _Hashtable instance. Whether elements</a>
 <a name="466"><span class="lineNum">     466 </span>            :       // are copied or moved depends on the _Ht reference.</a>
@@ -587,7 +587,7 @@
 <a name="525"><span class="lineNum">     525 </span>            : </a>
 <a name="526"><span class="lineNum">     526 </span>            :     public:</a>
 <a name="527"><span class="lineNum">     527 </span>            :       // Constructor, destructor, assignment, swap</a>
-<a name="528"><span class="lineNum">     528 </span><span class="lineCov">         11 :       _Hashtable() = default;</span></a>
+<a name="528"><span class="lineNum">     528 </span><span class="lineCov">         21 :       _Hashtable() = default;</span></a>
 <a name="529"><span class="lineNum">     529 </span>            : </a>
 <a name="530"><span class="lineNum">     530 </span>            :       _Hashtable(const _Hashtable&amp;);</a>
 <a name="531"><span class="lineNum">     531 </span>            : </a>
@@ -688,8 +688,8 @@
 <a name="626"><span class="lineNum">     626 </span>            :       { return const_iterator(_M_begin()); }</a>
 <a name="627"><span class="lineNum">     627 </span>            : </a>
 <a name="628"><span class="lineNum">     628 </span>            :       iterator</a>
-<a name="629"><span class="lineNum">     629 </span><span class="lineCov">         53 :       end() noexcept</span></a>
-<a name="630"><span class="lineNum">     630 </span><span class="lineCov">         53 :       { return iterator(nullptr); }</span></a>
+<a name="629"><span class="lineNum">     629 </span><span class="lineCov">        105 :       end() noexcept</span></a>
+<a name="630"><span class="lineNum">     630 </span><span class="lineCov">        105 :       { return iterator(nullptr); }</span></a>
 <a name="631"><span class="lineNum">     631 </span>            : </a>
 <a name="632"><span class="lineNum">     632 </span>            :       const_iterator</a>
 <a name="633"><span class="lineNum">     633 </span><span class="lineCov">    5333743 :       end() const noexcept</span></a>
@@ -704,8 +704,8 @@
 <a name="642"><span class="lineNum">     642 </span>            :       { return const_iterator(nullptr); }</a>
 <a name="643"><span class="lineNum">     643 </span>            : </a>
 <a name="644"><span class="lineNum">     644 </span>            :       size_type</a>
-<a name="645"><span class="lineNum">     645 </span><span class="lineCov">         16 :       size() const noexcept</span></a>
-<a name="646"><span class="lineNum">     646 </span><span class="lineCov">         16 :       { return _M_element_count; }</span></a>
+<a name="645"><span class="lineNum">     645 </span><span class="lineCov">         39 :       size() const noexcept</span></a>
+<a name="646"><span class="lineNum">     646 </span><span class="lineCov">         39 :       { return _M_element_count; }</span></a>
 <a name="647"><span class="lineNum">     647 </span>            : </a>
 <a name="648"><span class="lineNum">     648 </span>            :       _GLIBCXX_NODISCARD bool</a>
 <a name="649"><span class="lineNum">     649 </span>            :       empty() const noexcept</a>
@@ -849,12 +849,12 @@
 <a name="787"><span class="lineNum">     787 </span>            :     private:</a>
 <a name="788"><span class="lineNum">     788 </span>            :       // Bucket index computation helpers.</a>
 <a name="789"><span class="lineNum">     789 </span>            :       size_type</a>
-<a name="790"><span class="lineNum">     790 </span><span class="lineCov">    5024048 :       _M_bucket_index(const __node_value_type&amp; __n) const noexcept</span></a>
-<a name="791"><span class="lineNum">     791 </span><span class="lineCov">    5024048 :       { return __hash_code_base::_M_bucket_index(__n, _M_bucket_count); }</span></a>
+<a name="790"><span class="lineNum">     790 </span><span class="lineCov">    5024074 :       _M_bucket_index(const __node_value_type&amp; __n) const noexcept</span></a>
+<a name="791"><span class="lineNum">     791 </span><span class="lineCov">    5024074 :       { return __hash_code_base::_M_bucket_index(__n, _M_bucket_count); }</span></a>
 <a name="792"><span class="lineNum">     792 </span>            : </a>
 <a name="793"><span class="lineNum">     793 </span>            :       size_type</a>
-<a name="794"><span class="lineNum">     794 </span><span class="lineCov">    8696245 :       _M_bucket_index(__hash_code __c) const</span></a>
-<a name="795"><span class="lineNum">     795 </span><span class="lineCov">    8696245 :       { return __hash_code_base::_M_bucket_index(__c, _M_bucket_count); }</span></a>
+<a name="794"><span class="lineNum">     794 </span><span class="lineCov">    8696429 :       _M_bucket_index(__hash_code __c) const</span></a>
+<a name="795"><span class="lineNum">     795 </span><span class="lineCov">    8696429 :       { return __hash_code_base::_M_bucket_index(__c, _M_bucket_count); }</span></a>
 <a name="796"><span class="lineNum">     796 </span>            : </a>
 <a name="797"><span class="lineNum">     797 </span>            :       // Find and insert helper functions and types</a>
 <a name="798"><span class="lineNum">     798 </span>            :       // Find the node before the one matching the criteria.</a>
@@ -866,13 +866,13 @@
 <a name="804"><span class="lineNum">     804 </span>            :         _M_find_before_node_tr(size_type, const _Kt&amp;, __hash_code) const;</a>
 <a name="805"><span class="lineNum">     805 </span>            : </a>
 <a name="806"><span class="lineNum">     806 </span>            :       __node_ptr</a>
-<a name="807"><span class="lineNum">     807 </span><span class="lineCov">    8696145 :       _M_find_node(size_type __bkt, const key_type&amp; __key,</span></a>
+<a name="807"><span class="lineNum">     807 </span><span class="lineCov">    8696319 :       _M_find_node(size_type __bkt, const key_type&amp; __key,</span></a>
 <a name="808"><span class="lineNum">     808 </span>            :                    __hash_code __c) const</a>
 <a name="809"><span class="lineNum">     809 </span>            :       {</a>
-<a name="810"><span class="lineNum">     810 </span><span class="lineCov">    8696145 :         __node_base_ptr __before_n = _M_find_before_node(__bkt, __key, __c);</span></a>
-<a name="811"><span class="lineNum">     811 </span><span class="lineCov">    8696145 :         if (__before_n)</span></a>
-<a name="812"><span class="lineNum">     812 </span><span class="lineCov">    6041310 :           return static_cast&lt;__node_ptr&gt;(__before_n-&gt;_M_nxt);</span></a>
-<a name="813"><span class="lineNum">     813 </span><span class="lineCov">    2654835 :         return nullptr;</span></a>
+<a name="810"><span class="lineNum">     810 </span><span class="lineCov">    8696319 :         __node_base_ptr __before_n = _M_find_before_node(__bkt, __key, __c);</span></a>
+<a name="811"><span class="lineNum">     811 </span><span class="lineCov">    8696319 :         if (__before_n)</span></a>
+<a name="812"><span class="lineNum">     812 </span><span class="lineCov">    6041430 :           return static_cast&lt;__node_ptr&gt;(__before_n-&gt;_M_nxt);</span></a>
+<a name="813"><span class="lineNum">     813 </span><span class="lineCov">    2654889 :         return nullptr;</span></a>
 <a name="814"><span class="lineNum">     814 </span>            :       }</a>
 <a name="815"><span class="lineNum">     815 </span>            : </a>
 <a name="816"><span class="lineNum">     816 </span>            :       template&lt;typename _Kt&gt;</a>
@@ -1587,13 +1587,13 @@
 <a name="1525"><span class="lineNum">    1525 </span>            :            typename _ExtractKey, typename _Equal,</a>
 <a name="1526"><span class="lineNum">    1526 </span>            :            typename _Hash, typename _RangeHash, typename _Unused,</a>
 <a name="1527"><span class="lineNum">    1527 </span>            :            typename _RehashPolicy, typename _Traits&gt;</a>
-<a name="1528"><span class="lineNum">    1528 </span><span class="lineCov">         11 :     _Hashtable&lt;_Key, _Value, _Alloc, _ExtractKey, _Equal,</span></a>
+<a name="1528"><span class="lineNum">    1528 </span><span class="lineCov">         21 :     _Hashtable&lt;_Key, _Value, _Alloc, _ExtractKey, _Equal,</span></a>
 <a name="1529"><span class="lineNum">    1529 </span>            :                _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits&gt;::</a>
 <a name="1530"><span class="lineNum">    1530 </span>            :     ~_Hashtable() noexcept</a>
 <a name="1531"><span class="lineNum">    1531 </span>            :     {</a>
-<a name="1532"><span class="lineNum">    1532 </span><span class="lineCov">         11 :       clear();</span></a>
-<a name="1533"><span class="lineNum">    1533 </span><span class="lineCov">         11 :       _M_deallocate_buckets();</span></a>
-<a name="1534"><span class="lineNum">    1534 </span><span class="lineCov">         11 :     }</span></a>
+<a name="1532"><span class="lineNum">    1532 </span><span class="lineCov">         21 :       clear();</span></a>
+<a name="1533"><span class="lineNum">    1533 </span><span class="lineCov">         21 :       _M_deallocate_buckets();</span></a>
+<a name="1534"><span class="lineNum">    1534 </span><span class="lineCov">         21 :     }</span></a>
 <a name="1535"><span class="lineNum">    1535 </span>            : </a>
 <a name="1536"><span class="lineNum">    1536 </span>            :   template&lt;typename _Key, typename _Value, typename _Alloc,</a>
 <a name="1537"><span class="lineNum">    1537 </span>            :            typename _ExtractKey, typename _Equal,</a>
@@ -1647,14 +1647,14 @@
 <a name="1585"><span class="lineNum">    1585 </span>            :            typename _Hash, typename _RangeHash, typename _Unused,</a>
 <a name="1586"><span class="lineNum">    1586 </span>            :            typename _RehashPolicy, typename _Traits&gt;</a>
 <a name="1587"><span class="lineNum">    1587 </span>            :     auto</a>
-<a name="1588"><span class="lineNum">    1588 </span><span class="lineCov">         42 :     _Hashtable&lt;_Key, _Value, _Alloc, _ExtractKey, _Equal,</span></a>
+<a name="1588"><span class="lineNum">    1588 </span><span class="lineCov">         94 :     _Hashtable&lt;_Key, _Value, _Alloc, _ExtractKey, _Equal,</span></a>
 <a name="1589"><span class="lineNum">    1589 </span>            :                _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits&gt;::</a>
 <a name="1590"><span class="lineNum">    1590 </span>            :     find(const key_type&amp; __k)</a>
 <a name="1591"><span class="lineNum">    1591 </span>            :     -&gt; iterator</a>
 <a name="1592"><span class="lineNum">    1592 </span>            :     {</a>
-<a name="1593"><span class="lineNum">    1593 </span><span class="lineCov">         42 :       __hash_code __code = this-&gt;_M_hash_code(__k);</span></a>
-<a name="1594"><span class="lineNum">    1594 </span><span class="lineCov">         42 :       std::size_t __bkt = _M_bucket_index(__code);</span></a>
-<a name="1595"><span class="lineNum">    1595 </span><span class="lineCov">         42 :       return iterator(_M_find_node(__bkt, __k, __code));</span></a>
+<a name="1593"><span class="lineNum">    1593 </span><span class="lineCov">         94 :       __hash_code __code = this-&gt;_M_hash_code(__k);</span></a>
+<a name="1594"><span class="lineNum">    1594 </span><span class="lineCov">         94 :       std::size_t __bkt = _M_bucket_index(__code);</span></a>
+<a name="1595"><span class="lineNum">    1595 </span><span class="lineCov">         94 :       return iterator(_M_find_node(__bkt, __k, __code));</span></a>
 <a name="1596"><span class="lineNum">    1596 </span>            :     }</a>
 <a name="1597"><span class="lineNum">    1597 </span>            : </a>
 <a name="1598"><span class="lineNum">    1598 </span>            :   template&lt;typename _Key, typename _Value, typename _Alloc,</a>
@@ -1886,21 +1886,21 @@
 <a name="1824"><span class="lineNum">    1824 </span>            :            typename _Hash, typename _RangeHash, typename _Unused,</a>
 <a name="1825"><span class="lineNum">    1825 </span>            :            typename _RehashPolicy, typename _Traits&gt;</a>
 <a name="1826"><span class="lineNum">    1826 </span>            :     auto</a>
-<a name="1827"><span class="lineNum">    1827 </span><span class="lineCov">    8696145 :     _Hashtable&lt;_Key, _Value, _Alloc, _ExtractKey, _Equal,</span></a>
+<a name="1827"><span class="lineNum">    1827 </span><span class="lineCov">    8696319 :     _Hashtable&lt;_Key, _Value, _Alloc, _ExtractKey, _Equal,</span></a>
 <a name="1828"><span class="lineNum">    1828 </span>            :                _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits&gt;::</a>
 <a name="1829"><span class="lineNum">    1829 </span>            :     _M_find_before_node(size_type __bkt, const key_type&amp; __k,</a>
 <a name="1830"><span class="lineNum">    1830 </span>            :                         __hash_code __code) const</a>
 <a name="1831"><span class="lineNum">    1831 </span>            :     -&gt; __node_base_ptr</a>
 <a name="1832"><span class="lineNum">    1832 </span>            :     {</a>
-<a name="1833"><span class="lineNum">    1833 </span><span class="lineCov">    8696145 :       __node_base_ptr __prev_p = _M_buckets[__bkt];</span></a>
-<a name="1834"><span class="lineNum">    1834 </span><span class="lineCov">    8696145 :       if (!__prev_p)</span></a>
-<a name="1835"><span class="lineNum">    1835 </span><span class="lineCov">    1302268 :         return nullptr;</span></a>
+<a name="1833"><span class="lineNum">    1833 </span><span class="lineCov">    8696319 :       __node_base_ptr __prev_p = _M_buckets[__bkt];</span></a>
+<a name="1834"><span class="lineNum">    1834 </span><span class="lineCov">    8696319 :       if (!__prev_p)</span></a>
+<a name="1835"><span class="lineNum">    1835 </span><span class="lineCov">    1302322 :         return nullptr;</span></a>
 <a name="1836"><span class="lineNum">    1836 </span>            : </a>
-<a name="1837"><span class="lineNum">    1837 </span><span class="lineCov">    7393877 :       for (__node_ptr __p = static_cast&lt;__node_ptr&gt;(__prev_p-&gt;_M_nxt);;</span></a>
+<a name="1837"><span class="lineNum">    1837 </span><span class="lineCov">    7393997 :       for (__node_ptr __p = static_cast&lt;__node_ptr&gt;(__prev_p-&gt;_M_nxt);;</span></a>
 <a name="1838"><span class="lineNum">    1838 </span><span class="lineCov">    2450323 :            __p = __p-&gt;_M_next())</span></a>
 <a name="1839"><span class="lineNum">    1839 </span>            :         {</a>
-<a name="1840"><span class="lineNum">    1840 </span><span class="lineCov">    9844200 :           if (this-&gt;_M_equals(__k, __code, *__p))</span></a>
-<a name="1841"><span class="lineNum">    1841 </span><span class="lineCov">    6041310 :             return __prev_p;</span></a>
+<a name="1840"><span class="lineNum">    1840 </span><span class="lineCov">    9844320 :           if (this-&gt;_M_equals(__k, __code, *__p))</span></a>
+<a name="1841"><span class="lineNum">    1841 </span><span class="lineCov">    6041430 :             return __prev_p;</span></a>
 <a name="1842"><span class="lineNum">    1842 </span>            : </a>
 <a name="1843"><span class="lineNum">    1843 </span><span class="lineCov">    3802890 :           if (!__p-&gt;_M_nxt || _M_bucket_index(*__p-&gt;_M_next()) != __bkt)</span></a>
 <a name="1844"><span class="lineNum">    1844 </span><span class="lineCov">    1352567 :             break;</span></a>
@@ -1945,11 +1945,11 @@
 <a name="1883"><span class="lineNum">    1883 </span>            :            typename _Hash, typename _RangeHash, typename _Unused,</a>
 <a name="1884"><span class="lineNum">    1884 </span>            :            typename _RehashPolicy, typename _Traits&gt;</a>
 <a name="1885"><span class="lineNum">    1885 </span>            :     void</a>
-<a name="1886"><span class="lineNum">    1886 </span><span class="lineCov">    2466647 :     _Hashtable&lt;_Key, _Value, _Alloc, _ExtractKey, _Equal,</span></a>
+<a name="1886"><span class="lineNum">    1886 </span><span class="lineCov">    2466683 :     _Hashtable&lt;_Key, _Value, _Alloc, _ExtractKey, _Equal,</span></a>
 <a name="1887"><span class="lineNum">    1887 </span>            :                _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits&gt;::</a>
 <a name="1888"><span class="lineNum">    1888 </span>            :     _M_insert_bucket_begin(size_type __bkt, __node_ptr __node)</a>
 <a name="1889"><span class="lineNum">    1889 </span>            :     {</a>
-<a name="1890"><span class="lineNum">    1890 </span><span class="lineCov">    2466647 :       if (_M_buckets[__bkt])</span></a>
+<a name="1890"><span class="lineNum">    1890 </span><span class="lineCov">    2466683 :       if (_M_buckets[__bkt])</span></a>
 <a name="1891"><span class="lineNum">    1891 </span>            :         {</a>
 <a name="1892"><span class="lineNum">    1892 </span>            :           // Bucket is not empty, we just need to insert the new node</a>
 <a name="1893"><span class="lineNum">    1893 </span>            :           // after the bucket before begin.</a>
@@ -1961,17 +1961,17 @@
 <a name="1899"><span class="lineNum">    1899 </span>            :           // The bucket is empty, the new node is inserted at the</a>
 <a name="1900"><span class="lineNum">    1900 </span>            :           // beginning of the singly-linked list and the bucket will</a>
 <a name="1901"><span class="lineNum">    1901 </span>            :           // contain _M_before_begin pointer.</a>
-<a name="1902"><span class="lineNum">    1902 </span><span class="lineCov">    1221210 :           __node-&gt;_M_nxt = _M_before_begin._M_nxt;</span></a>
-<a name="1903"><span class="lineNum">    1903 </span><span class="lineCov">    1221210 :           _M_before_begin._M_nxt = __node;</span></a>
+<a name="1902"><span class="lineNum">    1902 </span><span class="lineCov">    1221246 :           __node-&gt;_M_nxt = _M_before_begin._M_nxt;</span></a>
+<a name="1903"><span class="lineNum">    1903 </span><span class="lineCov">    1221246 :           _M_before_begin._M_nxt = __node;</span></a>
 <a name="1904"><span class="lineNum">    1904 </span>            : </a>
-<a name="1905"><span class="lineNum">    1905 </span><span class="lineCov">    1221210 :           if (__node-&gt;_M_nxt)</span></a>
+<a name="1905"><span class="lineNum">    1905 </span><span class="lineCov">    1221246 :           if (__node-&gt;_M_nxt)</span></a>
 <a name="1906"><span class="lineNum">    1906 </span>            :             // We must update former begin bucket that is pointing to</a>
 <a name="1907"><span class="lineNum">    1907 </span>            :             // _M_before_begin.</a>
-<a name="1908"><span class="lineNum">    1908 </span><span class="lineCov">    1221199 :             _M_buckets[_M_bucket_index(*__node-&gt;_M_next())] = __node;</span></a>
+<a name="1908"><span class="lineNum">    1908 </span><span class="lineCov">    1221225 :             _M_buckets[_M_bucket_index(*__node-&gt;_M_next())] = __node;</span></a>
 <a name="1909"><span class="lineNum">    1909 </span>            : </a>
-<a name="1910"><span class="lineNum">    1910 </span><span class="lineCov">    1221210 :           _M_buckets[__bkt] = &amp;_M_before_begin;</span></a>
+<a name="1910"><span class="lineNum">    1910 </span><span class="lineCov">    1221246 :           _M_buckets[__bkt] = &amp;_M_before_begin;</span></a>
 <a name="1911"><span class="lineNum">    1911 </span>            :         }</a>
-<a name="1912"><span class="lineNum">    1912 </span><span class="lineCov">    2466647 :     }</span></a>
+<a name="1912"><span class="lineNum">    1912 </span><span class="lineCov">    2466683 :     }</span></a>
 <a name="1913"><span class="lineNum">    1913 </span>            : </a>
 <a name="1914"><span class="lineNum">    1914 </span>            :   template&lt;typename _Key, typename _Value, typename _Alloc,</a>
 <a name="1915"><span class="lineNum">    1915 </span>            :            typename _ExtractKey, typename _Equal,</a>
@@ -2067,29 +2067,29 @@
 <a name="2005"><span class="lineNum">    2005 </span>            :            typename _Hash, typename _RangeHash, typename _Unused,</a>
 <a name="2006"><span class="lineNum">    2006 </span>            :            typename _RehashPolicy, typename _Traits&gt;</a>
 <a name="2007"><span class="lineNum">    2007 </span>            :     auto</a>
-<a name="2008"><span class="lineNum">    2008 </span><span class="lineCov">    2466647 :     _Hashtable&lt;_Key, _Value, _Alloc, _ExtractKey, _Equal,</span></a>
+<a name="2008"><span class="lineNum">    2008 </span><span class="lineCov">    2466683 :     _Hashtable&lt;_Key, _Value, _Alloc, _ExtractKey, _Equal,</span></a>
 <a name="2009"><span class="lineNum">    2009 </span>            :                _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits&gt;::</a>
 <a name="2010"><span class="lineNum">    2010 </span>            :     _M_insert_unique_node(size_type __bkt, __hash_code __code,</a>
 <a name="2011"><span class="lineNum">    2011 </span>            :                           __node_ptr __node, size_type __n_elt)</a>
 <a name="2012"><span class="lineNum">    2012 </span>            :     -&gt; iterator</a>
 <a name="2013"><span class="lineNum">    2013 </span>            :     {</a>
-<a name="2014"><span class="lineNum">    2014 </span><span class="lineCov">    2466647 :       const __rehash_state&amp; __saved_state = _M_rehash_policy._M_state();</span></a>
+<a name="2014"><span class="lineNum">    2014 </span><span class="lineCov">    2466683 :       const __rehash_state&amp; __saved_state = _M_rehash_policy._M_state();</span></a>
 <a name="2015"><span class="lineNum">    2015 </span>            :       std::pair&lt;bool, std::size_t&gt; __do_rehash</a>
-<a name="2016"><span class="lineNum">    2016 </span><span class="lineCov">    2466647 :         = _M_rehash_policy._M_need_rehash(_M_bucket_count, _M_element_count,</span></a>
+<a name="2016"><span class="lineNum">    2016 </span><span class="lineCov">    2466683 :         = _M_rehash_policy._M_need_rehash(_M_bucket_count, _M_element_count,</span></a>
 <a name="2017"><span class="lineNum">    2017 </span>            :                                           __n_elt);</a>
 <a name="2018"><span class="lineNum">    2018 </span>            : </a>
-<a name="2019"><span class="lineNum">    2019 </span><span class="lineCov">    2466647 :       if (__do_rehash.first)</span></a>
+<a name="2019"><span class="lineNum">    2019 </span><span class="lineCov">    2466683 :       if (__do_rehash.first)</span></a>
 <a name="2020"><span class="lineNum">    2020 </span>            :         {</a>
-<a name="2021"><span class="lineNum">    2021 </span><span class="lineCov">        100 :           _M_rehash(__do_rehash.second, __saved_state);</span></a>
-<a name="2022"><span class="lineNum">    2022 </span><span class="lineCov">        100 :           __bkt = _M_bucket_index(__code);</span></a>
+<a name="2021"><span class="lineNum">    2021 </span><span class="lineCov">        110 :           _M_rehash(__do_rehash.second, __saved_state);</span></a>
+<a name="2022"><span class="lineNum">    2022 </span><span class="lineCov">        110 :           __bkt = _M_bucket_index(__code);</span></a>
 <a name="2023"><span class="lineNum">    2023 </span>            :         }</a>
 <a name="2024"><span class="lineNum">    2024 </span>            : </a>
-<a name="2025"><span class="lineNum">    2025 </span><span class="lineCov">    2466647 :       this-&gt;_M_store_code(*__node, __code);</span></a>
+<a name="2025"><span class="lineNum">    2025 </span><span class="lineCov">    2466683 :       this-&gt;_M_store_code(*__node, __code);</span></a>
 <a name="2026"><span class="lineNum">    2026 </span>            : </a>
 <a name="2027"><span class="lineNum">    2027 </span>            :       // Always insert at the beginning of the bucket.</a>
-<a name="2028"><span class="lineNum">    2028 </span><span class="lineCov">    2466647 :       _M_insert_bucket_begin(__bkt, __node);</span></a>
-<a name="2029"><span class="lineNum">    2029 </span><span class="lineCov">    2466647 :       ++_M_element_count;</span></a>
-<a name="2030"><span class="lineNum">    2030 </span><span class="lineCov">    2466647 :       return iterator(__node);</span></a>
+<a name="2028"><span class="lineNum">    2028 </span><span class="lineCov">    2466683 :       _M_insert_bucket_begin(__bkt, __node);</span></a>
+<a name="2029"><span class="lineNum">    2029 </span><span class="lineCov">    2466683 :       ++_M_element_count;</span></a>
+<a name="2030"><span class="lineNum">    2030 </span><span class="lineCov">    2466683 :       return iterator(__node);</span></a>
 <a name="2031"><span class="lineNum">    2031 </span>            :     }</a>
 <a name="2032"><span class="lineNum">    2032 </span>            : </a>
 <a name="2033"><span class="lineNum">    2033 </span>            :   template&lt;typename _Key, typename _Value, typename _Alloc,</a>
@@ -2375,16 +2375,16 @@
 <a name="2313"><span class="lineNum">    2313 </span>            :            typename _Hash, typename _RangeHash, typename _Unused,</a>
 <a name="2314"><span class="lineNum">    2314 </span>            :            typename _RehashPolicy, typename _Traits&gt;</a>
 <a name="2315"><span class="lineNum">    2315 </span>            :     void</a>
-<a name="2316"><span class="lineNum">    2316 </span><span class="lineCov">         11 :     _Hashtable&lt;_Key, _Value, _Alloc, _ExtractKey, _Equal,</span></a>
+<a name="2316"><span class="lineNum">    2316 </span><span class="lineCov">         21 :     _Hashtable&lt;_Key, _Value, _Alloc, _ExtractKey, _Equal,</span></a>
 <a name="2317"><span class="lineNum">    2317 </span>            :                _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits&gt;::</a>
 <a name="2318"><span class="lineNum">    2318 </span>            :     clear() noexcept</a>
 <a name="2319"><span class="lineNum">    2319 </span>            :     {</a>
-<a name="2320"><span class="lineNum">    2320 </span><span class="lineCov">         11 :       this-&gt;_M_deallocate_nodes(_M_begin());</span></a>
-<a name="2321"><span class="lineNum">    2321 </span><span class="lineCov">         11 :       __builtin_memset(_M_buckets, 0,</span></a>
-<a name="2322"><span class="lineNum">    2322 </span><span class="lineCov">         11 :                        _M_bucket_count * sizeof(__node_base_ptr));</span></a>
-<a name="2323"><span class="lineNum">    2323 </span><span class="lineCov">         11 :       _M_element_count = 0;</span></a>
-<a name="2324"><span class="lineNum">    2324 </span><span class="lineCov">         11 :       _M_before_begin._M_nxt = nullptr;</span></a>
-<a name="2325"><span class="lineNum">    2325 </span><span class="lineCov">         11 :     }</span></a>
+<a name="2320"><span class="lineNum">    2320 </span><span class="lineCov">         21 :       this-&gt;_M_deallocate_nodes(_M_begin());</span></a>
+<a name="2321"><span class="lineNum">    2321 </span><span class="lineCov">         21 :       __builtin_memset(_M_buckets, 0,</span></a>
+<a name="2322"><span class="lineNum">    2322 </span><span class="lineCov">         21 :                        _M_bucket_count * sizeof(__node_base_ptr));</span></a>
+<a name="2323"><span class="lineNum">    2323 </span><span class="lineCov">         21 :       _M_element_count = 0;</span></a>
+<a name="2324"><span class="lineNum">    2324 </span><span class="lineCov">         21 :       _M_before_begin._M_nxt = nullptr;</span></a>
+<a name="2325"><span class="lineNum">    2325 </span><span class="lineCov">         21 :     }</span></a>
 <a name="2326"><span class="lineNum">    2326 </span>            : </a>
 <a name="2327"><span class="lineNum">    2327 </span>            :   template&lt;typename _Key, typename _Value, typename _Alloc,</a>
 <a name="2328"><span class="lineNum">    2328 </span>            :            typename _ExtractKey, typename _Equal,</a>
@@ -2414,13 +2414,13 @@
 <a name="2352"><span class="lineNum">    2352 </span>            :            typename _Hash, typename _RangeHash, typename _Unused,</a>
 <a name="2353"><span class="lineNum">    2353 </span>            :            typename _RehashPolicy, typename _Traits&gt;</a>
 <a name="2354"><span class="lineNum">    2354 </span>            :     void</a>
-<a name="2355"><span class="lineNum">    2355 </span><span class="lineCov">        100 :     _Hashtable&lt;_Key, _Value, _Alloc, _ExtractKey, _Equal,</span></a>
+<a name="2355"><span class="lineNum">    2355 </span><span class="lineCov">        110 :     _Hashtable&lt;_Key, _Value, _Alloc, _ExtractKey, _Equal,</span></a>
 <a name="2356"><span class="lineNum">    2356 </span>            :                _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits&gt;::</a>
 <a name="2357"><span class="lineNum">    2357 </span>            :     _M_rehash(size_type __bkt_count, const __rehash_state&amp; __state)</a>
 <a name="2358"><span class="lineNum">    2358 </span>            :     {</a>
 <a name="2359"><span class="lineNum">    2359 </span>            :       __try</a>
 <a name="2360"><span class="lineNum">    2360 </span>            :         {</a>
-<a name="2361"><span class="lineNum">    2361 </span><span class="lineCov">        100 :           _M_rehash_aux(__bkt_count, __unique_keys{});</span></a>
+<a name="2361"><span class="lineNum">    2361 </span><span class="lineCov">        110 :           _M_rehash_aux(__bkt_count, __unique_keys{});</span></a>
 <a name="2362"><span class="lineNum">    2362 </span>            :         }</a>
 <a name="2363"><span class="lineNum">    2363 </span><span class="lineNoCov">          0 :       __catch(...)</span></a>
 <a name="2364"><span class="lineNum">    2364 </span>            :         {</a>
@@ -2429,7 +2429,7 @@
 <a name="2367"><span class="lineNum">    2367 </span><span class="lineNoCov">          0 :           _M_rehash_policy._M_reset(__state);</span></a>
 <a name="2368"><span class="lineNum">    2368 </span><span class="lineNoCov">          0 :           __throw_exception_again;</span></a>
 <a name="2369"><span class="lineNum">    2369 </span>            :         }</a>
-<a name="2370"><span class="lineNum">    2370 </span><span class="lineCov">        100 :     }</span></a>
+<a name="2370"><span class="lineNum">    2370 </span><span class="lineCov">        110 :     }</span></a>
 <a name="2371"><span class="lineNum">    2371 </span>            : </a>
 <a name="2372"><span class="lineNum">    2372 </span>            :   // Rehash when there is no equivalent elements.</a>
 <a name="2373"><span class="lineNum">    2373 </span>            :   template&lt;typename _Key, typename _Value, typename _Alloc,</a>
@@ -2437,15 +2437,15 @@
 <a name="2375"><span class="lineNum">    2375 </span>            :            typename _Hash, typename _RangeHash, typename _Unused,</a>
 <a name="2376"><span class="lineNum">    2376 </span>            :            typename _RehashPolicy, typename _Traits&gt;</a>
 <a name="2377"><span class="lineNum">    2377 </span>            :     void</a>
-<a name="2378"><span class="lineNum">    2378 </span><span class="lineCov">        100 :     _Hashtable&lt;_Key, _Value, _Alloc, _ExtractKey, _Equal,</span></a>
+<a name="2378"><span class="lineNum">    2378 </span><span class="lineCov">        110 :     _Hashtable&lt;_Key, _Value, _Alloc, _ExtractKey, _Equal,</span></a>
 <a name="2379"><span class="lineNum">    2379 </span>            :                _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits&gt;::</a>
 <a name="2380"><span class="lineNum">    2380 </span>            :     _M_rehash_aux(size_type __bkt_count, true_type /* __uks */)</a>
 <a name="2381"><span class="lineNum">    2381 </span>            :     {</a>
-<a name="2382"><span class="lineNum">    2382 </span><span class="lineCov">        100 :       __buckets_ptr __new_buckets = _M_allocate_buckets(__bkt_count);</span></a>
-<a name="2383"><span class="lineNum">    2383 </span><span class="lineCov">        100 :       __node_ptr __p = _M_begin();</span></a>
-<a name="2384"><span class="lineNum">    2384 </span><span class="lineCov">        100 :       _M_before_begin._M_nxt = nullptr;</span></a>
-<a name="2385"><span class="lineNum">    2385 </span><span class="lineCov">        100 :       std::size_t __bbegin_bkt = 0;</span></a>
-<a name="2386"><span class="lineNum">    2386 </span><span class="lineCov">    3800265 :       while (__p)</span></a>
+<a name="2382"><span class="lineNum">    2382 </span><span class="lineCov">        110 :       __buckets_ptr __new_buckets = _M_allocate_buckets(__bkt_count);</span></a>
+<a name="2383"><span class="lineNum">    2383 </span><span class="lineCov">        110 :       __node_ptr __p = _M_begin();</span></a>
+<a name="2384"><span class="lineNum">    2384 </span><span class="lineCov">        110 :       _M_before_begin._M_nxt = nullptr;</span></a>
+<a name="2385"><span class="lineNum">    2385 </span><span class="lineCov">        110 :       std::size_t __bbegin_bkt = 0;</span></a>
+<a name="2386"><span class="lineNum">    2386 </span><span class="lineCov">    3800275 :       while (__p)</span></a>
 <a name="2387"><span class="lineNum">    2387 </span>            :         {</a>
 <a name="2388"><span class="lineNum">    2388 </span><span class="lineCov">    3800165 :           __node_ptr __next = __p-&gt;_M_next();</span></a>
 <a name="2389"><span class="lineNum">    2389 </span>            :           std::size_t __bkt</a>
@@ -2468,10 +2468,10 @@
 <a name="2406"><span class="lineNum">    2406 </span><span class="lineCov">    3800165 :           __p = __next;</span></a>
 <a name="2407"><span class="lineNum">    2407 </span>            :         }</a>
 <a name="2408"><span class="lineNum">    2408 </span>            : </a>
-<a name="2409"><span class="lineNum">    2409 </span><span class="lineCov">        100 :       _M_deallocate_buckets();</span></a>
-<a name="2410"><span class="lineNum">    2410 </span><span class="lineCov">        100 :       _M_bucket_count = __bkt_count;</span></a>
-<a name="2411"><span class="lineNum">    2411 </span><span class="lineCov">        100 :       _M_buckets = __new_buckets;</span></a>
-<a name="2412"><span class="lineNum">    2412 </span><span class="lineCov">        100 :     }</span></a>
+<a name="2409"><span class="lineNum">    2409 </span><span class="lineCov">        110 :       _M_deallocate_buckets();</span></a>
+<a name="2410"><span class="lineNum">    2410 </span><span class="lineCov">        110 :       _M_bucket_count = __bkt_count;</span></a>
+<a name="2411"><span class="lineNum">    2411 </span><span class="lineCov">        110 :       _M_buckets = __new_buckets;</span></a>
+<a name="2412"><span class="lineNum">    2412 </span><span class="lineCov">        110 :     }</span></a>
 <a name="2413"><span class="lineNum">    2413 </span>            : </a>
 <a name="2414"><span class="lineNum">    2414 </span>            :   // Rehash when there can be equivalent elements, preserve their relative</a>
 <a name="2415"><span class="lineNum">    2415 </span>            :   // order.</a>

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-10-03 16:47:33</td>
+            <td class="headerValue">2022-10-05 13:58:09</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">34</td>
@@ -157,13 +157,13 @@
 <a name="95"><span class="lineNum">      95 </span>            :   template&lt;typename _RandomAccessIterator&gt;</a>
 <a name="96"><span class="lineNum">      96 </span>            :     inline _GLIBCXX14_CONSTEXPR</a>
 <a name="97"><span class="lineNum">      97 </span>            :     typename iterator_traits&lt;_RandomAccessIterator&gt;::difference_type</a>
-<a name="98"><span class="lineNum">      98 </span><span class="lineCov">  105983076 :     __distance(_RandomAccessIterator __first, _RandomAccessIterator __last,</span></a>
+<a name="98"><span class="lineNum">      98 </span><span class="lineCov">  106005700 :     __distance(_RandomAccessIterator __first, _RandomAccessIterator __last,</span></a>
 <a name="99"><span class="lineNum">      99 </span>            :                random_access_iterator_tag)</a>
 <a name="100"><span class="lineNum">     100 </span>            :     {</a>
 <a name="101"><span class="lineNum">     101 </span>            :       // concept requirements</a>
 <a name="102"><span class="lineNum">     102 </span>            :       __glibcxx_function_requires(_RandomAccessIteratorConcept&lt;</a>
 <a name="103"><span class="lineNum">     103 </span>            :                                   _RandomAccessIterator&gt;)</a>
-<a name="104"><span class="lineNum">     104 </span><span class="lineCov">  105983076 :       return __last - __first;</span></a>
+<a name="104"><span class="lineNum">     104 </span><span class="lineCov">  106005700 :       return __last - __first;</span></a>
 <a name="105"><span class="lineNum">     105 </span>            :     }</a>
 <a name="106"><span class="lineNum">     106 </span>            : </a>
 <a name="107"><span class="lineNum">     107 </span>            : #if _GLIBCXX_USE_CXX11_ABI</a>
@@ -197,11 +197,11 @@
 <a name="135"><span class="lineNum">     135 </span>            :   template&lt;typename _InputIterator&gt;</a>
 <a name="136"><span class="lineNum">     136 </span>            :     inline _GLIBCXX17_CONSTEXPR</a>
 <a name="137"><span class="lineNum">     137 </span>            :     typename iterator_traits&lt;_InputIterator&gt;::difference_type</a>
-<a name="138"><span class="lineNum">     138 </span><span class="lineCov">  105983076 :     distance(_InputIterator __first, _InputIterator __last)</span></a>
+<a name="138"><span class="lineNum">     138 </span><span class="lineCov">  106005700 :     distance(_InputIterator __first, _InputIterator __last)</span></a>
 <a name="139"><span class="lineNum">     139 </span>            :     {</a>
 <a name="140"><span class="lineNum">     140 </span>            :       // concept requirements -- taken care of in __distance</a>
-<a name="141"><span class="lineNum">     141 </span><span class="lineCov">  105983076 :       return std::__distance(__first, __last,</span></a>
-<a name="142"><span class="lineNum">     142 </span><span class="lineCov">  211966152 :                              std::__iterator_category(__first));</span></a>
+<a name="141"><span class="lineNum">     141 </span><span class="lineCov">  106005700 :       return std::__distance(__first, __last,</span></a>
+<a name="142"><span class="lineNum">     142 </span><span class="lineCov">  212011400 :                              std::__iterator_category(__first));</span></a>
 <a name="143"><span class="lineNum">     143 </span>            :     }</a>
 <a name="144"><span class="lineNum">     144 </span>            : </a>
 <a name="145"><span class="lineNum">     145 </span>            :   template&lt;typename _InputIterator, typename _Distance&gt;</a>

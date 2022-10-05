@@ -37,12 +37,12 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-10-03 16:47:33</td>
+            <td class="headerValue">2022-10-05 13:58:09</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntry">16</td>
             <td class="headerCovTableEntry">20</td>
-            <td class="headerCovTableEntryLo">60.0 %</td>
+            <td class="headerCovTableEntryMed">80.0 %</td>
           </tr>
           <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -119,8 +119,8 @@
 <a name="57"><span class="lineNum">      57 </span>            : </a>
 <a name="58"><span class="lineNum">      58 </span>            :   template&lt;typename _Res, typename _Fn, typename... _Args&gt;</a>
 <a name="59"><span class="lineNum">      59 </span>            :     constexpr _Res</a>
-<a name="60"><span class="lineNum">      60 </span><span class="lineCov">      74218 :     __invoke_impl(__invoke_other, _Fn&amp;&amp; __f, _Args&amp;&amp;... __args)</span></a>
-<a name="61"><span class="lineNum">      61 </span><span class="lineCov">      74218 :     { return std::forward&lt;_Fn&gt;(__f)(std::forward&lt;_Args&gt;(__args)...); }</span></a>
+<a name="60"><span class="lineNum">      60 </span><span class="lineCov">      74238 :     __invoke_impl(__invoke_other, _Fn&amp;&amp; __f, _Args&amp;&amp;... __args)</span></a>
+<a name="61"><span class="lineNum">      61 </span><span class="lineCov">      74238 :     { return std::forward&lt;_Fn&gt;(__f)(std::forward&lt;_Args&gt;(__args)...); }</span></a>
 <a name="62"><span class="lineNum">      62 </span>            : </a>
 <a name="63"><span class="lineNum">      63 </span>            :   template&lt;typename _Res, typename _MemFun, typename _Tp, typename... _Args&gt;</a>
 <a name="64"><span class="lineNum">      64 </span>            :     constexpr _Res</a>
@@ -163,20 +163,20 @@
 <a name="101"><span class="lineNum">     101 </span>            :   // INVOKE&lt;R&gt;: Invoke a callable object and convert the result to R.</a>
 <a name="102"><span class="lineNum">     102 </span>            :   template&lt;typename _Res, typename _Callable, typename... _Args&gt;</a>
 <a name="103"><span class="lineNum">     103 </span>            :     constexpr enable_if_t&lt;is_invocable_r_v&lt;_Res, _Callable, _Args...&gt;, _Res&gt;</a>
-<a name="104"><span class="lineNum">     104 </span><span class="lineCov">      37133 :     __invoke_r(_Callable&amp;&amp; __fn, _Args&amp;&amp;... __args)</span></a>
+<a name="104"><span class="lineNum">     104 </span><span class="lineCov">      37153 :     __invoke_r(_Callable&amp;&amp; __fn, _Args&amp;&amp;... __args)</span></a>
 <a name="105"><span class="lineNum">     105 </span>            :     noexcept(is_nothrow_invocable_r_v&lt;_Res, _Callable, _Args...&gt;)</a>
 <a name="106"><span class="lineNum">     106 </span>            :     {</a>
 <a name="107"><span class="lineNum">     107 </span>            :       using __result = __invoke_result&lt;_Callable, _Args...&gt;;</a>
 <a name="108"><span class="lineNum">     108 </span>            :       using __type = typename __result::type;</a>
 <a name="109"><span class="lineNum">     109 </span>            :       using __tag = typename __result::__invoke_type;</a>
 <a name="110"><span class="lineNum">     110 </span>            :       if constexpr (is_void_v&lt;_Res&gt;)</a>
-<a name="111"><span class="lineNum">     111 </span><span class="lineCov">      37101 :         std::__invoke_impl&lt;__type&gt;(__tag{}, std::forward&lt;_Callable&gt;(__fn),</span></a>
+<a name="111"><span class="lineNum">     111 </span><span class="lineCov">      37121 :         std::__invoke_impl&lt;__type&gt;(__tag{}, std::forward&lt;_Callable&gt;(__fn),</span></a>
 <a name="112"><span class="lineNum">     112 </span>            :                                         std::forward&lt;_Args&gt;(__args)...);</a>
 <a name="113"><span class="lineNum">     113 </span>            :       else</a>
 <a name="114"><span class="lineNum">     114 </span><span class="lineCov">         32 :         return std::__invoke_impl&lt;__type&gt;(__tag{},</span></a>
 <a name="115"><span class="lineNum">     115 </span>            :                                           std::forward&lt;_Callable&gt;(__fn),</a>
 <a name="116"><span class="lineNum">     116 </span><span class="lineCov">         32 :                                           std::forward&lt;_Args&gt;(__args)...);</span></a>
-<a name="117"><span class="lineNum">     117 </span><span class="lineCov">      37101 :     }</span></a>
+<a name="117"><span class="lineNum">     117 </span><span class="lineCov">      37121 :     }</span></a>
 <a name="118"><span class="lineNum">     118 </span>            : #else // C++11</a>
 <a name="119"><span class="lineNum">     119 </span>            :   template&lt;typename _Res, typename _Callable, typename... _Args&gt;</a>
 <a name="120"><span class="lineNum">     120 </span>            :     using __can_invoke_as_void = __enable_if_t&lt;</a>

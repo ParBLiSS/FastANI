@@ -31,13 +31,13 @@
             <td class="headerValue">FastANITest.out</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">156</td>
+            <td class="headerCovTableEntry">160</td>
             <td class="headerCovTableEntry">162</td>
-            <td class="headerCovTableEntryHi">96.3 %</td>
+            <td class="headerCovTableEntryHi">98.8 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-10-03 16:47:33</td>
+            <td class="headerValue">2022-10-05 13:58:09</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">9</td>
@@ -203,7 +203,7 @@
 <a name="141"><span class="lineNum">     141 </span>            : </a>
 <a name="142"><span class="lineNum">     142 </span>            :               //Record contig length</a>
 <a name="143"><span class="lineNum">     143 </span><span class="lineCov">         28 :               if(param.visualize)</span></a>
-<a name="144"><span class="lineNum">     144 </span><span class="lineNoCov">          0 :                 metadata.push_back( ContigInfo{seq-&gt;name.s, (offset_t)seq-&gt;seq.l} );</span></a>
+<a name="144"><span class="lineNum">     144 </span><span class="lineCov">         28 :                 metadata.push_back( ContigInfo{seq-&gt;name.s, (offset_t)seq-&gt;seq.l} );</span></a>
 <a name="145"><span class="lineNum">     145 </span>            : </a>
 <a name="146"><span class="lineNum">     146 </span>            : #ifdef DEBUG</a>
 <a name="147"><span class="lineNum">     147 </span>            :               std::cerr &lt;&lt; &quot;WARNING, skch::Map::mapQuery, read is not long enough for mapping&quot; &lt;&lt; std::endl;</a>
@@ -218,10 +218,10 @@
 <a name="156"><span class="lineNum">     156 </span>            :                 //Record each fragment's length coverage in genome for supporting visualization</a>
 <a name="157"><span class="lineNum">     157 </span><span class="lineCov">      22459 :                 if(param.visualize)</span></a>
 <a name="158"><span class="lineNum">     158 </span>            :                 {</a>
-<a name="159"><span class="lineNum">     159 </span><span class="lineNoCov">          0 :                   if (i != fragmentCount - 1)</span></a>
-<a name="160"><span class="lineNum">     160 </span><span class="lineNoCov">          0 :                     metadata.push_back( ContigInfo{seq-&gt;name.s, param.minReadLength} );</span></a>
+<a name="159"><span class="lineNum">     159 </span><span class="lineCov">      22459 :                   if (i != fragmentCount - 1)</span></a>
+<a name="160"><span class="lineNum">     160 </span><span class="lineCov">      22122 :                     metadata.push_back( ContigInfo{seq-&gt;name.s, param.minReadLength} );</span></a>
 <a name="161"><span class="lineNum">     161 </span>            :                   else //Adjust for unmapped tail sequence</a>
-<a name="162"><span class="lineNum">     162 </span><span class="lineNoCov">          0 :                     metadata.push_back( ContigInfo{seq-&gt;name.s, param.minReadLength + (len % param.minReadLength)} );</span></a>
+<a name="162"><span class="lineNum">     162 </span><span class="lineCov">        337 :                     metadata.push_back( ContigInfo{seq-&gt;name.s, param.minReadLength + (len % param.minReadLength)} );</span></a>
 <a name="163"><span class="lineNum">     163 </span>            :                 }</a>
 <a name="164"><span class="lineNum">     164 </span>            : </a>
 <a name="165"><span class="lineNum">     165 </span><span class="lineCov">      22459 :                 QueryMetaData &lt;decltype(seq), MinVec_Type&gt; Q;</span></a>
