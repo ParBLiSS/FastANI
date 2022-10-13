@@ -156,6 +156,9 @@ TEST_CASE( "Single Threaded Pair Query Ref", "[single threaded pair]" ) {
     auto fx = get_file_contents("stsrsq-test.txt");
     auto ref_fx = get_file_contents("data/stsrsq-test.txt");
     REQUIRE(fx == ref_fx);
+    fx = get_file_contents("stsrsq-test.txt.visual");
+    ref_fx = get_file_contents("data/stsrsq-test.txt.visual");
+    REQUIRE(fx == ref_fx);
 }
 
 
@@ -193,7 +196,9 @@ TEST_CASE( "Single Threaded Multi Query", "[single threaded multi query]" ) {
     auto fx = get_file_contents("stsrmq-test.txt");
     auto ref_fx = get_file_contents("data/stsrmq-test.txt");
     REQUIRE(fx == ref_fx);
-
+    fx = get_file_contents("stsrmq-test.txt.visual");
+    ref_fx = get_file_contents("data/stsrmq-test.txt.visual");
+    REQUIRE(fx == ref_fx);
 }
 
 
@@ -228,6 +233,9 @@ TEST_CASE( "Single Threaded Multi Ref.", "[single threaded multi ref.]" ) {
     REQUIRE(finalResults[1].totalQueryFragments == 1711);
     auto fx = get_file_contents("stmrsq-test.txt");
     auto ref_fx = get_file_contents("data/stmrsq-test.txt");
+    REQUIRE(fx == ref_fx);
+    fx = get_file_contents("stmrsq-test.txt.visual");
+    ref_fx = get_file_contents("data/stmrsq-test.txt.visual");
     REQUIRE(fx == ref_fx);
 }
 
@@ -293,6 +301,9 @@ TEST_CASE( "Single Threaded Multi Q. Multi Ref.",
     auto fx = get_file_contents("stmqmr-test.txt");
     auto ref_fx = get_file_contents("data/stmqmr-test.txt");
     REQUIRE(fx == ref_fx);
+    fx = get_file_contents("stmqmr-test.txt.visual");
+    ref_fx = get_file_contents("data/stmqmr-test.txt.visual");
+    REQUIRE(fx == ref_fx);
 }
 
 TEST_CASE( "Multi Threaded Multi Q. Multi Ref.",
@@ -355,5 +366,8 @@ TEST_CASE( "Multi Threaded Multi Q. Multi Ref.",
     REQUIRE(finalResults[5].totalQueryFragments == 1795); 
     auto fx = get_file_contents("mtmqmr-test.txt");
     auto ref_fx = get_file_contents("data/mtmqmr-test.txt");
+    REQUIRE(fx == ref_fx);
+    fx = get_file_contents("mtmqmr-test.txt.visual");
+    ref_fx = get_file_contents("data/mtmqmr-test.txt.visual");
     REQUIRE(fx == ref_fx);
 }
