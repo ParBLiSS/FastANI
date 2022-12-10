@@ -37,12 +37,12 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-10-05 13:58:09</td>
+            <td class="headerValue">2022-12-10 17:13:44</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">76</td>
-            <td class="headerCovTableEntry">86</td>
-            <td class="headerCovTableEntryMed">88.4 %</td>
+            <td class="headerCovTableEntry">83</td>
+            <td class="headerCovTableEntry">93</td>
+            <td class="headerCovTableEntryMed">89.2 %</td>
           </tr>
           <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -154,7 +154,7 @@
 <a name="92"><span class="lineNum">      92 </span>            :       using propagate_on_container_move_assignment = true_type;</a>
 <a name="93"><span class="lineNum">      93 </span>            : </a>
 <a name="94"><span class="lineNum">      94 </span>            :       using is_always_equal</a>
-<a name="95"><span class="lineNum">      95 </span>            :         _GLIBCXX20_DEPRECATED_SUGGEST(&quot;allocator_traits::is_always_equal&quot;)</a>
+<a name="95"><span class="lineNum">      95 </span>            :         _GLIBCXX20_DEPRECATED_SUGGEST(&quot;std::allocator_traits::is_always_equal&quot;)</a>
 <a name="96"><span class="lineNum">      96 </span>            :         = true_type;</a>
 <a name="97"><span class="lineNum">      97 </span>            : </a>
 <a name="98"><span class="lineNum">      98 </span>            : #if __cplusplus &gt;= 202002L</a>
@@ -208,18 +208,18 @@
 <a name="146"><span class="lineNum">     146 </span>            :       using propagate_on_container_move_assignment = true_type;</a>
 <a name="147"><span class="lineNum">     147 </span>            : </a>
 <a name="148"><span class="lineNum">     148 </span>            :       using is_always_equal</a>
-<a name="149"><span class="lineNum">     149 </span>            :         _GLIBCXX20_DEPRECATED_SUGGEST(&quot;allocator_traits::is_always_equal&quot;)</a>
+<a name="149"><span class="lineNum">     149 </span>            :         _GLIBCXX20_DEPRECATED_SUGGEST(&quot;std::allocator_traits::is_always_equal&quot;)</a>
 <a name="150"><span class="lineNum">     150 </span>            :         = true_type;</a>
 <a name="151"><span class="lineNum">     151 </span>            : #endif</a>
 <a name="152"><span class="lineNum">     152 </span>            : </a>
 <a name="153"><span class="lineNum">     153 </span>            :       // _GLIBCXX_RESOLVE_LIB_DEFECTS</a>
 <a name="154"><span class="lineNum">     154 </span>            :       // 3035. std::allocator's constructors should be constexpr</a>
 <a name="155"><span class="lineNum">     155 </span>            :       _GLIBCXX20_CONSTEXPR</a>
-<a name="156"><span class="lineNum">     156 </span><span class="lineCov">    2621900 :       allocator() _GLIBCXX_NOTHROW { }</span></a>
+<a name="156"><span class="lineNum">     156 </span><span class="lineCov">    3540225 :       allocator() _GLIBCXX_NOTHROW { }</span></a>
 <a name="157"><span class="lineNum">     157 </span>            : </a>
 <a name="158"><span class="lineNum">     158 </span>            :       _GLIBCXX20_CONSTEXPR</a>
-<a name="159"><span class="lineNum">     159 </span><span class="lineCov">   10332773 :       allocator(const allocator&amp; __a) _GLIBCXX_NOTHROW</span></a>
-<a name="160"><span class="lineNum">     160 </span><span class="lineCov">   10332773 :       : __allocator_base&lt;_Tp&gt;(__a) { }</span></a>
+<a name="159"><span class="lineNum">     159 </span><span class="lineCov">   15316082 :       allocator(const allocator&amp; __a) _GLIBCXX_NOTHROW</span></a>
+<a name="160"><span class="lineNum">     160 </span><span class="lineCov">   15316082 :       : __allocator_base&lt;_Tp&gt;(__a) { }</span></a>
 <a name="161"><span class="lineNum">     161 </span>            : </a>
 <a name="162"><span class="lineNum">     162 </span>            : #if __cplusplus &gt;= 201103L</a>
 <a name="163"><span class="lineNum">     163 </span>            :       // Avoid implicit deprecation.</a>
@@ -228,12 +228,12 @@
 <a name="166"><span class="lineNum">     166 </span>            : </a>
 <a name="167"><span class="lineNum">     167 </span>            :       template&lt;typename _Tp1&gt;</a>
 <a name="168"><span class="lineNum">     168 </span>            :         _GLIBCXX20_CONSTEXPR</a>
-<a name="169"><span class="lineNum">     169 </span><span class="lineCov">      46106 :         allocator(const allocator&lt;_Tp1&gt;&amp;) _GLIBCXX_NOTHROW { }</span></a>
+<a name="169"><span class="lineNum">     169 </span><span class="lineCov">      70516 :         allocator(const allocator&lt;_Tp1&gt;&amp;) _GLIBCXX_NOTHROW { }</span></a>
 <a name="170"><span class="lineNum">     170 </span>            : </a>
 <a name="171"><span class="lineNum">     171 </span>            : #if __cpp_constexpr_dynamic_alloc</a>
 <a name="172"><span class="lineNum">     172 </span>            :       constexpr</a>
 <a name="173"><span class="lineNum">     173 </span>            : #endif</a>
-<a name="174"><span class="lineNum">     174 </span><span class="lineCov">   13000779 :       ~allocator() _GLIBCXX_NOTHROW { }</span></a>
+<a name="174"><span class="lineNum">     174 </span><span class="lineCov">   18926871 :       ~allocator() _GLIBCXX_NOTHROW { }</span></a>
 <a name="175"><span class="lineNum">     175 </span>            : </a>
 <a name="176"><span class="lineNum">     176 </span>            : #if __cplusplus &gt; 201703L</a>
 <a name="177"><span class="lineNum">     177 </span>            :       [[nodiscard,__gnu__::__always_inline__]]</a>

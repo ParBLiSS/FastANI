@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-10-05 13:58:09</td>
+            <td class="headerValue">2022-12-10 17:13:44</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">6</td>
@@ -221,8 +221,8 @@
 <a name="159"><span class="lineNum">     159 </span>            : #else</a>
 <a name="160"><span class="lineNum">     160 </span>            :       template&lt;typename _Seq = _Sequence, typename _Requires = typename</a>
 <a name="161"><span class="lineNum">     161 </span>            :                enable_if&lt;is_default_constructible&lt;_Seq&gt;::value&gt;::type&gt;</a>
-<a name="162"><span class="lineNum">     162 </span><span class="lineCov">         37 :         stack()</span></a>
-<a name="163"><span class="lineNum">     163 </span><span class="lineCov">         37 :         : c() { }</span></a>
+<a name="162"><span class="lineNum">     162 </span><span class="lineCov">        158 :         stack()</span></a>
+<a name="163"><span class="lineNum">     163 </span><span class="lineCov">        158 :         : c() { }</span></a>
 <a name="164"><span class="lineNum">     164 </span>            : </a>
 <a name="165"><span class="lineNum">     165 </span>            :       explicit</a>
 <a name="166"><span class="lineNum">     166 </span>            :       stack(const _Sequence&amp; __c)</a>
@@ -258,8 +258,8 @@
 <a name="196"><span class="lineNum">     196 </span>            :        *  Returns true if the %stack is empty.</a>
 <a name="197"><span class="lineNum">     197 </span>            :        */</a>
 <a name="198"><span class="lineNum">     198 </span>            :       _GLIBCXX_NODISCARD bool</a>
-<a name="199"><span class="lineNum">     199 </span><span class="lineCov">       1651 :       empty() const</span></a>
-<a name="200"><span class="lineNum">     200 </span><span class="lineCov">       1651 :       { return c.empty(); }</span></a>
+<a name="199"><span class="lineNum">     199 </span><span class="lineCov">       7488 :       empty() const</span></a>
+<a name="200"><span class="lineNum">     200 </span><span class="lineCov">       7488 :       { return c.empty(); }</span></a>
 <a name="201"><span class="lineNum">     201 </span>            : </a>
 <a name="202"><span class="lineNum">     202 </span>            :       /**  Returns the number of elements in the %stack.  */</a>
 <a name="203"><span class="lineNum">     203 </span>            :       size_type</a>
@@ -271,10 +271,10 @@
 <a name="209"><span class="lineNum">     209 </span>            :        *  element of the %stack.</a>
 <a name="210"><span class="lineNum">     210 </span>            :        */</a>
 <a name="211"><span class="lineNum">     211 </span>            :       reference</a>
-<a name="212"><span class="lineNum">     212 </span><span class="lineCov">        112 :       top()</span></a>
+<a name="212"><span class="lineNum">     212 </span><span class="lineCov">        476 :       top()</span></a>
 <a name="213"><span class="lineNum">     213 </span>            :       {</a>
 <a name="214"><span class="lineNum">     214 </span>            :         __glibcxx_requires_nonempty();</a>
-<a name="215"><span class="lineNum">     215 </span><span class="lineCov">        112 :         return c.back();</span></a>
+<a name="215"><span class="lineNum">     215 </span><span class="lineCov">        476 :         return c.back();</span></a>
 <a name="216"><span class="lineNum">     216 </span>            :       }</a>
 <a name="217"><span class="lineNum">     217 </span>            : </a>
 <a name="218"><span class="lineNum">     218 </span>            :       /**</a>
@@ -282,10 +282,10 @@
 <a name="220"><span class="lineNum">     220 </span>            :        *  element of the %stack.</a>
 <a name="221"><span class="lineNum">     221 </span>            :        */</a>
 <a name="222"><span class="lineNum">     222 </span>            :       const_reference</a>
-<a name="223"><span class="lineNum">     223 </span><span class="lineCov">         16 :       top() const</span></a>
+<a name="223"><span class="lineNum">     223 </span><span class="lineCov">         68 :       top() const</span></a>
 <a name="224"><span class="lineNum">     224 </span>            :       {</a>
 <a name="225"><span class="lineNum">     225 </span>            :         __glibcxx_requires_nonempty();</a>
-<a name="226"><span class="lineNum">     226 </span><span class="lineCov">         16 :         return c.back();</span></a>
+<a name="226"><span class="lineNum">     226 </span><span class="lineCov">         68 :         return c.back();</span></a>
 <a name="227"><span class="lineNum">     227 </span>            :       }</a>
 <a name="228"><span class="lineNum">     228 </span>            : </a>
 <a name="229"><span class="lineNum">     229 </span>            :       /**</a>
@@ -303,8 +303,8 @@
 <a name="241"><span class="lineNum">     241 </span>            : </a>
 <a name="242"><span class="lineNum">     242 </span>            : #if __cplusplus &gt;= 201103L</a>
 <a name="243"><span class="lineNum">     243 </span>            :       void</a>
-<a name="244"><span class="lineNum">     244 </span><span class="lineCov">         16 :       push(value_type&amp;&amp; __x)</span></a>
-<a name="245"><span class="lineNum">     245 </span><span class="lineCov">         16 :       { c.push_back(std::move(__x)); }</span></a>
+<a name="244"><span class="lineNum">     244 </span><span class="lineCov">         68 :       push(value_type&amp;&amp; __x)</span></a>
+<a name="245"><span class="lineNum">     245 </span><span class="lineCov">         68 :       { c.push_back(std::move(__x)); }</span></a>
 <a name="246"><span class="lineNum">     246 </span>            : </a>
 <a name="247"><span class="lineNum">     247 </span>            : #if __cplusplus &gt; 201402L</a>
 <a name="248"><span class="lineNum">     248 </span>            :       template&lt;typename... _Args&gt;</a>
@@ -331,11 +331,11 @@
 <a name="269"><span class="lineNum">     269 </span>            :        *  called.</a>
 <a name="270"><span class="lineNum">     270 </span>            :        */</a>
 <a name="271"><span class="lineNum">     271 </span>            :       void</a>
-<a name="272"><span class="lineNum">     272 </span><span class="lineCov">         64 :       pop()</span></a>
+<a name="272"><span class="lineNum">     272 </span><span class="lineCov">        272 :       pop()</span></a>
 <a name="273"><span class="lineNum">     273 </span>            :       {</a>
 <a name="274"><span class="lineNum">     274 </span>            :         __glibcxx_requires_nonempty();</a>
-<a name="275"><span class="lineNum">     275 </span><span class="lineCov">         64 :         c.pop_back();</span></a>
-<a name="276"><span class="lineNum">     276 </span><span class="lineCov">         64 :       }</span></a>
+<a name="275"><span class="lineNum">     275 </span><span class="lineCov">        272 :         c.pop_back();</span></a>
+<a name="276"><span class="lineNum">     276 </span><span class="lineCov">        272 :       }</span></a>
 <a name="277"><span class="lineNum">     277 </span>            : </a>
 <a name="278"><span class="lineNum">     278 </span>            : #if __cplusplus &gt;= 201103L</a>
 <a name="279"><span class="lineNum">     279 </span>            :       void</a>

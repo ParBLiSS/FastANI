@@ -37,12 +37,12 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-10-05 13:58:09</td>
+            <td class="headerValue">2022-12-10 17:13:44</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">15</td>
-            <td class="headerCovTableEntry">30</td>
-            <td class="headerCovTableEntryLo">50.0 %</td>
+            <td class="headerCovTableEntry">35</td>
+            <td class="headerCovTableEntryLo">42.9 %</td>
           </tr>
           <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -193,19 +193,19 @@
 <a name="131"><span class="lineNum">     131 </span>            :            typename _Compare&gt;</a>
 <a name="132"><span class="lineNum">     132 </span>            :     _GLIBCXX20_CONSTEXPR</a>
 <a name="133"><span class="lineNum">     133 </span>            :     void</a>
-<a name="134"><span class="lineNum">     134 </span><span class="lineCov">       8455 :     __push_heap(_RandomAccessIterator __first,</span></a>
+<a name="134"><span class="lineNum">     134 </span><span class="lineCov">      10794 :     __push_heap(_RandomAccessIterator __first,</span></a>
 <a name="135"><span class="lineNum">     135 </span>            :                 _Distance __holeIndex, _Distance __topIndex, _Tp __value,</a>
 <a name="136"><span class="lineNum">     136 </span>            :                 _Compare&amp; __comp)</a>
 <a name="137"><span class="lineNum">     137 </span>            :     {</a>
-<a name="138"><span class="lineNum">     138 </span><span class="lineCov">       8455 :       _Distance __parent = (__holeIndex - 1) / 2;</span></a>
-<a name="139"><span class="lineNum">     139 </span><span class="lineCov">      11629 :       while (__holeIndex &gt; __topIndex &amp;&amp; __comp(__first + __parent, __value))</span></a>
+<a name="138"><span class="lineNum">     138 </span><span class="lineCov">      10794 :       _Distance __parent = (__holeIndex - 1) / 2;</span></a>
+<a name="139"><span class="lineNum">     139 </span><span class="lineCov">      15043 :       while (__holeIndex &gt; __topIndex &amp;&amp; __comp(__first + __parent, __value))</span></a>
 <a name="140"><span class="lineNum">     140 </span>            :         {</a>
-<a name="141"><span class="lineNum">     141 </span><span class="lineCov">       3174 :           *(__first + __holeIndex) = _GLIBCXX_MOVE(*(__first + __parent));</span></a>
-<a name="142"><span class="lineNum">     142 </span><span class="lineCov">       3174 :           __holeIndex = __parent;</span></a>
-<a name="143"><span class="lineNum">     143 </span><span class="lineCov">       3174 :           __parent = (__holeIndex - 1) / 2;</span></a>
+<a name="141"><span class="lineNum">     141 </span><span class="lineCov">       4249 :           *(__first + __holeIndex) = _GLIBCXX_MOVE(*(__first + __parent));</span></a>
+<a name="142"><span class="lineNum">     142 </span><span class="lineCov">       4249 :           __holeIndex = __parent;</span></a>
+<a name="143"><span class="lineNum">     143 </span><span class="lineCov">       4249 :           __parent = (__holeIndex - 1) / 2;</span></a>
 <a name="144"><span class="lineNum">     144 </span>            :         }</a>
-<a name="145"><span class="lineNum">     145 </span><span class="lineCov">       8455 :       *(__first + __holeIndex) = _GLIBCXX_MOVE(__value);</span></a>
-<a name="146"><span class="lineNum">     146 </span><span class="lineCov">       8455 :     }</span></a>
+<a name="145"><span class="lineNum">     145 </span><span class="lineCov">      10794 :       *(__first + __holeIndex) = _GLIBCXX_MOVE(__value);</span></a>
+<a name="146"><span class="lineNum">     146 </span><span class="lineCov">      10794 :     }</span></a>
 <a name="147"><span class="lineNum">     147 </span>            : </a>
 <a name="148"><span class="lineNum">     148 </span>            :   /**</a>
 <a name="149"><span class="lineNum">     149 </span>            :    *  @brief  Push an element onto a heap.</a>
@@ -282,37 +282,37 @@
 <a name="220"><span class="lineNum">     220 </span>            :            typename _Tp, typename _Compare&gt;</a>
 <a name="221"><span class="lineNum">     221 </span>            :     _GLIBCXX20_CONSTEXPR</a>
 <a name="222"><span class="lineNum">     222 </span>            :     void</a>
-<a name="223"><span class="lineNum">     223 </span><span class="lineCov">       8455 :     __adjust_heap(_RandomAccessIterator __first, _Distance __holeIndex,</span></a>
+<a name="223"><span class="lineNum">     223 </span><span class="lineCov">      10794 :     __adjust_heap(_RandomAccessIterator __first, _Distance __holeIndex,</span></a>
 <a name="224"><span class="lineNum">     224 </span>            :                   _Distance __len, _Tp __value, _Compare __comp)</a>
 <a name="225"><span class="lineNum">     225 </span>            :     {</a>
-<a name="226"><span class="lineNum">     226 </span><span class="lineCov">       8455 :       const _Distance __topIndex = __holeIndex;</span></a>
-<a name="227"><span class="lineNum">     227 </span><span class="lineCov">       8455 :       _Distance __secondChild = __holeIndex;</span></a>
-<a name="228"><span class="lineNum">     228 </span><span class="lineCov">      43238 :       while (__secondChild &lt; (__len - 1) / 2)</span></a>
+<a name="226"><span class="lineNum">     226 </span><span class="lineCov">      10794 :       const _Distance __topIndex = __holeIndex;</span></a>
+<a name="227"><span class="lineNum">     227 </span><span class="lineCov">      10794 :       _Distance __secondChild = __holeIndex;</span></a>
+<a name="228"><span class="lineNum">     228 </span><span class="lineCov">      53247 :       while (__secondChild &lt; (__len - 1) / 2)</span></a>
 <a name="229"><span class="lineNum">     229 </span>            :         {</a>
-<a name="230"><span class="lineNum">     230 </span><span class="lineCov">      34783 :           __secondChild = 2 * (__secondChild + 1);</span></a>
-<a name="231"><span class="lineNum">     231 </span><span class="lineCov">      34783 :           if (__comp(__first + __secondChild,</span></a>
+<a name="230"><span class="lineNum">     230 </span><span class="lineCov">      42453 :           __secondChild = 2 * (__secondChild + 1);</span></a>
+<a name="231"><span class="lineNum">     231 </span><span class="lineCov">      42453 :           if (__comp(__first + __secondChild,</span></a>
 <a name="232"><span class="lineNum">     232 </span>            :                      __first + (__secondChild - 1)))</a>
-<a name="233"><span class="lineNum">     233 </span><span class="lineCov">      18621 :             __secondChild--;</span></a>
-<a name="234"><span class="lineNum">     234 </span><span class="lineCov">      34783 :           *(__first + __holeIndex) = _GLIBCXX_MOVE(*(__first + __secondChild));</span></a>
-<a name="235"><span class="lineNum">     235 </span><span class="lineCov">      34783 :           __holeIndex = __secondChild;</span></a>
+<a name="233"><span class="lineNum">     233 </span><span class="lineCov">      22939 :             __secondChild--;</span></a>
+<a name="234"><span class="lineNum">     234 </span><span class="lineCov">      42453 :           *(__first + __holeIndex) = _GLIBCXX_MOVE(*(__first + __secondChild));</span></a>
+<a name="235"><span class="lineNum">     235 </span><span class="lineCov">      42453 :           __holeIndex = __secondChild;</span></a>
 <a name="236"><span class="lineNum">     236 </span>            :         }</a>
-<a name="237"><span class="lineNum">     237 </span><span class="lineCov">       8455 :       if ((__len &amp; 1) == 0 &amp;&amp; __secondChild == (__len - 2) / 2)</span></a>
+<a name="237"><span class="lineNum">     237 </span><span class="lineCov">      10794 :       if ((__len &amp; 1) == 0 &amp;&amp; __secondChild == (__len - 2) / 2)</span></a>
 <a name="238"><span class="lineNum">     238 </span>            :         {</a>
-<a name="239"><span class="lineNum">     239 </span><span class="lineCov">        670 :           __secondChild = 2 * (__secondChild + 1);</span></a>
-<a name="240"><span class="lineNum">     240 </span><span class="lineCov">        670 :           *(__first + __holeIndex) = _GLIBCXX_MOVE(*(__first</span></a>
+<a name="239"><span class="lineNum">     239 </span><span class="lineCov">        929 :           __secondChild = 2 * (__secondChild + 1);</span></a>
+<a name="240"><span class="lineNum">     240 </span><span class="lineCov">        929 :           *(__first + __holeIndex) = _GLIBCXX_MOVE(*(__first</span></a>
 <a name="241"><span class="lineNum">     241 </span>            :                                                      + (__secondChild - 1)));</a>
-<a name="242"><span class="lineNum">     242 </span><span class="lineCov">        670 :           __holeIndex = __secondChild - 1;</span></a>
+<a name="242"><span class="lineNum">     242 </span><span class="lineCov">        929 :           __holeIndex = __secondChild - 1;</span></a>
 <a name="243"><span class="lineNum">     243 </span>            :         }</a>
 <a name="244"><span class="lineNum">     244 </span>            :       __decltype(__gnu_cxx::__ops::__iter_comp_val(_GLIBCXX_MOVE(__comp)))</a>
-<a name="245"><span class="lineNum">     245 </span><span class="lineCov">       8455 :         __cmp(_GLIBCXX_MOVE(__comp));</span></a>
-<a name="246"><span class="lineNum">     246 </span><span class="lineCov">       8455 :       std::__push_heap(__first, __holeIndex, __topIndex,</span></a>
-<a name="247"><span class="lineNum">     247 </span><span class="lineCov">       8455 :                        _GLIBCXX_MOVE(__value), __cmp);</span></a>
-<a name="248"><span class="lineNum">     248 </span><span class="lineCov">       8455 :     }</span></a>
+<a name="245"><span class="lineNum">     245 </span><span class="lineCov">      10794 :         __cmp(_GLIBCXX_MOVE(__comp));</span></a>
+<a name="246"><span class="lineNum">     246 </span><span class="lineCov">      10794 :       std::__push_heap(__first, __holeIndex, __topIndex,</span></a>
+<a name="247"><span class="lineNum">     247 </span><span class="lineCov">      10794 :                        _GLIBCXX_MOVE(__value), __cmp);</span></a>
+<a name="248"><span class="lineNum">     248 </span><span class="lineCov">      10794 :     }</span></a>
 <a name="249"><span class="lineNum">     249 </span>            : </a>
 <a name="250"><span class="lineNum">     250 </span>            :   template&lt;typename _RandomAccessIterator, typename _Compare&gt;</a>
 <a name="251"><span class="lineNum">     251 </span>            :     _GLIBCXX20_CONSTEXPR</a>
 <a name="252"><span class="lineNum">     252 </span>            :     inline void</a>
-<a name="253"><span class="lineNum">     253 </span><span class="lineCov">       5625 :     __pop_heap(_RandomAccessIterator __first, _RandomAccessIterator __last,</span></a>
+<a name="253"><span class="lineNum">     253 </span><span class="lineCov">       7179 :     __pop_heap(_RandomAccessIterator __first, _RandomAccessIterator __last,</span></a>
 <a name="254"><span class="lineNum">     254 </span>            :                _RandomAccessIterator __result, _Compare&amp; __comp)</a>
 <a name="255"><span class="lineNum">     255 </span>            :     {</a>
 <a name="256"><span class="lineNum">     256 </span>            :       typedef typename iterator_traits&lt;_RandomAccessIterator&gt;::value_type</a>
@@ -320,12 +320,12 @@
 <a name="258"><span class="lineNum">     258 </span>            :       typedef typename iterator_traits&lt;_RandomAccessIterator&gt;::difference_type</a>
 <a name="259"><span class="lineNum">     259 </span>            :         _DistanceType;</a>
 <a name="260"><span class="lineNum">     260 </span>            : </a>
-<a name="261"><span class="lineNum">     261 </span><span class="lineCov">       5625 :       _ValueType __value = _GLIBCXX_MOVE(*__result);</span></a>
-<a name="262"><span class="lineNum">     262 </span><span class="lineCov">       5625 :       *__result = _GLIBCXX_MOVE(*__first);</span></a>
-<a name="263"><span class="lineNum">     263 </span><span class="lineCov">       5625 :       std::__adjust_heap(__first, _DistanceType(0),</span></a>
-<a name="264"><span class="lineNum">     264 </span><span class="lineCov">       5625 :                          _DistanceType(__last - __first),</span></a>
-<a name="265"><span class="lineNum">     265 </span><span class="lineCov">       5625 :                          _GLIBCXX_MOVE(__value), __comp);</span></a>
-<a name="266"><span class="lineNum">     266 </span><span class="lineCov">       5625 :     }</span></a>
+<a name="261"><span class="lineNum">     261 </span><span class="lineCov">       7179 :       _ValueType __value = _GLIBCXX_MOVE(*__result);</span></a>
+<a name="262"><span class="lineNum">     262 </span><span class="lineCov">       7179 :       *__result = _GLIBCXX_MOVE(*__first);</span></a>
+<a name="263"><span class="lineNum">     263 </span><span class="lineCov">       7179 :       std::__adjust_heap(__first, _DistanceType(0),</span></a>
+<a name="264"><span class="lineNum">     264 </span><span class="lineCov">       7179 :                          _DistanceType(__last - __first),</span></a>
+<a name="265"><span class="lineNum">     265 </span><span class="lineCov">       7179 :                          _GLIBCXX_MOVE(__value), __comp);</span></a>
+<a name="266"><span class="lineNum">     266 </span><span class="lineCov">       7179 :     }</span></a>
 <a name="267"><span class="lineNum">     267 </span>            : </a>
 <a name="268"><span class="lineNum">     268 </span>            :   /**</a>
 <a name="269"><span class="lineNum">     269 </span>            :    *  @brief  Pop an element off a heap.</a>
@@ -398,7 +398,7 @@
 <a name="336"><span class="lineNum">     336 </span>            :   template&lt;typename _RandomAccessIterator, typename _Compare&gt;</a>
 <a name="337"><span class="lineNum">     337 </span>            :     _GLIBCXX20_CONSTEXPR</a>
 <a name="338"><span class="lineNum">     338 </span>            :     void</a>
-<a name="339"><span class="lineNum">     339 </span><span class="lineCov">         66 :     __make_heap(_RandomAccessIterator __first, _RandomAccessIterator __last,</span></a>
+<a name="339"><span class="lineNum">     339 </span><span class="lineCov">         94 :     __make_heap(_RandomAccessIterator __first, _RandomAccessIterator __last,</span></a>
 <a name="340"><span class="lineNum">     340 </span>            :                 _Compare&amp; __comp)</a>
 <a name="341"><span class="lineNum">     341 </span>            :     {</a>
 <a name="342"><span class="lineNum">     342 </span>            :       typedef typename iterator_traits&lt;_RandomAccessIterator&gt;::value_type</a>
@@ -406,19 +406,19 @@
 <a name="344"><span class="lineNum">     344 </span>            :       typedef typename iterator_traits&lt;_RandomAccessIterator&gt;::difference_type</a>
 <a name="345"><span class="lineNum">     345 </span>            :           _DistanceType;</a>
 <a name="346"><span class="lineNum">     346 </span>            : </a>
-<a name="347"><span class="lineNum">     347 </span><span class="lineCov">         66 :       if (__last - __first &lt; 2)</span></a>
+<a name="347"><span class="lineNum">     347 </span><span class="lineCov">         94 :       if (__last - __first &lt; 2)</span></a>
 <a name="348"><span class="lineNum">     348 </span><span class="lineNoCov">          0 :         return;</span></a>
 <a name="349"><span class="lineNum">     349 </span>            : </a>
-<a name="350"><span class="lineNum">     350 </span><span class="lineCov">         66 :       const _DistanceType __len = __last - __first;</span></a>
-<a name="351"><span class="lineNum">     351 </span><span class="lineCov">         66 :       _DistanceType __parent = (__len - 2) / 2;</span></a>
-<a name="352"><span class="lineNum">     352 </span><span class="lineCov">       2764 :       while (true)</span></a>
+<a name="350"><span class="lineNum">     350 </span><span class="lineCov">         94 :       const _DistanceType __len = __last - __first;</span></a>
+<a name="351"><span class="lineNum">     351 </span><span class="lineCov">         94 :       _DistanceType __parent = (__len - 2) / 2;</span></a>
+<a name="352"><span class="lineNum">     352 </span><span class="lineCov">       3521 :       while (true)</span></a>
 <a name="353"><span class="lineNum">     353 </span>            :         {</a>
-<a name="354"><span class="lineNum">     354 </span><span class="lineCov">       2830 :           _ValueType __value = _GLIBCXX_MOVE(*(__first + __parent));</span></a>
-<a name="355"><span class="lineNum">     355 </span><span class="lineCov">       2830 :           std::__adjust_heap(__first, __parent, __len, _GLIBCXX_MOVE(__value),</span></a>
+<a name="354"><span class="lineNum">     354 </span><span class="lineCov">       3615 :           _ValueType __value = _GLIBCXX_MOVE(*(__first + __parent));</span></a>
+<a name="355"><span class="lineNum">     355 </span><span class="lineCov">       3615 :           std::__adjust_heap(__first, __parent, __len, _GLIBCXX_MOVE(__value),</span></a>
 <a name="356"><span class="lineNum">     356 </span>            :                              __comp);</a>
-<a name="357"><span class="lineNum">     357 </span><span class="lineCov">       2830 :           if (__parent == 0)</span></a>
-<a name="358"><span class="lineNum">     358 </span><span class="lineCov">         66 :             return;</span></a>
-<a name="359"><span class="lineNum">     359 </span><span class="lineCov">       2764 :           __parent--;</span></a>
+<a name="357"><span class="lineNum">     357 </span><span class="lineCov">       3615 :           if (__parent == 0)</span></a>
+<a name="358"><span class="lineNum">     358 </span><span class="lineCov">         94 :             return;</span></a>
+<a name="359"><span class="lineNum">     359 </span><span class="lineCov">       3521 :           __parent--;</span></a>
 <a name="360"><span class="lineNum">     360 </span>            :         }</a>
 <a name="361"><span class="lineNum">     361 </span>            :     }</a>
 <a name="362"><span class="lineNum">     362 </span>            :   </a>
@@ -477,15 +477,15 @@
 <a name="415"><span class="lineNum">     415 </span>            :   template&lt;typename _RandomAccessIterator, typename _Compare&gt;</a>
 <a name="416"><span class="lineNum">     416 </span>            :     _GLIBCXX20_CONSTEXPR</a>
 <a name="417"><span class="lineNum">     417 </span>            :     void</a>
-<a name="418"><span class="lineNum">     418 </span><span class="lineCov">         66 :     __sort_heap(_RandomAccessIterator __first, _RandomAccessIterator __last,</span></a>
+<a name="418"><span class="lineNum">     418 </span><span class="lineCov">         94 :     __sort_heap(_RandomAccessIterator __first, _RandomAccessIterator __last,</span></a>
 <a name="419"><span class="lineNum">     419 </span>            :                 _Compare&amp; __comp)</a>
 <a name="420"><span class="lineNum">     420 </span>            :     {</a>
-<a name="421"><span class="lineNum">     421 </span><span class="lineCov">       5691 :       while (__last - __first &gt; 1)</span></a>
+<a name="421"><span class="lineNum">     421 </span><span class="lineCov">       7273 :       while (__last - __first &gt; 1)</span></a>
 <a name="422"><span class="lineNum">     422 </span>            :         {</a>
-<a name="423"><span class="lineNum">     423 </span><span class="lineCov">       5625 :           --__last;</span></a>
-<a name="424"><span class="lineNum">     424 </span><span class="lineCov">       5625 :           std::__pop_heap(__first, __last, __last, __comp);</span></a>
+<a name="423"><span class="lineNum">     423 </span><span class="lineCov">       7179 :           --__last;</span></a>
+<a name="424"><span class="lineNum">     424 </span><span class="lineCov">       7179 :           std::__pop_heap(__first, __last, __last, __comp);</span></a>
 <a name="425"><span class="lineNum">     425 </span>            :         }</a>
-<a name="426"><span class="lineNum">     426 </span><span class="lineCov">         66 :     }</span></a>
+<a name="426"><span class="lineNum">     426 </span><span class="lineCov">         94 :     }</span></a>
 <a name="427"><span class="lineNum">     427 </span>            : </a>
 <a name="428"><span class="lineNum">     428 </span>            :   /**</a>
 <a name="429"><span class="lineNum">     429 </span>            :    *  @brief  Sort a heap.</a>
