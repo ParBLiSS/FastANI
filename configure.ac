@@ -1,4 +1,6 @@
-AC_INIT(src/cgi/core_genome_identity.cpp)
+AC_INIT
+AC_CONFIG_SRCDIR([src/cgi/core_genome_identity.cpp])
+AC_CONFIG_SRCDIR([src/cgi/main.cpp])
 
 AC_ARG_WITH(gsl, [  --with-gsl=<path/to/gsl>     GNU Scientific Library install dir (default: /usr/local/)])
 AC_ARG_ENABLE(static-gsl, [  --enable-static-gsl])
@@ -56,4 +58,5 @@ else
     AC_SUBST(amcppflags, "-DUSE_BOOST")
 fi
 
-AC_OUTPUT(Makefile)
+AC_CONFIG_FILES([Makefile])
+AC_OUTPUT

@@ -150,8 +150,12 @@ namespace skch
             else 
             {
               fragmentCount = len / param.minReadLength;
+#ifdef DEBUG
+          std::cerr << "INFO, skch::Map::mapQuery, Fragments " << fragmentCount << std::endl;
+#endif
 
               for (int i = 0; i < fragmentCount; i++)
+              //for (int i = 0; i < 5; i++)
               {
                 //Record each fragment's length coverage in genome for supporting visualization
                 if(param.visualize)
@@ -225,7 +229,7 @@ namespace skch
             std::chrono::duration<double> timeSpentMappingRead = skch::Time::now() - t0;
             int countL1Candidates = l1Mappings.size();
 
-            std::cerr << Q.seq->name.s << " " << Q.kseq->seq.l
+            std::cerr << Q.kseq->name.s << " " << Q.kseq->seq.l
               << " " << countL1Candidates 
               << " " << timeSpentL1.count() 
               << " " << timeSpentL2.count()
