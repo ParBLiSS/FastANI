@@ -1,136 +1,50 @@
 
 #include <functional>
 #include <vector>
+#include <string>
+#include <iostream>
+#include <fstream>
+#include <sstream>
 
 #include <catch2/catch_test_macros.hpp>
-#include "map/include/map_parameters.hpp"
-#include "map/include/parseCmdArgs.hpp"
-#include "map/include/winSketch.hpp"
-#include "map/include/computeMap.hpp"
-#include "cgi/include/computeCoreIdentity.hpp" 
 
-bool compareCGI(const cgi::CGI_Results& i1, const cgi::CGI_Results& i2)
-{
-    return i1.qryGenomeId == i2.qryGenomeId ? 
-        i1.refGenomeId < i2.refGenomeId : i1.qryGenomeId < i2.qryGenomeId;
-}
+int cgi_main(int argc, char **argv);
 
-void run_st_fastani(int argc, const char *argv[],
-            std::unordered_map <std::string, uint64_t>& genomeLengths,
-            std::vector<cgi::CGI_Results> &finalResults){
-    //
-    skch::Parameters parameters;
-    skch::parseandSave(argc, (char**)argv, parameters);
-    std::string fileName = parameters.outFileName;
-    //
-    //Build the sketch for reference
-    skch::Sketch referSketch(parameters);
-    for(uint64_t queryno = 0; queryno < parameters.querySequences.size(); queryno++) {
-        // Map Results
-        skch::MappingResultsVector_t mapResults;
-        uint64_t totalQueryFragments = 0;
-        auto fn = std::bind(skch::Map::insertL2ResultsToVec, 
-                            std::ref(mapResults), std::placeholders::_1);
-        skch::Map mapper = skch::Map(parameters, referSketch,
-                                    totalQueryFragments, queryno, fn);
 
-        cgi::computeCGI(parameters, mapResults, mapper, referSketch,
-                        totalQueryFragments, queryno, fileName, finalResults);
-    }
-    //
-    //Final output vector of ANI computation
-    // Write output
-    // name of genome -> length
-    cgi::computeGenomeLengths(parameters, genomeLengths);
-    //
-    for (auto gx: genomeLengths){
-        std::cout << "GX : " << gx.first << " " << gx.second << std::endl;
-    }
-    //report output in file
-    cgi::outputCGI (parameters, genomeLengths, finalResults, fileName);
-    //report output as matrix
-    if (parameters.matrixOutput)
-        cgi::outputPhylip (parameters, genomeLengths, finalResults, fileName);
-    std::sort(finalResults.begin(), finalResults.end(), compareCGI);
-    for(auto fx : finalResults){
-        std::cout << "FX: " << fx.qryGenomeId << " " << fx.refGenomeId <<
-            " " << fx.identity << " " << fx.countSeq << " " << 
-            fx.totalQueryFragments << std::endl;
-    }
-}
+struct CGIEntry {
+    std::string leftx, rightx;
+    float identity;
+    int countSeq, totalQueryFragments;
+} ;
 
-void run_mt_fastani(int argc, const char *argv[],
-            std::unordered_map <std::string, uint64_t>& genomeLengths,
-            std::vector<cgi::CGI_Results> &finalResults){
-    //
-    skch::Parameters parameters;
-    skch::parseandSave(argc, (char**)argv, parameters);
-    std::string fileName = parameters.outFileName;
-    // Set up for parallel execution
-    omp_set_num_threads(parameters.threads); 
-    std::vector <skch::Parameters> parameters_split (parameters.threads);
-    cgi::splitReferenceGenomes (parameters, parameters_split);
-#pragma omp parallel for schedule(static,1)
-    for (uint64_t i = 0; i < parameters.threads; i++)
-    {
-        //Build the sketch for reference
-        skch::Sketch referSketch(parameters_split[i]);
-        //Final output vector of ANI computation for this thread
-        std::vector<cgi::CGI_Results> finalResults_local;
-        for(uint64_t queryno = 0; 
-            queryno < parameters_split[i].querySequences.size(); queryno++) {
-            // Map Results
-            skch::MappingResultsVector_t mapResults;
-            uint64_t totalQueryFragments = 0;
-            auto fn = std::bind(skch::Map::insertL2ResultsToVec, 
-                                std::ref(mapResults), std::placeholders::_1);
-            skch::Map mapper = skch::Map(parameters_split[i], referSketch, 
-                                         totalQueryFragments, queryno, fn);
 
-            cgi::computeCGI(parameters, mapResults, mapper, referSketch,
-                            totalQueryFragments, queryno, fileName, finalResults_local);
-        }
-        cgi::correctRefGenomeIds (finalResults_local);
-
-#pragma omp critical
-        {
-            finalResults.insert (finalResults.end(), 
-                finalResults_local.begin(), finalResults_local.end());
-        }
-
-    }
-    //
-    //Final output vector of ANI computation
-    // Write output
-    // name of genome -> length
-    cgi::computeGenomeLengths(parameters, genomeLengths);
-    for (auto gx: genomeLengths){
-        std::cout << "GX : " << gx.first << " " << gx.second << std::endl;
-    }
-    //
-    //report output in file
-    cgi::outputCGI (parameters, genomeLengths, finalResults, fileName);
-    //report output as matrix
-    if (parameters.matrixOutput)
-        cgi::outputPhylip (parameters, genomeLengths, finalResults, fileName);
-    std::sort(finalResults.begin(), finalResults.end(), compareCGI);
-    for(auto fx : finalResults){
-        std::cout << "FX: " << fx.qryGenomeId << " " << fx.refGenomeId <<
-            " " << fx.identity << " " << fx.countSeq << " " << 
-            fx.totalQueryFragments << std::endl;
-    }
-}
-
-std::vector<std::string> get_file_contents(std::string fname){
+std::vector<std::string> get_file_contents(const std::string& fname){
     std::vector<std::string> file_contents;
-    std::ifstream ifile("Read.txt");
+    std::ifstream ifile(fname);
     std::string str;
     while (std::getline(ifile, str)) {
-      file_contents.push_back(str);
-    }  
+        file_contents.push_back(str);
+    }
     std::sort(file_contents.begin(), file_contents.end());
     return file_contents;
 }
+
+std::vector<CGIEntry> read_fastani_output(const std::string& fname){
+    std::vector<CGIEntry> fastani_entries;
+    auto file_contents = get_file_contents(fname);
+    for(auto& str: file_contents) {
+        CGIEntry cgx;
+        std::stringstream stx(str);
+        stx >> cgx.leftx;
+        stx >> cgx.rightx;
+        stx >> cgx.identity;
+        stx >> cgx.countSeq;
+        stx >> cgx.totalQueryFragments;
+        fastani_entries.push_back(cgx);
+    }
+    return fastani_entries;
+}
+
 
 TEST_CASE( "Single Threaded Pair Query Ref", "[single threaded pair]" ) {
     // -q [QUERY_GENOME] -r [REFERENCE_GENOME] -o [OUTPUT_FILE] 
@@ -139,15 +53,10 @@ TEST_CASE( "Single Threaded Pair Query Ref", "[single threaded pair]" ) {
                     "-r", "data/Shigella_flexneri_2a_01.fna",
                     "-o", "stsrsq-test.txt",
                     "--visualize", "--matrix"};
-    std::unordered_map <std::string, uint64_t> genomeLengths;
-    std::vector<cgi::CGI_Results> finalResults;
     //
-    run_st_fastani(9, argv, genomeLengths, finalResults);
+    cgi_main(9, const_cast<char **>(argv));
 
-    REQUIRE(genomeLengths.size() == 2);
-    REQUIRE(genomeLengths["data/Shigella_flexneri_2a_01.fna"] == 4824000);
-    REQUIRE(
-        genomeLengths["data/Escherichia_coli_str_K12_MG1655.fna"] == 4641000);
+    auto finalResults = read_fastani_output("stsrsq-test.txt");
     REQUIRE(finalResults.size() == 1);
     REQUIRE(finalResults[0].identity > 97.663);  
     REQUIRE(finalResults[0].identity < 97.665);
@@ -170,16 +79,10 @@ TEST_CASE( "Single Threaded Multi Query", "[single threaded multi query]" ) {
                     "-o", "stsrmq-test.txt",
                     "--visualize", "--matrix"};
     //
-    std::unordered_map <std::string, uint64_t> genomeLengths;
-    std::vector<cgi::CGI_Results> finalResults;
-    //
-    run_st_fastani(9, argv, genomeLengths, finalResults);
-    //
-    REQUIRE(genomeLengths.size() == 3);
-    REQUIRE(genomeLengths["data/D4/2000031001.LargeContigs.fna"] == 5133000);
-    REQUIRE(genomeLengths["data/D4/2000031006.LargeContigs.fna"] == 5385000);
-    REQUIRE(genomeLengths["data/D4/2000031004.LargeContigs.fna"] == 5166000);
+    cgi_main(9, const_cast<char **>(argv));
 
+    //
+    auto finalResults = read_fastani_output("stsrmq-test.txt");
     REQUIRE(finalResults.size() == 2);
     //data/2000031004.LargeContigs.fna
     //data/2000031001.LargeContigs.fna        99.9493 1708    1722
@@ -209,15 +112,10 @@ TEST_CASE( "Single Threaded Multi Ref.", "[single threaded multi ref.]" ) {
                     "--rl", "data/D4/multiref.txt",
                     "-o", "stmrsq-test.txt",
                     "--visualize", "--matrix"};
-    std::unordered_map <std::string, uint64_t> genomeLengths;
     //
-    std::vector<cgi::CGI_Results> finalResults;
-    run_st_fastani(9, argv, genomeLengths, finalResults);
+    cgi_main(9, const_cast<char **>(argv));
     //
-    REQUIRE(genomeLengths.size() == 3);
-    REQUIRE(genomeLengths["data/D4/2000031001.LargeContigs.fna"] == 5133000);
-    REQUIRE(genomeLengths["data/D4/2000031006.LargeContigs.fna"] == 5385000);
-    REQUIRE(genomeLengths["data/D4/2000031004.LargeContigs.fna"] == 5166000);
+    auto finalResults = read_fastani_output("stmrsq-test.txt");
     REQUIRE(finalResults.size() == 2);
     // data/D4/2000031001.LargeContigs.fna 
     // data/D4/2000031004.LargeContigs.fna     99.9759 1704    1711
@@ -249,23 +147,14 @@ TEST_CASE( "Single Threaded Multi Q. Multi Ref.",
                     "-o", "stmqmr-test.txt",
                     "--visualize", "--matrix"};
     //
-    std::unordered_map <std::string, uint64_t> genomeLengths;
-    std::vector<cgi::CGI_Results> finalResults;
+    cgi_main(9, const_cast<char **>(argv));
     //
-    run_st_fastani(9, argv, genomeLengths, finalResults);
-    //
-    REQUIRE(genomeLengths.size() == 5);
-    REQUIRE(genomeLengths["data/D4/2000031009.LargeContigs.fna"] == 5220000);
-    REQUIRE(genomeLengths["data/D4/2000031008.LargeContigs.fna"] == 5388000);
-    REQUIRE(genomeLengths["data/D4/2000031006.LargeContigs.fna"] == 5385000);
-    REQUIRE(genomeLengths["data/D4/2000031004.LargeContigs.fna"] == 5166000);
-    REQUIRE(genomeLengths["data/D4/2000031001.LargeContigs.fna"] == 5133000);
-    //
+    auto finalResults = read_fastani_output("stmqmr-test.txt");
     REQUIRE(finalResults.size() == 6);
     // data/D4/2000031001.LargeContigs.fna
     // data/D4/2000031008.LargeContigs.fna     99.9785 1700    1711
-    REQUIRE(finalResults[0].identity > 99.9784);
     REQUIRE(finalResults[0].identity < 99.9786);
+    REQUIRE(finalResults[0].identity > 99.9784);
     REQUIRE(finalResults[0].countSeq == 1700);
     REQUIRE(finalResults[0].totalQueryFragments == 1711);
     // data/D4/2000031001.LargeContigs.fna
@@ -316,17 +205,9 @@ TEST_CASE( "Multi Threaded Multi Q. Multi Ref.",
                     "-o", "mtmqmr-test.txt",
                     "--visualize", "--matrix"};
     //
-    std::unordered_map <std::string, uint64_t> genomeLengths;
-    std::vector<cgi::CGI_Results> finalResults;
-    run_mt_fastani(11, argv, genomeLengths, finalResults);
-
-    REQUIRE(genomeLengths.size() == 5);
-    REQUIRE(genomeLengths["data/D4/2000031009.LargeContigs.fna"] == 5220000);
-    REQUIRE(genomeLengths["data/D4/2000031008.LargeContigs.fna"] == 5388000);
-    REQUIRE(genomeLengths["data/D4/2000031006.LargeContigs.fna"] == 5385000);
-    REQUIRE(genomeLengths["data/D4/2000031004.LargeContigs.fna"] == 5166000);
-    REQUIRE(genomeLengths["data/D4/2000031001.LargeContigs.fna"] == 5133000);
+    cgi_main(11, const_cast<char **>(argv));
     //
+    auto finalResults = read_fastani_output("mtmqmr-test.txt");
     REQUIRE(finalResults.size() == 6);
     // data/D4/2000031001.LargeContigs.fna
     // data/D4/2000031008.LargeContigs.fna     99.9785 1700    1711
@@ -370,4 +251,165 @@ TEST_CASE( "Multi Threaded Multi Q. Multi Ref.",
     fx = get_file_contents("mtmqmr-test.txt.visual");
     ref_fx = get_file_contents("data/mtmqmr-test.txt.visual");
     REQUIRE(fx == ref_fx);
+}
+
+TEST_CASE( "Single Threaded Multi Q. Multi Ref. Repeats",
+           "[single threaded multi q. multi ref. rpeats]" ) {
+    // -q [QUERY_GENOME] -r [REFERENCE_GENOME] -o [OUTPUT_FILE]
+    const char *argv[] =  {"multiq-multi-ref",
+                           "--ql", "data/D4/multiq2.txt",
+                           "--rl", "data/multiref3.txt",
+                           "-t", "1",
+                           "-o", "stmqmr-rpt-test.txt",
+                           "--visualize", "--matrix"};
+    //
+    cgi_main(11, const_cast<char **>(argv));
+    //
+    auto finalResults = read_fastani_output("stmqmr-rpt-test.txt");
+    REQUIRE(finalResults.size() == 6);
+    auto fx = get_file_contents("stmqmr-rpt-test.txt");
+    auto ref_fx = get_file_contents("data/stmqmr-rpt-test.txt");
+    REQUIRE(fx == ref_fx);
+    fx = get_file_contents("stmqmr-rpt-test.txt.visual");
+    ref_fx = get_file_contents("data/stmqmr-rpt-test.txt.visual");
+    REQUIRE(fx == ref_fx);
+}
+
+TEST_CASE( "Multi Threaded Multi Q. Multi Ref. Repeats",
+           "[multi threaded multi q. multi ref. rpeats]" ) {
+    // -q [QUERY_GENOME] -r [REFERENCE_GENOME] -o [OUTPUT_FILE]
+    const char *argv[] =  {"multiq-multi-ref",
+                           "--ql", "data/D4/multiq2.txt",
+                           "--rl", "data/multiref3.txt",
+                           "-t", "2",
+                           "-o", "mtmqmr-rpt-test.txt",
+                           "--visualize", "--matrix"};
+    //
+    cgi_main(11, const_cast<char **>(argv));
+    //
+    auto finalResults = read_fastani_output("mtmqmr-rpt-test.txt");
+    REQUIRE(finalResults.size() == 6);
+    auto fx = get_file_contents("mtmqmr-rpt-test.txt");
+    auto ref_fx = get_file_contents("data/mtmqmr-rpt-test.txt");
+    REQUIRE(fx == ref_fx);
+    fx = get_file_contents("mtmqmr-rpt-test.txt.visual");
+    ref_fx = get_file_contents("data/mtmqmr-rpt-test.txt.visual");
+    REQUIRE(fx == ref_fx);
+}
+
+
+TEST_CASE( "Repeat A2048 and 8AT", "[repeat interval 1]" ) {
+    // -q [QUERY_GENOME] -r [REFERENCE_GENOME] -o [OUTPUT_FILE]
+    const char *argv[] =  {"repeat-A2048-8AT",
+                    "-q", "data/repeat_as_2048.fa",
+                    "-r", "data/repeat_8ats_2048.fa",
+                    "-o", "repeat-A2048-8AT.txt",
+                    "--visualize", "--matrix"};
+    //
+    cgi_main(9, const_cast<char **>(argv));
+    //
+    auto finalResults = read_fastani_output("repeat-A2048-8AT.txt");
+    REQUIRE(finalResults.size() == 0);
+}
+
+TEST_CASE( "Repeat A2048 and 12AT", "[repeat interval 2]" ) {
+    // -q [QUERY_GENOME] -r [REFERENCE_GENOME] -o [OUTPUT_FILE]
+    const char *argv[] =  {"repeat-A2048-12AT",
+                    "-q", "data/repeat_as_2048.fa",
+                    "-r", "data/repeat_12ats_2048.fa",
+                    "-o", "repeat-A2048-12AT.txt",
+                    "--visualize", "--matrix"};
+    //
+    cgi_main(9, const_cast<char **>(argv));
+    //
+    auto finalResults = read_fastani_output("repeat-A2048-12AT.txt");
+    REQUIRE(finalResults.size() == 0);
+}
+
+TEST_CASE( "Repeat A2048 and 16AT", "[repeat interval 3]" ) {
+    // -q [QUERY_GENOME] -r [REFERENCE_GENOME] -o [OUTPUT_FILE]
+    const char *argv[] =  {"repeat-A2048-16AT",
+                    "-q", "data/repeat_as_2048.fa",
+                    "-r", "data/repeat_16ats_2048.fa",
+                    "-o", "repeat-A2048-16AT.txt",
+                    "--visualize", "--matrix"};
+    //
+    cgi_main(9, const_cast<char **>(argv));
+    //
+    auto finalResults = read_fastani_output("repeat-A2048-16AT.txt");
+    REQUIRE(finalResults.size() == 0);
+}
+
+
+TEST_CASE( "Repeat A2048 and 20AT", "[repeat interval 4]" ) {
+    // -q [QUERY_GENOME] -r [REFERENCE_GENOME] -o [OUTPUT_FILE]
+    const char *argv[] =  {"repeat-A2048-20AT",
+                    "-q", "data/repeat_as_2048.fa",
+                    "-r", "data/repeat_20ats_2048.fa",
+                    "-o", "repeat-A2048-20AT.txt",
+                    "--visualize", "--matrix"};
+    //
+    cgi_main(9, const_cast<char **>(argv));
+    //
+    auto finalResults = read_fastani_output("repeat-A2048-20AT.txt");
+    REQUIRE(finalResults.size() == 0);
+}
+
+
+
+TEST_CASE( "Repeat A2048 and 24AT", "[repeat interval 5]" ) {
+    // -q [QUERY_GENOME] -r [REFERENCE_GENOME] -o [OUTPUT_FILE]
+    const char *argv[] =  {"repeat-A2048-24AT",
+                    "-q", "data/repeat_as_2048.fa",
+                    "-r", "data/repeat_24ats_2048.fa",
+                    "-o", "repeat-A2048-24AT.txt",
+                    "--visualize", "--matrix"};
+    //
+    cgi_main(9, const_cast<char **>(argv));
+    //
+    auto finalResults = read_fastani_output("repeat-A2048-24AT.txt");
+    REQUIRE(finalResults.size() == 0);
+}
+
+TEST_CASE( "Repeat A2048 and 32AT", "[repeat interval 6]" ) {
+    // -q [QUERY_GENOME] -r [REFERENCE_GENOME] -o [OUTPUT_FILE]
+    const char *argv[] =  {"repeat-A2048-32AT",
+                    "-q", "data/repeat_as_2048.fa",
+                    "-r", "data/repeat_32ats_2048.fa",
+                    "-o", "repeat-A2048-32AT.txt",
+                    "--visualize", "--matrix"};
+    //
+    cgi_main(9, const_cast<char **>(argv));
+    //
+    auto finalResults = read_fastani_output("repeat-A2048-32AT.txt");
+    REQUIRE(finalResults.size() == 0);
+}
+
+
+TEST_CASE( "Repeat A2048 and 64AT", "[repeat interval 7]" ) {
+    // -q [QUERY_GENOME] -r [REFERENCE_GENOME] -o [OUTPUT_FILE]
+    const char *argv[] =  {"repeat-A2048-64AT",
+                    "-q", "data/repeat_as_2048.fa",
+                    "-r", "data/repeat_64ats_2048.fa",
+                    "-o", "repeat-A2048-64AT.txt",
+                    "--visualize", "--matrix"};
+    //
+    cgi_main(9, const_cast<char **>(argv));
+    //
+    auto finalResults = read_fastani_output("repeat-A2048-64AT.txt");
+    REQUIRE(finalResults.size() == 0);
+}
+
+TEST_CASE( "Repeat A2048 and 128AT", "[repeat interval 7]" ) {
+    // -q [QUERY_GENOME] -r [REFERENCE_GENOME] -o [OUTPUT_FILE]
+    const char *argv[] =  {"repeat-A2048-128AT",
+                    "-q", "data/repeat_as_2048.fa",
+                    "-r", "data/repeat_128ats_2048.fa",
+                    "-o", "repeat-A2048-128AT.txt",
+                    "--visualize", "--matrix"};
+    //
+    cgi_main(9, const_cast<char **>(argv));
+    //
+    auto finalResults = read_fastani_output("repeat-A2048-128AT.txt");
+    REQUIRE(finalResults.size() == 0);
 }

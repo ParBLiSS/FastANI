@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-10-05 13:58:09</td>
+            <td class="headerValue">2022-12-10 17:13:44</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">4</td>
@@ -363,7 +363,7 @@
 <a name="301"><span class="lineNum">     301 </span>            :       _Tp* _M_data;</a>
 <a name="302"><span class="lineNum">     302 </span>            : </a>
 <a name="303"><span class="lineNum">     303 </span>            :       _GLIBCXX20_CONSTEXPR</a>
-<a name="304"><span class="lineNum">     304 </span><span class="lineCov">         13 :       static _Tp* _S_fun(_Tp&amp; __r) noexcept { return std::__addressof(__r); }</span></a>
+<a name="304"><span class="lineNum">     304 </span><span class="lineCov">         20 :       static _Tp* _S_fun(_Tp&amp; __r) noexcept { return std::__addressof(__r); }</span></a>
 <a name="305"><span class="lineNum">     305 </span>            : </a>
 <a name="306"><span class="lineNum">     306 </span>            :       static void _S_fun(_Tp&amp;&amp;) = delete;</a>
 <a name="307"><span class="lineNum">     307 </span>            : </a>
@@ -380,10 +380,10 @@
 <a name="318"><span class="lineNum">     318 </span>            :       template&lt;typename _Up, typename = __not_same&lt;_Up&gt;, typename</a>
 <a name="319"><span class="lineNum">     319 </span>            :                 = decltype(reference_wrapper::_S_fun(std::declval&lt;_Up&gt;()))&gt;</a>
 <a name="320"><span class="lineNum">     320 </span>            :         _GLIBCXX20_CONSTEXPR</a>
-<a name="321"><span class="lineNum">     321 </span><span class="lineCov">         13 :         reference_wrapper(_Up&amp;&amp; __uref)</span></a>
+<a name="321"><span class="lineNum">     321 </span><span class="lineCov">         20 :         reference_wrapper(_Up&amp;&amp; __uref)</span></a>
 <a name="322"><span class="lineNum">     322 </span>            :         noexcept(noexcept(reference_wrapper::_S_fun(std::declval&lt;_Up&gt;())))</a>
-<a name="323"><span class="lineNum">     323 </span><span class="lineCov">         13 :         : _M_data(reference_wrapper::_S_fun(std::forward&lt;_Up&gt;(__uref)))</span></a>
-<a name="324"><span class="lineNum">     324 </span><span class="lineCov">         13 :         { }</span></a>
+<a name="323"><span class="lineNum">     323 </span><span class="lineCov">         20 :         : _M_data(reference_wrapper::_S_fun(std::forward&lt;_Up&gt;(__uref)))</span></a>
+<a name="324"><span class="lineNum">     324 </span><span class="lineCov">         20 :         { }</span></a>
 <a name="325"><span class="lineNum">     325 </span>            : </a>
 <a name="326"><span class="lineNum">     326 </span>            :       reference_wrapper(const reference_wrapper&amp;) = default;</a>
 <a name="327"><span class="lineNum">     327 </span>            : </a>
@@ -396,8 +396,8 @@
 <a name="334"><span class="lineNum">     334 </span>            : </a>
 <a name="335"><span class="lineNum">     335 </span>            :       _GLIBCXX20_CONSTEXPR</a>
 <a name="336"><span class="lineNum">     336 </span>            :       _Tp&amp;</a>
-<a name="337"><span class="lineNum">     337 </span><span class="lineCov">      37085 :       get() const noexcept</span></a>
-<a name="338"><span class="lineNum">     338 </span><span class="lineCov">      37085 :       { return *_M_data; }</span></a>
+<a name="337"><span class="lineNum">     337 </span><span class="lineCov">      49465 :       get() const noexcept</span></a>
+<a name="338"><span class="lineNum">     338 </span><span class="lineCov">      49465 :       { return *_M_data; }</span></a>
 <a name="339"><span class="lineNum">     339 </span>            : </a>
 <a name="340"><span class="lineNum">     340 </span>            :       template&lt;typename... _Args&gt;</a>
 <a name="341"><span class="lineNum">     341 </span>            :         _GLIBCXX20_CONSTEXPR</a>
@@ -423,8 +423,8 @@
 <a name="361"><span class="lineNum">     361 </span>            :   template&lt;typename _Tp&gt;</a>
 <a name="362"><span class="lineNum">     362 </span>            :     _GLIBCXX20_CONSTEXPR</a>
 <a name="363"><span class="lineNum">     363 </span>            :     inline reference_wrapper&lt;_Tp&gt;</a>
-<a name="364"><span class="lineNum">     364 </span><span class="lineCov">         13 :     ref(_Tp&amp; __t) noexcept</span></a>
-<a name="365"><span class="lineNum">     365 </span><span class="lineCov">         13 :     { return reference_wrapper&lt;_Tp&gt;(__t); }</span></a>
+<a name="364"><span class="lineNum">     364 </span><span class="lineCov">         20 :     ref(_Tp&amp; __t) noexcept</span></a>
+<a name="365"><span class="lineNum">     365 </span><span class="lineCov">         20 :     { return reference_wrapper&lt;_Tp&gt;(__t); }</span></a>
 <a name="366"><span class="lineNum">     366 </span>            : </a>
 <a name="367"><span class="lineNum">     367 </span>            :   /// Denotes a const reference should be taken to a variable.</a>
 <a name="368"><span class="lineNum">     368 </span>            :   template&lt;typename _Tp&gt;</a>

@@ -32,16 +32,16 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">21</td>
             <td class="headerCovTableEntryLo">0.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-10-05 13:58:09</td>
+            <td class="headerValue">2022-12-10 17:13:44</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">10</td>
             <td class="headerCovTableEntryLo">0.0 %</td>
           </tr>
           <tr><td><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
@@ -178,13 +178,13 @@
 <a name="116"><span class="lineNum">     116 </span>            :         template &lt;typename Fake = T&gt;</a>
 <a name="117"><span class="lineNum">     117 </span>            :         static</a>
 <a name="118"><span class="lineNum">     118 </span>            :         std::enable_if_t&lt;::Catch::Detail::IsStreamInsertable&lt;Fake&gt;::value, std::string&gt;</a>
-<a name="119"><span class="lineNum">     119 </span>            :             convert(const Fake&amp; value) {</a>
-<a name="120"><span class="lineNum">     120 </span>            :                 ReusableStringStream rss;</a>
+<a name="119"><span class="lineNum">     119 </span><span class="lineNoCov">          0 :             convert(const Fake&amp; value) {</span></a>
+<a name="120"><span class="lineNum">     120 </span><span class="lineNoCov">          0 :                 ReusableStringStream rss;</span></a>
 <a name="121"><span class="lineNum">     121 </span>            :                 // NB: call using the function-like syntax to avoid ambiguity with</a>
 <a name="122"><span class="lineNum">     122 </span>            :                 // user-defined templated operator&lt;&lt; under clang.</a>
-<a name="123"><span class="lineNum">     123 </span>            :                 rss.operator&lt;&lt;(value);</a>
-<a name="124"><span class="lineNum">     124 </span>            :                 return rss.str();</a>
-<a name="125"><span class="lineNum">     125 </span>            :         }</a>
+<a name="123"><span class="lineNum">     123 </span><span class="lineNoCov">          0 :                 rss.operator&lt;&lt;(value);</span></a>
+<a name="124"><span class="lineNum">     124 </span><span class="lineNoCov">          0 :                 return rss.str();</span></a>
+<a name="125"><span class="lineNum">     125 </span><span class="lineNoCov">          0 :         }</span></a>
 <a name="126"><span class="lineNum">     126 </span>            : </a>
 <a name="127"><span class="lineNum">     127 </span>            :         template &lt;typename Fake = T&gt;</a>
 <a name="128"><span class="lineNum">     128 </span>            :         static</a>
@@ -401,17 +401,17 @@
 <a name="339"><span class="lineNum">     339 </span>            : </a>
 <a name="340"><span class="lineNum">     340 </span>            :     namespace Detail {</a>
 <a name="341"><span class="lineNum">     341 </span>            :         template&lt;typename InputIterator, typename Sentinel = InputIterator&gt;</a>
-<a name="342"><span class="lineNum">     342 </span>            :         std::string rangeToString(InputIterator first, Sentinel last) {</a>
-<a name="343"><span class="lineNum">     343 </span>            :             ReusableStringStream rss;</a>
-<a name="344"><span class="lineNum">     344 </span>            :             rss &lt;&lt; &quot;{ &quot;;</a>
-<a name="345"><span class="lineNum">     345 </span>            :             if (first != last) {</a>
-<a name="346"><span class="lineNum">     346 </span>            :                 rss &lt;&lt; ::Catch::Detail::stringify(*first);</a>
-<a name="347"><span class="lineNum">     347 </span>            :                 for (++first; first != last; ++first)</a>
-<a name="348"><span class="lineNum">     348 </span>            :                     rss &lt;&lt; &quot;, &quot; &lt;&lt; ::Catch::Detail::stringify(*first);</a>
+<a name="342"><span class="lineNum">     342 </span><span class="lineNoCov">          0 :         std::string rangeToString(InputIterator first, Sentinel last) {</span></a>
+<a name="343"><span class="lineNum">     343 </span><span class="lineNoCov">          0 :             ReusableStringStream rss;</span></a>
+<a name="344"><span class="lineNum">     344 </span><span class="lineNoCov">          0 :             rss &lt;&lt; &quot;{ &quot;;</span></a>
+<a name="345"><span class="lineNum">     345 </span><span class="lineNoCov">          0 :             if (first != last) {</span></a>
+<a name="346"><span class="lineNum">     346 </span><span class="lineNoCov">          0 :                 rss &lt;&lt; ::Catch::Detail::stringify(*first);</span></a>
+<a name="347"><span class="lineNum">     347 </span><span class="lineNoCov">          0 :                 for (++first; first != last; ++first)</span></a>
+<a name="348"><span class="lineNum">     348 </span><span class="lineNoCov">          0 :                     rss &lt;&lt; &quot;, &quot; &lt;&lt; ::Catch::Detail::stringify(*first);</span></a>
 <a name="349"><span class="lineNum">     349 </span>            :             }</a>
-<a name="350"><span class="lineNum">     350 </span>            :             rss &lt;&lt; &quot; }&quot;;</a>
-<a name="351"><span class="lineNum">     351 </span>            :             return rss.str();</a>
-<a name="352"><span class="lineNum">     352 </span>            :         }</a>
+<a name="350"><span class="lineNum">     350 </span><span class="lineNoCov">          0 :             rss &lt;&lt; &quot; }&quot;;</span></a>
+<a name="351"><span class="lineNum">     351 </span><span class="lineNoCov">          0 :             return rss.str();</span></a>
+<a name="352"><span class="lineNum">     352 </span><span class="lineNoCov">          0 :         }</span></a>
 <a name="353"><span class="lineNum">     353 </span>            :     }</a>
 <a name="354"><span class="lineNum">     354 </span>            : </a>
 <a name="355"><span class="lineNum">     355 </span>            : } // namespace Catch</a>
@@ -556,8 +556,8 @@
 <a name="494"><span class="lineNum">     494 </span>            : #endif</a>
 <a name="495"><span class="lineNum">     495 </span>            : </a>
 <a name="496"><span class="lineNum">     496 </span>            :     template&lt;typename Range&gt;</a>
-<a name="497"><span class="lineNum">     497 </span>            :     std::string rangeToString( Range const&amp; range ) {</a>
-<a name="498"><span class="lineNum">     498 </span>            :         return ::Catch::Detail::rangeToString( begin( range ), end( range ) );</a>
+<a name="497"><span class="lineNum">     497 </span><span class="lineNoCov">          0 :     std::string rangeToString( Range const&amp; range ) {</span></a>
+<a name="498"><span class="lineNum">     498 </span><span class="lineNoCov">          0 :         return ::Catch::Detail::rangeToString( begin( range ), end( range ) );</span></a>
 <a name="499"><span class="lineNum">     499 </span>            :     }</a>
 <a name="500"><span class="lineNum">     500 </span>            : </a>
 <a name="501"><span class="lineNum">     501 </span>            :     // Handle vector&lt;bool&gt; specially</a>
@@ -579,8 +579,8 @@
 <a name="517"><span class="lineNum">     517 </span>            : </a>
 <a name="518"><span class="lineNum">     518 </span>            :     template&lt;typename R&gt;</a>
 <a name="519"><span class="lineNum">     519 </span>            :     struct StringMaker&lt;R, std::enable_if_t&lt;is_range&lt;R&gt;::value &amp;&amp; !::Catch::Detail::IsStreamInsertable&lt;R&gt;::value&gt;&gt; {</a>
-<a name="520"><span class="lineNum">     520 </span>            :         static std::string convert( R const&amp; range ) {</a>
-<a name="521"><span class="lineNum">     521 </span>            :             return rangeToString( range );</a>
+<a name="520"><span class="lineNum">     520 </span><span class="lineNoCov">          0 :         static std::string convert( R const&amp; range ) {</span></a>
+<a name="521"><span class="lineNum">     521 </span><span class="lineNoCov">          0 :             return rangeToString( range );</span></a>
 <a name="522"><span class="lineNum">     522 </span>            :         }</a>
 <a name="523"><span class="lineNum">     523 </span>            :     };</a>
 <a name="524"><span class="lineNum">     524 </span>            : </a>

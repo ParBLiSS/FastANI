@@ -5,7 +5,7 @@ project(FastANI
     LANGUAGES CXX)
 #
 # Main executable
-add_executable(FastANI src/cgi/core_genome_identity.cpp)
+add_executable(FastANI src/cgi/core_genome_identity.cpp src/cgi/main.cpp)
 target_include_directories(FastANI PUBLIC "src/")
 #
 # by default, static linking
@@ -57,12 +57,11 @@ if(${BUILD_TESTING})
     add_subdirectory(ext/Catch2)
     include(CTest)
     include(Catch)
-    add_executable(FastANITest tests/fastani_tests.cpp)
+    add_executable(FastANITest tests/fastani_tests.cpp src/cgi/core_genome_identity.cpp)
     target_include_directories(FastANITest PUBLIC "src/"
                             ${OpenMP_CXX_INCLUDE_DIRS})
     target_compile_options(FastANITest PUBLIC
-                --coverage -g -O0
-                -fprofile-arcs -ftest-coverage ${OpenMP_CXX_FLAGS})
+	    --coverage -g -O0 -fprofile-arcs -ftest-coverage ${OpenMP_CXX_FLAGS})
     target_link_libraries(FastANITest PRIVATE
                           Catch2::Catch2 Catch2::Catch2WithMain
                           ZLIB::ZLIB GSL::gsl GSL::gslcblas

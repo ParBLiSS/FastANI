@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-10-05 13:58:09</td>
+            <td class="headerValue">2022-12-10 17:13:44</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">7</td>
@@ -103,16 +103,16 @@
 <a name="41"><span class="lineNum">      41 </span>            :      * @param[in] k   kmer size </a>
 <a name="42"><span class="lineNum">      42 </span>            :      * @return        mash distance [0.0 - 1.0]</a>
 <a name="43"><span class="lineNum">      43 </span>            :      */</a>
-<a name="44"><span class="lineNum">      44 </span><span class="lineCov">     308376 :     inline float j2md(float j, int k)</span></a>
+<a name="44"><span class="lineNum">      44 </span><span class="lineCov">     447708 :     inline float j2md(float j, int k)</span></a>
 <a name="45"><span class="lineNum">      45 </span>            :     {</a>
-<a name="46"><span class="lineNum">      46 </span><span class="lineCov">     308376 :       if(j == 0)</span></a>
-<a name="47"><span class="lineNum">      47 </span><span class="lineCov">       1596 :         return 1.0; //jaccard estimate 0 -&gt; 1.0 mash distance</span></a>
+<a name="46"><span class="lineNum">      46 </span><span class="lineCov">     447708 :       if(j == 0)</span></a>
+<a name="47"><span class="lineNum">      47 </span><span class="lineCov">       5316 :         return 1.0; //jaccard estimate 0 -&gt; 1.0 mash distance</span></a>
 <a name="48"><span class="lineNum">      48 </span>            : </a>
-<a name="49"><span class="lineNum">      49 </span><span class="lineCov">     306780 :       if(j == 1)</span></a>
-<a name="50"><span class="lineNum">      50 </span><span class="lineCov">      18253 :         return 0.0; //jaccard estimate 1 -&gt; 0.0 mash distance</span></a>
+<a name="49"><span class="lineNum">      49 </span><span class="lineCov">     442392 :       if(j == 1)</span></a>
+<a name="50"><span class="lineNum">      50 </span><span class="lineCov">      25608 :         return 0.0; //jaccard estimate 1 -&gt; 0.0 mash distance</span></a>
 <a name="51"><span class="lineNum">      51 </span>            : </a>
-<a name="52"><span class="lineNum">      52 </span><span class="lineCov">     288527 :       float mash_dist = (-1.0 / k) * log(2.0 * j/(1+j) );</span></a>
-<a name="53"><span class="lineNum">      53 </span><span class="lineCov">     288527 :       return mash_dist;</span></a>
+<a name="52"><span class="lineNum">      52 </span><span class="lineCov">     416784 :       float mash_dist = (-1.0 / k) * log(2.0 * j/(1+j) );</span></a>
+<a name="53"><span class="lineNum">      53 </span><span class="lineCov">     416784 :       return mash_dist;</span></a>
 <a name="54"><span class="lineNum">      54 </span>            :     }</a>
 <a name="55"><span class="lineNum">      55 </span>            : </a>
 <a name="56"><span class="lineNum">      56 </span>            :     /**</a>
@@ -121,10 +121,10 @@
 <a name="59"><span class="lineNum">      59 </span>            :      * @param[in] k   kmer size </a>
 <a name="60"><span class="lineNum">      60 </span>            :      * @return        jaccard estimate </a>
 <a name="61"><span class="lineNum">      61 </span>            :      */</a>
-<a name="62"><span class="lineNum">      62 </span><span class="lineCov">     856958 :     inline float md2j(float d, int k)</span></a>
+<a name="62"><span class="lineNum">      62 </span><span class="lineCov">    1235552 :     inline float md2j(float d, int k)</span></a>
 <a name="63"><span class="lineNum">      63 </span>            :     {</a>
-<a name="64"><span class="lineNum">      64 </span><span class="lineCov">     856958 :       float jaccard = 1.0 / (2.0 * exp( k*d ) - 1.0);</span></a>
-<a name="65"><span class="lineNum">      65 </span><span class="lineCov">     856958 :       return jaccard;</span></a>
+<a name="64"><span class="lineNum">      64 </span><span class="lineCov">    1235552 :       float jaccard = 1.0 / (2.0 * exp( k*d ) - 1.0);</span></a>
+<a name="65"><span class="lineNum">      65 </span><span class="lineCov">    1235552 :       return jaccard;</span></a>
 <a name="66"><span class="lineNum">      66 </span>            :     }</a>
 <a name="67"><span class="lineNum">      67 </span>            : </a>
 <a name="68"><span class="lineNum">      68 </span>            :     /**</a>
@@ -138,10 +138,10 @@
 <a name="76"><span class="lineNum">      76 </span>            :      * @param[in]   ci      confidence interval [0-1], example 0.9 implies 90% confidence interval</a>
 <a name="77"><span class="lineNum">      77 </span>            :      * @return              computed lower bound on d within 'ci' confidence interval</a>
 <a name="78"><span class="lineNum">      78 </span>            :      */</a>
-<a name="79"><span class="lineNum">      79 </span><span class="lineCov">     154188 :     inline float md_lower_bound(float d, int s, int k, float ci)</span></a>
+<a name="79"><span class="lineNum">      79 </span><span class="lineCov">     223854 :     inline float md_lower_bound(float d, int s, int k, float ci)</span></a>
 <a name="80"><span class="lineNum">      80 </span>            :     {</a>
 <a name="81"><span class="lineNum">      81 </span>            :       //One side interval probability</a>
-<a name="82"><span class="lineNum">      82 </span><span class="lineCov">     154188 :       float q2 = (1.0 - ci)/2;</span></a>
+<a name="82"><span class="lineNum">      82 </span><span class="lineCov">     223854 :       float q2 = (1.0 - ci)/2;</span></a>
 <a name="83"><span class="lineNum">      83 </span>            : </a>
 <a name="84"><span class="lineNum">      84 </span>            :       //Computing count of sketches using confidence interval</a>
 <a name="85"><span class="lineNum">      85 </span>            : #ifdef USE_BOOST</a>
@@ -151,25 +151,25 @@
 <a name="89"><span class="lineNum">      89 </span>            : </a>
 <a name="90"><span class="lineNum">      90 </span>            : #else   </a>
 <a name="91"><span class="lineNum">      91 </span>            :       //GSL </a>
-<a name="92"><span class="lineNum">      92 </span><span class="lineCov">     154188 :       int x = std::max( int(ceil(s * md2j(d,k))), 1 );    //Begin search from jaccard * s</span></a>
-<a name="93"><span class="lineNum">      93 </span><span class="lineCov">     701012 :       while(x &lt;= s)</span></a>
+<a name="92"><span class="lineNum">      92 </span><span class="lineCov">     223854 :       int x = std::max( int(ceil(s * md2j(d,k))), 1 );    //Begin search from jaccard * s</span></a>
+<a name="93"><span class="lineNum">      93 </span><span class="lineCov">    1006715 :       while(x &lt;= s)</span></a>
 <a name="94"><span class="lineNum">      94 </span>            :       {</a>
 <a name="95"><span class="lineNum">      95 </span>            :         //probability of having x or more shared sketches</a>
-<a name="96"><span class="lineNum">      96 </span><span class="lineCov">     680171 :         double cdf_complement = gsl_cdf_binomial_Q(x-1, md2j(d,k), s);</span></a>
+<a name="96"><span class="lineNum">      96 </span><span class="lineCov">     977485 :         double cdf_complement = gsl_cdf_binomial_Q(x-1, md2j(d,k), s);</span></a>
 <a name="97"><span class="lineNum">      97 </span>            : </a>
-<a name="98"><span class="lineNum">      98 </span><span class="lineCov">     680171 :         if (cdf_complement &lt; q2)</span></a>
+<a name="98"><span class="lineNum">      98 </span><span class="lineCov">     977485 :         if (cdf_complement &lt; q2)</span></a>
 <a name="99"><span class="lineNum">      99 </span>            :         {</a>
-<a name="100"><span class="lineNum">     100 </span><span class="lineCov">     133347 :           x--;  //Last guess was right</span></a>
-<a name="101"><span class="lineNum">     101 </span><span class="lineCov">     133347 :           break;</span></a>
+<a name="100"><span class="lineNum">     100 </span><span class="lineCov">     194624 :           x--;  //Last guess was right</span></a>
+<a name="101"><span class="lineNum">     101 </span><span class="lineCov">     194624 :           break;</span></a>
 <a name="102"><span class="lineNum">     102 </span>            :         }</a>
 <a name="103"><span class="lineNum">     103 </span>            : </a>
-<a name="104"><span class="lineNum">     104 </span><span class="lineCov">     546824 :         x++;</span></a>
+<a name="104"><span class="lineNum">     104 </span><span class="lineCov">     782861 :         x++;</span></a>
 <a name="105"><span class="lineNum">     105 </span>            :       }</a>
 <a name="106"><span class="lineNum">     106 </span>            : #endif</a>
 <a name="107"><span class="lineNum">     107 </span>            : </a>
-<a name="108"><span class="lineNum">     108 </span><span class="lineCov">     154188 :       float jaccard = float(x) / s;</span></a>
-<a name="109"><span class="lineNum">     109 </span><span class="lineCov">     154188 :       float low_d = j2md(jaccard, k);</span></a>
-<a name="110"><span class="lineNum">     110 </span><span class="lineCov">     154188 :       return low_d; </span></a>
+<a name="108"><span class="lineNum">     108 </span><span class="lineCov">     223854 :       float jaccard = float(x) / s;</span></a>
+<a name="109"><span class="lineNum">     109 </span><span class="lineCov">     223854 :       float low_d = j2md(jaccard, k);</span></a>
+<a name="110"><span class="lineNum">     110 </span><span class="lineCov">     223854 :       return low_d; </span></a>
 <a name="111"><span class="lineNum">     111 </span>            :     }</a>
 <a name="112"><span class="lineNum">     112 </span>            : </a>
 <a name="113"><span class="lineNum">     113 </span>            :     /**</a>
@@ -179,17 +179,17 @@
 <a name="117"><span class="lineNum">     117 </span>            :      * @param[in] identity    percentage identity [0-100]</a>
 <a name="118"><span class="lineNum">     118 </span>            :      * @return                minimum count of hits</a>
 <a name="119"><span class="lineNum">     119 </span>            :      */</a>
-<a name="120"><span class="lineNum">     120 </span><span class="lineCov">      22599 :     inline int estimateMinimumHits(int s, int k, float perc_identity)</span></a>
+<a name="120"><span class="lineNum">     120 </span><span class="lineCov">      34213 :     inline int estimateMinimumHits(int s, int k, float perc_identity)</span></a>
 <a name="121"><span class="lineNum">     121 </span>            :     {</a>
 <a name="122"><span class="lineNum">     122 </span>            :       //Compute the estimate</a>
-<a name="123"><span class="lineNum">     123 </span><span class="lineCov">      22599 :       float mash_dist = 1.0 - perc_identity/100.0;</span></a>
-<a name="124"><span class="lineNum">     124 </span><span class="lineCov">      22599 :       float jaccard = md2j(mash_dist, k);</span></a>
+<a name="123"><span class="lineNum">     123 </span><span class="lineCov">      34213 :       float mash_dist = 1.0 - perc_identity/100.0;</span></a>
+<a name="124"><span class="lineNum">     124 </span><span class="lineCov">      34213 :       float jaccard = md2j(mash_dist, k);</span></a>
 <a name="125"><span class="lineNum">     125 </span>            : </a>
 <a name="126"><span class="lineNum">     126 </span>            :       //function to convert jaccard to min hits</a>
 <a name="127"><span class="lineNum">     127 </span>            :       //Atleast these many minimizers should match for achieving the required jaccard identity</a>
-<a name="128"><span class="lineNum">     128 </span><span class="lineCov">      22599 :       int minimumSharedMinimizers = ceil (1.0 * s * jaccard); </span></a>
+<a name="128"><span class="lineNum">     128 </span><span class="lineCov">      34213 :       int minimumSharedMinimizers = ceil (1.0 * s * jaccard); </span></a>
 <a name="129"><span class="lineNum">     129 </span>            : </a>
-<a name="130"><span class="lineNum">     130 </span><span class="lineCov">      22599 :       return minimumSharedMinimizers;</span></a>
+<a name="130"><span class="lineNum">     130 </span><span class="lineCov">      34213 :       return minimumSharedMinimizers;</span></a>
 <a name="131"><span class="lineNum">     131 </span>            :     }</a>
 <a name="132"><span class="lineNum">     132 </span>            : </a>
 <a name="133"><span class="lineNum">     133 </span>            :     /**</a>
@@ -201,31 +201,31 @@
 <a name="139"><span class="lineNum">     139 </span>            :      * @param[in] identity    percentage identity [0-100]</a>
 <a name="140"><span class="lineNum">     140 </span>            :      * @return                count of min. shared minimizers</a>
 <a name="141"><span class="lineNum">     141 </span>            :      */</a>
-<a name="142"><span class="lineNum">     142 </span><span class="lineCov">      22599 :     inline int estimateMinimumHitsRelaxed(int s, int k, float perc_identity)</span></a>
+<a name="142"><span class="lineNum">     142 </span><span class="lineCov">      34213 :     inline int estimateMinimumHitsRelaxed(int s, int k, float perc_identity)</span></a>
 <a name="143"><span class="lineNum">     143 </span>            :     {</a>
 <a name="144"><span class="lineNum">     144 </span>            :       // The desired value has be between [0, min  s.t. identity &gt;= perc_identity]</a>
-<a name="145"><span class="lineNum">     145 </span><span class="lineCov">      22599 :       auto searchRange = std::pair&lt;int, int&gt;( estimateMinimumHits(s, k, perc_identity) , 0);</span></a>
+<a name="145"><span class="lineNum">     145 </span><span class="lineCov">      34213 :       auto searchRange = std::pair&lt;int, int&gt;( estimateMinimumHits(s, k, perc_identity) , 0);</span></a>
 <a name="146"><span class="lineNum">     146 </span>            : </a>
-<a name="147"><span class="lineNum">     147 </span><span class="lineCov">      22599 :       int minimumSharedMinimizers_relaxed = searchRange.first;</span></a>
+<a name="147"><span class="lineNum">     147 </span><span class="lineCov">      34213 :       int minimumSharedMinimizers_relaxed = searchRange.first;</span></a>
 <a name="148"><span class="lineNum">     148 </span>            : </a>
-<a name="149"><span class="lineNum">     149 </span><span class="lineCov">     112784 :       for(int i = searchRange.first ; i &gt;= searchRange.second; i--)</span></a>
+<a name="149"><span class="lineNum">     149 </span><span class="lineCov">     168109 :       for(int i = searchRange.first ; i &gt;= searchRange.second; i--)</span></a>
 <a name="150"><span class="lineNum">     150 </span>            :       {</a>
-<a name="151"><span class="lineNum">     151 </span><span class="lineCov">     112784 :         float jaccard = 1.0 * i/s;</span></a>
-<a name="152"><span class="lineNum">     152 </span><span class="lineCov">     112784 :         float d = j2md(jaccard, k);</span></a>
+<a name="151"><span class="lineNum">     151 </span><span class="lineCov">     168109 :         float jaccard = 1.0 * i/s;</span></a>
+<a name="152"><span class="lineNum">     152 </span><span class="lineCov">     168109 :         float d = j2md(jaccard, k);</span></a>
 <a name="153"><span class="lineNum">     153 </span>            : </a>
-<a name="154"><span class="lineNum">     154 </span><span class="lineCov">     112784 :         float d_lower = md_lower_bound(d, s, k, 0.9);</span></a>
+<a name="154"><span class="lineNum">     154 </span><span class="lineCov">     168109 :         float d_lower = md_lower_bound(d, s, k, 0.9);</span></a>
 <a name="155"><span class="lineNum">     155 </span>            : </a>
 <a name="156"><span class="lineNum">     156 </span>            :         //Upper bound identity</a>
-<a name="157"><span class="lineNum">     157 </span><span class="lineCov">     112784 :         float id_upper = 100.0 * (1.0 - d_lower);</span></a>
+<a name="157"><span class="lineNum">     157 </span><span class="lineCov">     168109 :         float id_upper = 100.0 * (1.0 - d_lower);</span></a>
 <a name="158"><span class="lineNum">     158 </span>            : </a>
 <a name="159"><span class="lineNum">     159 </span>            :         //Check if it satisfies the criteria</a>
-<a name="160"><span class="lineNum">     160 </span><span class="lineCov">     112784 :         if(id_upper &gt;= perc_identity)</span></a>
-<a name="161"><span class="lineNum">     161 </span><span class="lineCov">      90185 :           minimumSharedMinimizers_relaxed = i;</span></a>
+<a name="160"><span class="lineNum">     160 </span><span class="lineCov">     168109 :         if(id_upper &gt;= perc_identity)</span></a>
+<a name="161"><span class="lineNum">     161 </span><span class="lineCov">     133896 :           minimumSharedMinimizers_relaxed = i;</span></a>
 <a name="162"><span class="lineNum">     162 </span>            :         else</a>
-<a name="163"><span class="lineNum">     163 </span><span class="lineCov">      22599 :           break;    //Stop the search</span></a>
+<a name="163"><span class="lineNum">     163 </span><span class="lineCov">      34213 :           break;    //Stop the search</span></a>
 <a name="164"><span class="lineNum">     164 </span>            :       }</a>
 <a name="165"><span class="lineNum">     165 </span>            : </a>
-<a name="166"><span class="lineNum">     166 </span><span class="lineCov">      22599 :       return minimumSharedMinimizers_relaxed;</span></a>
+<a name="166"><span class="lineNum">     166 </span><span class="lineCov">      34213 :       return minimumSharedMinimizers_relaxed;</span></a>
 <a name="167"><span class="lineNum">     167 </span>            :     }</a>
 <a name="168"><span class="lineNum">     168 </span>            : </a>
 <a name="169"><span class="lineNum">     169 </span>            :     /**</a>
@@ -238,25 +238,25 @@
 <a name="176"><span class="lineNum">     176 </span>            :      * @param[in] lengthReference reference length</a>
 <a name="177"><span class="lineNum">     177 </span>            :      * @return                    p-value</a>
 <a name="178"><span class="lineNum">     178 </span>            :      */</a>
-<a name="179"><span class="lineNum">     179 </span><span class="lineCov">        140 :     inline double estimate_pvalue (int s, int k, int alphabetSize, </span></a>
+<a name="179"><span class="lineNum">     179 </span><span class="lineCov">        616 :     inline double estimate_pvalue (int s, int k, int alphabetSize, </span></a>
 <a name="180"><span class="lineNum">     180 </span>            :         float identity, </a>
 <a name="181"><span class="lineNum">     181 </span>            :         int lengthQuery, uint64_t lengthReference)</a>
 <a name="182"><span class="lineNum">     182 </span>            :     {</a>
 <a name="183"><span class="lineNum">     183 </span>            :       //total space size of k-mers</a>
-<a name="184"><span class="lineNum">     184 </span><span class="lineCov">        140 :       double kmerSpace = pow(alphabetSize, k);</span></a>
+<a name="184"><span class="lineNum">     184 </span><span class="lineCov">        616 :       double kmerSpace = pow(alphabetSize, k);</span></a>
 <a name="185"><span class="lineNum">     185 </span>            : </a>
 <a name="186"><span class="lineNum">     186 </span>            :       //probability of a kmer match by random in |query| sized sequence </a>
 <a name="187"><span class="lineNum">     187 </span>            :       double pX, pY; </a>
-<a name="188"><span class="lineNum">     188 </span><span class="lineCov">        140 :       pX = pY = 1. / (1. + kmerSpace / lengthQuery);</span></a>
+<a name="188"><span class="lineNum">     188 </span><span class="lineCov">        616 :       pX = pY = 1. / (1. + kmerSpace / lengthQuery);</span></a>
 <a name="189"><span class="lineNum">     189 </span>            : </a>
 <a name="190"><span class="lineNum">     190 </span>            :       //Jaccard similarity of two random given sequences</a>
-<a name="191"><span class="lineNum">     191 </span><span class="lineCov">        140 :       double r = pX * pY / (pX + pY - pX * pY);</span></a>
+<a name="191"><span class="lineNum">     191 </span><span class="lineCov">        616 :       double r = pX * pY / (pX + pY - pX * pY);</span></a>
 <a name="192"><span class="lineNum">     192 </span>            : </a>
-<a name="193"><span class="lineNum">     193 </span><span class="lineCov">        140 :       int x = estimateMinimumHitsRelaxed(s, k, identity);</span></a>
+<a name="193"><span class="lineNum">     193 </span><span class="lineCov">        616 :       int x = estimateMinimumHitsRelaxed(s, k, identity);</span></a>
 <a name="194"><span class="lineNum">     194 </span>            : </a>
 <a name="195"><span class="lineNum">     195 </span>            :       //P (x or more minimizers match)</a>
 <a name="196"><span class="lineNum">     196 </span>            :       double cdf_complement;</a>
-<a name="197"><span class="lineNum">     197 </span><span class="lineCov">        140 :       if(x == 0)</span></a>
+<a name="197"><span class="lineNum">     197 </span><span class="lineCov">        616 :       if(x == 0)</span></a>
 <a name="198"><span class="lineNum">     198 </span>            :       {</a>
 <a name="199"><span class="lineNum">     199 </span><span class="lineNoCov">          0 :         cdf_complement = 1.0;</span></a>
 <a name="200"><span class="lineNum">     200 </span>            :       }</a>
@@ -265,13 +265,13 @@
 <a name="203"><span class="lineNum">     203 </span>            : #ifdef USE_BOOST</a>
 <a name="204"><span class="lineNum">     204 </span>            :       cdf_complement = cdf(complement(binomial(s, r), x-1));</a>
 <a name="205"><span class="lineNum">     205 </span>            : #else</a>
-<a name="206"><span class="lineNum">     206 </span><span class="lineCov">        140 :       cdf_complement =  gsl_cdf_binomial_Q(x-1, r, s);</span></a>
+<a name="206"><span class="lineNum">     206 </span><span class="lineCov">        616 :       cdf_complement =  gsl_cdf_binomial_Q(x-1, r, s);</span></a>
 <a name="207"><span class="lineNum">     207 </span>            : #endif</a>
 <a name="208"><span class="lineNum">     208 </span>            :       }</a>
 <a name="209"><span class="lineNum">     209 </span>            : </a>
-<a name="210"><span class="lineNum">     210 </span><span class="lineCov">        140 :       double pVal = lengthReference * cdf_complement;</span></a>
+<a name="210"><span class="lineNum">     210 </span><span class="lineCov">        616 :       double pVal = lengthReference * cdf_complement;</span></a>
 <a name="211"><span class="lineNum">     211 </span>            : </a>
-<a name="212"><span class="lineNum">     212 </span><span class="lineCov">        140 :       return pVal;</span></a>
+<a name="212"><span class="lineNum">     212 </span><span class="lineCov">        616 :       return pVal;</span></a>
 <a name="213"><span class="lineNum">     213 </span>            :     }</a>
 <a name="214"><span class="lineNum">     214 </span>            : </a>
 <a name="215"><span class="lineNum">     215 </span>            :     /**</a>
@@ -285,37 +285,37 @@
 <a name="223"><span class="lineNum">     223 </span>            :      * @param[in] lengthReference reference length</a>
 <a name="224"><span class="lineNum">     224 </span>            :      * @return                    optimal window size for sketching</a>
 <a name="225"><span class="lineNum">     225 </span>            :      */</a>
-<a name="226"><span class="lineNum">     226 </span><span class="lineCov">          5 :     inline int recommendedWindowSize(double pValue_cutoff,</span></a>
+<a name="226"><span class="lineNum">     226 </span><span class="lineCov">         22 :     inline int recommendedWindowSize(double pValue_cutoff,</span></a>
 <a name="227"><span class="lineNum">     227 </span>            :         int k, int alphabetSize,</a>
 <a name="228"><span class="lineNum">     228 </span>            :         float identity,</a>
 <a name="229"><span class="lineNum">     229 </span>            :         int lengthQuery, uint64_t lengthReference)</a>
 <a name="230"><span class="lineNum">     230 </span>            :     {</a>
 <a name="231"><span class="lineNum">     231 </span>            :       //Push all the sketch values that we should try out in a vector</a>
 <a name="232"><span class="lineNum">     232 </span>            :       //{1, 2, 5, 10, 20, 30...}</a>
-<a name="233"><span class="lineNum">     233 </span><span class="lineCov">          5 :       std::vector&lt;int&gt; potentialSketchValues{1,2,5};</span></a>
-<a name="234"><span class="lineNum">     234 </span><span class="lineCov">       1500 :       for(int i = 10; i &lt; lengthQuery; i+= 10)</span></a>
-<a name="235"><span class="lineNum">     235 </span><span class="lineCov">       1495 :         potentialSketchValues.push_back(i);</span></a>
+<a name="233"><span class="lineNum">     233 </span><span class="lineCov">         22 :       std::vector&lt;int&gt; potentialSketchValues{1,2,5};</span></a>
+<a name="234"><span class="lineNum">     234 </span><span class="lineCov">       6600 :       for(int i = 10; i &lt; lengthQuery; i+= 10)</span></a>
+<a name="235"><span class="lineNum">     235 </span><span class="lineCov">       6578 :         potentialSketchValues.push_back(i);</span></a>
 <a name="236"><span class="lineNum">     236 </span>            : </a>
 <a name="237"><span class="lineNum">     237 </span>            :       int optimalSketchSize;</a>
 <a name="238"><span class="lineNum">     238 </span>            : </a>
-<a name="239"><span class="lineNum">     239 </span><span class="lineCov">        140 :       for(auto &amp;e : potentialSketchValues)</span></a>
+<a name="239"><span class="lineNum">     239 </span><span class="lineCov">        616 :       for(auto &amp;e : potentialSketchValues)</span></a>
 <a name="240"><span class="lineNum">     240 </span>            :       {</a>
 <a name="241"><span class="lineNum">     241 </span>            :         //Compute pvalue</a>
-<a name="242"><span class="lineNum">     242 </span><span class="lineCov">        140 :         double pVal = estimate_pvalue(e, k, alphabetSize, identity, lengthQuery, lengthReference);</span></a>
+<a name="242"><span class="lineNum">     242 </span><span class="lineCov">        616 :         double pVal = estimate_pvalue(e, k, alphabetSize, identity, lengthQuery, lengthReference);</span></a>
 <a name="243"><span class="lineNum">     243 </span>            : </a>
 <a name="244"><span class="lineNum">     244 </span>            :         //Check if pvalue is &lt;= cutoff</a>
-<a name="245"><span class="lineNum">     245 </span><span class="lineCov">        140 :         if(pVal &lt;= pValue_cutoff)</span></a>
+<a name="245"><span class="lineNum">     245 </span><span class="lineCov">        616 :         if(pVal &lt;= pValue_cutoff)</span></a>
 <a name="246"><span class="lineNum">     246 </span>            :         {</a>
-<a name="247"><span class="lineNum">     247 </span><span class="lineCov">          5 :           optimalSketchSize = e;</span></a>
-<a name="248"><span class="lineNum">     248 </span><span class="lineCov">          5 :           break;</span></a>
+<a name="247"><span class="lineNum">     247 </span><span class="lineCov">         22 :           optimalSketchSize = e;</span></a>
+<a name="248"><span class="lineNum">     248 </span><span class="lineCov">         22 :           break;</span></a>
 <a name="249"><span class="lineNum">     249 </span>            :         }</a>
 <a name="250"><span class="lineNum">     250 </span>            :       }</a>
 <a name="251"><span class="lineNum">     251 </span>            :       </a>
-<a name="252"><span class="lineNum">     252 </span><span class="lineCov">          5 :       int w =  2.0 * lengthQuery/optimalSketchSize;</span></a>
+<a name="252"><span class="lineNum">     252 </span><span class="lineCov">         22 :       int w =  2.0 * lengthQuery/optimalSketchSize;</span></a>
 <a name="253"><span class="lineNum">     253 </span>            : </a>
 <a name="254"><span class="lineNum">     254 </span>            :       // 1 &lt;= w &lt;= lengthQuery</a>
-<a name="255"><span class="lineNum">     255 </span><span class="lineCov">         10 :       return std::min( std::max(w,1), lengthQuery);</span></a>
-<a name="256"><span class="lineNum">     256 </span><span class="lineCov">          5 :     }</span></a>
+<a name="255"><span class="lineNum">     255 </span><span class="lineCov">         44 :       return std::min( std::max(w,1), lengthQuery);</span></a>
+<a name="256"><span class="lineNum">     256 </span><span class="lineCov">         22 :     }</span></a>
 <a name="257"><span class="lineNum">     257 </span>            :   }</a>
 <a name="258"><span class="lineNum">     258 </span>            : }</a>
 <a name="259"><span class="lineNum">     259 </span>            : </a>

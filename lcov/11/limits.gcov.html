@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-10-05 13:58:09</td>
+            <td class="headerValue">2022-12-10 17:13:44</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">3</td>
@@ -1124,14 +1124,14 @@
 <a name="1062"><span class="lineNum">    1062 </span>            :       static _GLIBCXX_USE_CONSTEXPR bool is_specialized = true;</a>
 <a name="1063"><span class="lineNum">    1063 </span>            : </a>
 <a name="1064"><span class="lineNum">    1064 </span>            :       static _GLIBCXX_CONSTEXPR int</a>
-<a name="1065"><span class="lineNum">    1065 </span><span class="lineCov">          1 :       min() _GLIBCXX_USE_NOEXCEPT { return -__INT_MAX__ - 1; }</span></a>
+<a name="1065"><span class="lineNum">    1065 </span><span class="lineCov">          2 :       min() _GLIBCXX_USE_NOEXCEPT { return -__INT_MAX__ - 1; }</span></a>
 <a name="1066"><span class="lineNum">    1066 </span>            : </a>
 <a name="1067"><span class="lineNum">    1067 </span>            :       static _GLIBCXX_CONSTEXPR int</a>
-<a name="1068"><span class="lineNum">    1068 </span><span class="lineCov">         13 :       max() _GLIBCXX_USE_NOEXCEPT { return __INT_MAX__; }</span></a>
+<a name="1068"><span class="lineNum">    1068 </span><span class="lineCov">         50 :       max() _GLIBCXX_USE_NOEXCEPT { return __INT_MAX__; }</span></a>
 <a name="1069"><span class="lineNum">    1069 </span>            : </a>
 <a name="1070"><span class="lineNum">    1070 </span>            : #if __cplusplus &gt;= 201103L</a>
 <a name="1071"><span class="lineNum">    1071 </span>            :       static constexpr int</a>
-<a name="1072"><span class="lineNum">    1072 </span><span class="lineCov">          1 :       lowest() noexcept { return min(); }</span></a>
+<a name="1072"><span class="lineNum">    1072 </span><span class="lineCov">          2 :       lowest() noexcept { return min(); }</span></a>
 <a name="1073"><span class="lineNum">    1073 </span>            : #endif</a>
 <a name="1074"><span class="lineNum">    1074 </span>            : </a>
 <a name="1075"><span class="lineNum">    1075 </span>            :       static _GLIBCXX_USE_CONSTEXPR int digits = __glibcxx_digits (int);</a>

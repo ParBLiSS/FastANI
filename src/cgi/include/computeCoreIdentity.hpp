@@ -107,7 +107,10 @@ namespace cgi
       uint64_t queryFileNo,
       std::string &fileName)
   {
-    std::ofstream outstrm(fileName + ".visual", std::ios::app);
+      std::string visFileName = fileName + ".visual";
+      if(omp_get_num_threads() > 1)
+         visFileName += std::to_string(omp_get_thread_num());
+    std::ofstream outstrm(visFileName, std::ios::app);
 
     //Shift offsets for converting from local (to contig) to global (to genome)
     std::vector <skch::offset_t> queryOffsetAdder (mapper.metadata.size());

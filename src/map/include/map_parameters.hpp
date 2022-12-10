@@ -11,7 +11,7 @@
 
 //Switch to enable timing of L1 and L2 stages for each read
 //Timings are reported in a file
-#define ENABLE_TIME_PROFILE_L1_L2 0
+//#define ENABLE_TIME_PROFILE_L1_L2 1
 
 namespace skch
 {
@@ -36,6 +36,7 @@ namespace skch
     bool reportAll;                                   //Report all alignments if this is true
     bool visualize;                                   //Visualize the conserved regions of two genomes
     bool matrixOutput;                                //report fastani results as lower triangular matrix
+    float maxRatioDiff;                               //max Ratio for sanity check
   };
 }
 
