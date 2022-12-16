@@ -253,6 +253,49 @@ TEST_CASE( "Multi Threaded Multi Q. Multi Ref.",
     REQUIRE(fx == ref_fx);
 }
 
+TEST_CASE( "Single Threaded Multi Q. Multi Ref. Repeats",
+           "[single threaded multi q. multi ref. rpeats]" ) {
+    // -q [QUERY_GENOME] -r [REFERENCE_GENOME] -o [OUTPUT_FILE]
+    const char *argv[] =  {"multiq-multi-ref",
+                           "--ql", "data/D4/multiq2.txt",
+                           "--rl", "data/multiref3.txt",
+                           "-t", "1",
+                           "-o", "stmqmr-rpt-test.txt",
+                           "--visualize", "--matrix"};
+    //
+    cgi_main(11, const_cast<char **>(argv));
+    //
+    auto finalResults = read_fastani_output("stmqmr-rpt-test.txt");
+    REQUIRE(finalResults.size() == 6);
+    auto fx = get_file_contents("stmqmr-rpt-test.txt");
+    auto ref_fx = get_file_contents("data/stmqmr-rpt-test.txt");
+    REQUIRE(fx == ref_fx);
+    fx = get_file_contents("stmqmr-rpt-test.txt.visual");
+    ref_fx = get_file_contents("data/stmqmr-rpt-test.txt.visual");
+    REQUIRE(fx == ref_fx);
+}
+
+TEST_CASE( "Multi Threaded Multi Q. Multi Ref. Repeats",
+           "[multi threaded multi q. multi ref. rpeats]" ) {
+    // -q [QUERY_GENOME] -r [REFERENCE_GENOME] -o [OUTPUT_FILE]
+    const char *argv[] =  {"multiq-multi-ref",
+                           "--ql", "data/D4/multiq2.txt",
+                           "--rl", "data/multiref3.txt",
+                           "-t", "2",
+                           "-o", "mtmqmr-rpt-test.txt",
+                           "--visualize", "--matrix"};
+    //
+    cgi_main(11, const_cast<char **>(argv));
+    //
+    auto finalResults = read_fastani_output("mtmqmr-rpt-test.txt");
+    REQUIRE(finalResults.size() == 6);
+    auto fx = get_file_contents("mtmqmr-rpt-test.txt");
+    auto ref_fx = get_file_contents("data/mtmqmr-rpt-test.txt");
+    REQUIRE(fx == ref_fx);
+    fx = get_file_contents("mtmqmr-rpt-test.txt.visual");
+    ref_fx = get_file_contents("data/mtmqmr-rpt-test.txt.visual");
+    REQUIRE(fx == ref_fx);
+}
 
 
 TEST_CASE( "Repeat A2048 and 8AT", "[repeat interval 1]" ) {
