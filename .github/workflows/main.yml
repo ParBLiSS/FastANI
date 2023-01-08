@@ -1,0 +1,82 @@
+name: Build with CMake and Test
+
+run-name: Build FastANI with CMake and Test by ${{github.actor}}
+
+on:
+  push:
+    branches: [ "master", "sei-spring2023" ]
+  pull_request:
+    branches: [ "master", "sei-spring2023" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  # CMake build type (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Debug
+
+jobs:
+  Build-Test:
+    # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+        lfs: true
+    - name: Install zlib, gsl, cppcheck and lcov
+      run: |
+          sudo apt-get update
+          sudo apt-get install zlib1g-dev libgsl-dev cppcheck lcov
+    # Static Analysis with cppcheck
+    - name: cppcheck
+      run: cppcheck --enable=all --inconclusive --force --std=c++20 -iext/ -I src/ --output-file=cppcheck_report.txt . 
+#      uses: deep5050/cppcheck-action@main
+#      with:
+#        exclude_check: ext/
+#        inconcusive: enable
+#        force: enable
+#        other_options: "--includes-file=src/cgi/include/*.hpp"
+#        github_token: ${{ secrets.GITHUB_TOKEN}}
+          
+    - name: publish report    
+      uses: mikeal/publish-to-github-action@master
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH_NAME: 'sei-spring2023' # your branch name goes here
+    # Building
+    - name: Configure CMake
+      #  https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DBUILD_TESTING=ON
+    - name: Build
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+    - name: Test
+      working-directory: ${{github.workspace}}/build
+      # https://cmake.org/cmake/help/latest/manual/ctest.1.html
+      run: ctest -C ${{env.BUILD_TYPE}}
+    - name: Run lcov to generate coverage
+      working-directory: ${{github.workspace}}/build
+      run: make lcov2
+    # Reporting code coverage
+    - name: Report code coverage
+      uses: zgosalvez/github-actions-report-lcov@v2
+      with:
+        working-directory: ${{github.workspace}}/build
+        coverage-files: ${{github.workspace}}/build/coverage.info
+        artifact-name: code-coverage-report
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+    # Uploading to Codecov
+    - name: Upload coverage reports to Codecov with GitHub Action
+      uses: codecov/codecov-action@v3
+      with:
+        directory: ${{github.workspace}}/build
+        files: ${{github.workspace}}/build/coverage.info
+        fail_ci_if_error: true
+        verbose: true
+#    - name: Upload Coverage Info.
+#      uses: actions/upload-artifact@v3
+#      with:
+#        name: Coverage-Info
+#        path: ${{github.workspace}}/build/coverage_list.txt
+#        retention-days: 5

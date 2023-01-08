@@ -1,0 +1,203 @@
+src/common/clipp.h:624:5: warning: Member variable 'map_arg_to::t_' is not initialized in the constructor. [uninitMemberVar]
+    map_arg_to(std::vector<T>& target): t_{std::addressof(target)} {}
+    ^
+src/common/clipp.h:2808:9: style: The class 'memento' does not declare a constructor although it has private member variables which likely require initialization. [noConstructor]
+        class memento {
+        ^
+src/map/include/MIIteratorL2.hpp:38:16: style: inconclusive: Member variable 'MIIteratorL2::countMinimizerWindows' is in the wrong place in the initializer list. [initializerList]
+      offset_t countMinimizerWindows;
+               ^
+src/map/include/MIIteratorL2.hpp:60:9: note: Member variable 'MIIteratorL2::countMinimizerWindows' is in the wrong place in the initializer list.
+        countMinimizerWindows (countMinimizerWindows_)
+        ^
+src/map/include/MIIteratorL2.hpp:38:16: note: Member variable 'MIIteratorL2::countMinimizerWindows' is in the wrong place in the initializer list.
+      offset_t countMinimizerWindows;
+               ^
+src/cgi/core_genome_identity.cpp:22:13: performance: inconclusive: Technically the member function 'pretty_print::print_container_helper::file_exists' can be static (but you may consider moving to unnamed namespace). [functionStatic]
+inline bool file_exists (const std::string& name) {
+            ^
+src/cgi/core_genome_identity.cpp:27:5: performance: inconclusive: Technically the member function 'pretty_print::print_container_helper::cgi_main' can be static (but you may consider moving to unnamed namespace). [functionStatic]
+int cgi_main(int argc, char **argv)
+    ^
+src/common/clipp.h:4863:10: performance: inconclusive: Technically the member function 'pretty_print::print_container_helper::clipp::parser::find_join_group' can be static (but you may consider moving to unnamed namespace). [functionStatic]
+    bool find_join_group(const scoped_dfs_traverser& start,
+         ^
+src/common/clipp.h:5905:10: performance: inconclusive: Technically the member function 'pretty_print::print_container_helper::clipp::detail::formatting_ostream::only_whitespace' can be static (but you may consider moving to unnamed namespace). [functionStatic]
+    bool only_whitespace(Iter first, Iter last) const {
+         ^
+src/common/clipp.h:6270:10: performance: inconclusive: Technically the member function 'pretty_print::print_container_helper::clipp::usage_lines::check_end_group' can be static (but you may consider moving to unnamed namespace). [functionStatic]
+    void check_end_group(std::ostringstream& os, context& cur) const
+         ^
+src/map/include/computeMap.hpp:314:14: performance: inconclusive: Technically the member function 'pretty_print::print_container_helper::skch::Map::computeL1CandidateRegions' can be static (but you may consider moving to unnamed namespace). [functionStatic]
+        void computeL1CandidateRegions(Q_Info &Q, Vec1 &seedHitsL1, int minimumHits, Vec2 &l1Mappings)
+             ^
+src/cgi/include/cgid_types.hpp:33:10: style: inconclusive: Technically the member function 'pretty_print::print_container_helper::cgi::compareMappingResult_withQuerySeqBucket::operator()' can be const. [functionConst]
+    bool operator() (const MappingResult_CGI &x, const MappingResult_CGI &y)
+         ^
+src/cgi/include/cgid_types.hpp:47:10: style: inconclusive: Technically the member function 'pretty_print::print_container_helper::cgi::compareMappingResult_withRefBinBucket::operator()' can be const. [functionConst]
+    bool operator() (const MappingResult_CGI &x, const MappingResult_CGI &y)
+         ^
+src/cgi/include/cgid_types.hpp:60:10: style: inconclusive: Technically the member function 'pretty_print::print_container_helper::cgi::compareMappingResult_withIdentity::operator()' can be const. [functionConst]
+    bool operator() (const MappingResult_CGI &x, const MappingResult_CGI &y)
+         ^
+src/common/clipp.h:2747:14: style: inconclusive: Technically the member function 'pretty_print::print_container_helper::child_t < parameter , group >::destroy_content' can be const. [functionConst]
+        void destroy_content() {
+             ^
+src/common/prettyprint.hpp:135:9: style: Struct 'print_container_helper' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+        print_container_helper(const T & container)
+        ^
+src/common/prettyprint.hpp:332:9: style: Struct 'custom_delims_wrapper' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+        custom_delims_wrapper(const T & t_) : t(t_) { }
+        ^
+src/common/prettyprint.hpp:352:9: style: Struct 'custom_delims' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+        custom_delims(const Container & c) : base(new custom_delims_wrapper<Container, Delims>(c)) { }
+        ^
+src/common/clipp.h:624:5: style: Class 'map_arg_to' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+    map_arg_to(std::vector<T>& target): t_{std::addressof(target)} {}
+    ^
+src/common/clipp.h:644:5: style: Class 'map_arg_to < bool >' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+    map_arg_to(bool& target): t_{&target} {}
+    ^
+src/common/clipp.h:1651:5: style: Class 'none_of' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+    none_of(arg_list strs):
+    ^
+src/common/clipp.h:2798:13: style: Struct 'context' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+            context(const group& p):
+            ^
+src/common/clipp.h:5720:5: style: Class 'formatting_ostream' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+    formatting_ostream(OStream& os):
+    ^
+src/common/clipp.h:6044:5: style: Class 'usage_lines' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+    usage_lines(const group& cli, string prefix = "",
+    ^
+src/common/clipp.h:6524:5: style: Class 'documentation' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+    documentation(const group& cli,
+    ^
+src/map/include/winSketch.hpp:109:7: style: Class 'Sketch' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+      Sketch(const skch::Parameters &p)
+      ^
+src/map/include/slidingMap.hpp:99:9: style: Class 'SlideMapper' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+        SlideMapper(Q_Info &Q_) :
+        ^
+src/common/clipp.h:2597:9: style: Struct 'child_t < parameter , group >' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+        child_t(      Param&& v) noexcept : m_{std::move(v)}, type_{type::param} {}
+        ^
+src/common/clipp.h:2601:9: style: Struct 'child_t < parameter , group >' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+        child_t(      Group&& g) noexcept : m_{std::move(g)}, type_{type::group} {}
+        ^
+src/common/clipp.h:1193:9: style: Class 'simple_action_adapter' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+        simple_action_adapter(const simple_action& a): action_(a) {}
+        ^
+src/common/clipp.h:1194:9: style: Class 'simple_action_adapter' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+        simple_action_adapter(simple_action&& a): action_(std::move(a)) {}
+        ^
+src/map/include/winSketch.hpp:28:1: style: Suspicious condition (assignment + comparison); Clarify expression with parentheses. [clarifyCondition]
+KSEQ_INIT(gzFile, gzread)
+^
+src/common/clipp.h:303:13: style: Condition 's[0]=='-'' is always false [knownConditionTrueFalse]
+    if(s[0] == '-') return false;
+            ^
+src/common/clipp.h:4829:16: style: Local variable 'parse' shadows outer function [shadowFunction]
+        parser parse {joinGroup};
+               ^
+src/common/clipp.h:5281:1: note: Shadowed declaration
+parse(arg_list args, const group& cli)
+^
+src/common/clipp.h:4829:16: note: Shadow variable
+        parser parse {joinGroup};
+               ^
+src/common/clipp.h:5244:12: style: Local variable 'parse' shadows outer function [shadowFunction]
+    parser parse{cli, offset};
+           ^
+src/common/clipp.h:5281:1: note: Shadowed declaration
+parse(arg_list args, const group& cli)
+^
+src/common/clipp.h:5244:12: note: Shadow variable
+    parser parse{cli, offset};
+           ^
+src/common/clipp.h:3838:23: performance: Function parameter 'p' should be passed by const reference. [passedByValue]
+operator ! (parameter p) {
+                      ^
+src/common/clipp.h:6000:26: performance: inconclusive: Function parameter 'c' should be passed by const reference. [passedByValue]
+    void write(char_type c)
+                         ^
+src/common/clipp.h:6854:26: performance: Function parameter 'progname' should be passed by const reference. [passedByValue]
+              doc_string progname = "",
+                         ^
+src/map/include/parseCmdArgs.hpp:96:42: style: Parameter 'parameters' can be declared with const [constParameter]
+  void printCmdOptions(skch::Parameters &parameters)
+                                         ^
+src/cgi/include/computeCoreIdentity.hpp:103:50: style: Parameter 'parameters' can be declared with const [constParameter]
+  void outputVisualizationFile(skch::Parameters &parameters,
+                                                 ^
+src/cgi/include/computeCoreIdentity.hpp:104:39: style: Parameter 'mappings_2way' can be declared with const [constParameter]
+      std::vector<MappingResult_CGI> &mappings_2way,
+                                      ^
+src/cgi/include/computeCoreIdentity.hpp:108:20: style: Parameter 'fileName' can be declared with const [constParameter]
+      std::string &fileName)
+                   ^
+src/cgi/include/computeCoreIdentity.hpp:307:36: style: Parameter 'parameters' can be declared with const [constParameter]
+  void outputCGI(skch::Parameters &parameters,
+                                   ^
+src/cgi/include/computeCoreIdentity.hpp:355:38: style: Parameter 'CGI_ResultsVector' can be declared with const [constParameter]
+      std::vector<cgi::CGI_Results> &CGI_ResultsVector,
+                                     ^
+src/cgi/include/computeCoreIdentity.hpp:356:20: style: Parameter 'fileName' can be declared with const [constParameter]
+      std::string &fileName)
+                   ^
+src/cgi/include/computeCoreIdentity.hpp:367:26: performance: Searching before insertion is not necessary. Instead of 'genome2Int[e]=id' consider using 'genome2Int.try_emplace(e, id);'. [stlFindInsert]
+        genome2Int [e] = id;
+                         ^
+src/cgi/include/computeCoreIdentity.hpp:377:26: performance: Searching before insertion is not necessary. Instead of 'genome2Int[e]=id' consider using 'genome2Int.try_emplace(e, id);'. [stlFindInsert]
+        genome2Int [e] = id;
+                         ^
+src/common/clipp.h:2845:0: style: Consider using std::any_of algorithm instead of a raw loop. [useStlAlgorithm]
+                if(t.cur+1 != t.end) return false;
+^
+src/common/clipp.h:3424:15: style: Consider using std::accumulate algorithm instead of a raw loop. [useStlAlgorithm]
+            c += n.param_count();
+              ^
+src/common/clipp.h:4854:0: style: Consider using std::any_of algorithm instead of a raw loop. [useStlAlgorithm]
+        for(const auto& a : parse.args_) if(a.any_error()) return false;
+^
+src/common/clipp.h:5299:14: style: Consider using std::copy algorithm instead of a raw loop. [useStlAlgorithm]
+        args.push_back(a);
+             ^
+src/common/clipp.h:6408:29: style: Consider using std::accumulate algorithm instead of a raw loop. [useStlAlgorithm]
+                        lbl += p.as_param().flags().front().substr(n);
+                            ^
+src/map/include/winSketch.hpp:304:27: style: Consider using std::accumulate algorithm instead of a raw loop. [useStlAlgorithm]
+              totalLength += cx.len;
+                          ^
+src/map/include/computeMap.hpp:513:29: style: Consider using std::accumulate algorithm instead of a raw loop. [useStlAlgorithm]
+            bestNucIdentity = e.nucIdentity;
+                            ^
+src/cgi/include/computeCoreIdentity.hpp:188:20: style: Consider using std::transform algorithm instead of a raw loop. [useStlAlgorithm]
+      shortResults.emplace_back(MappingResult_CGI{
+                   ^
+src/map/include/computeMap.hpp:496:36: error: Uninitialized variable: beginOptimalPos [uninitvar]
+          l2_out.meanOptimalPos = (beginOptimalPos + lastOptimalPos)/2;
+                                   ^
+src/map/include/computeMap.hpp:455:76: note: Assuming condition is false
+          while ( std::distance(mi_L2iter.sw_end, lastSuperWindowRangeEnd) > 0)
+                                                                           ^
+src/map/include/computeMap.hpp:496:36: note: Uninitialized variable: beginOptimalPos
+          l2_out.meanOptimalPos = (beginOptimalPos + lastOptimalPos)/2;
+                                   ^
+src/map/include/computeMap.hpp:281:37: style: Variable 'totalMinimizersPicked' is assigned a value that is never used. [unreadVariable]
+          int totalMinimizersPicked = 0;
+                                    ^
+src/map/include/slidingMap.hpp:185:17: performance: Prefer prefix ++/-- operators for non-primitive types. [postfixOperator]
+                pivot++;
+                ^
+src/map/include/MIIteratorL2.hpp:92:17: performance: Prefer prefix ++/-- operators for non-primitive types. [postfixOperator]
+          this->sw_beg++;
+                ^
+src/map/include/MIIteratorL2.hpp:95:17: performance: Prefer prefix ++/-- operators for non-primitive types. [postfixOperator]
+          this->sw_end++;
+                ^
+src/cgi/core_genome_identity.cpp:22:0: style: The function 'file_exists' is never used. [unusedFunction]
+
+^
+nofile:0:0: information: Cppcheck cannot find all the include files (use --check-config for details) [missingIncludeSystem]
+
