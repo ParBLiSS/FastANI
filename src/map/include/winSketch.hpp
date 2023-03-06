@@ -296,6 +296,8 @@ namespace skch
       }
 
       bool sanityCheck(float maxRatioDiff) {
+          if(!param.sanityCheck) // Return true if no sanity check is requested
+            return true;
           std::size_t totalSize = 0, totalLength = 0;
           for(auto& rx: minimizerPosLookupIndex){
               totalSize += rx.second.size();

@@ -4,11 +4,11 @@ run-name: Build FastANI with CMake and Test by ${{github.actor}}
 
 on:
   push:
-    branches: [ "master", "sei-spring2023" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "master", "sei-spring2023" ]
+    branches: [ "master" ]
 
-  # Allows you to run this workflow manually from the Actions tab
+  # Allows to run this workflow from the Actions tab (w.o. trigger)
   workflow_dispatch:
 
 env:
@@ -39,22 +39,28 @@ jobs:
 #        force: enable
 #        other_options: "--includes-file=src/cgi/include/*.hpp"
 #        github_token: ${{ secrets.GITHUB_TOKEN}}
-          
-    - name: publish report    
-      uses: mikeal/publish-to-github-action@master
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH_NAME: 'sei-spring2023' # your branch name goes here
+#    - name: publish report    
+#      uses: mikeal/publish-to-github-action@master
+#      env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          BRANCH_NAME: 'master' # your branch name goes here
+    - name: Upload CPPCheck Report as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: CPPCheck-Report
+        path: ${{github.workspace}}/cppcheck_report.txt
     # Building
     - name: Configure CMake
       #  https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DBUILD_TESTING=ON
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+    # Testing
     - name: Test
       working-directory: ${{github.workspace}}/build
       # https://cmake.org/cmake/help/latest/manual/ctest.1.html
       run: ctest -C ${{env.BUILD_TYPE}}
+    # Run code coverage
     - name: Run lcov to generate coverage
       working-directory: ${{github.workspace}}/build
       run: make lcov2
@@ -67,16 +73,18 @@ jobs:
         artifact-name: code-coverage-report
         github-token: ${{ secrets.GITHUB_TOKEN }}
     # Uploading to Codecov
-    - name: Upload coverage reports to Codecov with GitHub Action
+    - name: Upload coverage reports to codecov.io
       uses: codecov/codecov-action@v3
       with:
+        token: ${{ secrets.CODECOV_TOKEN }}
         directory: ${{github.workspace}}/build
         files: ${{github.workspace}}/build/coverage.info
         fail_ci_if_error: true
         verbose: true
-#    - name: Upload Coverage Info.
-#      uses: actions/upload-artifact@v3
-#      with:
-#        name: Coverage-Info
-#        path: ${{github.workspace}}/build/coverage_list.txt
-#        retention-days: 5
+    # Uploading to Github Action as artifact
+    - name: Upload Coverage Summary as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Coverage-Summary
+        path: ${{github.workspace}}/build/coverage_list.txt
+        retention-days: 5

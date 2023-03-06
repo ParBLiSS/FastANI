@@ -102,6 +102,7 @@ namespace skch
     std::cerr << "Fragment length = " << parameters.minReadLength << std::endl;
     std::cerr << "Threads = " << parameters.threads << std::endl;
     std::cerr << "ANI output file = " << parameters.outFileName << std::endl;
+    std::cerr << "Sanity Check  = " << parameters.sanityCheck << std::endl;
     std::cerr << ">>>>>>>>>>>>>>>>>>" << std::endl;
   }
 
@@ -126,6 +127,7 @@ namespace skch
     parameters.referenceSize = 5000000;
     parameters.maxRatioDiff = 100.0;
     parameters.reportAll = true; //we need all mappings per fragment, not just best 1% as in mashmap
+    parameters.sanityCheck = false;
 
 
     std::string refName, refList;
@@ -146,6 +148,7 @@ namespace skch
     auto visualize_cmd = clipp::option("--visualize").set(parameters.visualize).doc("output mappings for visualization, can be enabled for single genome to single genome comparison only [disabled by default]");
     auto matrix_cmd = clipp::option("--matrix").set(parameters.matrixOutput).doc("also output ANI values as lower triangular matrix (format inspired from phylip). If enabled, you should expect an output file with .matrix extension [disabled by default]");
     auto output_cmd = (clipp::option("-o", "--output") & clipp::value("value", parameters.outFileName)) % "output file name";
+    auto sanitycheck_cmd = clipp::option("-s", "--sanityCheck").set(parameters.sanityCheck).doc("run sanity check");
     auto version_cmd = clipp::option("-v", "--version").set(versioncheck).doc("show version");
 
     auto cli =
@@ -163,6 +166,7 @@ namespace skch
        visualize_cmd,
        matrix_cmd,
        output_cmd,
+       sanitycheck_cmd,
        version_cmd
       );
 

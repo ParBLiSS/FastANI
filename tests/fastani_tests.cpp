@@ -51,10 +51,10 @@ TEST_CASE( "Single Threaded Pair Query Ref", "[single threaded pair]" ) {
     const char *argv[] =  {"single-pair", 
                     "-q", "data/Escherichia_coli_str_K12_MG1655.fna",
                     "-r", "data/Shigella_flexneri_2a_01.fna",
-                    "-o", "stsrsq-test.txt",
+                    "-o", "stsrsq-test.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(9, const_cast<char **>(argv));
+    cgi_main(10, const_cast<char **>(argv));
 
     auto finalResults = read_fastani_output("stsrsq-test.txt");
     REQUIRE(finalResults.size() == 1);
@@ -76,10 +76,10 @@ TEST_CASE( "Single Threaded Multi Query", "[single threaded multi query]" ) {
     const char *argv[] =  {"single-ref-multi-query", 
                     "--ql", "data/D4/multiq.txt",
                     "-r", "data/D4/2000031001.LargeContigs.fna",
-                    "-o", "stsrmq-test.txt",
+                    "-o", "stsrmq-test.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(9, const_cast<char **>(argv));
+    cgi_main(10, const_cast<char **>(argv));
 
     //
     auto finalResults = read_fastani_output("stsrmq-test.txt");
@@ -110,10 +110,10 @@ TEST_CASE( "Single Threaded Multi Ref.", "[single threaded multi ref.]" ) {
     const char *argv[] =  {"single-thread-multi-ref-single-query", 
                     "-q", "data/D4/2000031001.LargeContigs.fna",
                     "--rl", "data/D4/multiref.txt",
-                    "-o", "stmrsq-test.txt",
+                    "-o", "stmrsq-test.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(9, const_cast<char **>(argv));
+    cgi_main(10, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("stmrsq-test.txt");
     REQUIRE(finalResults.size() == 2);
@@ -144,10 +144,10 @@ TEST_CASE( "Single Threaded Multi Q. Multi Ref.",
     const char *argv[] =  {"multiq-multi-ref", 
                     "--ql", "data/D4/multiq2.txt",
                     "--rl", "data/D4/multiref2.txt",
-                    "-o", "stmqmr-test.txt",
+                    "-o", "stmqmr-test.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(9, const_cast<char **>(argv));
+    cgi_main(10, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("stmqmr-test.txt");
     REQUIRE(finalResults.size() == 6);
@@ -202,10 +202,10 @@ TEST_CASE( "Multi Threaded Multi Q. Multi Ref.",
                     "--ql", "data/D4/multiq2.txt",
                     "--rl", "data/D4/multiref2.txt",
                     "-t", "2",
-                    "-o", "mtmqmr-test.txt",
+                    "-o", "mtmqmr-test.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(11, const_cast<char **>(argv));
+    cgi_main(12, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("mtmqmr-test.txt");
     REQUIRE(finalResults.size() == 6);
@@ -260,10 +260,10 @@ TEST_CASE( "Single Threaded Multi Q. Multi Ref. Repeats",
                            "--ql", "data/D4/multiq2.txt",
                            "--rl", "data/multiref3.txt",
                            "-t", "1",
-                           "-o", "stmqmr-rpt-test.txt",
+                           "-o", "stmqmr-rpt-test.txt", "-s",
                            "--visualize", "--matrix"};
     //
-    cgi_main(11, const_cast<char **>(argv));
+    cgi_main(12, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("stmqmr-rpt-test.txt");
     REQUIRE(finalResults.size() == 6);
@@ -282,10 +282,10 @@ TEST_CASE( "Multi Threaded Multi Q. Multi Ref. Repeats",
                            "--ql", "data/D4/multiq2.txt",
                            "--rl", "data/multiref3.txt",
                            "-t", "2",
-                           "-o", "mtmqmr-rpt-test.txt",
+                           "-o", "mtmqmr-rpt-test.txt", "-s",
                            "--visualize", "--matrix"};
     //
-    cgi_main(11, const_cast<char **>(argv));
+    cgi_main(12, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("mtmqmr-rpt-test.txt");
     REQUIRE(finalResults.size() == 6);
@@ -303,10 +303,10 @@ TEST_CASE( "Repeat A2048 and 8AT", "[repeat interval 1]" ) {
     const char *argv[] =  {"repeat-A2048-8AT",
                     "-q", "data/repeat_as_2048.fa",
                     "-r", "data/repeat_8ats_2048.fa",
-                    "-o", "repeat-A2048-8AT.txt",
+                    "-o", "repeat-A2048-8AT.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(9, const_cast<char **>(argv));
+    cgi_main(10, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("repeat-A2048-8AT.txt");
     REQUIRE(finalResults.size() == 0);
@@ -317,10 +317,10 @@ TEST_CASE( "Repeat A2048 and 12AT", "[repeat interval 2]" ) {
     const char *argv[] =  {"repeat-A2048-12AT",
                     "-q", "data/repeat_as_2048.fa",
                     "-r", "data/repeat_12ats_2048.fa",
-                    "-o", "repeat-A2048-12AT.txt",
+                    "-o", "repeat-A2048-12AT.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(9, const_cast<char **>(argv));
+    cgi_main(10, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("repeat-A2048-12AT.txt");
     REQUIRE(finalResults.size() == 0);
@@ -331,10 +331,10 @@ TEST_CASE( "Repeat A2048 and 16AT", "[repeat interval 3]" ) {
     const char *argv[] =  {"repeat-A2048-16AT",
                     "-q", "data/repeat_as_2048.fa",
                     "-r", "data/repeat_16ats_2048.fa",
-                    "-o", "repeat-A2048-16AT.txt",
+                    "-o", "repeat-A2048-16AT.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(9, const_cast<char **>(argv));
+    cgi_main(10, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("repeat-A2048-16AT.txt");
     REQUIRE(finalResults.size() == 0);
@@ -346,10 +346,10 @@ TEST_CASE( "Repeat A2048 and 20AT", "[repeat interval 4]" ) {
     const char *argv[] =  {"repeat-A2048-20AT",
                     "-q", "data/repeat_as_2048.fa",
                     "-r", "data/repeat_20ats_2048.fa",
-                    "-o", "repeat-A2048-20AT.txt",
+                    "-o", "repeat-A2048-20AT.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(9, const_cast<char **>(argv));
+    cgi_main(10, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("repeat-A2048-20AT.txt");
     REQUIRE(finalResults.size() == 0);
@@ -362,10 +362,10 @@ TEST_CASE( "Repeat A2048 and 24AT", "[repeat interval 5]" ) {
     const char *argv[] =  {"repeat-A2048-24AT",
                     "-q", "data/repeat_as_2048.fa",
                     "-r", "data/repeat_24ats_2048.fa",
-                    "-o", "repeat-A2048-24AT.txt",
+                    "-o", "repeat-A2048-24AT.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(9, const_cast<char **>(argv));
+    cgi_main(10, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("repeat-A2048-24AT.txt");
     REQUIRE(finalResults.size() == 0);
@@ -376,10 +376,10 @@ TEST_CASE( "Repeat A2048 and 32AT", "[repeat interval 6]" ) {
     const char *argv[] =  {"repeat-A2048-32AT",
                     "-q", "data/repeat_as_2048.fa",
                     "-r", "data/repeat_32ats_2048.fa",
-                    "-o", "repeat-A2048-32AT.txt",
+                    "-o", "repeat-A2048-32AT.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(9, const_cast<char **>(argv));
+    cgi_main(10, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("repeat-A2048-32AT.txt");
     REQUIRE(finalResults.size() == 0);
@@ -391,10 +391,10 @@ TEST_CASE( "Repeat A2048 and 64AT", "[repeat interval 7]" ) {
     const char *argv[] =  {"repeat-A2048-64AT",
                     "-q", "data/repeat_as_2048.fa",
                     "-r", "data/repeat_64ats_2048.fa",
-                    "-o", "repeat-A2048-64AT.txt",
+                    "-o", "repeat-A2048-64AT.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(9, const_cast<char **>(argv));
+    cgi_main(10, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("repeat-A2048-64AT.txt");
     REQUIRE(finalResults.size() == 0);
@@ -405,10 +405,10 @@ TEST_CASE( "Repeat A2048 and 128AT", "[repeat interval 7]" ) {
     const char *argv[] =  {"repeat-A2048-128AT",
                     "-q", "data/repeat_as_2048.fa",
                     "-r", "data/repeat_128ats_2048.fa",
-                    "-o", "repeat-A2048-128AT.txt",
+                    "-o", "repeat-A2048-128AT.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(9, const_cast<char **>(argv));
+    cgi_main(10, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("repeat-A2048-128AT.txt");
     REQUIRE(finalResults.size() == 0);

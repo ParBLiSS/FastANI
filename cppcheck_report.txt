@@ -166,7 +166,7 @@ src/common/clipp.h:5299:14: style: Consider using std::copy algorithm instead of
 src/common/clipp.h:6408:29: style: Consider using std::accumulate algorithm instead of a raw loop. [useStlAlgorithm]
                         lbl += p.as_param().flags().front().substr(n);
                             ^
-src/map/include/winSketch.hpp:304:27: style: Consider using std::accumulate algorithm instead of a raw loop. [useStlAlgorithm]
+src/map/include/winSketch.hpp:306:27: style: Consider using std::accumulate algorithm instead of a raw loop. [useStlAlgorithm]
               totalLength += cx.len;
                           ^
 src/map/include/computeMap.hpp:513:29: style: Consider using std::accumulate algorithm instead of a raw loop. [useStlAlgorithm]
