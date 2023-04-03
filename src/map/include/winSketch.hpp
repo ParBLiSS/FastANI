@@ -96,6 +96,10 @@ namespace skch
       //[... ,x -> y, ...] implies y number of minimizers occur x times
       std::map<int, int> minimizerFreqHistogram;
 
+      // Sanity check variables
+      float hashRatio;
+      float uniqHashRatio;
+      float ratioDifference;
       public:
 
       /**
@@ -276,6 +280,41 @@ namespace skch
       int getFreqThreshold() const
       {
         return this->freqThreshold;
+      }
+
+      float getRatioDifference() const
+      {
+          return this->ratioDifference;
+      }
+
+      float getUniqRation() const {
+          return this->uniqHashRatio;
+      }
+
+      float getHashRatio() const {
+          return this->hashRatio;
+      }
+
+      bool sanityCheck(float maxRatioDiff) {
+          if(!param.sanityCheck) // Return true if no sanity check is requested
+            return true;
+          std::size_t totalSize = 0, totalLength = 0;
+          for(auto& rx: minimizerPosLookupIndex){
+              totalSize += rx.second.size();
+          }
+          for(auto& cx : metadata){
+              totalLength += cx.len;
+          }
+          this->hashRatio = float(totalLength) / float(totalSize);
+          this->uniqHashRatio = float(totalLength) / float(minimizerPosLookupIndex.size());
+          //std::cout << "Ratio of Total Ref. Length/Total Occ. Hashes " << hashRatio << std::endl;
+          //std::cout << "Ratio of Total Ref. Length/Total No. Hashes " << uniqHashRatio << std::endl;
+          this->ratioDifference =  std::abs(hashRatio - uniqHashRatio);
+          if(this->ratioDifference > maxRatioDiff){
+              //std::cerr << "ERROR : Ratio difference is large, Possible Repeats!" << std::endl;
+              return false;
+          }
+          return true;
       }
 
       private:

@@ -1,0 +1,6 @@
+data/D4/2000031001.LargeContigs.fna	data/D4/2000031009.LargeContigs.fna	99.9795	1704	1711
+data/D4/2000031001.LargeContigs.fna	data/D4/2000031008.LargeContigs.fna	99.9785	1700	1711
+data/D4/2000031004.LargeContigs.fna	data/D4/2000031008.LargeContigs.fna	99.9599	1699	1722
+data/D4/2000031004.LargeContigs.fna	data/D4/2000031009.LargeContigs.fna	99.9564	1706	1722
+data/D4/2000031006.LargeContigs.fna	data/D4/2000031008.LargeContigs.fna	99.9769	1784	1795
+data/D4/2000031006.LargeContigs.fna	data/D4/2000031009.LargeContigs.fna	99.9763	1727	1795

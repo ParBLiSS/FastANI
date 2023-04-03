@@ -19,7 +19,12 @@
 #include "map/include/commonFunc.hpp"
 #include "cgi/include/computeCoreIdentity.hpp" 
 
-int main(int argc, char** argv)
+inline bool file_exists (const std::string& name) {
+    std::ifstream f(name.c_str());
+    return f.good();
+}
+
+int cgi_main(int argc, char **argv)
 {
   /*
    * Make sure env variable MALLOC_ARENA_MAX is unset 
@@ -44,6 +49,8 @@ int main(int argc, char** argv)
 
   //Final output vector of ANI computation
   std::vector<cgi::CGI_Results> finalResults;
+  std::vector<bool> sanityCheck(parameters.threads, true);
+  std::vector<float> ratioDiffs(parameters.threads, true);
 
 #pragma omp parallel for schedule(static,1)
   for (uint64_t i = 0; i < parameters.threads; i++)
@@ -62,10 +69,15 @@ int main(int argc, char** argv)
     if ( omp_get_thread_num() == 0)
       std::cerr << "INFO [thread 0], skch::main, Time spent sketching the reference : " << timeRefSketch.count() << " sec" << std::endl;
 
-    //Final output vector of ANI computation
+
+      //Final output vector of ANI computation
     std::vector<cgi::CGI_Results> finalResults_local;
 
-    //Loop over query genomes
+    sanityCheck[i] = referSketch.sanityCheck(parameters.maxRatioDiff);
+    ratioDiffs[i] = referSketch.getRatioDifference();
+
+    if(sanityCheck[i]){
+   //Loop over query genomes
     for(uint64_t queryno = 0; queryno < parameters_split[i].querySequences.size(); queryno++)
     {
       t0 = skch::Time::now();
@@ -74,6 +86,8 @@ int main(int argc, char** argv)
       uint64_t totalQueryFragments = 0;
 
       auto fn = std::bind(skch::Map::insertL2ResultsToVec, std::ref(mapResults), _1);
+      if ( omp_get_thread_num() == 0)
+        std::cerr << "INFO [thread 0], skch::main, Start Map " << queryno + 1 << std::endl;
       skch::Map mapper = skch::Map(parameters_split[i], referSketch, totalQueryFragments, queryno, fn);
 
       std::chrono::duration<double> timeMapQuery = skch::Time::now() - t0;
@@ -91,7 +105,9 @@ int main(int argc, char** argv)
         std::cerr << "INFO [thread 0], skch::main, Time spent post mapping : " << timeCGI.count() << " sec" << std::endl;
     }
 
-    cgi::correctRefGenomeIds (finalResults_local);
+    }
+
+      cgi::correctRefGenomeIds (finalResults_local);
 
 #pragma omp critical
     {
@@ -106,6 +122,13 @@ int main(int argc, char** argv)
 
   std::cerr << "INFO, skch::main, parallel_for execution finished" << std::endl;
 
+  for(auto i = 0; i < parameters.threads;i++){
+      if(sanityCheck[i] == false){
+          std::cerr << "ERROR :: SPLIT " << i << "'s ratio difference " << ratioDiffs[i]
+                    << " exceeds maximum thresholds." << std::endl;
+      }
+  }
+
   std::unordered_map <std::string, uint64_t> genomeLengths;    // name of genome -> length
   cgi::computeGenomeLengths(parameters, genomeLengths);
 
@@ -115,4 +138,30 @@ int main(int argc, char** argv)
   //report output as matrix
   if (parameters.matrixOutput)
     cgi::outputPhylip (parameters, genomeLengths, finalResults, fileName);
+
+  if (parameters.visualize && parameters.threads > 1){
+      std::string outVisFile = fileName + ".visual";
+      std::ofstream ofile(outVisFile);
+      for(int i =0 ; i < parameters.threads; i++){
+          std::string visFileName = fileName + ".visual" + std::to_string(i);
+          std::ifstream ifile(visFileName);
+          if(!ifile.good()){
+              ifile.close();
+              continue;
+          }
+          const int BUFFER_SIZE = 4096;
+          std::vector<char> buffer (BUFFER_SIZE +1,0);
+          while (true) {
+              ifile.read(buffer.data(), BUFFER_SIZE);
+              std::streamsize s = ((ifile) ? BUFFER_SIZE : ifile.gcount());
+              buffer[s] = 0;
+              ofile << buffer.data();
+              if(!ifile) break;
+          }
+          ifile.close();
+          unlink(visFileName.c_str());
+      }
+      ofile.close();
+  }
+  return 0;
 }

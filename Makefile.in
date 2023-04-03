@@ -10,7 +10,7 @@ else
 	CFLAGS += -include src/common/memcpyLink.h
 endif
 
-SOURCES=src/cgi/core_genome_identity.cpp
+SOURCES=src/cgi/core_genome_identity.cpp src/cgi/main.cpp
 
 all : fastANI
 
