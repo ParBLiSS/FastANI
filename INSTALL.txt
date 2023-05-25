@@ -3,11 +3,11 @@ which is available in GCC >= 4.8 (on linux) and Clang >= 3.3 (on mac)
 
 Dependencies:
 -------------
-   - Autoconf ( http://www.gnu.org/software/autoconf/ )
+   - CMake 3.2 or above ( https://cmake.org/ )
    - either...
        GNU Scientific Library ( http://www.gnu.org/software/gsl/ )
      or..
-       Boost Library ( http://www.boost.org ) (see "-with-boost" below)
+       Boost Library ( http://www.boost.org ) (see "-DBOOST_ROOT" below)
    - Zlib ( included with OS X and most Linuxes, http://www.zlib.net ) *
    - C++ compiler with C++11 and openmp support
        Note for macOS users: Use "libomp" to link openmp with Clang
@@ -16,34 +16,32 @@ Dependencies:
 
 Steps:
 ------
-   ./bootstrap.sh
-   ./configure [--prefix=...] [--with-gsl=...] [--with-boost=...]
-   make
+   mkdir build 
+   cd build
+   cmake .. -DCMAKE_BUILD_TYPE=Release [--install-prefix ...  -DGSL_SHARED=... -DGSL_ROOT_DIR=... -DBOOST_ROOT=...]
+   cmake --build .
 
 
 Products:
 ---------
-   - Executable fastANI
+   - Executable fastANI built in the build directory
 
 
-
-Configure options:
-------------------
---prefix=</path/to/install>
+cmake configure options:
+-----------------------------
+--install-prefix </path/to/install>
   Installs binaries to bin/ and libraries to lib/ within this path. The default
   is /usr/local/, which will typically require sudo for make install. Must be
   absolute path.
---with-gsl=</path/to/gsl/>
+  lib/.
+-DGSL_ROOT_DIR=</path/to/gsl_dir>
   Where to find the GNU Scientific library install if not in the default
   location (/usr/local). Must be absolute path and should not include bin/ or
-  lib/.
---enable-static-gsl
+-DGSL_SHARED=OFF
   Statically link the GNU Scientific library instead of dynamically. Be mindful
   of licensure if distributing.
---with-boost=</path/to/boost/>
+-DBOOST_ROOT=</path/to/boost/>
   Use Boost from this location, instead of GSL. Must be absolute path and should
   not include bin/ or lib/. Will be statically linked. Be mindful of licensure
   if distributing.
 
-* If Zlib is not installed in a standard system location (it usually is),
-  CXXFLAGS and LDFLAGS will have to be modified before making.

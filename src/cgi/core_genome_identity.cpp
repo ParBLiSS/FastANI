@@ -24,7 +24,7 @@ inline bool file_exists (const std::string& name) {
     return f.good();
 }
 
-int cgi_main(int argc, char **argv)
+int core_genome_identity(int argc, char **argv)
 {
   /*
    * Make sure env variable MALLOC_ARENA_MAX is unset 

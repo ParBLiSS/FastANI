@@ -8,7 +8,7 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-int cgi_main(int argc, char **argv);
+int core_genome_identity(int argc, char **argv);
 
 
 struct CGIEntry {
@@ -54,7 +54,7 @@ TEST_CASE( "Single Threaded Pair Query Ref", "[single threaded pair]" ) {
                     "-o", "stsrsq-test.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(10, const_cast<char **>(argv));
+    core_genome_identity(10, const_cast<char **>(argv));
 
     auto finalResults = read_fastani_output("stsrsq-test.txt");
     REQUIRE(finalResults.size() == 1);
@@ -79,7 +79,7 @@ TEST_CASE( "Single Threaded Multi Query", "[single threaded multi query]" ) {
                     "-o", "stsrmq-test.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(10, const_cast<char **>(argv));
+    core_genome_identity(10, const_cast<char **>(argv));
 
     //
     auto finalResults = read_fastani_output("stsrmq-test.txt");
@@ -113,7 +113,7 @@ TEST_CASE( "Single Threaded Multi Ref.", "[single threaded multi ref.]" ) {
                     "-o", "stmrsq-test.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(10, const_cast<char **>(argv));
+    core_genome_identity(10, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("stmrsq-test.txt");
     REQUIRE(finalResults.size() == 2);
@@ -147,7 +147,7 @@ TEST_CASE( "Single Threaded Multi Q. Multi Ref.",
                     "-o", "stmqmr-test.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(10, const_cast<char **>(argv));
+    core_genome_identity(10, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("stmqmr-test.txt");
     REQUIRE(finalResults.size() == 6);
@@ -205,7 +205,7 @@ TEST_CASE( "Multi Threaded Multi Q. Multi Ref.",
                     "-o", "mtmqmr-test.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(12, const_cast<char **>(argv));
+    core_genome_identity(12, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("mtmqmr-test.txt");
     REQUIRE(finalResults.size() == 6);
@@ -263,7 +263,7 @@ TEST_CASE( "Single Threaded Multi Q. Multi Ref. Repeats",
                            "-o", "stmqmr-rpt-test.txt", "-s",
                            "--visualize", "--matrix"};
     //
-    cgi_main(12, const_cast<char **>(argv));
+    core_genome_identity(12, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("stmqmr-rpt-test.txt");
     REQUIRE(finalResults.size() == 6);
@@ -285,7 +285,7 @@ TEST_CASE( "Multi Threaded Multi Q. Multi Ref. Repeats",
                            "-o", "mtmqmr-rpt-test.txt", "-s",
                            "--visualize", "--matrix"};
     //
-    cgi_main(12, const_cast<char **>(argv));
+    core_genome_identity(12, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("mtmqmr-rpt-test.txt");
     REQUIRE(finalResults.size() == 6);
@@ -306,7 +306,7 @@ TEST_CASE( "Repeat A2048 and 8AT", "[repeat interval 1]" ) {
                     "-o", "repeat-A2048-8AT.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(10, const_cast<char **>(argv));
+    core_genome_identity(10, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("repeat-A2048-8AT.txt");
     REQUIRE(finalResults.size() == 0);
@@ -320,7 +320,7 @@ TEST_CASE( "Repeat A2048 and 12AT", "[repeat interval 2]" ) {
                     "-o", "repeat-A2048-12AT.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(10, const_cast<char **>(argv));
+    core_genome_identity(10, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("repeat-A2048-12AT.txt");
     REQUIRE(finalResults.size() == 0);
@@ -334,7 +334,7 @@ TEST_CASE( "Repeat A2048 and 16AT", "[repeat interval 3]" ) {
                     "-o", "repeat-A2048-16AT.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(10, const_cast<char **>(argv));
+    core_genome_identity(10, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("repeat-A2048-16AT.txt");
     REQUIRE(finalResults.size() == 0);
@@ -349,7 +349,7 @@ TEST_CASE( "Repeat A2048 and 20AT", "[repeat interval 4]" ) {
                     "-o", "repeat-A2048-20AT.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(10, const_cast<char **>(argv));
+    core_genome_identity(10, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("repeat-A2048-20AT.txt");
     REQUIRE(finalResults.size() == 0);
@@ -365,7 +365,7 @@ TEST_CASE( "Repeat A2048 and 24AT", "[repeat interval 5]" ) {
                     "-o", "repeat-A2048-24AT.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(10, const_cast<char **>(argv));
+    core_genome_identity(10, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("repeat-A2048-24AT.txt");
     REQUIRE(finalResults.size() == 0);
@@ -379,7 +379,7 @@ TEST_CASE( "Repeat A2048 and 32AT", "[repeat interval 6]" ) {
                     "-o", "repeat-A2048-32AT.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(10, const_cast<char **>(argv));
+    core_genome_identity(10, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("repeat-A2048-32AT.txt");
     REQUIRE(finalResults.size() == 0);
@@ -394,7 +394,7 @@ TEST_CASE( "Repeat A2048 and 64AT", "[repeat interval 7]" ) {
                     "-o", "repeat-A2048-64AT.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(10, const_cast<char **>(argv));
+    core_genome_identity(10, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("repeat-A2048-64AT.txt");
     REQUIRE(finalResults.size() == 0);
@@ -408,7 +408,7 @@ TEST_CASE( "Repeat A2048 and 128AT", "[repeat interval 7]" ) {
                     "-o", "repeat-A2048-128AT.txt", "-s",
                     "--visualize", "--matrix"};
     //
-    cgi_main(10, const_cast<char **>(argv));
+    core_genome_identity(10, const_cast<char **>(argv));
     //
     auto finalResults = read_fastani_output("repeat-A2048-128AT.txt");
     REQUIRE(finalResults.size() == 0);
