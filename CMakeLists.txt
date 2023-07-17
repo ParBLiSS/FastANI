@@ -9,7 +9,7 @@ add_executable(FastANI src/cgi/core_genome_identity.cpp src/cgi/main.cpp)
 target_include_directories(FastANI PUBLIC "src/")
 #
 # by default, static linking
-option(GSL_SHARED "Build using shared libraries" OFF)
+option(GSL_SHARED "Build using shared libraries" ON)
 option(BUILD_TESTING "Build tests" ON) # build tests
 #
 # zlib dependency
@@ -70,7 +70,7 @@ if(${BUILD_TESTING})
                           ${OpenMP_CXX_LIBRARIES}
                           gcov)
     catch_discover_tests(FastANITest)
-    file(COPY data DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+    file(COPY tests/data DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
     add_custom_target(lcov lcov -c -d .. -o FastANITest.out
                         COMMAND genhtml -o ../lcov/ FastANITest.out
                         DEPENDS FastANITest)
@@ -80,6 +80,8 @@ if(${BUILD_TESTING})
                         COMMAND lcov --summary coverage.info |tee coverage_summary.txt
                         DEPENDS FastANITest)
 endif(${BUILD_TESTING})
+
+install(TARGETS FastANI DESTINATION bin)
 
 set(CPACK_GENERATOR "TGZ")
 set(CPACK_SOURCE_GENERATOR "TGZ")
