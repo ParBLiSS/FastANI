@@ -66,13 +66,13 @@ jobs:
       working-directory: ${{github.workspace}}/build
       run: make lcov2
     # Reporting code coverage
-    - name: Report code coverage
-      uses: zgosalvez/github-actions-report-lcov@v3
-      with:
-        working-directory: ${{github.workspace}}/build
-        coverage-files: ${{github.workspace}}/build/coverage.info
-        artifact-name: code-coverage-report
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+    #- name: Report code coverage
+    #  uses: zgosalvez/github-actions-report-lcov@v3
+    #  with:
+    #    working-directory: ${{github.workspace}}/build
+    #    coverage-files: ${{github.workspace}}/build/coverage.info
+    #    artifact-name: code-coverage-report
+    #    github-token: ${{ secrets.GITHUB_TOKEN }}
     # Uploading to Codecov
     - name: Upload coverage reports to codecov.io
       uses: codecov/codecov-action@v3
