@@ -33,18 +33,6 @@ jobs:
     # Static Analysis with cppcheck
     - name: cppcheck
       run: cppcheck --enable=all --inconclusive --force --std=c++20 -iext/ -I src/ --output-file=cppcheck_report.txt . 
-#      uses: deep5050/cppcheck-action@main
-#      with:
-#        exclude_check: ext/
-#        inconcusive: enable
-#        force: enable
-#        other_options: "--includes-file=src/cgi/include/*.hpp"
-#        github_token: ${{ secrets.GITHUB_TOKEN}}
-#    - name: publish report    
-#      uses: mikeal/publish-to-github-action@master
-#      env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#          BRANCH_NAME: 'master' # your branch name goes here
     - name: Upload CPPCheck Report as artifact
       uses: actions/upload-artifact@v3
       with:
@@ -65,14 +53,6 @@ jobs:
     - name: Run lcov to generate coverage
       working-directory: ${{github.workspace}}/build
       run: make lcov2
-    # Reporting code coverage
-    #- name: Report code coverage
-    #  uses: zgosalvez/github-actions-report-lcov@v3
-    #  with:
-    #    working-directory: ${{github.workspace}}/build
-    #    coverage-files: ${{github.workspace}}/build/coverage.info
-    #    artifact-name: code-coverage-report
-    #    github-token: ${{ secrets.GITHUB_TOKEN }}
     # Uploading to Codecov
     - name: Upload coverage reports to codecov.io
       uses: codecov/codecov-action@v3
