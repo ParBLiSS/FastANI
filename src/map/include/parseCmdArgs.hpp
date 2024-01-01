@@ -123,6 +123,7 @@ namespace skch
     parameters.p_value = 1e-03;
     parameters.percentageIdentity = 80;
     parameters.visualize = false;
+    parameters.correct = false;
     parameters.matrixOutput = false;
     parameters.referenceSize = 5000000;
     parameters.maxRatioDiff = 100.0;
@@ -146,6 +147,7 @@ namespace skch
     auto minfraction_cmd = (clipp::option("--minFraction") & clipp::value("value", parameters.minFraction)) % "minimum fraction of genome that must be shared for trusting ANI. If reference and query genome size differ, smaller one among the two is considered. [default : 0.2]";
     auto maxratio_cmd = (clipp::option("--maxRatioDiff") & clipp::value("value", parameters.maxRatioDiff)) % "maximum difference between (Total Ref. Length/Total Occ. Hashes) and (Total Ref. Length/Total No. Hashes). [default : 10.0]";
     auto visualize_cmd = clipp::option("--visualize").set(parameters.visualize).doc("output mappings for visualization, can be enabled for single genome to single genome comparison only [disabled by default]");
+    auto correct_cmd = clipp::option("--correct").set(parameters.correct).doc("correct final ANI values by learning alignment-based ANI values");
     auto matrix_cmd = clipp::option("--matrix").set(parameters.matrixOutput).doc("also output ANI values as lower triangular matrix (format inspired from phylip). If enabled, you should expect an output file with .matrix extension [disabled by default]");
     auto output_cmd = (clipp::option("-o", "--output") & clipp::value("value", parameters.outFileName)) % "output file name";
     auto sanitycheck_cmd = clipp::option("-s", "--sanityCheck").set(parameters.sanityCheck).doc("run sanity check");
@@ -164,6 +166,7 @@ namespace skch
        minfraction_cmd,
        maxratio_cmd,
        visualize_cmd,
+       correct_cmd,
        matrix_cmd,
        output_cmd,
        sanitycheck_cmd,
