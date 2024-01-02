@@ -42,6 +42,10 @@ For above use case, REFERENCE\_LIST should be a file containing directory paths 
 $ ./fastANI --ql [QUERY_LIST] --rl [REFERENCE_LIST] -o [OUTPUT_FILE]
 ```
 Again, QUERY\_LIST and REFERENCE\_LIST are files containing paths to genomes, one per line.
+* **Corrected ANI values.** the final ANI values can be corrected by learning from alignment-based ANI (e.g., orthoANI), expecially for ANI range 70% to 85%.
+```sh
+$ ./fastANI --ql [QUERY_LIST] --rl [REFERENCE_LIST] -o [OUTPUT_FILE] --correct
+```
 
 **Output format.** In all above use cases, OUTPUT\_FILE will contain tab delimited row(s) with query genome, reference genome, ANI value, count of bidirectional fragment mappings, and total query fragments. Alignment fraction (wrt. the query genome) is simply the ratio of mappings and total fragments. Optionally, users can also get a second `.matrix` file with identity values arranged in a [phylip-formatted lower triangular matrix](https://www.mothur.org/wiki/Phylip-formatted_distance_matrix) by supplying `--matrix` parameter. **NOTE:** No ANI output is reported for a genome pair if ANI value is much below 80%. Such case should be computed at [amino acid level](http://enve-omics.ce.gatech.edu/aai/).
 
