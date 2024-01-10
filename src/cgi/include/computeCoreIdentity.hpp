@@ -289,7 +289,11 @@ namespace cgi
       currentResult.countSeq = std::distance(it, rangeEndIter);
       currentResult.totalQueryFragments = totalQueryFragments;
       currentResult.identity = sumIdentity/currentResult.countSeq;
-
+      if(parameters.correct)
+      {
+      // linear correction of final identity values according to large scale orthoANI(ANI_u) computations
+        currentResult.identity = currentResult.identity * 41.00/36.00 - 500.00/36.00;
+      }
       CGI_ResultsVector.push_back(currentResult);
 
       //Advance the iterator it
