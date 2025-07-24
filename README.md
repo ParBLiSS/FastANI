@@ -106,6 +106,9 @@ Using above commands, we get a plot file fastani.out.visual.pdf displayed below.
 
 FastANI (v1.1 onwards) supports multi-threading, see the help page on how to configure thread count. To parallelize FastANI beyond single compute node, users also have the choice to simply divide their reference database into multiple chunks, and execute them as parallel processes. We provide a [script](scripts) in the repository to randomly split the database for this purpose.
 
+### Asymmetry in the ANI computation
+A known limitation of the algorithm used in FastANI algorithm is that it reports two different ANI values between a pair of genomes (A,B) depending on which genome is used as the query and which as the reference. See [issue #36](https://github.com/ParBLiSS/FastANI/issues/36) for an example. The difference in both ANI values is small in practice. But with `--matrix` output formatting, there is a single ANI value reported for every genome pair which represents the average of both values.
+
 ### Troubleshooting
 
 Users are welcome to report any issue or feedback related to FastANI by posting a [Github issue](https://github.com/ParBLiSS/FastANI/issues).
