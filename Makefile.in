@@ -22,4 +22,4 @@ install : fastANI
 	cp `pwd`/fastANI @prefix@/bin/
 
 clean :
-	-rm -f fastANI
+	-rm -f fastANI config.* Makefile
