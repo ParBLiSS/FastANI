@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: recursive
         lfs: true
@@ -34,7 +34,7 @@ jobs:
     - name: cppcheck
       run: cppcheck --enable=all --inconclusive --force --std=c++20 -iext/ -I src/ --output-file=cppcheck_report.txt . 
     - name: Upload CPPCheck Report as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: CPPCheck-Report
         path: ${{github.workspace}}/cppcheck_report.txt
@@ -55,7 +55,7 @@ jobs:
       run: make lcov2
     # Uploading to Codecov
     - name: Upload coverage reports to codecov.io
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v5
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         directory: ${{github.workspace}}/build
@@ -64,7 +64,7 @@ jobs:
         verbose: true
     # Uploading to Github Action as artifact
     - name: Upload Coverage Summary as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Coverage-Summary
         path: ${{github.workspace}}/build/coverage_list.txt
