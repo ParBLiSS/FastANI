@@ -13,9 +13,10 @@ Dependencies:
        Note for macOS users: Use "libomp" to link openmp with Clang
        libomp is available through brew ( https://formulae.brew.sh/formula/libomp )
 
-
 Steps:
 ------
+   git clone --recursive https://github.com/ParBLiSS/FastANI.git
+   cd FastANI
    mkdir build 
    cd build
    cmake .. -DCMAKE_BUILD_TYPE=Release [--install-prefix ...  -DGSL_SHARED=... -DGSL_ROOT_DIR=... -DBOOST_ROOT=...]
