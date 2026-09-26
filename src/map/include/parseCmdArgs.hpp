@@ -193,7 +193,7 @@ namespace skch
 
     if (versioncheck)
     {
-      std::cerr << "version 1.33\n\n";
+      std::cerr << "version 1.34\n\n";
       exit(0);
     }
 
